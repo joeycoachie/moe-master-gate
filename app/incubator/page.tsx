@@ -15,20 +15,35 @@ export default function Incubator() {
     const id = localStorage.getItem('moe_active_user') || '';
     setUserName(name);
     setUserId(id);
+    console.log("Loaded Active User ID from localStorage:", id);
   }, []);
 
   const handleLogSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!wolfCue || !shepherdCue) return;
 
+    if (!userId) {
+      setStatusMsg('ERROR: NO ACTIVE USER ID FOUND. RE-LOGIN.');
+      return;
+    }
+
     setStatusMsg('TRANSMITTING...');
 
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('cues')
-      .insert([{ instructor_id: userId, wolf_cue: wolfCue, shepherd_cue: shepherdCue }]);
+      .insert([
+        { 
+          instructor_id: userId, 
+          wolf_cue: wolfCue, 
+          shepherd_cue: shepherdCue 
+        }
+      ])
+      .select();
+
+    console.log("Supabase Insert Result:", { data, error });
 
     if (error) {
-      setStatusMsg('TRANSMISSION FAILED.');
+      setStatusMsg('TRANSMISSION FAILED: ' + error.message);
     } else {
       setStatusMsg('LOG RECORDED SUCCESSFULLY.');
       setWolfCue('');
