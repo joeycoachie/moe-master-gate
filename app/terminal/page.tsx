@@ -46,6 +46,12 @@ export default function Terminal() {
             <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#4CAF50] transition-colors">Public Diagnostic (QR Page)</h2>
             <p className="text-xs text-[#888]">Preview the client-facing, ungated triage tool — the exact page the studio QR code points to.</p>
           </a>
+
+          <a href="/terminal/postural-diagnostic" className="bg-[#111] border border-[#222] p-6 hover:border-[#3b82f6] transition-colors block group">
+            <span className="text-[10px] text-[#3b82f6] uppercase tracking-widest">STATION 06</span>
+            <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#3b82f6] transition-colors">Postural Diagnostic Intake</h2>
+            <p className="text-xs text-[#888]">Instructor-run posture assessment. Unlocked, no credit gate — writes straight to the studio dashboard.</p>
+          </a>
         </div>
 
         {}
