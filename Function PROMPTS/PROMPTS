@@ -1,0 +1,1 @@
+write a function directly inside Supabase that says: "Hey database, add 1 to this user's count atomically, and don't ask questions.

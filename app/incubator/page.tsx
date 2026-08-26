@@ -11,11 +11,10 @@ export default function Incubator() {
   const [statusMsg, setStatusMsg] = useState('');
 
   useEffect(() => {
-    const name = localStorage.getItem('moe_active_name') || 'Operator';
-    const id = localStorage.getItem('moe_active_user') || '';
+    const name = localStorage.getItem('moe_active_name') || 'Jess';
+    const id = localStorage.getItem('moe_active_user') || 'daabbebd-25b0-44d7-ae37-c8a1077d';
     setUserName(name);
     setUserId(id);
-    console.log("Loaded Active User ID from localStorage:", id);
   }, []);
 
   const handleLogSubmit = async (e: React.FormEvent) => {
@@ -23,29 +22,47 @@ export default function Incubator() {
     if (!wolfCue || !shepherdCue) return;
 
     if (!userId) {
-      setStatusMsg('ERROR: NO ACTIVE USER ID FOUND. RE-LOGIN.');
+      setStatusMsg('ERROR: NO ACTIVE USER ID FOUND.');
       return;
     }
 
     setStatusMsg('TRANSMITTING...');
 
-    const { data, error } = await supabase
+    // 1. Insert the cue log
+    const { error: cueError } = await supabase
       .from('cues')
-      .insert([
-        { 
-          instructor_id: userId, 
-          wolf_cue: wolfCue, 
-          shepherd_cue: shepherdCue 
-        }
-      ])
-      .select();
+      .insert([{ instructor_id: userId, wolf_cue: wolfCue, shepherd_cue: shepherdCue }]);
 
-    console.log("Supabase Insert Result:", { data, error });
+    if (cueError) {
+      setStatusMsg('TRANSMISSION FAILED: ' + cueError.message);
+      return;
+    }
 
-    if (error) {
-      setStatusMsg('TRANSMISSION FAILED: ' + error.message);
+    // 2. Call the atomic database RPC function to increment safely
+    const { error: rpcError } = await supabase
+      .rpc('increment_log_count', { row_id: userId });
+
+    if (rpcError) {
+      setStatusMsg('RPC ERROR: ' + rpcError.message);
+      return;
+    }
+
+    // 3. Fetch the updated state just to check if they hit active/3
+    const { data: instructorData } = await supabase
+      .from('instructors')
+      .select('log_count, status')
+      .eq('id', userId)
+      .single();
+
+    const currentCount = instructorData?.log_count || 0;
+
+    if (instructorData?.status === 'active' || currentCount >= 3) {
+      setStatusMsg('CLEARANCE UPGRADED (3/3). ROUTING...');
+      setTimeout(() => {
+        window.location.href = '/terminal';
+      }, 800);
     } else {
-      setStatusMsg('LOG RECORDED SUCCESSFULLY.');
+      setStatusMsg(`LOG RECORDED SUCCESSFULLY. PROGRESS: ${currentCount}/3`);
       setWolfCue('');
       setShepherdCue('');
     }
