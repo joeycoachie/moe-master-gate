@@ -119,7 +119,7 @@ export default function KineticDiagnostic() {
 
   return (
     <div
-      className="min-h-screen flex flex-col items-center p-6 space-y-8 py-12"
+      className="min-h-screen flex flex-col items-center p-4 sm:p-6 space-y-6 sm:space-y-8 py-8 sm:py-12"
       style={{ backgroundColor: '#050505', color: '#e0e0e0', fontFamily: "'Inter', sans-serif" }}
     >
       <style>{`
@@ -134,13 +134,13 @@ export default function KineticDiagnostic() {
 
       <div
         ref={cardRef}
-        className="max-w-2xl w-full bg-[#0a0a0a] border border-[#222] p-8 md:p-12 rounded-sm shadow-2xl relative overflow-hidden"
+        className="max-w-2xl w-full bg-[#0a0a0a] border border-[#222] p-5 sm:p-8 md:p-12 rounded-sm shadow-2xl relative overflow-hidden"
       >
         <div className="text-center mb-10 border-b border-[#222] pb-6">
           <span className="kin-mono text-[#4CAF50] text-[10px] tracking-widest uppercase block mb-2">
             Pre-Flight Calibration
           </span>
-          <h1 className="text-3xl kin-serif text-white tracking-tight">Kinetic Diagnostic</h1>
+          <h1 className="text-2xl sm:text-3xl kin-serif text-white tracking-tight">Kinetic Diagnostic</h1>
           <p className="text-[#888] text-sm mt-2">Identify your baseline. Secure your architecture.</p>
         </div>
 
@@ -242,7 +242,7 @@ export default function KineticDiagnostic() {
                   <select
                     value={countryCode}
                     onChange={(e) => setCountryCode(e.target.value)}
-                    className="bg-[#050505] border border-[#333] text-white p-3 rounded-sm focus:outline-none focus:border-[#4CAF50] text-sm w-[35%] shrink-0"
+                    className="bg-[#050505] border border-[#333] text-white p-3 rounded-sm focus:outline-none focus:border-[#4CAF50] text-sm w-[40%] sm:w-[35%] shrink-0"
                   >
                     {COUNTRY_CODES.map((c) => (
                       <option key={c.code} value={c.code}>
@@ -256,7 +256,7 @@ export default function KineticDiagnostic() {
                     placeholder="123456789"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full bg-[#050505] border border-[#333] text-white p-3 rounded-sm focus:outline-none focus:border-[#4CAF50] text-sm flex-1"
+                    className="w-full min-w-0 bg-[#050505] border border-[#333] text-white p-3 rounded-sm focus:outline-none focus:border-[#4CAF50] text-sm flex-1"
                   />
                 </div>
               </div>
@@ -281,7 +281,7 @@ export default function KineticDiagnostic() {
         {step === 'result' && (
           <div className="text-center kin-fade-in">
             <p className="kin-mono text-xs text-[#4CAF50] mb-3 tracking-widest uppercase">System Authorized</p>
-            <h2 className={`text-3xl kin-serif mb-4 ${result.titleColor}`}>{result.title}</h2>
+            <h2 className={`text-2xl sm:text-3xl kin-serif mb-4 ${result.titleColor}`}>{result.title}</h2>
             <p className="text-[#a3a3a3] text-sm leading-relaxed mb-8 max-w-md mx-auto">{result.desc}</p>
 
             <div className="p-4 border border-[#333] bg-[#111] inline-block text-left mb-8 w-full max-w-sm">
@@ -314,7 +314,7 @@ export default function KineticDiagnostic() {
       </div>
 
       {/* THE CLASS TAXONOMY REFERENCE (Client Facing) */}
-      <div className="max-w-2xl w-full bg-[#0a0a0a] border border-[#222] p-8 md:p-12 rounded-sm shadow-2xl relative overflow-hidden">
+      <div className="max-w-2xl w-full bg-[#0a0a0a] border border-[#222] p-5 sm:p-8 md:p-12 rounded-sm shadow-2xl relative overflow-hidden">
         <section className="space-y-6">
           <h2 className="text-2xl kin-serif italic text-white flex items-center justify-between border-b border-[#222] pb-4">
             The Optimum Fit Taxonomy
@@ -331,8 +331,8 @@ export default function KineticDiagnostic() {
           <div className="space-y-4">
             <details className="group bg-[#111] border border-[#222] rounded-sm">
               <summary className="cursor-pointer list-none p-5 flex items-center justify-between hover:bg-[#1a1a1a]">
-                <div className="flex items-center gap-6">
-                  <span className="kin-mono text-[#a3a3a3] text-sm w-20">LEVEL 1</span>
+                <div className="flex items-center gap-3 sm:gap-6">
+                  <span className="kin-mono text-[#a3a3a3] text-xs sm:text-sm w-14 sm:w-20 shrink-0">LEVEL 1</span>
                   <h4 className="text-lg kin-serif text-white">Optimum Control</h4>
                 </div>
                 <span className="text-[10px] text-[#555] group-open:hidden">EXPAND</span>
@@ -355,8 +355,8 @@ export default function KineticDiagnostic() {
 
             <details className="group bg-[#111] border border-[#222] rounded-sm">
               <summary className="cursor-pointer list-none p-5 flex items-center justify-between hover:bg-[#1a1a1a]">
-                <div className="flex items-center gap-6">
-                  <span className="kin-mono text-[#3b82f6] text-sm w-20">LEVEL 2</span>
+                <div className="flex items-center gap-3 sm:gap-6">
+                  <span className="kin-mono text-[#3b82f6] text-xs sm:text-sm w-14 sm:w-20 shrink-0">LEVEL 2</span>
                   <h4 className="text-lg kin-serif text-white">Optimum Capacity</h4>
                 </div>
                 <span className="text-[10px] text-[#555] group-open:hidden">EXPAND</span>
@@ -377,8 +377,8 @@ export default function KineticDiagnostic() {
 
             <details className="group bg-[#111] border border-[#ff9800]/20 rounded-sm">
               <summary className="cursor-pointer list-none p-5 flex items-center justify-between hover:bg-[#1a1a1a]">
-                <div className="flex items-center gap-6">
-                  <span className="kin-mono text-[#ff9800] text-sm w-20">LEVEL 3</span>
+                <div className="flex items-center gap-3 sm:gap-6">
+                  <span className="kin-mono text-[#ff9800] text-xs sm:text-sm w-14 sm:w-20 shrink-0">LEVEL 3</span>
                   <h4 className="text-lg kin-serif text-white">Optimum Flow State</h4>
                 </div>
                 <span className="text-[10px] text-[#555] group-open:hidden">EXPAND</span>
@@ -404,10 +404,19 @@ export default function KineticDiagnostic() {
           >
             Book Now
           </button>
-          <p className="text-center text-[10px] text-[#555] tracking-widest uppercase -mt-2">
-            Takes you back to the 3-question diagnostic above
-          </p>
         </section>
+      </div>
+
+      {/* ISOLATED ENTERPRISE FOOTER */}
+      <div className="w-full pt-4 mt-auto">
+        <footer className="w-full border-t border-[#222] pt-8 pb-4 text-center">
+          <p className="kin-mono text-[10px] text-[#4CAF50] tracking-[0.2em] uppercase mb-2">
+            Cleared For Human Performance
+          </p>
+          <p className="kin-mono text-[10px] text-[#555] tracking-[0.2em] uppercase">
+            &copy; 2026 The M.O.E. Group. All Rights Reserved.
+          </p>
+        </footer>
       </div>
     </div>
   );

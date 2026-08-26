@@ -45,7 +45,8 @@ export default function Gate() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030303] text-white font-mono flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen bg-[#030303] text-white font-mono flex flex-col overflow-hidden">
+      <div className="flex-1 w-full flex items-center justify-center">
       <div className="w-full max-w-md p-6 text-center">
         
         {status === 'IDLE' && (
@@ -82,6 +83,15 @@ export default function Gate() {
           </div>
         )}
 
+      </div>
+      </div>
+
+      {/* ISOLATED ENTERPRISE FOOTER */}
+      <div className="w-full pt-4 mt-auto">
+        <footer className="w-full border-t border-[#222] pt-8 pb-4 text-center">
+          <p className="text-[10px] text-[#4CAF50] tracking-[0.2em] uppercase mb-2">Cleared For Human Performance</p>
+          <p className="text-[10px] text-[#555] tracking-[0.2em] uppercase">&copy; 2026 The M.O.E. Group. All Rights Reserved.</p>
+        </footer>
       </div>
     </div>
   );

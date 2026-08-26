@@ -69,7 +69,8 @@ export default function Incubator() {
   };
 
   return (
-    <main className="min-h-screen bg-[#030303] text-white font-mono p-8 flex flex-col items-center justify-center">
+    <main className="min-h-screen bg-[#030303] text-white font-mono p-8 flex flex-col">
+      <div className="flex-1 w-full flex flex-col items-center justify-center">
       <div className="w-full max-w-xl bg-[#111] border border-[#222] p-8 rounded-sm">
         <div className="text-[10px] text-[#3b82f6] tracking-[4px] uppercase mb-2">BASE CAMP INCUBATOR</div>
         <h1 className="text-2xl font-bold mb-6">WELCOME, {userName}</h1>
@@ -106,6 +107,15 @@ export default function Incubator() {
         </form>
 
         {statusMsg && <div className="text-xs text-center mt-4 tracking-widest text-[#4CAF50]">{statusMsg}</div>}
+      </div>
+      </div>
+
+      {/* ISOLATED ENTERPRISE FOOTER */}
+      <div className="w-full pt-4 mt-auto">
+        <footer className="w-full border-t border-[#222] pt-8 pb-4 text-center">
+          <p className="text-[10px] text-[#4CAF50] tracking-[0.2em] uppercase mb-2">Cleared For Human Performance</p>
+          <p className="text-[10px] text-[#555] tracking-[0.2em] uppercase">&copy; 2026 The M.O.E. Group. All Rights Reserved.</p>
+        </footer>
       </div>
     </main>
   );

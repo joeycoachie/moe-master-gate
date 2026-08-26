@@ -2,8 +2,8 @@
 
 export default function DiagnosticScience() {
   return (
-    <main className="min-h-screen bg-[#030303] text-white font-mono p-8">
-      <div className="max-w-4xl mx-auto">
+    <main className="min-h-screen bg-[#030303] text-white font-mono p-8 flex flex-col">
+      <div className="max-w-4xl mx-auto w-full">
 
         <header className="border-b border-[#222] pb-6 mb-10 flex justify-between items-center">
           <div>
@@ -146,6 +146,14 @@ export default function DiagnosticScience() {
           </p>
         </div>
 
+      </div>
+
+      {/* ISOLATED ENTERPRISE FOOTER */}
+      <div className="w-full max-w-4xl mx-auto pt-12 mt-auto">
+        <footer className="w-full border-t border-[#222] pt-8 pb-4 text-center">
+          <p className="text-[10px] text-[#4CAF50] tracking-[0.2em] uppercase mb-2">Cleared For Human Performance</p>
+          <p className="text-[10px] text-[#555] tracking-[0.2em] uppercase">&copy; 2026 The M.O.E. Group. All Rights Reserved.</p>
+        </footer>
       </div>
     </main>
   );
