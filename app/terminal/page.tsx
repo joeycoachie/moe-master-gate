@@ -52,6 +52,12 @@ export default function Terminal() {
             <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#3b82f6] transition-colors">Postural Diagnostic Intake</h2>
             <p className="text-xs text-[#888]">Instructor-run posture assessment. Unlocked, no credit gate — writes straight to the studio dashboard.</p>
           </a>
+
+          <a href="https://kin-instructor-programming-terminal.vercel.app/" target="_blank" rel="noopener noreferrer" className="bg-[#111] border border-[#222] p-6 hover:border-[#eab308] transition-colors block group">
+            <span className="text-[10px] text-[#eab308] uppercase tracking-widest">STATION 07</span>
+            <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#eab308] transition-colors">Instructor Programming &amp; V.A.E. Log</h2>
+            <p className="text-xs text-[#888]">Daily class programming log — taxonomy, movement sequence, springs/reps, and mentor V.A.E. audit feedback.</p>
+          </a>
         </div>
 
         {}
