@@ -1,1 +1,2 @@
 write a function directly inside Supabase that says: "Hey database, add 1 to this user's count atomically, and don't ask questions.
+git status first, then git add <specific files> rather than git add .
