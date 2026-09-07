@@ -299,10 +299,19 @@ export default function ReformerDoctrine() {
             <div className="border-t border-[#222] border-dashed pt-5">
               <p className="text-[10px] text-[#666] tracking-widest uppercase mb-2">&gt; SYSTEM STATUS:</p>
               <p className="text-xs text-[#888] leading-relaxed">The T-013 USPT Reformer doctrine is now locked. The Setup/De-Setup protocol is mandatory for all lab operations.</p>
-              <p className="text-[#06b6d4] mt-3 text-xs font-bold">_END OF TRANSMISSION</p>
             </div>
           </div>
         </section>
+
+        <div className="flex justify-end mb-8">
+          <button
+            type="button"
+            onClick={() => window.history.back()}
+            className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white transition-colors"
+          >
+            BACK
+          </button>
+        </div>
 
       </div>
 
@@ -311,6 +320,7 @@ export default function ReformerDoctrine() {
         <footer className="w-full border-t border-[#222] pt-8 pb-4 text-center">
           <p className="text-[10px] text-[#4CAF50] tracking-[0.2em] uppercase mb-2">Cleared For Human Performance</p>
           <p className="text-[10px] text-[#555] tracking-[0.2em] uppercase">&copy; 2026 The M.O.E. Group. All Rights Reserved.</p>
+          <p className="mt-2 text-[9px] text-[#888] tracking-[0.18em] uppercase">Asset # Stability Chair • Asset # Ladder Barrel</p>
         </footer>
       </div>
     </main>

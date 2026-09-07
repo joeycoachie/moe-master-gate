@@ -70,6 +70,12 @@ export default function Terminal() {
             <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#22d3ee] transition-colors">1-1 Session Log &amp; Sequence Vault</h2>
             <p className="text-xs text-[#888]">Tap-driven full programming for private sessions — save your own sequences, load them instantly next time.</p>
           </a>
+
+          <a href="/terminal/availability" className="bg-[#111] border border-[#222] p-6 hover:border-[#a855f7] transition-colors block group">
+            <span className="text-[10px] text-[#a855f7] uppercase tracking-widest">STATION 10</span>
+            <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#a855f7] transition-colors">Instructor Availability &amp; Ops Governance</h2>
+            <p className="text-xs text-[#888]">Instructors submit availability directly; Ops gets a live aggregated roster, approvals, and CSV export.</p>
+          </a>
         </div>
 
         {}
@@ -158,6 +164,7 @@ export default function Terminal() {
         <footer className="w-full border-t border-[#222] pt-8 pb-4 text-center">
           <p className="text-[10px] text-[#4CAF50] tracking-[0.2em] uppercase mb-2">Cleared For Human Performance</p>
           <p className="text-[10px] text-[#555] tracking-[0.2em] uppercase">&copy; 2026 The M.O.E. Group. All Rights Reserved.</p>
+          <p className="mt-2 text-[9px] text-[#888] tracking-[0.18em] uppercase">Asset # Stability Chair • Asset # Ladder Barrel</p>
         </footer>
       </div>
     </main>
