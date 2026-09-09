@@ -19,6 +19,8 @@ type AvailabilityRow = {
 
 type ActiveInstructor = { id: string; full_name: string };
 
+type PendingAction = { day: number; slot: TimeSlot; action: 'add' | 'remove' };
+
 function getTargetCycle() {
   const now = new Date();
   const year = now.getFullYear();
@@ -55,6 +57,11 @@ export default function AvailabilityPage() {
   const [activeInstructors, setActiveInstructors] = useState<ActiveInstructor[]>([]);
   const [statusMsg, setStatusMsg] = useState('');
   const [selected, setSelected] = useState<AvailabilityRow | null>(null);
+
+  // Toggling a cell only stages an intent locally — nothing reaches Supabase
+  // until "Confirm & Lock In" is pressed, so idle clicking never writes data.
+  const [pending, setPending] = useState<Record<string, PendingAction>>({});
+  const [confirming, setConfirming] = useState(false);
 
   const { cycleKey, label, year, monthIndex, daysInMonth } = useMemo(() => getTargetCycle(), []);
   const isPastDeadline = new Date().getDate() > 25;
@@ -116,37 +123,69 @@ export default function AvailabilityPage() {
   const rowFor = (rows: AvailabilityRow[], day: number, slot: TimeSlot) =>
     rows.find((r) => r.available_date === dateKey(day) && r.time_slot === slot);
 
-  const toggleMySlot = async (day: number, slot: TimeSlot) => {
+  const slotKey = (day: number, slot: TimeSlot) => `${day}-${slot}`;
+
+  // Purely local — flips/cancels a staged intent, never touches Supabase.
+  const toggleLocal = (day: number, slot: TimeSlot) => {
     if (!instructorId) return;
     const existing = rowFor(myRows, day, slot);
+    if (existing?.status === 'booked') return; // locked — instructor cannot mutate
+
+    const key = slotKey(day, slot);
+    setPending((prev) => {
+      const next = { ...prev };
+      if (next[key]) {
+        delete next[key]; // tapping a staged cell again cancels the pending change
+      } else {
+        next[key] = { day, slot, action: existing ? 'remove' : 'add' };
+      }
+      return next;
+    });
+  };
+
+  const pendingActions = useMemo(() => Object.values(pending), [pending]);
+  const discardPending = () => setPending({});
+
+  // The only place this component writes to Supabase — one batch, on demand.
+  const handleConfirm = async () => {
+    if (pendingActions.length === 0 || !instructorId) return;
+    setConfirming(true);
     setStatusMsg('');
 
-    if (existing) {
-      if (existing.status === 'booked') return; // locked — instructor cannot mutate
-      const { error } = await supabase.from('instructor_availability').delete().eq('id', existing.id);
-      if (error) return setStatusMsg('WRITE FAILED: ' + error.message);
-      setAllRows((prev) => prev.filter((r) => r.id !== existing.id));
-      return;
+    const status: SlotStatus = isPastDeadline ? 'pending_ops_approval' : 'available';
+
+    for (const a of pendingActions) {
+      if (a.action === 'add') {
+        const { error } = await supabase.from('instructor_availability').insert([
+          {
+            instructor_id: instructorId,
+            instructor_name: instructorName,
+            schedule_cycle: cycleKey,
+            available_date: dateKey(a.day),
+            time_slot: a.slot,
+            status,
+          },
+        ]);
+        if (error) {
+          setConfirming(false);
+          return setStatusMsg('WRITE FAILED: ' + error.message);
+        }
+      } else {
+        const existing = rowFor(myRows, a.day, a.slot);
+        if (existing) {
+          const { error } = await supabase.from('instructor_availability').delete().eq('id', existing.id);
+          if (error) {
+            setConfirming(false);
+            return setStatusMsg('WRITE FAILED: ' + error.message);
+          }
+        }
+      }
     }
 
-    const status: SlotStatus = isPastDeadline ? 'pending_ops_approval' : 'available';
-    const { data, error } = await supabase
-      .from('instructor_availability')
-      .insert([
-        {
-          instructor_id: instructorId,
-          instructor_name: instructorName,
-          schedule_cycle: cycleKey,
-          available_date: dateKey(day),
-          time_slot: slot,
-          status,
-        },
-      ])
-      .select()
-      .single();
-
-    if (error) return setStatusMsg('WRITE FAILED: ' + error.message);
-    setAllRows((prev) => [...prev, data as AvailabilityRow]);
+    setConfirming(false);
+    setStatusMsg(`${pendingActions.length} date(s) locked in.`);
+    setPending({});
+    loadRows();
   };
 
   const applyAdminAction = async (row: AvailabilityRow, next: SlotStatus | 'delete') => {
@@ -200,7 +239,10 @@ export default function AvailabilityPage() {
             <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#4CAF50] pl-3">
               Submitting availability for: {label}
             </h2>
-            <span className="text-[10px] text-[#888]">{myRows.length} slot(s) submitted</span>
+            <span className="text-[10px] text-[#888]">
+              {myRows.length} slot(s) locked in
+              {pendingActions.length > 0 && <span className="text-[#3b82f6]"> &middot; {pendingActions.length} unsaved</span>}
+            </span>
           </div>
 
           {isPastDeadline && (
@@ -222,23 +264,64 @@ export default function AvailabilityPage() {
                   {(['AM', 'PM'] as TimeSlot[]).map((slot) => {
                     const row = slot === 'AM' ? am : pm;
                     const locked = row?.status === 'booked';
+                    const pendingAction = pending[slotKey(day, slot)]?.action;
+
+                    let label = `${slot} — ${row ? STATUS_LABEL[row.status] : '—'}`;
+                    let cellClass = row
+                      ? STATUS_STYLE[row.status]
+                      : 'border-[#222] text-[#555] hover:text-white hover:border-[#444]';
+
+                    if (pendingAction === 'add') {
+                      label = `${slot} — STAGED (tap to undo)`;
+                      cellClass = 'border-dashed border-[#3b82f6] text-[#3b82f6] bg-[#3b82f6]/10';
+                    } else if (pendingAction === 'remove') {
+                      label = `${slot} — REMOVING (tap to undo)`;
+                      cellClass = 'border-dashed border-[#ff4444] text-[#ff4444] bg-[#ff4444]/10 line-through';
+                    }
+
                     return (
                       <button
                         key={slot}
                         type="button"
                         disabled={locked}
-                        onClick={() => toggleMySlot(day, slot)}
-                        className={`flex-1 text-center py-2 text-[10px] uppercase tracking-widest border transition-colors ${
-                          row ? STATUS_STYLE[row.status] : 'border-[#222] text-[#555] hover:text-white hover:border-[#444]'
-                        } ${locked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                        onClick={() => toggleLocal(day, slot)}
+                        className={`flex-1 text-center py-2 text-[10px] uppercase tracking-widest border transition-colors ${cellClass} ${
+                          locked ? 'cursor-not-allowed' : 'cursor-pointer'
+                        }`}
                       >
-                        {slot} — {row ? STATUS_LABEL[row.status] : '—'}
+                        {label}
                       </button>
                     );
                   })}
                 </div>
               );
             })}
+          </div>
+
+          <div className="sticky bottom-0 mt-3 flex items-center justify-between gap-3 bg-[#0a0a0a] border border-[#222] p-3">
+            <span className="text-xs text-[#888]">
+              {pendingActions.length === 0
+                ? 'No unsaved changes.'
+                : `${pendingActions.length} change(s) staged — nothing is saved until you confirm.`}
+            </span>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={discardPending}
+                disabled={pendingActions.length === 0 || confirming}
+                className="border border-[#333] text-[#888] px-4 py-2 text-xs uppercase tracking-widest hover:text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Discard
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirm}
+                disabled={pendingActions.length === 0 || confirming}
+                className="bg-[#4CAF50] disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white hover:text-black text-black font-bold px-5 py-2 text-xs uppercase tracking-widest transition-colors"
+              >
+                {confirming ? 'Locking In…' : `Confirm & Lock In (${pendingActions.length})`}
+              </button>
+            </div>
           </div>
         </section>
 

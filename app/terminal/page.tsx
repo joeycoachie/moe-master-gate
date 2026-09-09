@@ -62,7 +62,7 @@ export default function Terminal() {
           <a href="/terminal/programming-log" className="bg-[#111] border border-[#222] p-6 hover:border-[#eab308] transition-colors block group">
             <span className="text-[10px] text-[#eab308] uppercase tracking-widest">STATION 08</span>
             <h2 className="text-xl font-bold mt-2 mb-4 group-hover:text-[#eab308] transition-colors">Instructor Programming &amp; V.A.E. Log</h2>
-            <p className="text-xs text-[#888]">Smart-default apparatus, live mentor V.A.E. feedback, taxonomy-justified class programming.</p>
+            <p className="text-xs text-[#888]">Smart-default apparatus, live mentor V.A.E. feedback, full searchable history, and a shared Movement Library of locked, versioned sequences.</p>
           </a>
 
           <a href="/terminal/session-log" className="bg-[#111] border border-[#222] p-6 hover:border-[#22d3ee] transition-colors block group">

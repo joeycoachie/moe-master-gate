@@ -2,9 +2,12 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '@/lib/supabase';
+import MovementLibrary, { LibraryEntry } from './MovementLibrary';
+import InfoTooltip from './InfoTooltip';
 
 type ClassTier = 'Control' | 'Capacity' | 'Flow';
 type Mode = 'instructor' | 'mentor';
+type InstructorView = 'log' | 'history' | 'library';
 
 type MovementRow = { name: string; spring: string; reps: string };
 
@@ -24,6 +27,7 @@ type ProgrammingLog = {
   biomechanical_tags: string[];
   movement_sequence: MovementRow[];
   reflection: string | null;
+  biomechanical_score: number | null;
   created_at: string;
 };
 
@@ -55,10 +59,26 @@ const SESSION_INTENTION_PRESETS = [
   'Athletic endurance under load',
 ];
 
-const PROP_OPTIONS = ['Foam Roller', 'Magic Circle', 'Sitting Box', 'Hand Weights', 'Resistance Band'];
-const PLANES_OPTIONS = ['Sagittal', 'Frontal', 'Transverse', 'Multi-Planar'];
+const PROP_OPTIONS = ['Foam Roller', 'Magic Circle', 'Sitting Box', 'Hand Weights', 'Resistance Band', 'Mini Stability Ball'];
+// Multi-planar demand is derived from how many of these are picked (see biomechanicalScore
+// below), so there's no separate "Multi-Planar" tag to self-select any more.
+const PLANES_OPTIONS = ['Sagittal', 'Frontal', 'Transverse'];
 const STABILISATION_OPTIONS = ['Lumbo-Pelvic', 'Scapulo-Thoracic', 'Glute-Medial'];
-const BIOMECHANICAL_OPTIONS = ['Rotation', 'Anti-Rotation', 'Extension', 'Flexion'];
+const BIOMECHANICAL_OPTIONS = [
+  'Rotation', 'Anti-Rotation', 'Extension', 'Flexion',
+  'Abduction', 'Adduction', 'Pronation', 'Supination', 'Circumduction',
+  'Dorsiflexion', 'Plantarflexion', 'Inversion', 'Eversion',
+  'Elevation', 'Depression', 'Protraction', 'Retraction', 'Opposition',
+];
+
+const INFO_TEXT = {
+  classification: 'Control / Capacity / Flow is the load & complexity tier for the whole class — it drives the taxonomy justification you write below and sets client expectations for intensity.',
+  sessionIntention: "The one-sentence goal a client should be able to say out loud after class. It's not the exercise list — it's why this class, for this group, today. Pick a preset or write your own; it should match what you actually programmed below.",
+  planes: 'The geometric planes of motion the class moves through: Sagittal (forward/back), Frontal (side-to-side), Transverse (rotation). Selecting more of these raises multi-planar demand in your Biomechanical Score.',
+  stabilisation: 'Which stabilization demands the sequence places on the body. More regions selected means the class asks for broader neuromuscular control, not just more reps.',
+  biomechanical: 'The specific joint actions programmed — from core actions (flexion, rotation…) to foot/ankle actions (dorsiflexion, inversion…) to regional actions (elevation, protraction…). More variety here means higher kinematic complexity.',
+  biomechanicalScore: 'Total = (Planes Score × Actions Score) + Stabilization Score. Planes and Stabilization score 1/3/5 for 1, 2, or 3+ tags selected; Biomechanical Actions scores 1/3/5 for 1–2, 3–4, or 5+ tags (Isolated / Compound / Complex). Range is 2–30. Higher means more multi-planar, joint-varied, stabilization-demanding programming — not "better," just more complex.',
+};
 
 const FALLBACK_APPARATUS = 'Reformer + Tower';
 
@@ -79,6 +99,30 @@ const VAE_TEMPLATES: VaeTemplate[] = [
 
 const VAE_CATEGORIES = Array.from(new Set(VAE_TEMPLATES.map((t) => t.category)));
 
+// Planes are capped at 3 real geometric planes, so 1/2/3+ selections band to 1/3/5
+// (Single / Bi- / Tri-Planar). Stabilisation reuses the same bands — there are only
+// 3 anchor regions in this app, so selecting all 3 is the "global" end of the scale.
+function planeOrStabilisationBand(count: number): 1 | 3 | 5 {
+  if (count >= 3) return 5;
+  if (count === 2) return 3;
+  return 1;
+}
+
+// Biomechanical Actions has ~18 possible tags, not 3 — so it keeps the matrix's own
+// wider bands (1-2 = Isolated, 3-4 = Compound, 5+ = Complex) instead of the 1/2/3+ scale above.
+function actionsBand(count: number): 1 | 3 | 5 {
+  if (count >= 5) return 5;
+  if (count >= 3) return 3;
+  return 1;
+}
+
+function computeBiomechanicalScore(planes: string[], stabilisation: string[], biomechanical: string[]): number {
+  const planesScore = planeOrStabilisationBand(planes.length);
+  const actionsScore = actionsBand(biomechanical.length);
+  const stabilisationScore = planeOrStabilisationBand(stabilisation.length);
+  return planesScore * actionsScore + stabilisationScore;
+}
+
 function topApparatusPicks(logs: ProgrammingLog[], instructorId: string): string[] {
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const counts = new Map<string, number>();
@@ -95,11 +139,15 @@ function topApparatusPicks(logs: ProgrammingLog[], instructorId: string): string
 
 export default function ProgrammingLogPage() {
   const [mode, setMode] = useState<Mode>('instructor');
+  const [instructorView, setInstructorView] = useState<InstructorView>('log');
   const [instructorId, setInstructorId] = useState('');
   const [instructorName, setInstructorName] = useState('');
 
   const [allLogs, setAllLogs] = useState<ProgrammingLog[]>([]);
+  const [myFullHistory, setMyFullHistory] = useState<ProgrammingLog[]>([]);
   const [myFeedback, setMyFeedback] = useState<VaeFeedback[]>([]);
+  const [historySearch, setHistorySearch] = useState('');
+  const [historyTierFilter, setHistoryTierFilter] = useState<ClassTier | ''>('');
 
   // Instructor form state
   const [clientName, setClientName] = useState('');
@@ -116,6 +164,7 @@ export default function ProgrammingLogPage() {
   const [reflection, setReflection] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [statusMsg, setStatusMsg] = useState('');
+  const [editingLogId, setEditingLogId] = useState<string | null>(null);
 
   // Mentor form state
   const [selectedLogId, setSelectedLogId] = useState('');
@@ -141,6 +190,18 @@ export default function ProgrammingLogPage() {
       .limit(50)
       .then(({ data }) => data && setAllLogs(data as ProgrammingLog[]));
   }, []);
+
+  useEffect(() => {
+    if (!instructorId) return;
+    // Dedicated, uncapped query scoped server-side to this instructor — the
+    // "last 10" list below (allLogs) stays as-is for mentor-mode and quick-pick use.
+    supabase
+      .from('programming_logs')
+      .select('*')
+      .eq('instructor_id', instructorId)
+      .order('created_at', { ascending: false })
+      .then(({ data }) => data && setMyFullHistory(data as ProgrammingLog[]));
+  }, [instructorId]);
 
   useEffect(() => {
     if (!instructorId) return;
@@ -174,10 +235,62 @@ export default function ProgrammingLogPage() {
   );
   const smartDefault = topPicks[0] || FALLBACK_APPARATUS;
 
-  const myLogs = useMemo(
-    () => allLogs.filter((l) => l.instructor_id === instructorId).slice(0, 10),
-    [allLogs, instructorId]
+  const filteredHistory = useMemo(() => {
+    const term = historySearch.trim().toLowerCase();
+    return myFullHistory.filter((log) => {
+      if (term && !log.client_name.toLowerCase().includes(term) && !log.apparatus_base.toLowerCase().includes(term)) {
+        return false;
+      }
+      if (historyTierFilter && log.class_tier !== historyTierFilter) return false;
+      return true;
+    });
+  }, [myFullHistory, historySearch, historyTierFilter]);
+
+  const liveBiomechanicalScore = useMemo(
+    () => computeBiomechanicalScore(planesTags, stabilisationTags, biomechanicalTags),
+    [planesTags, stabilisationTags, biomechanicalTags]
   );
+
+  // A log a mentor has already reviewed stays locked — editing it after the fact
+  // would let an instructor quietly rewrite what the V.A.E. feedback was actually about.
+  const editableLogIds = useMemo(() => {
+    const reviewedIds = new Set(myFeedback.map((f) => f.log_id));
+    return new Set(myFullHistory.filter((l) => !reviewedIds.has(l.id)).map((l) => l.id));
+  }, [myFullHistory, myFeedback]);
+
+  const startEditLog = (log: ProgrammingLog) => {
+    setEditingLogId(log.id);
+    setClientName(log.client_name);
+    setSessionDate(log.session_date);
+    setClassTier(log.class_tier);
+    setTaxonomyJustification(log.taxonomy_justification);
+    setApparatusBase(log.apparatus_base);
+    setModifiers(log.apparatus_modifiers);
+    setSessionIntention(log.session_intention || '');
+    setPlanesTags(log.planes_tags);
+    setStabilisationTags(log.stabilisation_tags);
+    setBiomechanicalTags(log.biomechanical_tags);
+    setMovements(log.movement_sequence.length ? log.movement_sequence : [{ name: '', spring: '', reps: '' }]);
+    setReflection(log.reflection || '');
+    setStatusMsg('');
+    setInstructorView('log');
+  };
+
+  const cancelEdit = () => {
+    setEditingLogId(null);
+    resetForm();
+    setStatusMsg('');
+  };
+
+  const loadLibrarySequenceIntoForm = (entry: LibraryEntry) => {
+    setEditingLogId(null);
+    setClassTier(entry.class_tier);
+    setApparatusBase(entry.apparatus_base);
+    setModifiers(entry.apparatus_modifiers);
+    setMovements(entry.movement_sequence.length ? entry.movement_sequence : [{ name: '', spring: '', reps: '' }]);
+    setInstructorView('log');
+    setStatusMsg(`Loaded "${entry.sequence_name}" from the library — fill in client + date and log it.`);
+  };
 
   const toggleTag = (list: string[], setList: (v: string[]) => void, tag: string) => {
     setList(list.includes(tag) ? list.filter((t) => t !== tag) : [...list, tag]);
@@ -203,29 +316,60 @@ export default function ProgrammingLogPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (editingLogId && !editableLogIds.has(editingLogId)) {
+      setStatusMsg('This log already has mentor feedback attached and can no longer be edited.');
+      return;
+    }
+
     setSubmitting(true);
-    setStatusMsg('TRANSMITTING...');
+    setStatusMsg(editingLogId ? 'SAVING CHANGES...' : 'TRANSMITTING...');
+
+    const payload = {
+      instructor_id: instructorId || null,
+      instructor_name: instructorName,
+      client_name: clientName,
+      session_date: sessionDate,
+      class_tier: classTier,
+      taxonomy_justification: taxonomyJustification,
+      apparatus_base: apparatusBase || smartDefault,
+      apparatus_modifiers: modifiers,
+      session_intention: sessionIntention,
+      planes_tags: planesTags,
+      stabilisation_tags: stabilisationTags,
+      biomechanical_tags: biomechanicalTags,
+      movement_sequence: movements.filter((m) => m.name.trim()),
+      reflection,
+      biomechanical_score: liveBiomechanicalScore,
+    };
+
+    if (editingLogId) {
+      const { data, error } = await supabase
+        .from('programming_logs')
+        .update(payload)
+        .eq('id', editingLogId)
+        .select()
+        .single();
+
+      setSubmitting(false);
+
+      if (error) {
+        setStatusMsg('SAVE FAILED: ' + error.message);
+        return;
+      }
+
+      const updated = data as ProgrammingLog;
+      setAllLogs((prev) => prev.map((l) => (l.id === updated.id ? updated : l)));
+      setMyFullHistory((prev) => prev.map((l) => (l.id === updated.id ? updated : l)));
+      setStatusMsg('LOG UPDATED.');
+      setEditingLogId(null);
+      resetForm();
+      return;
+    }
 
     const { data, error } = await supabase
       .from('programming_logs')
-      .insert([
-        {
-          instructor_id: instructorId || null,
-          instructor_name: instructorName,
-          client_name: clientName,
-          session_date: sessionDate,
-          class_tier: classTier,
-          taxonomy_justification: taxonomyJustification,
-          apparatus_base: apparatusBase || smartDefault,
-          apparatus_modifiers: modifiers,
-          session_intention: sessionIntention,
-          planes_tags: planesTags,
-          stabilisation_tags: stabilisationTags,
-          biomechanical_tags: biomechanicalTags,
-          movement_sequence: movements.filter((m) => m.name.trim()),
-          reflection,
-        },
-      ])
+      .insert([payload])
       .select()
       .single();
 
@@ -236,7 +380,9 @@ export default function ProgrammingLogPage() {
       return;
     }
 
-    setAllLogs((prev) => [data as ProgrammingLog, ...prev]);
+    const inserted = data as ProgrammingLog;
+    setAllLogs((prev) => [inserted, ...prev]);
+    setMyFullHistory((prev) => [inserted, ...prev]);
     setStatusMsg('LOG RECORDED.');
     resetForm();
   };
@@ -317,7 +463,45 @@ export default function ProgrammingLogPage() {
 
         {mode === 'instructor' ? (
           <>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex gap-2 mb-8">
+              {([
+                ['log', 'Log New Class'],
+                ['history', 'My History'],
+                ['library', 'Movement Library'],
+              ] as [InstructorView, string][]).map(([view, label]) => (
+                <button
+                  key={view}
+                  onClick={() => setInstructorView(view)}
+                  className={`px-4 py-2 text-xs uppercase tracking-widest border transition-colors ${
+                    instructorView === view ? 'border-[#a855f7] text-[#a855f7]' : 'border-[#333] text-[#888] hover:text-white'
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {instructorView === 'log' && (
+            <form
+              onSubmit={handleSubmit}
+              onKeyDown={(e) => {
+                // A stray Enter while typing a movement name used to submit (and lock) the
+                // whole log. Only the actual submit button should ever trigger this now.
+                if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'INPUT') {
+                  e.preventDefault();
+                }
+              }}
+              className="space-y-6"
+            >
+              {editingLogId && (
+                <div className="border border-[#eab308]/40 bg-[#eab308]/10 text-[#eab308] text-xs p-3 flex items-center justify-between gap-3">
+                  <span>Editing an existing log — saving will update this record in place.</span>
+                  <button type="button" onClick={cancelEdit} className="underline decoration-dotted whitespace-nowrap">
+                    Cancel Edit
+                  </button>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs text-[#888] mb-2 uppercase tracking-wider">Client Name</label>
@@ -342,7 +526,10 @@ export default function ProgrammingLogPage() {
               </div>
 
               <div>
-                <label className="block text-xs text-[#888] mb-2 uppercase tracking-wider">Classification</label>
+                <label className="block text-xs text-[#888] mb-2 uppercase tracking-wider">
+                  Classification
+                  <InfoTooltip text={INFO_TEXT.classification} />
+                </label>
                 <div className="flex gap-2">
                   {CLASS_TIERS.map((tier) => (
                     <button
@@ -424,7 +611,10 @@ export default function ProgrammingLogPage() {
               </div>
 
               <div>
-                <label className="block text-xs text-[#888] mb-2 uppercase tracking-wider">Session Intention</label>
+                <label className="block text-xs text-[#888] mb-2 uppercase tracking-wider">
+                  Session Intention
+                  <InfoTooltip text={INFO_TEXT.sessionIntention} />
+                </label>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {SESSION_INTENTION_PRESETS.map((preset) => (
                     <button
@@ -450,12 +640,15 @@ export default function ProgrammingLogPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
-                  { label: 'Planes of Motion', options: PLANES_OPTIONS, list: planesTags, set: setPlanesTags },
-                  { label: 'Stabilisation', options: STABILISATION_OPTIONS, list: stabilisationTags, set: setStabilisationTags },
-                  { label: 'Biomechanical Action', options: BIOMECHANICAL_OPTIONS, list: biomechanicalTags, set: setBiomechanicalTags },
+                  { label: 'Planes of Motion', info: INFO_TEXT.planes, options: PLANES_OPTIONS, list: planesTags, set: setPlanesTags },
+                  { label: 'Stabilisation', info: INFO_TEXT.stabilisation, options: STABILISATION_OPTIONS, list: stabilisationTags, set: setStabilisationTags },
+                  { label: 'Biomechanical Action', info: INFO_TEXT.biomechanical, options: BIOMECHANICAL_OPTIONS, list: biomechanicalTags, set: setBiomechanicalTags },
                 ].map((group) => (
                   <div key={group.label} className="bg-[#111] border border-[#222] p-3">
-                    <div className="text-[10px] text-[#888] uppercase tracking-wider mb-2">{group.label}</div>
+                    <div className="text-[10px] text-[#888] uppercase tracking-wider mb-2">
+                      {group.label}
+                      <InfoTooltip text={group.info} />
+                    </div>
                     <div className="flex flex-wrap gap-2">
                       {group.options.map((opt) => {
                         const active = group.list.includes(opt);
@@ -475,6 +668,14 @@ export default function ProgrammingLogPage() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              <div className="bg-[#111] border border-[#a855f7]/30 p-3 flex items-center justify-between flex-wrap gap-2">
+                <span className="text-[10px] text-[#888] uppercase tracking-wider">
+                  Biomechanical Score
+                  <InfoTooltip text={INFO_TEXT.biomechanicalScore} />
+                </span>
+                <span className="text-lg font-bold text-[#a855f7]">{liveBiomechanicalScore} / 30</span>
               </div>
 
               <div>
@@ -535,48 +736,106 @@ export default function ProgrammingLogPage() {
                 disabled={submitting}
                 className="w-full bg-[#4CAF50] disabled:opacity-40 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest py-3 transition-colors"
               >
-                {submitting ? 'Writing...' : 'Log Programming'}
+                {submitting ? 'Writing...' : editingLogId ? 'Save Changes' : 'Log Programming'}
               </button>
               {statusMsg && <div className="text-xs text-center text-[#ff9800] tracking-widest">{statusMsg}</div>}
             </form>
+            )}
 
-            <div className="mt-12">
-              <h2 className="text-sm text-[#888] mb-4 uppercase tracking-widest border-l-2 border-[#4CAF50] pl-3">
-                Your Recent Logs &amp; Mentor Feedback (Live)
-              </h2>
-              <div className="space-y-3">
-                {myLogs.length === 0 && <p className="text-xs text-[#555]">No logs yet.</p>}
-                {myLogs.map((log) => {
-                  const feedback = myFeedback.filter((f) => f.log_id === log.id);
-                  return (
-                    <div key={log.id} className="bg-[#111] border border-[#222] p-4">
-                      <div className="flex justify-between text-xs text-[#888] mb-1">
-                        <span className="text-white">{log.client_name}</span>
-                        <span>{log.class_tier} &middot; {log.apparatus_base}</span>
-                      </div>
-                      {feedback.map((f) => (
-                        <div key={f.id} className="mt-3 border-t border-[#222] pt-3">
-                          <p className="text-[10px] text-[#eab308] uppercase tracking-widest mb-2">
-                            Coaching Note from {f.mentor_name} &middot; {f.category}
-                          </p>
-                          <p className="text-sm text-[#e0e0e0] leading-relaxed mb-1">
-                            <span className="text-[#4CAF50]">What went right:</span> {f.validate_text}
-                          </p>
-                          <p className="text-sm text-[#e0e0e0] leading-relaxed mb-1">
-                            <span className="text-[#3b82f6]">Where to grow:</span> {f.align_text}
-                          </p>
-                          {f.elevate_text && (
-                            <p className="text-sm text-[#e0e0e0] leading-relaxed">
-                              <span className="text-[#ff9800]">Next step:</span> {f.elevate_text}
-                            </p>
-                          )}
+            {instructorView === 'history' && (
+              <div>
+                <h2 className="text-sm text-[#888] mb-4 uppercase tracking-widest border-l-2 border-[#4CAF50] pl-3">
+                  Your Full Programming History
+                </h2>
+
+                <div className="flex flex-wrap gap-3 mb-6">
+                  <input
+                    type="text"
+                    value={historySearch}
+                    onChange={(e) => setHistorySearch(e.target.value)}
+                    placeholder="Search by client or apparatus..."
+                    className="flex-1 min-w-[200px] bg-black border border-[#333] p-2 text-white text-sm outline-none focus:border-[#4CAF50]"
+                  />
+                  <select
+                    value={historyTierFilter}
+                    onChange={(e) => setHistoryTierFilter(e.target.value as ClassTier | '')}
+                    className="bg-black border border-[#333] p-2 text-white text-sm outline-none focus:border-[#4CAF50]"
+                  >
+                    <option value="">All Tiers</option>
+                    {CLASS_TIERS.map((t) => (
+                      <option key={t} value={t}>{t}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="space-y-3">
+                  {filteredHistory.length === 0 && (
+                    <p className="text-xs text-[#555]">
+                      {myFullHistory.length === 0 ? 'No logs yet.' : 'No logs match this filter.'}
+                    </p>
+                  )}
+                  {filteredHistory.map((log) => {
+                    const feedback = myFeedback.filter((f) => f.log_id === log.id);
+                    const canEdit = editableLogIds.has(log.id);
+                    return (
+                      <div key={log.id} className="bg-[#111] border border-[#222] p-4">
+                        <div className="flex justify-between text-xs text-[#888] mb-1 flex-wrap gap-2">
+                          <span className="text-white">
+                            {log.client_name} <span className="text-[#555]">&middot; {new Date(log.session_date).toLocaleDateString()}</span>
+                          </span>
+                          <span className="flex items-center gap-2">
+                            {log.class_tier} &middot; {log.apparatus_base}
+                            {typeof log.biomechanical_score === 'number' && (
+                              <span className="text-[10px] text-[#a855f7] uppercase tracking-widest border border-[#a855f7]/40 px-1.5 py-0.5">
+                                Score {log.biomechanical_score}/30
+                              </span>
+                            )}
+                            {canEdit ? (
+                              <button
+                                onClick={() => startEditLog(log)}
+                                className="text-[10px] text-[#eab308] uppercase tracking-widest border border-[#eab308]/40 px-1.5 py-0.5 hover:bg-[#eab308]/10 transition-colors"
+                              >
+                                ✎ Edit
+                              </button>
+                            ) : (
+                              <span className="text-[10px] text-[#4CAF50] uppercase tracking-widest border border-[#4CAF50]/40 px-1.5 py-0.5">
+                                🔒 Reviewed — Locked
+                              </span>
+                            )}
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  );
-                })}
+                        {feedback.map((f) => (
+                          <div key={f.id} className="mt-3 border-t border-[#222] pt-3">
+                            <p className="text-[10px] text-[#eab308] uppercase tracking-widest mb-2">
+                              Coaching Note from {f.mentor_name} &middot; {f.category}
+                            </p>
+                            <p className="text-sm text-[#e0e0e0] leading-relaxed mb-1">
+                              <span className="text-[#4CAF50]">What went right:</span> {f.validate_text}
+                            </p>
+                            <p className="text-sm text-[#e0e0e0] leading-relaxed mb-1">
+                              <span className="text-[#3b82f6]">Where to grow:</span> {f.align_text}
+                            </p>
+                            {f.elevate_text && (
+                              <p className="text-sm text-[#e0e0e0] leading-relaxed">
+                                <span className="text-[#ff9800]">Next step:</span> {f.elevate_text}
+                              </p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
+
+            {instructorView === 'library' && (
+              <MovementLibrary
+                instructorId={instructorId}
+                instructorName={instructorName}
+                onUseSequence={loadLibrarySequenceIntoForm}
+              />
+            )}
           </>
         ) : (
           <form onSubmit={handleMentorSubmit} className="space-y-6">
