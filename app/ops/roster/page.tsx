@@ -7,6 +7,7 @@ type RosterRow = {
   instructor_name: string;
   available_date: string;
   time_slot: 'AM' | 'PM';
+  status: 'available' | 'booked';
 };
 
 const MONTH_NAMES = [
@@ -23,10 +24,15 @@ function csvField(raw: string): string {
   return `"${value.replace(/"/g, '""')}"`;
 }
 
+const STATUS_LABEL: Record<RosterRow['status'], string> = {
+  available: 'Submitted',
+  booked: 'Confirmed',
+};
+
 function toCsv(rows: RosterRow[]): string {
-  const header = ['Instructor Name', 'Date', 'Shift'].map(csvField).join(',');
+  const header = ['Instructor Name', 'Date', 'Shift', 'Status'].map(csvField).join(',');
   const body = rows
-    .map((r) => [r.instructor_name, r.available_date, r.time_slot].map(csvField).join(','))
+    .map((r) => [r.instructor_name, r.available_date, r.time_slot, STATUS_LABEL[r.status]].map(csvField).join(','))
     .join('\r\n');
   // UTF-8 BOM so Excel renders accented names correctly instead of mangling them.
   return `﻿${header}\r\n${body}`;
@@ -47,6 +53,7 @@ export default function OpsRosterPage() {
   const [rows, setRows] = useState<RosterRow[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
 
   // Always spans last year through two years out, so this page never goes
   // stale just because nobody thought to add a new year to a hardcoded list.
@@ -71,6 +78,7 @@ export default function OpsRosterPage() {
         return;
       }
       setRows(body.rows as RosterRow[]);
+      setLastRefreshedAt(new Date());
     } catch {
       setError('Connection failed while loading roster.');
       setRows(null);
@@ -111,7 +119,7 @@ export default function OpsRosterPage() {
         <header className="border-b border-[#222] pb-6 mb-8 flex justify-between items-center flex-wrap gap-4">
           <div>
             <div className="text-[10px] text-[#a855f7] tracking-[4px] uppercase">GOD MODE TERMINAL — STATION 10 FEED</div>
-            <h1 className="text-3xl font-bold mt-1">Confirmed Roster Export</h1>
+            <h1 className="text-3xl font-bold mt-1">Roster Export</h1>
           </div>
           <button
             onClick={handleLogout}
@@ -148,18 +156,25 @@ export default function OpsRosterPage() {
             </select>
           </div>
 
-          <button
-            onClick={() => loadRoster(month, year)}
-            disabled={loading}
-            className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors disabled:opacity-40"
-          >
-            {loading ? 'LOADING…' : 'LOAD ROSTER'}
-          </button>
+          <div>
+            <button
+              onClick={() => loadRoster(month, year)}
+              disabled={loading}
+              className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors disabled:opacity-40"
+            >
+              {loading ? 'REFRESHING…' : '↻ Refresh from Supabase'}
+            </button>
+            {lastRefreshedAt && (
+              <p className="text-[10px] text-[#555] mt-1">
+                Last refreshed {lastRefreshedAt.toLocaleTimeString()}
+              </p>
+            )}
+          </div>
 
           <button
             onClick={handleExport}
             disabled={!hasRows || loading}
-            title={!hasRows ? 'No booked shifts to export for this month' : undefined}
+            title={!hasRows ? 'No locked-in shifts to export for this month' : undefined}
             className="border border-[#4CAF50] text-[#4CAF50] px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#4CAF50]/10 transition-colors disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent"
           >
             Export to CSV
@@ -173,7 +188,7 @@ export default function OpsRosterPage() {
         )}
 
         <p className="text-xs text-[#555] mb-4 uppercase tracking-widest">
-          Showing confirmed (booked) shifts for {monthLabel}
+          Showing locked-in shifts for {monthLabel} — instructor-submitted and Ops-confirmed alike
         </p>
 
         <div className="border border-[#222] overflow-x-auto">
@@ -183,6 +198,7 @@ export default function OpsRosterPage() {
                 <th className="px-4 py-3 border-b border-[#222]">Instructor Name</th>
                 <th className="px-4 py-3 border-b border-[#222]">Date</th>
                 <th className="px-4 py-3 border-b border-[#222]">Shift</th>
+                <th className="px-4 py-3 border-b border-[#222]">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -199,6 +215,15 @@ export default function OpsRosterPage() {
                       {r.time_slot}
                     </span>
                   </td>
+                  <td className="px-4 py-3">
+                    <span className={`text-[10px] uppercase tracking-widest px-2 py-1 border ${
+                      r.status === 'booked'
+                        ? 'border-[#4CAF50] text-[#4CAF50]'
+                        : 'border-[#888] text-[#888]'
+                    }`}>
+                      {r.status === 'booked' ? '🔒 Confirmed' : 'Submitted'}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -208,7 +233,7 @@ export default function OpsRosterPage() {
 
           {showEmptyState && (
             <p className="text-xs text-[#555] p-4">
-              No booked shifts found for {monthLabel}. Nothing to export.
+              No locked-in shifts found for {monthLabel}. Nothing to export.
             </p>
           )}
         </div>

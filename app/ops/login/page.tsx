@@ -41,7 +41,7 @@ export default function OpsLoginPage() {
         <div className="w-full max-w-md p-6 text-center">
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="text-[10px] text-[#555] tracking-[6px] uppercase mb-8">
-              GOD MODE TERMINAL — OPS ACCESS
+              GOD MODE TERMINAL — OPS DASHBOARD
             </div>
 
             <input

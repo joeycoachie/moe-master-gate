@@ -13,6 +13,7 @@ type RosterRow = {
   instructor_name: string;
   available_date: string;
   time_slot: 'AM' | 'PM';
+  status: 'available' | 'booked';
 };
 
 export async function GET(request: Request) {
@@ -39,14 +40,18 @@ export async function GET(request: Request) {
   const rows: RosterRow[] = [];
   let from = 0;
 
-  // Filtering happens in the database query (eq/order below) — the frontend
-  // never receives more than the one requested month's confirmed shifts.
+  // Filtering happens in the database query (eq/in/order below) — the frontend
+  // never receives more than the one requested month's locked-in shifts.
+  // 'available' = instructor confirmed their own submission (Station 10's
+  // "Confirm & Lock In"); 'booked' = an Ops admin additionally locked it as a
+  // final assignment. Both count as "on the schedule" for this export —
+  // 'pending_ops_approval' (not live yet) and 'rejected' are excluded.
   while (true) {
     const { data, error } = await supabase
       .from('instructor_availability')
-      .select('instructor_name, available_date, time_slot')
+      .select('instructor_name, available_date, time_slot, status')
       .eq('schedule_cycle', cycleKey)
-      .eq('status', 'booked')
+      .in('status', ['available', 'booked'])
       .order('available_date', { ascending: true })
       .order('time_slot', { ascending: true })
       .range(from, from + PAGE_SIZE - 1);
