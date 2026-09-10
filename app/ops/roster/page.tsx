@@ -162,11 +162,11 @@ export default function OpsRosterPage() {
               disabled={loading}
               className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors disabled:opacity-40"
             >
-              {loading ? 'REFRESHING…' : '↻ Refresh from Supabase'}
+              {lastRefreshedAt ? (loading ? 'REFRESHING…' : '↻ Refresh') : (loading ? 'LOADING…' : 'Load Data')}
             </button>
             {lastRefreshedAt && (
               <p className="text-[10px] text-[#555] mt-1">
-                Last refreshed {lastRefreshedAt.toLocaleTimeString()}
+                Last updated {lastRefreshedAt.toLocaleTimeString()}
               </p>
             )}
           </div>
