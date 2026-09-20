@@ -122,12 +122,20 @@ export default function OpsRosterPage() {
             <div className="text-[10px] text-[#a855f7] tracking-[4px] uppercase">GOD MODE TERMINAL — STATION 10 FEED</div>
             <h1 className="text-3xl font-bold mt-1">Roster Export</h1>
           </div>
-          <button
-            onClick={handleLogout}
-            className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white transition-colors"
-          >
-            LOG OUT
-          </button>
+          <div className="flex items-center gap-3">
+            <a
+              href="/ops/dashboard"
+              className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors"
+            >
+              DASHBOARD
+            </a>
+            <button
+              onClick={handleLogout}
+              className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white transition-colors"
+            >
+              LOG OUT
+            </button>
+          </div>
         </header>
 
         <section className="flex items-end gap-4 flex-wrap mb-6">

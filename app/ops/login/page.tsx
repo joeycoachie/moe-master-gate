@@ -28,7 +28,7 @@ export default function OpsLoginPage() {
         return;
       }
 
-      router.push('/ops/roster');
+      router.push('/ops/dashboard');
     } catch {
       setError('CONNECTION FAILED.');
       setStatus('IDLE');
