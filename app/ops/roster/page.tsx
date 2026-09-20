@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import UtilizationHeatmap from './UtilizationHeatmap';
 
 type RosterRow = {
   instructor_name: string;
@@ -186,6 +187,8 @@ export default function OpsRosterPage() {
             {error}
           </div>
         )}
+
+        <UtilizationHeatmap rows={rows} month={month} year={year} />
 
         <p className="text-xs text-[#555] mb-4 uppercase tracking-widest">
           Showing locked-in shifts for {monthLabel} — instructor-submitted and Ops-confirmed alike
