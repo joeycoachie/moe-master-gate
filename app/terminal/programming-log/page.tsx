@@ -28,6 +28,7 @@ type ProgrammingLog = {
   movement_sequence: MovementRow[];
   reflection: string | null;
   biomechanical_score: number | null;
+  duplicated_from_log_id: string | null;
   created_at: string;
 };
 
@@ -123,6 +124,34 @@ function computeBiomechanicalScore(planes: string[], stabilisation: string[], bi
   return planesScore * actionsScore + stabilisationScore;
 }
 
+// Snapshot of everything that actually constitutes "the programming" — used to tell whether
+// a duplicated log was submitted unchanged (gets the duplicate badge) or edited (submits clean,
+// no badge, no lineage shown). Deliberately excludes client_name/session_date/reflection: those
+// identify *which* session it is, not what was programmed for it.
+function contentSignature(fields: {
+  classTier: ClassTier;
+  apparatusBase: string;
+  modifiers: string[];
+  sessionIntention: string;
+  planesTags: string[];
+  stabilisationTags: string[];
+  biomechanicalTags: string[];
+  movements: MovementRow[];
+}): string {
+  return JSON.stringify({
+    classTier: fields.classTier,
+    apparatusBase: fields.apparatusBase.trim(),
+    modifiers: [...fields.modifiers].sort(),
+    sessionIntention: fields.sessionIntention.trim(),
+    planesTags: [...fields.planesTags].sort(),
+    stabilisationTags: [...fields.stabilisationTags].sort(),
+    biomechanicalTags: [...fields.biomechanicalTags].sort(),
+    movements: fields.movements
+      .filter((m) => m.name.trim())
+      .map((m) => ({ name: m.name.trim(), spring: m.spring.trim(), reps: m.reps.trim() })),
+  });
+}
+
 function topApparatusPicks(logs: ProgrammingLog[], instructorId: string): string[] {
   const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const counts = new Map<string, number>();
@@ -165,6 +194,14 @@ export default function ProgrammingLogPage() {
   const [submitting, setSubmitting] = useState(false);
   const [statusMsg, setStatusMsg] = useState('');
   const [editingLogId, setEditingLogId] = useState<string | null>(null);
+  const [justLocked, setJustLocked] = useState(false);
+
+  // Duplicate-from-past-session state
+  const [duplicatePickerOpen, setDuplicatePickerOpen] = useState(false);
+  const [duplicateSearch, setDuplicateSearch] = useState('');
+  const [duplicateSourceId, setDuplicateSourceId] = useState<string | null>(null);
+  const [duplicateSourceLabel, setDuplicateSourceLabel] = useState('');
+  const [duplicateSourceSignature, setDuplicateSourceSignature] = useState<string | null>(null);
 
   // Mentor form state
   const [selectedLogId, setSelectedLogId] = useState('');
@@ -251,6 +288,47 @@ export default function ProgrammingLogPage() {
     [planesTags, stabilisationTags, biomechanicalTags]
   );
 
+  const liveContentSignature = useMemo(
+    () =>
+      contentSignature({
+        classTier,
+        apparatusBase,
+        modifiers,
+        sessionIntention,
+        planesTags,
+        stabilisationTags,
+        biomechanicalTags,
+        movements,
+      }),
+    [classTier, apparatusBase, modifiers, sessionIntention, planesTags, stabilisationTags, biomechanicalTags, movements]
+  );
+
+  const duplicateIsUnchanged = duplicateSourceSignature !== null && liveContentSignature === duplicateSourceSignature;
+
+  // How many of an instructor's own logs are an unedited copy of each other log — shown as a
+  // badge on the *original* so lineage reads both ways, not just from the copy back to its source.
+  const duplicateCounts = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const log of myFullHistory) {
+      if (!log.duplicated_from_log_id) continue;
+      counts.set(log.duplicated_from_log_id, (counts.get(log.duplicated_from_log_id) || 0) + 1);
+    }
+    return counts;
+  }, [myFullHistory]);
+
+  const filteredDuplicateCandidates = useMemo(() => {
+    const term = duplicateSearch.trim().toLowerCase();
+    return myFullHistory.filter((log) => {
+      if (editingLogId && log.id === editingLogId) return false;
+      if (!term) return true;
+      return (
+        log.client_name.toLowerCase().includes(term) ||
+        log.apparatus_base.toLowerCase().includes(term) ||
+        log.class_tier.toLowerCase().includes(term)
+      );
+    });
+  }, [myFullHistory, duplicateSearch, editingLogId]);
+
   // A log a mentor has already reviewed stays locked — editing it after the fact
   // would let an instructor quietly rewrite what the V.A.E. feedback was actually about.
   const editableLogIds = useMemo(() => {
@@ -272,6 +350,7 @@ export default function ProgrammingLogPage() {
     setBiomechanicalTags(log.biomechanical_tags);
     setMovements(log.movement_sequence.length ? log.movement_sequence : [{ name: '', spring: '', reps: '' }]);
     setReflection(log.reflection || '');
+    clearDuplicateSource();
     setStatusMsg('');
     setInstructorView('log');
   };
@@ -282,12 +361,47 @@ export default function ProgrammingLogPage() {
     setStatusMsg('');
   };
 
+  const loadFromDuplicate = (log: ProgrammingLog) => {
+    setClassTier(log.class_tier);
+    setTaxonomyJustification(log.taxonomy_justification);
+    setApparatusBase(log.apparatus_base);
+    setModifiers(log.apparatus_modifiers);
+    setSessionIntention(log.session_intention || '');
+    setPlanesTags(log.planes_tags);
+    setStabilisationTags(log.stabilisation_tags);
+    setBiomechanicalTags(log.biomechanical_tags);
+    setMovements(log.movement_sequence.length ? log.movement_sequence : [{ name: '', spring: '', reps: '' }]);
+
+    const signature = contentSignature({
+      classTier: log.class_tier,
+      apparatusBase: log.apparatus_base,
+      modifiers: log.apparatus_modifiers,
+      sessionIntention: log.session_intention || '',
+      planesTags: log.planes_tags,
+      stabilisationTags: log.stabilisation_tags,
+      biomechanicalTags: log.biomechanical_tags,
+      movements: log.movement_sequence,
+    });
+    setDuplicateSourceId(log.id);
+    setDuplicateSourceSignature(signature);
+    setDuplicateSourceLabel(`${log.client_name} · ${new Date(log.session_date).toLocaleDateString()}`);
+    setDuplicatePickerOpen(false);
+    setDuplicateSearch('');
+  };
+
+  const clearDuplicateSource = () => {
+    setDuplicateSourceId(null);
+    setDuplicateSourceSignature(null);
+    setDuplicateSourceLabel('');
+  };
+
   const loadLibrarySequenceIntoForm = (entry: LibraryEntry) => {
     setEditingLogId(null);
     setClassTier(entry.class_tier);
     setApparatusBase(entry.apparatus_base);
     setModifiers(entry.apparatus_modifiers);
     setMovements(entry.movement_sequence.length ? entry.movement_sequence : [{ name: '', spring: '', reps: '' }]);
+    clearDuplicateSource();
     setInstructorView('log');
     setStatusMsg(`Loaded "${entry.sequence_name}" from the library — fill in client + date and log it.`);
   };
@@ -312,6 +426,7 @@ export default function ProgrammingLogPage() {
     setBiomechanicalTags([]);
     setMovements([{ name: '', spring: '', reps: '' }]);
     setReflection('');
+    clearDuplicateSource();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -341,6 +456,9 @@ export default function ProgrammingLogPage() {
       movement_sequence: movements.filter((m) => m.name.trim()),
       reflection,
       biomechanical_score: liveBiomechanicalScore,
+      // Only ever set when the submitted content is still byte-for-byte identical to the log it
+      // was duplicated from — edit one tag or one rep and this silently goes back to null.
+      duplicated_from_log_id: duplicateIsUnchanged ? duplicateSourceId : null,
     };
 
     if (editingLogId) {
@@ -385,6 +503,8 @@ export default function ProgrammingLogPage() {
     setMyFullHistory((prev) => [inserted, ...prev]);
     setStatusMsg('LOG RECORDED.');
     resetForm();
+    setJustLocked(true);
+    setTimeout(() => setJustLocked(false), 1100);
   };
 
   const applyTemplate = (t: VaeTemplate) => {
@@ -499,6 +619,83 @@ export default function ProgrammingLogPage() {
                   <button type="button" onClick={cancelEdit} className="underline decoration-dotted whitespace-nowrap">
                     Cancel Edit
                   </button>
+                </div>
+              )}
+
+              {!editingLogId && (
+                <div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setDuplicatePickerOpen((v) => !v)}
+                      className={`px-3 py-2 text-xs uppercase tracking-widest border transition-colors ${
+                        duplicatePickerOpen ? 'border-[#eab308] text-[#eab308]' : 'border-[#333] text-[#888] hover:text-white'
+                      }`}
+                    >
+                      ⧉ Duplicate From…
+                    </button>
+                    <InfoTooltip text="Pulls in a past session's full programming as a starting draft. Submit it unchanged and it's flagged a duplicate of that session. Change even one spring or rep and it logs as its own programming — no flag." />
+                  </div>
+
+                  {duplicatePickerOpen && (
+                    <div className="mt-2 bg-[#111] border border-[#222]">
+                      <input
+                        type="text"
+                        value={duplicateSearch}
+                        onChange={(e) => setDuplicateSearch(e.target.value)}
+                        placeholder="Search your past sessions by client, apparatus, or tier..."
+                        className="w-full bg-black border-b border-[#333] p-3 text-white text-sm outline-none focus:border-[#eab308]"
+                        autoFocus
+                      />
+                      <div className="max-h-60 overflow-y-auto">
+                        {filteredDuplicateCandidates.length === 0 && (
+                          <p className="text-xs text-[#555] p-3">No past sessions match.</p>
+                        )}
+                        {filteredDuplicateCandidates.map((log) => (
+                          <button
+                            type="button"
+                            key={log.id}
+                            onClick={() => loadFromDuplicate(log)}
+                            className="w-full text-left flex items-center justify-between gap-3 p-3 border-b border-[#222] last:border-b-0 hover:bg-[#1a1a1a] transition-colors"
+                          >
+                            <span className="text-xs text-white">
+                              {log.client_name}{' '}
+                              <span className="text-[#555]">&middot; {new Date(log.session_date).toLocaleDateString()}</span>
+                            </span>
+                            <span className="flex items-center gap-2 flex-none">
+                              {duplicateCounts.get(log.id) ? (
+                                <span className="text-[10px] text-[#eab308] uppercase tracking-widest">
+                                  ⧉ &times;{duplicateCounts.get(log.id)}
+                                </span>
+                              ) : null}
+                              <span className="text-[10px] text-[#888] uppercase tracking-widest border border-[#333] px-1.5 py-0.5">
+                                {log.class_tier}
+                              </span>
+                            </span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {duplicateSourceId && (
+                    <div
+                      className={`mt-2 border-l-2 text-xs p-3 flex items-center justify-between gap-3 ${
+                        duplicateIsUnchanged ? 'border-[#eab308] bg-[#eab308]/10 text-[#eab308]' : 'border-[#4CAF50] bg-[#4CAF50]/10 text-[#4CAF50]'
+                      }`}
+                    >
+                      <span>
+                        {duplicateIsUnchanged ? (
+                          <>Loaded from <b>{duplicateSourceLabel}</b>, unchanged — submitting now marks it a duplicate.</>
+                        ) : (
+                          <>Started from <b>{duplicateSourceLabel}</b>, edited — this will log as its own programming.</>
+                        )}
+                      </span>
+                      <button type="button" onClick={clearDuplicateSource} className="underline decoration-dotted whitespace-nowrap">
+                        Clear
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -734,9 +931,17 @@ export default function ProgrammingLogPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#4CAF50] disabled:opacity-40 hover:bg-white hover:text-black text-black font-bold uppercase tracking-widest py-3 transition-colors"
+                className={`w-full disabled:opacity-40 text-black font-bold uppercase tracking-widest py-3 transition-colors motion-reduce:transition-none ${
+                  justLocked ? 'bg-white' : 'bg-[#4CAF50] hover:bg-white hover:text-black'
+                }`}
               >
-                {submitting ? 'Writing...' : editingLogId ? 'Save Changes' : 'Log Programming'}
+                {submitting
+                  ? 'Locking In...'
+                  : justLocked
+                  ? '✓ Locked In'
+                  : editingLogId
+                  ? 'Save Changes'
+                  : 'Lock In My Programming'}
               </button>
               {statusMsg && <div className="text-xs text-center text-[#ff9800] tracking-widest">{statusMsg}</div>}
             </form>
@@ -804,6 +1009,21 @@ export default function ProgrammingLogPage() {
                             )}
                           </span>
                         </div>
+                        {(log.duplicated_from_log_id || duplicateCounts.get(log.id)) && (
+                          <div className="flex flex-wrap gap-2 mb-1">
+                            {log.duplicated_from_log_id && (
+                              <span className="text-[10px] text-[#eab308] uppercase tracking-widest border border-[#eab308]/40 px-1.5 py-0.5">
+                                ⧉ Duplicate of{' '}
+                                {myFullHistory.find((l) => l.id === log.duplicated_from_log_id)?.client_name || 'an earlier session'}
+                              </span>
+                            )}
+                            {duplicateCounts.get(log.id) ? (
+                              <span className="text-[10px] text-[#eab308] uppercase tracking-widest border border-[#eab308]/40 px-1.5 py-0.5">
+                                ⧉ Duplicated &times;{duplicateCounts.get(log.id)}
+                              </span>
+                            ) : null}
+                          </div>
+                        )}
                         {feedback.map((f) => (
                           <div key={f.id} className="mt-3 border-t border-[#222] pt-3">
                             <p className="text-[10px] text-[#eab308] uppercase tracking-widest mb-2">
