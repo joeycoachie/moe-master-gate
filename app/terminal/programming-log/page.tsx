@@ -6,8 +6,9 @@ import MovementLibrary, { LibraryEntry } from './MovementLibrary';
 import InfoTooltip from './InfoTooltip';
 
 type ClassTier = 'Control' | 'Capacity' | 'Flow';
-type Mode = 'instructor' | 'mentor';
+type Mode = 'instructor' | 'mentor' | 'architect';
 type InstructorView = 'log' | 'history' | 'library';
+type InstructorRole = 'instructor' | 'admin' | 'architect';
 
 type MovementRow = { name: string; spring: string; reps: string };
 
@@ -171,6 +172,16 @@ export default function ProgrammingLogPage() {
   const [instructorView, setInstructorView] = useState<InstructorView>('log');
   const [instructorId, setInstructorId] = useState('');
   const [instructorName, setInstructorName] = useState('');
+  const [myRole, setMyRole] = useState<InstructorRole>('instructor');
+
+  // Architect mode — full, uncapped, read-only view across every instructor.
+  const [architectLogs, setArchitectLogs] = useState<ProgrammingLog[]>([]);
+  const [architectFeedback, setArchitectFeedback] = useState<VaeFeedback[]>([]);
+  const [architectLoading, setArchitectLoading] = useState(false);
+  const [architectSearch, setArchitectSearch] = useState('');
+  const [architectTierFilter, setArchitectTierFilter] = useState<ClassTier | ''>('');
+  const [architectInstructorFilter, setArchitectInstructorFilter] = useState('');
+  const [expandedLogId, setExpandedLogId] = useState<string | null>(null);
 
   const [allLogs, setAllLogs] = useState<ProgrammingLog[]>([]);
   const [myFullHistory, setMyFullHistory] = useState<ProgrammingLog[]>([]);
@@ -230,6 +241,59 @@ export default function ProgrammingLogPage() {
 
   useEffect(() => {
     if (!instructorId) return;
+    supabase
+      .from('instructors')
+      .select('role')
+      .eq('id', instructorId)
+      .single()
+      .then(({ data }) => setMyRole((data?.role as InstructorRole) || 'instructor'));
+  }, [instructorId]);
+
+  // Architect's full view is uncapped and spans every instructor, so it pages through
+  // Supabase's 1000-row response cap the same way /ops/api/performance does — this is
+  // the one place in the app that must never silently truncate as volume grows.
+  useEffect(() => {
+    if (myRole !== 'architect') return;
+    let cancelled = false;
+    const PAGE_SIZE = 1000;
+
+    async function fetchAll<T>(table: string): Promise<T[]> {
+      const rows: T[] = [];
+      let from = 0;
+      while (true) {
+        const { data, error } = await supabase
+          .from(table)
+          .select('*')
+          .order('created_at', { ascending: false })
+          .range(from, from + PAGE_SIZE - 1);
+        if (error || !data || data.length === 0) break;
+        rows.push(...(data as T[]));
+        if (data.length < PAGE_SIZE) break;
+        from += PAGE_SIZE;
+      }
+      return rows;
+    }
+
+    (async () => {
+      setArchitectLoading(true);
+      const [logs, feedback] = await Promise.all([
+        fetchAll<ProgrammingLog>('programming_logs'),
+        fetchAll<VaeFeedback>('vae_feedback'),
+      ]);
+      if (!cancelled) {
+        setArchitectLogs(logs);
+        setArchitectFeedback(feedback);
+        setArchitectLoading(false);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [myRole]);
+
+  useEffect(() => {
+    if (!instructorId) return;
     // Dedicated, uncapped query scoped server-side to this instructor — the
     // "last 10" list below (allLogs) stays as-is for mentor-mode and quick-pick use.
     supabase
@@ -282,6 +346,23 @@ export default function ProgrammingLogPage() {
       return true;
     });
   }, [myFullHistory, historySearch, historyTierFilter]);
+
+  const architectInstructorOptions = useMemo(
+    () => Array.from(new Set(architectLogs.map((l) => l.instructor_name))).sort(),
+    [architectLogs]
+  );
+
+  const filteredArchitectLogs = useMemo(() => {
+    const term = architectSearch.trim().toLowerCase();
+    return architectLogs.filter((log) => {
+      if (architectInstructorFilter && log.instructor_name !== architectInstructorFilter) return false;
+      if (architectTierFilter && log.class_tier !== architectTierFilter) return false;
+      if (term && !log.client_name.toLowerCase().includes(term) && !log.apparatus_base.toLowerCase().includes(term)) {
+        return false;
+      }
+      return true;
+    });
+  }, [architectLogs, architectSearch, architectTierFilter, architectInstructorFilter]);
 
   const liveBiomechanicalScore = useMemo(
     () => computeBiomechanicalScore(planesTags, stabilisationTags, biomechanicalTags),
@@ -554,7 +635,11 @@ export default function ProgrammingLogPage() {
         <header className="border-b border-[#222] pb-6 mb-8 flex justify-between items-center flex-wrap gap-4">
           <div>
             <div className="text-[10px] text-[#4CAF50] tracking-[4px] uppercase">
-              {mode === 'instructor' ? 'INSTRUCTOR SELF-LOG' : 'MENTOR / AUDITOR MODE'}
+              {mode === 'instructor'
+                ? 'INSTRUCTOR SELF-LOG'
+                : mode === 'mentor'
+                ? 'MENTOR / AUDITOR MODE'
+                : 'ARCHITECT — FULL PROGRAMMING VIEW'}
             </div>
             <h1 className="text-3xl font-bold mt-1">Class Programming &amp; V.A.E. Log</h1>
           </div>
@@ -575,6 +660,16 @@ export default function ProgrammingLogPage() {
             >
               I&apos;m a Mentor / Auditor
             </button>
+            {myRole === 'architect' && (
+              <button
+                onClick={() => setMode('architect')}
+                className={`px-4 py-2 text-xs uppercase tracking-widest border transition-colors ${
+                  mode === 'architect' ? 'border-[#a855f7] text-[#a855f7]' : 'border-[#333] text-[#888] hover:text-white'
+                }`}
+              >
+                Architect View
+              </button>
+            )}
             <a href="/terminal" className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white transition-colors">
               BACK
             </a>
@@ -1057,7 +1152,7 @@ export default function ProgrammingLogPage() {
               />
             )}
           </>
-        ) : (
+        ) : mode === 'mentor' ? (
           <form onSubmit={handleMentorSubmit} className="space-y-6">
             <div>
               <label className="block text-xs text-[#888] mb-2 uppercase tracking-wider">Mentor Name</label>
@@ -1162,6 +1257,173 @@ export default function ProgrammingLogPage() {
             </button>
             {mentorStatus && <div className="text-xs text-center text-[#4CAF50] tracking-widest">{mentorStatus}</div>}
           </form>
+        ) : (
+          <div>
+            <h2 className="text-sm text-[#888] mb-1 uppercase tracking-widest border-l-2 border-[#a855f7] pl-3">
+              Full Programming Log — Every Instructor
+            </h2>
+            <p className="text-[10px] text-[#555] mb-4 pl-3">
+              Read-only, by design — no edit or delete controls exist in this view.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-6">
+              <input
+                type="text"
+                value={architectSearch}
+                onChange={(e) => setArchitectSearch(e.target.value)}
+                placeholder="Search by client or apparatus..."
+                className="flex-1 min-w-[200px] bg-black border border-[#333] p-2 text-white text-sm outline-none focus:border-[#a855f7]"
+              />
+              <select
+                value={architectInstructorFilter}
+                onChange={(e) => setArchitectInstructorFilter(e.target.value)}
+                className="bg-black border border-[#333] p-2 text-white text-sm outline-none focus:border-[#a855f7]"
+              >
+                <option value="">All Instructors</option>
+                {architectInstructorOptions.map((name) => (
+                  <option key={name} value={name}>{name}</option>
+                ))}
+              </select>
+              <select
+                value={architectTierFilter}
+                onChange={(e) => setArchitectTierFilter(e.target.value as ClassTier | '')}
+                className="bg-black border border-[#333] p-2 text-white text-sm outline-none focus:border-[#a855f7]"
+              >
+                <option value="">All Tiers</option>
+                {CLASS_TIERS.map((t) => (
+                  <option key={t} value={t}>{t}</option>
+                ))}
+              </select>
+            </div>
+
+            {architectLoading && <p className="text-xs text-[#555]">Loading full programming set…</p>}
+
+            {!architectLoading && (
+              <p className="text-[10px] text-[#555] mb-3 uppercase tracking-widest">
+                {filteredArchitectLogs.length}
+                {filteredArchitectLogs.length !== architectLogs.length ? ` of ${architectLogs.length}` : ''} logs
+              </p>
+            )}
+
+            <div className="space-y-3">
+              {!architectLoading && filteredArchitectLogs.length === 0 && (
+                <p className="text-xs text-[#555]">
+                  {architectLogs.length === 0 ? 'No programming logs submitted yet.' : 'No logs match this filter.'}
+                </p>
+              )}
+              {filteredArchitectLogs.map((log) => {
+                const feedback = architectFeedback.filter((f) => f.log_id === log.id);
+                const expanded = expandedLogId === log.id;
+                return (
+                  <div key={log.id} className="bg-[#111] border border-[#222]">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedLogId(expanded ? null : log.id)}
+                      className="w-full text-left p-4"
+                    >
+                      <div className="flex justify-between text-xs text-[#888] flex-wrap gap-2">
+                        <span className="text-white">
+                          {log.instructor_name}{' '}
+                          <span className="text-[#555]">
+                            &middot; {log.client_name} &middot; {new Date(log.session_date).toLocaleDateString()}
+                          </span>
+                        </span>
+                        <span className="flex items-center gap-2">
+                          {log.class_tier} &middot; {log.apparatus_base}
+                          {typeof log.biomechanical_score === 'number' && (
+                            <span className="text-[10px] text-[#a855f7] uppercase tracking-widest border border-[#a855f7]/40 px-1.5 py-0.5">
+                              Score {log.biomechanical_score}/30
+                            </span>
+                          )}
+                          {feedback.length > 0 && (
+                            <span className="text-[10px] text-[#eab308] uppercase tracking-widest border border-[#eab308]/40 px-1.5 py-0.5">
+                              {feedback.length} Note{feedback.length > 1 ? 's' : ''}
+                            </span>
+                          )}
+                          <span className="text-[#a855f7]">{expanded ? '▲' : '▼'}</span>
+                        </span>
+                      </div>
+                    </button>
+
+                    {expanded && (
+                      <div className="px-4 pb-4 pt-1 space-y-2 text-xs text-[#ccc] border-t border-[#222]">
+                        <p className="pt-3">
+                          <span className="text-[10px] text-[#888] uppercase tracking-widest">Taxonomy Justification:</span>{' '}
+                          {log.taxonomy_justification}
+                        </p>
+                        {log.session_intention && (
+                          <p>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Session Intention:</span>{' '}
+                            {log.session_intention}
+                          </p>
+                        )}
+                        {log.apparatus_modifiers.length > 0 && (
+                          <p>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Modifiers:</span>{' '}
+                            {log.apparatus_modifiers.join(', ')}
+                          </p>
+                        )}
+                        {log.planes_tags.length > 0 && (
+                          <p>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Planes:</span>{' '}
+                            {log.planes_tags.join(', ')}
+                          </p>
+                        )}
+                        {log.stabilisation_tags.length > 0 && (
+                          <p>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Stabilisation:</span>{' '}
+                            {log.stabilisation_tags.join(', ')}
+                          </p>
+                        )}
+                        {log.biomechanical_tags.length > 0 && (
+                          <p>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Biomechanical Actions:</span>{' '}
+                            {log.biomechanical_tags.join(', ')}
+                          </p>
+                        )}
+                        {log.movement_sequence.length > 0 && (
+                          <div>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Movement Sequence:</span>
+                            <ul className="list-disc list-inside mt-1">
+                              {log.movement_sequence.map((m, i) => (
+                                <li key={i}>
+                                  {m.name} — {m.spring} &middot; {m.reps} reps
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        {log.reflection && (
+                          <p>
+                            <span className="text-[10px] text-[#888] uppercase tracking-widest">Reflection:</span>{' '}
+                            {log.reflection}
+                          </p>
+                        )}
+                        {log.duplicated_from_log_id && (
+                          <p className="text-[#eab308]">⧉ Duplicate of another submitted session.</p>
+                        )}
+
+                        {feedback.length === 0 ? (
+                          <p className="text-[#555] pt-2 border-t border-[#1a1a1a]">No mentor feedback attached yet.</p>
+                        ) : (
+                          feedback.map((f) => (
+                            <div key={f.id} className="pt-2 mt-2 border-t border-[#1a1a1a]">
+                              <p className="text-[10px] text-[#eab308] uppercase tracking-widest mb-1">
+                                Coaching Note from {f.mentor_name} &middot; {f.category}
+                              </p>
+                              <p><span className="text-[#4CAF50]">What went right:</span> {f.validate_text}</p>
+                              <p><span className="text-[#3b82f6]">Where to grow:</span> {f.align_text}</p>
+                              {f.elevate_text && <p><span className="text-[#ff9800]">Next step:</span> {f.elevate_text}</p>}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
 
