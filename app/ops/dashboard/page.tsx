@@ -7,14 +7,15 @@ type InstructorPerf = {
   instructor_id: string;
   instructor_name: string;
   sessionCount: number;
-  avgScore: number;
+  avgBiomechanicalScore: number | null;
+  feedbackCount: number;
 };
 
 // Same sequential green ramp as the Roster Export utilization heatmap, so a
-// operator reading both pages learns one visual language, not two. Score is
-// 1..10, so magnitude maps the same way: light = low, dark = high.
+// operator reading both pages learns one visual language, not two.
+// Biomechanical Score ranges 2..30 (see programming_log_edit_and_score_migration.sql).
 function scoreFill(score: number): string {
-  const ratio = Math.max(0, Math.min(1, (score - 1) / 9));
+  const ratio = Math.max(0, Math.min(1, (score - 2) / 28));
   const opacity = 0.14 + ratio * 0.66;
   return `rgba(76, 175, 80, ${opacity.toFixed(2)})`;
 }
@@ -65,9 +66,9 @@ export default function OpsDashboardPage() {
           <div className="flex items-center gap-3">
             <a
               href="/ops/roster"
-              className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors"
+              className="border border-[#4CAF50] text-[#4CAF50] px-4 py-2 text-xs uppercase tracking-widest hover:bg-[#4CAF50]/10 transition-colors"
             >
-              ROSTER EXPORT
+              ↳ Roster Export
             </a>
             <button
               onClick={handleLogout}
@@ -84,22 +85,22 @@ export default function OpsDashboardPage() {
           </div>
         )}
 
-        {/* PILLAR 1 — PERFORMANCE TELEMETRY (live) */}
+        {/* PILLAR 1 — PROGRAMMING QUALITY (live) */}
         <section className="border border-[#222] bg-[#111] p-4 mb-6">
           <div className="flex items-center justify-between flex-wrap gap-3 mb-4">
             <div>
               <div className="text-[10px] text-[#a855f7] uppercase tracking-widest">Pillar 1 — Quality Baseline</div>
-              <h2 className="text-sm font-bold mt-1">Instructor Performance Snapshot</h2>
+              <h2 className="text-sm font-bold mt-1">Group Class Programming Snapshot</h2>
             </div>
             <div className="text-[9px] text-[#555] uppercase tracking-widest">
-              Source: session_logs_1on1.performance_score
+              Source: programming_logs + vae_feedback
             </div>
           </div>
 
-          {loading && <p className="text-xs text-[#555]">Loading performance data…</p>}
+          {loading && <p className="text-xs text-[#555]">Loading programming data…</p>}
 
           {!loading && !error && !hasData && (
-            <p className="text-xs text-[#555]">No logged 1-1 sessions yet — nothing to score.</p>
+            <p className="text-xs text-[#555]">No logged programming sessions yet — nothing to score.</p>
           )}
 
           {!loading && hasData && (
@@ -109,7 +110,8 @@ export default function OpsDashboardPage() {
                   <tr className="bg-[#0a0a0a] text-[#888] text-[10px] uppercase tracking-widest">
                     <th className="px-4 py-3 border-b border-[#222]">Instructor</th>
                     <th className="px-4 py-3 border-b border-[#222]">Sessions Logged</th>
-                    <th className="px-4 py-3 border-b border-[#222]">Avg Performance Score</th>
+                    <th className="px-4 py-3 border-b border-[#222]">Avg Biomechanical Score</th>
+                    <th className="px-4 py-3 border-b border-[#222]">Mentor Feedback Received</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -118,15 +120,20 @@ export default function OpsDashboardPage() {
                       <td className="px-4 py-3 text-white">{i.instructor_name}</td>
                       <td className="px-4 py-3 text-[#ccc] tabular-nums">{i.sessionCount}</td>
                       <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="inline-block w-24 h-4 border border-[#333]"
-                            style={{ background: scoreFill(i.avgScore) }}
-                            title={`${i.avgScore.toFixed(1)} / 10`}
-                          />
-                          <span className="tabular-nums text-white">{i.avgScore.toFixed(1)}</span>
-                        </div>
+                        {i.avgBiomechanicalScore != null ? (
+                          <div className="flex items-center gap-2">
+                            <span
+                              className="inline-block w-24 h-4 border border-[#333]"
+                              style={{ background: scoreFill(i.avgBiomechanicalScore) }}
+                              title={`${i.avgBiomechanicalScore.toFixed(1)} / 30`}
+                            />
+                            <span className="tabular-nums text-white">{i.avgBiomechanicalScore.toFixed(1)}</span>
+                          </div>
+                        ) : (
+                          <span className="text-[#555]">—</span>
+                        )}
                       </td>
+                      <td className="px-4 py-3 text-[#ccc] tabular-nums">{i.feedbackCount}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -135,9 +142,11 @@ export default function OpsDashboardPage() {
           )}
 
           <p className="text-[10px] text-[#555] mt-3">
-            Completion rate and retention aren&apos;t tracked yet — no repeat-client data model exists.
-            Percentile ranking and 1.5σ baseline-drift alerts need that history before they mean anything;
-            this snapshot is the raw ingredient, not the finished metric.
+            No 1-1 classes run yet, so 1-1 performance scoring doesn&apos;t apply — group classes are the only
+            real data point right now. This reads Station 8&apos;s session logs, the Biomechanical Score
+            (programming structure), and mentor V.A.E. feedback coverage instead. Completion rate and retention
+            aren&apos;t tracked yet — no repeat-client data model exists — so this snapshot is the raw ingredient,
+            not the finished metric.
           </p>
         </section>
 
