@@ -660,21 +660,29 @@ export default function ProgrammingLogPage() {
             >
               I&apos;m a Mentor / Auditor
             </button>
-            {myRole === 'architect' && (
-              <button
-                onClick={() => setMode('architect')}
-                className={`px-4 py-2 text-xs uppercase tracking-widest border transition-colors ${
-                  mode === 'architect' ? 'border-[#a855f7] text-[#a855f7]' : 'border-[#333] text-[#888] hover:text-white'
-                }`}
-              >
-                Architect View
-              </button>
-            )}
             <a href="/terminal" className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white transition-colors">
               BACK
             </a>
           </div>
         </header>
+
+        {/* Architect entry point — a lock icon, not a labeled button. It only renders for
+            the one role that can use it, and stays faded/out-of-the-way even then, so it
+            never reads as a feature everyone else is missing out on. */}
+        {myRole === 'architect' && (
+          <button
+            type="button"
+            onClick={() => setMode(mode === 'architect' ? 'instructor' : 'architect')}
+            title={mode === 'architect' ? 'Exit Architect View' : 'Architect View'}
+            className={`fixed top-3 right-3 z-50 w-8 h-8 flex items-center justify-center text-sm rounded-sm border transition-all ${
+              mode === 'architect'
+                ? 'opacity-100 border-[#a855f7] text-[#a855f7]'
+                : 'opacity-25 hover:opacity-100 border-transparent hover:border-[#a855f7] text-[#a855f7]'
+            }`}
+          >
+            {mode === 'architect' ? '🔓' : '🔒'}
+          </button>
+        )}
 
         {mode === 'instructor' ? (
           <>
