@@ -10,6 +10,7 @@ const MIN_YEAR = 2020;
 const MAX_YEAR = 2100;
 
 type RosterRow = {
+  instructor_id: string;
   instructor_name: string;
   available_date: string;
   time_slot: 'AM' | 'PM';
@@ -49,7 +50,7 @@ export async function GET(request: Request) {
   while (true) {
     const { data, error } = await supabase
       .from('instructor_availability')
-      .select('instructor_name, available_date, time_slot, status')
+      .select('instructor_id, instructor_name, available_date, time_slot, status')
       .eq('schedule_cycle', cycleKey)
       .in('status', ['available', 'booked'])
       .order('available_date', { ascending: true })
@@ -66,5 +67,18 @@ export async function GET(request: Request) {
     from += PAGE_SIZE;
   }
 
-  return NextResponse.json({ cycleKey, rows });
+  // The denominator for "has everyone submitted?" and "can everyone attend?" —
+  // same active-instructor definition Station 10's admin panel uses.
+  const { data: activeInstructors, error: instructorsError } = await supabase
+    .from('instructors')
+    .select('id, full_name')
+    .eq('status', 'active')
+    .eq('role', 'instructor')
+    .order('full_name', { ascending: true });
+
+  if (instructorsError) {
+    return NextResponse.json({ error: instructorsError.message }, { status: 502 });
+  }
+
+  return NextResponse.json({ cycleKey, rows, activeInstructors: activeInstructors ?? [] });
 }

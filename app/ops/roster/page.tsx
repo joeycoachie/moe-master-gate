@@ -3,8 +3,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import UtilizationHeatmap from './UtilizationHeatmap';
+import MutualAvailability, { ActiveInstructor } from './MutualAvailability';
 
 type RosterRow = {
+  instructor_id: string;
   instructor_name: string;
   available_date: string;
   time_slot: 'AM' | 'PM';
@@ -52,6 +54,9 @@ export default function OpsRosterPage() {
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
   const [rows, setRows] = useState<RosterRow[] | null>(null);
+  const [activeInstructors, setActiveInstructors] = useState<ActiveInstructor[]>([]);
+  const [heatmapOpen, setHeatmapOpen] = useState(false);
+  const [loadedPeriod, setLoadedPeriod] = useState({ month: now.getMonth() + 1, year: now.getFullYear() });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [lastRefreshedAt, setLastRefreshedAt] = useState<Date | null>(null);
@@ -79,6 +84,8 @@ export default function OpsRosterPage() {
         return;
       }
       setRows(body.rows as RosterRow[]);
+      setActiveInstructors((body.activeInstructors as ActiveInstructor[]) ?? []);
+      setLoadedPeriod({ month: m, year: y });
       setLastRefreshedAt(new Date());
     } catch {
       setError('Connection failed while loading roster.');
@@ -196,7 +203,30 @@ export default function OpsRosterPage() {
           </div>
         )}
 
-        <UtilizationHeatmap rows={rows} month={month} year={year} />
+        <MutualAvailability
+          rows={rows}
+          activeInstructors={activeInstructors}
+          month={loadedPeriod.month}
+          year={loadedPeriod.year}
+        />
+
+        <div className="mb-6">
+          <button
+            type="button"
+            onClick={() => setHeatmapOpen((v) => !v)}
+            aria-expanded={heatmapOpen}
+            className={`inline-flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-widest border rounded-full transition-all ${
+              heatmapOpen
+                ? 'border-[#ff7ac6] text-white bg-gradient-to-r from-[#ff7ac6]/20 to-[#7c5cff]/20 shadow-[0_0_18px_rgba(255,122,198,0.25)]'
+                : 'border-[#333] text-[#aaa] hover:text-white hover:border-[#ff7ac6]/70'
+            }`}
+          >
+            <span className="text-sm leading-none">🔥</span>
+            {heatmapOpen ? 'Hide Heatmap' : 'Show Heatmap'}
+          </button>
+        </div>
+
+        {heatmapOpen && <UtilizationHeatmap rows={rows} month={loadedPeriod.month} year={loadedPeriod.year} />}
 
         <p className="text-xs text-[#555] mb-4 uppercase tracking-widest">
           Showing locked-in shifts for {monthLabel} — instructor-submitted and Ops-confirmed alike

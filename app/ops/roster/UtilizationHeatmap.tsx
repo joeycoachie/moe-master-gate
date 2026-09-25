@@ -70,7 +70,7 @@ export default function UtilizationHeatmap({
           <div className="text-[10px] text-[#a855f7] uppercase tracking-widest">Capacity Read-Out</div>
           <h2 className="text-sm font-bold mt-1">Utilization Heatmap — Submitted vs. Confirmed</h2>
         </div>
-        <div className="flex items-center gap-2 text-[9px] text-[#888] uppercase tracking-widest">
+        <div className="flex items-center gap-2 text-[10px] text-[#aaa] uppercase tracking-widest">
           <span>Open</span>
           <span className="inline-block w-4 h-4 border border-[#333]" style={{ background: utilizationFill({ booked: 0, total: 1 }) }} />
           <span className="inline-block w-4 h-4 border border-[#333]" style={{ background: utilizationFill({ booked: 1, total: 2 }) }} />
@@ -85,7 +85,7 @@ export default function UtilizationHeatmap({
         <div className="overflow-x-auto">
           <div className="grid grid-cols-7 gap-1 min-w-[560px]">
             {WEEKDAY_LABELS.map((label) => (
-              <div key={label} className="text-[9px] text-[#555] uppercase tracking-widest text-center pb-1">
+              <div key={label} className="text-[10px] text-[#888] uppercase tracking-widest text-center pb-1">
                 {label}
               </div>
             ))}
@@ -94,7 +94,7 @@ export default function UtilizationHeatmap({
               const stats = dayStats.get(day)!;
               return (
                 <div key={day} className="border border-[#222]">
-                  <div className="text-[9px] text-[#555] px-1 pt-1">{day}</div>
+                  <div className="text-[11px] text-[#999] px-1 pt-1">{day}</div>
                   <div className="flex flex-col gap-0.5 p-1 pt-0.5">
                     {(['AM', 'PM'] as const).map((slot) => {
                       const stat = stats[slot];
@@ -106,7 +106,7 @@ export default function UtilizationHeatmap({
                               ? `${slot} ${month}/${day} — no submissions`
                               : `${slot} ${month}/${day} — ${stat.booked}/${stat.total} confirmed`
                           }
-                          className="flex items-center justify-between px-1 py-0.5 text-[9px] leading-tight"
+                          className="flex items-center justify-between px-1.5 py-1 text-[11px] leading-tight"
                           style={{ background: utilizationFill(stat) }}
                         >
                           <span className="text-white/60">{slot}</span>
