@@ -3,13 +3,37 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+type LatestAudit = {
+  mentor_name: string;
+  category: string;
+  validate_text: string;
+  align_text: string;
+  elevate_text: string;
+  created_at: string;
+};
+
 type InstructorPerf = {
   instructor_id: string;
   instructor_name: string;
   sessionCount: number;
   avgBiomechanicalScore: number | null;
-  feedbackCount: number;
+  classesSinceAudit: number;
+  latestAudit: LatestAudit | null;
 };
+
+// Target: one V.A.E. audit every 5–10 classes an instructor logs.
+const AUDIT_DUE_AT = 5;
+const AUDIT_OVERDUE_AT = 10;
+
+function auditCadence(classesSince: number): { label: string; className: string } {
+  if (classesSince >= AUDIT_OVERDUE_AT) {
+    return { label: `Overdue · ${classesSince} classes`, className: 'border-[#ff4444]/60 text-[#ff6b6b]' };
+  }
+  if (classesSince >= AUDIT_DUE_AT) {
+    return { label: `Audit due · ${classesSince} classes`, className: 'border-[#eab308]/60 text-[#eab308]' };
+  }
+  return { label: `On track · ${classesSince}/${AUDIT_DUE_AT}`, className: 'border-[#4CAF50]/50 text-[#4CAF50]' };
+}
 
 // Same sequential green ramp as the Roster Export utilization heatmap, so a
 // operator reading both pages learns one visual language, not two.
@@ -109,9 +133,10 @@ export default function OpsDashboardPage() {
                 <thead>
                   <tr className="bg-[#0a0a0a] text-[#888] text-[10px] uppercase tracking-widest">
                     <th className="px-4 py-3 border-b border-[#222]">Instructor</th>
-                    <th className="px-4 py-3 border-b border-[#222]">Sessions Logged</th>
+                    <th className="px-4 py-3 border-b border-[#222]">Classes Logged</th>
                     <th className="px-4 py-3 border-b border-[#222]">Avg Biomechanical Score</th>
-                    <th className="px-4 py-3 border-b border-[#222]">Mentor Feedback Received</th>
+                    <th className="px-4 py-3 border-b border-[#222]">Latest Audit Note</th>
+                    <th className="px-4 py-3 border-b border-[#222]">Audit Cadence</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -133,7 +158,40 @@ export default function OpsDashboardPage() {
                           <span className="text-[#555]">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-[#ccc] tabular-nums">{i.feedbackCount}</td>
+                      <td className="px-4 py-3 max-w-xs">
+                        {i.latestAudit ? (
+                          <div
+                            className="space-y-1"
+                            title={`What went right: ${i.latestAudit.validate_text}\nWhere to grow: ${i.latestAudit.align_text}${
+                              i.latestAudit.elevate_text ? `\nNext step: ${i.latestAudit.elevate_text}` : ''
+                            }`}
+                          >
+                            <div className="text-[10px] text-[#888] uppercase tracking-widest">
+                              {i.latestAudit.category} &middot; {i.latestAudit.mentor_name} &middot;{' '}
+                              {new Date(i.latestAudit.created_at).toLocaleDateString()}
+                            </div>
+                            <p className="text-xs text-[#ccc] line-clamp-1">
+                              <span className="text-[#4CAF50]">✓</span> {i.latestAudit.validate_text}
+                            </p>
+                            <p className="text-xs text-[#ccc] line-clamp-1">
+                              <span className="text-[#ff9800]">→</span>{' '}
+                              {i.latestAudit.elevate_text || i.latestAudit.align_text}
+                            </p>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-[#555]">Not audited yet</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        {(() => {
+                          const c = auditCadence(i.classesSinceAudit);
+                          return (
+                            <span className={`text-[10px] uppercase tracking-widest border px-2 py-1 whitespace-nowrap ${c.className}`}>
+                              {c.label}
+                            </span>
+                          );
+                        })()}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -144,7 +202,8 @@ export default function OpsDashboardPage() {
           <p className="text-[10px] text-[#555] mt-3">
             No 1-1 classes run yet, so 1-1 performance scoring doesn&apos;t apply — group classes are the only
             real data point right now. This reads Station 8&apos;s session logs, the Biomechanical Score
-            (programming structure), and mentor V.A.E. feedback coverage instead. Completion rate and retention
+            (programming structure), and the latest mentor V.A.E. audit. Audit target: one audit every
+            {' '}{AUDIT_DUE_AT}–{AUDIT_OVERDUE_AT} classes logged (hover a note for the full V.A.E.). Completion rate and retention
             aren&apos;t tracked yet — no repeat-client data model exists — so this snapshot is the raw ingredient,
             not the finished metric.
           </p>
