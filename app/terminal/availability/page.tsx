@@ -56,7 +56,13 @@ export default function AvailabilityPage() {
   const [allRows, setAllRows] = useState<AvailabilityRow[]>([]);
   const [activeInstructors, setActiveInstructors] = useState<ActiveInstructor[]>([]);
   const [statusMsg, setStatusMsg] = useState('');
+  const [statusTone, setStatusTone] = useState<'ok' | 'error'>('error');
   const [selected, setSelected] = useState<AvailabilityRow | null>(null);
+
+  const setStatus = (msg: string, tone: 'ok' | 'error') => {
+    setStatusMsg(msg);
+    setStatusTone(tone);
+  };
 
   // Toggling a cell only stages an intent locally — nothing reaches Supabase
   // until "Confirm & Lock In" is pressed, so idle clicking never writes data.
@@ -153,6 +159,8 @@ export default function AvailabilityPage() {
     setStatusMsg('');
 
     const status: SlotStatus = isPastDeadline ? 'pending_ops_approval' : 'available';
+    let added = 0;
+    let removed = 0;
 
     for (const a of pendingActions) {
       if (a.action === 'add') {
@@ -168,36 +176,61 @@ export default function AvailabilityPage() {
         ]);
         if (error) {
           setConfirming(false);
-          return setStatusMsg('WRITE FAILED: ' + error.message);
+          loadRows();
+          return setStatus('WRITE FAILED: ' + error.message, 'error');
         }
+        added += 1;
       } else {
         const existing = rowFor(myRows, a.day, a.slot);
         if (existing) {
-          const { error } = await supabase.from('instructor_availability').delete().eq('id', existing.id);
-          if (error) {
+          // RLS turns a disallowed delete into a silent 0-row no-op rather than an
+          // error, so success is only real if Supabase hands back the deleted row.
+          const { data, error } = await supabase
+            .from('instructor_availability')
+            .delete()
+            .eq('id', existing.id)
+            .select('id');
+          if (error || !data || data.length === 0) {
             setConfirming(false);
-            return setStatusMsg('WRITE FAILED: ' + error.message);
+            loadRows();
+            return setStatus(
+              error
+                ? 'REMOVE FAILED: ' + error.message
+                : `REMOVE BLOCKED: ${a.slot} on day ${a.day} is still in the database — Supabase refused the delete.`,
+              'error'
+            );
           }
+          removed += 1;
         }
       }
     }
 
     setConfirming(false);
-    setStatusMsg(`${pendingActions.length} date(s) locked in.`);
+    const parts = [];
+    if (added) parts.push(`${added} added`);
+    if (removed) parts.push(`${removed} removed`);
+    setStatus(`Locked in: ${parts.join(', ') || 'no changes'}.`, 'ok');
     setPending({});
     loadRows();
   };
 
   const applyAdminAction = async (row: AvailabilityRow, next: SlotStatus | 'delete') => {
     if (next === 'delete') {
-      const { error } = await supabase.from('instructor_availability').delete().eq('id', row.id);
-      if (error) return setStatusMsg('WRITE FAILED: ' + error.message);
+      const { data, error } = await supabase
+        .from('instructor_availability')
+        .delete()
+        .eq('id', row.id)
+        .select('id');
+      if (error) return setStatus('WRITE FAILED: ' + error.message, 'error');
+      if (!data || data.length === 0) {
+        return setStatus('DELETE BLOCKED: Supabase refused the delete — the row is still there.', 'error');
+      }
       setAllRows((prev) => prev.filter((r) => r.id !== row.id));
       setSelected(null);
       return;
     }
     const { error } = await supabase.from('instructor_availability').update({ status: next }).eq('id', row.id);
-    if (error) return setStatusMsg('WRITE FAILED: ' + error.message);
+    if (error) return setStatus('WRITE FAILED: ' + error.message, 'error');
     setAllRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, status: next } : r)));
     setSelected((prev) => (prev && prev.id === row.id ? { ...prev, status: next } : prev));
   };
@@ -231,7 +264,9 @@ export default function AvailabilityPage() {
           </a>
         </header>
 
-        {statusMsg && <p className="text-xs text-[#ff4444] mb-4">{statusMsg}</p>}
+        {statusMsg && (
+          <p className={`text-xs mb-4 ${statusTone === 'ok' ? 'text-[#4CAF50]' : 'text-[#ff4444]'}`}>{statusMsg}</p>
+        )}
 
         {/* Instructor submission grid */}
         <section className="mb-12">
