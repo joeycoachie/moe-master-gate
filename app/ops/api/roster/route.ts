@@ -1,7 +1,12 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { supabase } from '@/lib/supabase';
-import { OPS_COOKIE_NAME, isValidOpsSessionToken } from '@/lib/opsSession';
+import {
+  OPS_COOKIE_NAME,
+  OPS_ARCHITECT_COOKIE_NAME,
+  isValidOpsSessionToken,
+  isValidOpsArchitectToken,
+} from '@/lib/opsSession';
 
 // Supabase caps a single response at 1000 rows by default; page through in case
 // one month/status combination ever exceeds that for a large roster.
@@ -80,5 +85,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: instructorsError.message }, { status: 502 });
   }
 
-  return NextResponse.json({ cycleKey, rows, activeInstructors: activeInstructors ?? [] });
+  // Lets the page know whether to render Architect-only tools (the biweekly
+  // training planner). Ops-only sessions get false.
+  const architect = isValidOpsArchitectToken(cookieStore.get(OPS_ARCHITECT_COOKIE_NAME)?.value);
+
+  return NextResponse.json({ cycleKey, rows, activeInstructors: activeInstructors ?? [], architect });
 }

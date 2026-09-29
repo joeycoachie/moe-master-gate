@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { OPS_COOKIE_NAME, isValidOpsSessionToken } from '@/lib/opsSession';
 
-const PUBLIC_OPS_PATHS = new Set(['/ops/login', '/ops/api/login']);
+// /ops/architect gates itself with the Architect code (which also grants an Ops
+// session), so it must stay reachable without Danny's Ops passcode.
+const PUBLIC_OPS_PATHS = new Set(['/ops/login', '/ops/api/login', '/ops/architect', '/ops/api/sync']);
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

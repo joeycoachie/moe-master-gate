@@ -39,3 +39,27 @@ export function timingSafeStringsEqual(a: string, b: string): boolean {
   const bHash = createHmac('sha256', 'ops-compare').update(b).digest();
   return timingSafeEqual(aHash, bHash);
 }
+
+// Architect unlock (SYNC.OP) — a second, independent cookie layered on top of the
+// Ops session so the Architect's planning tools stay hidden from Ops-only users.
+export const OPS_ARCHITECT_COOKIE_NAME = 'moe_ops_architect';
+const ARCHITECT_SCOPE = 'architect';
+
+export function createOpsArchitectToken(): { token: string; maxAge: number } {
+  const expiresAt = Date.now() + SESSION_TTL_MS;
+  const payload = `${ARCHITECT_SCOPE}:${expiresAt}`;
+  return { token: `${payload}.${sign(payload)}`, maxAge: Math.floor(SESSION_TTL_MS / 1000) };
+}
+
+export function isValidOpsArchitectToken(token: string | undefined | null): boolean {
+  if (!token) return false;
+  const [payload, signature] = token.split('.');
+  if (!payload || !signature || !payload.startsWith(`${ARCHITECT_SCOPE}:`)) return false;
+
+  const expected = Buffer.from(sign(payload), 'hex');
+  const actual = Buffer.from(signature, 'hex');
+  if (expected.length !== actual.length || !timingSafeEqual(expected, actual)) return false;
+
+  const expiresAt = Number(payload.slice(ARCHITECT_SCOPE.length + 1));
+  return Number.isFinite(expiresAt) && Date.now() <= expiresAt;
+}

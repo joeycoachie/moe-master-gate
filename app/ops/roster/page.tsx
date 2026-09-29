@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import UtilizationHeatmap from './UtilizationHeatmap';
-import MutualAvailability, { ActiveInstructor } from './MutualAvailability';
 
 type RosterRow = {
   instructor_id: string;
@@ -54,7 +53,6 @@ export default function OpsRosterPage() {
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [year, setYear] = useState(now.getFullYear());
   const [rows, setRows] = useState<RosterRow[] | null>(null);
-  const [activeInstructors, setActiveInstructors] = useState<ActiveInstructor[]>([]);
   const [heatmapOpen, setHeatmapOpen] = useState(false);
   const [loadedPeriod, setLoadedPeriod] = useState({ month: now.getMonth() + 1, year: now.getFullYear() });
   const [loading, setLoading] = useState(false);
@@ -84,7 +82,6 @@ export default function OpsRosterPage() {
         return;
       }
       setRows(body.rows as RosterRow[]);
-      setActiveInstructors((body.activeInstructors as ActiveInstructor[]) ?? []);
       setLoadedPeriod({ month: m, year: y });
       setLastRefreshedAt(new Date());
     } catch {
@@ -202,13 +199,6 @@ export default function OpsRosterPage() {
             {error}
           </div>
         )}
-
-        <MutualAvailability
-          rows={rows}
-          activeInstructors={activeInstructors}
-          month={loadedPeriod.month}
-          year={loadedPeriod.year}
-        />
 
         <div className="mb-6">
           <button
