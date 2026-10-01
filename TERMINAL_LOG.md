@@ -30,13 +30,17 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 | Where | What | Access |
 |---|---|---|
 | `/ops/architect` — "Training Command" | Biweekly Training Planner: best weekday AM/PM slots two weeks apart, fewest sessions covering everyone, who hasn't submitted, half-filled warnings. Reference only; the founder sets the final time | Go to the URL and enter the SYNC.OP code (also grants Ops access). Override via `OPS_ARCHITECT_PASSCODE` |
+| `/ops/armory` — "The Armory" | Biomechanical Arcs: every SYS-D022 V2.0 battle card, grouped by arc (pilot: KIN-P016_W1 Upper Crossed). All protocols open once unlocked. Protocol HTML lives in `armory/protocols/` (not `public/`), served only through the gate. Doctrine: `armory/doctrine/SYS-D022_V2.md` | SYNC.OP code. Without it — including with Danny's Ops session alone — you're sent to `/ops/architect` |
 | Station 8 → 🔒 corner icon | Architect View: every instructor's full programming logs + V.A.E. feedback, uncapped, read-only, searchable | Instructor login with `instructors.role = 'architect'` |
 
-`/ops/architect` links to both PROGRAMMING (Station 8) and ROSTER.
+`/ops/architect` links to ARMORY, PROGRAMMING (Station 8) and ROSTER.
 
 ---
 
 ## 2. Cadence — every change, by date
+
+### Oct 1
+- **The Armory** — Architect-only home for Biomechanical Arcs at `/ops/armory`. Pilot protocol KIN-P016_W1 (Upper Crossed) imported from its own repo. SYS-D022 V2.0 doctrine stored in `armory/doctrine/`. To add a protocol: drop its HTML in `armory/protocols/` and register it in `lib/armory.ts`.
 
 ### Sep 29
 - **Planner moved to its own Architect page** (`15b1678`). Biweekly planner removed from Danny's Roster Export and moved to `/ops/architect` behind the SYNC.OP code. It uses its own signed cookie, and logout clears it.

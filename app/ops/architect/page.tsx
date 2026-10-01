@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import MutualAvailability, { ActiveInstructor } from '../roster/MutualAvailability';
 import { PlannerRow } from '../roster/trainingPlanner';
@@ -82,6 +83,12 @@ export default function OpsArchitectPage() {
         return;
       }
       setCode('');
+      // Sent here from the Armory (or another Architect-only page) — go back there.
+      const next = new URLSearchParams(window.location.search).get('next');
+      if (next === '/ops/armory' || next?.startsWith('/ops/armory/')) {
+        window.location.href = next;
+        return;
+      }
       await loadPlan(month, year);
     } catch {
       setCodeError('CONNECTION FAILED.');
@@ -135,6 +142,13 @@ export default function OpsArchitectPage() {
                 <h1 className="text-3xl font-bold mt-1">Training Command</h1>
               </div>
               <div className="flex items-center gap-3">
+                <Link
+                  href="/ops/armory"
+                  title="Biomechanical Arcs — every SYS-D022 battle card"
+                  className="border border-[#00e5ff]/60 px-4 py-2 text-xs text-[#00e5ff] hover:text-white hover:border-[#00e5ff] transition-colors"
+                >
+                  ARMORY
+                </Link>
                 <a
                   href="/terminal/programming-log"
                   title="Station 8 — open the 🔒 Architect View there for every instructor's programming"
