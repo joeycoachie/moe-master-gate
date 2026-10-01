@@ -708,6 +708,12 @@ export default function ProgrammingLogPage() {
             <form
               onSubmit={handleSubmit}
               onKeyDown={(e) => {
+                // Ctrl+Enter (⌘+Enter on Mac) is the deliberate save shortcut, from any field.
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                  e.preventDefault();
+                  if (!submitting) e.currentTarget.requestSubmit();
+                  return;
+                }
                 // A stray Enter while typing a movement name used to submit (and lock) the
                 // whole log. Only the actual submit button should ever trigger this now.
                 if (e.key === 'Enter' && (e.target as HTMLElement).tagName === 'INPUT') {
@@ -1046,6 +1052,7 @@ export default function ProgrammingLogPage() {
                   ? 'Save Changes'
                   : 'Lock In My Programming'}
               </button>
+              <p className="text-[10px] text-center text-[#555] tracking-widest">Shortcut: Ctrl + Enter (⌘ + Enter on Mac)</p>
               {statusMsg && <div className="text-xs text-center text-[#ff9800] tracking-widest">{statusMsg}</div>}
             </form>
             )}

@@ -40,6 +40,10 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 
 ## 2. Cadence — every change, by date
 
+### Oct 2
+- **Station 8: Ctrl+Enter / ⌘+Enter saves the programming log** from any field. Plain Enter still never submits. A hint sits under the Lock In button.
+- **Station 04 roster** (separate repo `KIN-OPTIMUMFIT_INTRUCTOR_TERMINAL`). Shiuan removed. Lanice added as cleared instructor on all four tiers.
+
 ### Oct 1
 - **SYS.OP unlock on the Terminal hub.** `/terminal` now has a faded **[SYS.OP]** button in its header. Entering the Architect code there turns the locked Phase 2 week cards and the KIN-P016 card into live links, and adds ARMORY + TRAINING COMMAND buttons. Instructors without the code still see everything locked. Cards with nothing built behind them stay locked.
 - **The Armory** — Architect-only home for Biomechanical Arcs at `/ops/armory`. Pilot protocol KIN-P016_W1 (Upper Crossed) imported from its own repo. SYS-D022 V2.0 doctrine stored in `armory/doctrine/`. To add a protocol: drop its HTML in `armory/protocols/` and register it in `lib/armory.ts`.
