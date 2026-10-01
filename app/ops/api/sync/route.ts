@@ -5,12 +5,20 @@ import {
   OPS_ARCHITECT_COOKIE_NAME,
   createOpsArchitectToken,
   createOpsSessionToken,
+  isValidOpsArchitectToken,
   timingSafeStringsEqual,
 } from '@/lib/opsSession';
 
 // Server-side only, so the passcode never ships in the client bundle.
 // OPS_ARCHITECT_PASSCODE overrides the default without a code change.
 const DEFAULT_ARCHITECT_PASSCODE = 'srank';
+
+// Lets pages outside /ops (e.g. the /terminal hub) ask whether SYS.OP is keyed in.
+export async function GET() {
+  const cookieStore = await cookies();
+  const architect = isValidOpsArchitectToken(cookieStore.get(OPS_ARCHITECT_COOKIE_NAME)?.value);
+  return NextResponse.json({ architect });
+}
 
 export async function POST(request: Request) {
   let body: { passcode?: unknown };

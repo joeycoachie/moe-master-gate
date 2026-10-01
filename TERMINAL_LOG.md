@@ -30,6 +30,7 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 | Where | What | Access |
 |---|---|---|
 | `/ops/architect` — "Training Command" | Biweekly Training Planner: best weekday AM/PM slots two weeks apart, fewest sessions covering everyone, who hasn't submitted, half-filled warnings. Reference only; the founder sets the final time | Go to the URL and enter the SYNC.OP code (also grants Ops access). Override via `OPS_ARCHITECT_PASSCODE` |
+| `/terminal` → **[SYS.OP]** button | Same Architect code, from the instructor hub you already log into. Unlocks the 🔒 arc cards and shows ARMORY / TRAINING COMMAND | SYNC.OP code |
 | `/ops/armory` — "The Armory" | Biomechanical Arcs: every SYS-D022 V2.0 battle card, grouped by arc (pilot: KIN-P016_W1 Upper Crossed). All protocols open once unlocked. Protocol HTML lives in `armory/protocols/` (not `public/`), served only through the gate. Doctrine: `armory/doctrine/SYS-D022_V2.md` | SYNC.OP code. Without it — including with Danny's Ops session alone — you're sent to `/ops/architect` |
 | Station 8 → 🔒 corner icon | Architect View: every instructor's full programming logs + V.A.E. feedback, uncapped, read-only, searchable | Instructor login with `instructors.role = 'architect'` |
 
@@ -40,6 +41,7 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 ## 2. Cadence — every change, by date
 
 ### Oct 1
+- **SYS.OP unlock on the Terminal hub.** `/terminal` now has a faded **[SYS.OP]** button in its header. Entering the Architect code there turns the locked Phase 2 week cards and the KIN-P016 card into live links, and adds ARMORY + TRAINING COMMAND buttons. Instructors without the code still see everything locked. Cards with nothing built behind them stay locked.
 - **The Armory** — Architect-only home for Biomechanical Arcs at `/ops/armory`. Pilot protocol KIN-P016_W1 (Upper Crossed) imported from its own repo. SYS-D022 V2.0 doctrine stored in `armory/doctrine/`. To add a protocol: drop its HTML in `armory/protocols/` and register it in `lib/armory.ts`.
 
 ### Sep 29
