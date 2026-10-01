@@ -79,7 +79,8 @@ export default function OpsArchitectPage() {
         body: JSON.stringify({ passcode: code }),
       });
       if (!res.ok) {
-        setCodeError('ACCESS DENIED.');
+        // 401 is a wrong code; anything else is the server failing, not the Architect.
+        setCodeError(res.status === 401 ? 'ACCESS DENIED.' : `SERVER ERROR (${res.status}) — CODE NOT CHECKED.`);
         return;
       }
       setCode('');
