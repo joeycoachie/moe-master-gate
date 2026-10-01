@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement OS | KIN-P016 W2 (Smart Eccentric Matrix)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff; 
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono, .clock-display { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
+        
+        .phase-content { display: none; }
+        .phase-content.active { display: block; animation: fadeIn 0.25s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ra-module { display: none; }
+        body.ra-active .ra-module { 
+            display: block; 
+            animation: fadeIn 0.25s ease-in;
+        }
+        .ra-toggle-btn.active {
+            background-color: #1e3a8a; 
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            background-color: #050505;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.25em;
+            height: 1.25em;
+            border: 1px solid #333333;
+            display: grid;
+            place-content: center;
+            border-radius: 0;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #00e5ff;
+            background-color: #00e5ff;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        input[type="checkbox"]:checked::before { transform: scale(1); }
+        input[type="checkbox"]:checked { border-color: #00e5ff; }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-linecap='square'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.65rem center;
+            background-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- SIDEBAR: Metadata, Clock, Smart Hardware Matrix & Phase Nav -->
+    <aside class="w-full md:w-80 border-b md:border-b-0 md:border-r border-[#333333] bg-[#050505] p-6 flex flex-col overflow-y-auto shrink-0 z-20">
+        <div class="mb-6 border-b border-[#222222] pb-5">
+            <div class="flex items-center justify-between mb-2">
+                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2</p>
+                <span class="text-[10px] font-mono px-2 py-0.5 border border-[#333333] bg-[#111111] text-gray-300">60-75 MIN</span>
+            </div>
+            <h1 class="text-2xl text-white">KIN-P016_W2</h1>
+            <p class="text-xs text-gray-400 mt-1">Upper Crossed: 4s Eccentric Load & Tension</p>
+        </div>
+
+        <!-- SESSION CLOCK MODULE -->
+        <div class="mb-6 border border-[#333333] bg-[#0a0a0a] p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Flow Clock</h3>
+                <span id="clockPhaseHint" class="text-[10px] font-mono text-[#00e5ff]">PHASE 1 TARGET: 0-15M</span>
+            </div>
+            <div id="timerDisplay" class="clock-display text-3xl text-white mb-4 text-center tracking-widest">00:00</div>
+            <div class="flex space-x-2">
+                <button id="startBtn" onclick="toggleTimer()" class="flex-1 border border-[#333333] bg-[#111111] hover:bg-[#222222] transition-colors py-2 text-xs font-mono font-semibold tracking-wider">START</button>
+                <button onclick="resetTimer()" class="flex-1 border border-[#333333] bg-[#050505] hover:bg-[#1a1a1a] transition-colors py-2 text-xs font-mono font-semibold tracking-wider text-gray-500">RESET</button>
+            </div>
+        </div>
+
+        <!-- SMART CLASS LOGISTICS & INVENTORY ENGINE -->
+        <div class="mb-6 border border-[#333333] p-4 bg-[#0a0a0a] space-y-4">
+            <div class="flex justify-between items-center border-b border-[#222222] pb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Class & Hardware Matrix</h3>
+                <button onclick="autoOptimizeEquipment()" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors" title="Automatically resolve equipment conflicts across stations">
+                    AUTO-FIT
+                </button>
+            </div>
+
+            <!-- PAX & FLOW FORMAT -->
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Pax</label>
+                    <select id="paxCount" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="1">1 Pax (Solo)</option>
+                        <option value="2">2 Pax (Duet)</option>
+                        <option value="3" selected>3 Pax (Trio)</option>
+                        <option value="4">4 Pax (Quad)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Structure</label>
+                    <select id="flowFormat" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="circuit" selected>Station Rotation</option>
+                        <option value="sync">Synced (All M1→M3)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- HARDWARE INVENTORY COUNTERS -->
+            <div>
+                <span class="block text-[9px] font-mono uppercase text-gray-500 mb-2">Studio Apparatus Available</span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">REFORMER</span>
+                        <input id="inv-reformer" type="number" min="0" max="8" value="2" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CADILLAC</span>
+                        <input id="inv-cadillac" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CHAIR</span>
+                        <input id="inv-chair" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">BARREL</span>
+                        <input id="inv-barrel" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                </div>
+                <span class="block text-[9px] font-mono text-gray-500 mt-1.5">Mat Props Active: Foam Rollers, Yoga Blocks, Bands, Sliders, DBs</span>
+            </div>
+
+            <!-- GLOBAL PRESET & RA OVERRIDE -->
+            <div class="pt-1 space-y-2">
+                <div class="flex gap-2">
+                    <button onclick="setGlobalPreset('apparatus')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">
+                        STUDIO PRESET
+                    </button>
+                    <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">
+                        MAT / PROPS ONLY
+                    </button>
+                </div>
+                <button id="raToggleBtn" onclick="toggleRA()" class="ra-toggle-btn w-full border border-[#333333] bg-[#111111] transition-colors py-2.5 text-xs font-mono font-semibold tracking-wider text-gray-400">
+                    [ ] RA OVERRIDE (MAE)
+                </button>
+            </div>
+        </div>
+
+        <!-- PHASE NAVIGATION -->
+        <nav class="flex-1 space-y-2.5" id="nav-menu">
+            <button onclick="switchPhase('primer')" id="nav-primer" class="nav-btn w-full text-left p-3.5 border border-[#00e5ff] bg-[#111111] transition-colors">
+                <span class="text-[10px] font-mono text-[#00e5ff] block mb-0.5">0:00 - 15:00 // PHASE 1</span>
+                <span class="font-semibold text-sm tracking-wide block">1. Primer (Eccentric 5 Principles)</span>
+                <span class="text-[11px] text-gray-400">4s Scapular Brakes & Roller Fulcrum</span>
+            </button>
+            <button onclick="switchPhase('anchor')" id="nav-anchor" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">15:00 - 35:00 // PHASE 2</span>
+                <span class="font-semibold text-sm tracking-wide block">2. Anchor (Stable Eccentric Pull)</span>
+                <span class="text-[11px] text-gray-400">T-Pulls, Split-Stance Fly & Step-Down</span>
+            </button>
+            <button onclick="switchPhase('crucible')" id="nav-crucible" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">35:00 - 55:00 // PHASE 3</span>
+                <span class="font-semibold text-sm tracking-wide block">3. Crucible (Eccentric Series)</span>
+                <span class="text-[11px] text-gray-400">Elephant → Down → 5s Long Stretch</span>
+            </button>
+            <button onclick="switchPhase('unwind')" id="nav-unwind" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">55:00 - 65:00 // PHASE 4</span>
+                <span class="font-semibold text-sm tracking-wide block">4. Unwind (DFL & Pec Release)</span>
+                <span class="text-[11px] text-gray-400">Apex Drape, Couch Stretch & Open Book</span>
+            </button>
+            <button onclick="switchPhase('audit')" id="nav-audit" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">POST-SESSION // PHASE 5</span>
+                <span class="font-semibold text-sm tracking-wide block">5. Gate Audit & Somatic Loop</span>
+                <span class="text-[11px] text-gray-400">4s Tempo Check & W3 Routing</span>
+            </button>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 bg-[#050505] p-6 md:p-12 overflow-y-auto" id="content-area">
+        
+        <!-- PERMANENT SESSION INTENTION & BIOMECHANICAL FOCUS BANNER -->
+        <div class="mb-8 border border-[#333333] bg-[#0a0a0a] p-6 border-l-4 border-l-[#00e5ff]">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold block mb-1">Commander's Intent // Week 2 Biomechanical Focus</span>
+                    <h2 class="text-xl md:text-2xl text-white">4s Eccentric Scapular Braking → Stable-Base Anterior/Posterior Slings → 5s Long Stretch</h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="border border-[#333333] bg-[#111111] px-3 py-2 text-right">
+                        <span class="text-[9px] font-mono text-gray-500 uppercase block">Primary Target</span>
+                        <span class="text-xs font-mono text-white">Pec Minor / Lower Traps / Serratus</span>
+                    </div>
+                    <div class="border border-[#333333] bg-[#111111] px-3 py-2 text-right">
+                        <span class="text-[9px] font-mono text-gray-500 uppercase block">Tempo Mandate</span>
+                        <span class="text-xs font-mono text-[#00e5ff]">1s Concentric : 4s Eccentric</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-300 mt-4 leading-relaxed">
+                <strong class="text-white font-mono uppercase">The Week 2 Architectural Rule:</strong> Static stretching alone cannot permanently resolve rounded shoulders; we must <strong class="text-[#00e5ff]">eccentrically load</strong> both the tight anterior chest fascia and the posterior scapular stabilizers. Phase 1 calibrates the 4-second eccentric braking tempo using the STOTT 5 Principles (and Foam Roller/Yoga Block fulcrums on Mat). Phase 2 separates sagittal glute-anchored thoracic extension from stable-base split-stance eccentric pulls/flies (eradicating moving-carriage split conflicts). Phase 3 executes the unified ascending closed-chain series under a strict 4-to-5 second eccentric tempo.
+            </p>
+        </div>
+
+        <!-- LIVE LOGISTICS & PAX ROTATION STATUS BAR -->
+        <div id="logisticsBanner" class="mb-8 border border-[#333333] bg-[#111111] p-5">
+            <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- DYNAMIC PHASE CONTAINER (Phases 1-4) -->
+        <div id="dynamic-phase-view" class="phase-content active">
+            <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- PHASE 5: POST-CLASS GATE AUDIT & SOMATIC FEEDBACK LOOP -->
+        <div id="audit-phase-view" class="phase-content">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] block mb-1">Phase 5 // Closing The Loop</span>
+                    <h2 class="text-4xl text-white">Post-Class Gate Audit & Body Feedback</h2>
+                    <p class="text-gray-400 uppercase tracking-widest text-xs mt-2">Verify 4-Second Eccentric Control Before Clearing Client for Week 3 (Rotational Endurance)</p>
+                </div>
+                <button onclick="copyAuditReport()" id="copyAuditBtn" class="border border-[#00e5ff] bg-[#0a192f] hover:bg-[#00e5ff] hover:text-black text-[#00e5ff] transition-colors px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider">
+                    COPY TELEMETRY REPORT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- GATE CHECKLIST -->
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">1. Technical Gate Verification</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 01: 4s Eccentric Scapular Braking (Phase 1)</span>
+                                <select id="gate1-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1 pr-7 appearance-none focus:border-[#00e5ff] outline-none">
+                                    <option value="pass">PASSED (Smooth 4s Return)</option>
+                                    <option value="snap">FAIL: Springs/Band Snapped Back</option>
+                                    <option value="ribflare">FAIL: Anterior Rib Flare on Overhead/Fly</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">Did the client maintain continuous 4-second eccentric deceleration without letting the springs/band jerk their humeral heads forward or popping the lower ribs off the roller/mat?</p>
+                        </div>
+
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 02: Glute Anchor & Stable-Base Pull (Phase 2)</span>
+                                <select id="gate2-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1 pr-7 appearance-none focus:border-[#00e5ff] outline-none">
+                                    <option value="pass">PASSED (Glutes Locked / Zero Twist)</option>
+                                    <option value="lumbar">FAIL: Lumbar Pinch in Prone Extension</option>
+                                    <option value="pelvis">FAIL: Pelvis Rotated During Eccentric Fly/Row</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">Did the client engage glutes and press the pubic bone down *before* lifting into Prone Extension (M1), and keep the split-stance pelvis dead square during the eccentric release (M2)?</p>
+                        </div>
+
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 03: Eccentric Closed-Chain Series Ceiling (Phase 3)</span>
+                                <select id="gate3-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1 pr-7 appearance-none focus:border-[#00e5ff] outline-none">
+                                    <option value="level3">CLEARED L3: 5s Long Stretch / Body Saw</option>
+                                    <option value="level2">CAPPED AT L2: Eccentric Down Stretch / Kneeling Pushup</option>
+                                    <option value="level1">CAPPED AT L1: Eccentric Elephant / Pike Scoop</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">At which lever length did the serratus anterior begin to wing or the lumbar spine begin to sag under the 4-to-5 second eccentric tempo?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOMATIC FEEDBACK & CLIENT LOG -->
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">2. Somatic Body Interrogation (Ask the Client)</h3>
+                    <p class="text-xs text-gray-400 italic">"Scan your collarbones, mid-back, and lower spine right now. What sensations are most prominent after the 4-second eccentric work?"</p>
+
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-[#00e5ff] transition-colors">
+                            <input type="checkbox" id="som-target" checked onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-[#00e5ff] uppercase block">Target Hit: Wide Collarbones, Deep Mid-Back & Serratus Shake</span>
+                                <span class="text-[11px] text-gray-400">Confirms successful eccentric remodeling of pectoralis minor and lower trap/serratus recruitment.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500 transition-colors">
+                            <input type="checkbox" id="som-anterior-shoulder" onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">Compensation Alert: Anterior Deltoid / Bicep Tendon Pinch</span>
+                                <span class="text-[11px] text-gray-400">Indicates humeral head glided anteriorly during the fly or pushup due to loss of scapular retraction/depression.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500 transition-colors">
+                            <input type="checkbox" id="som-lumbar" onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">Compensation Alert: Lower Back (L4-L5) Compression</span>
+                                <span class="text-[11px] text-gray-400">Indicates failure to squeeze glutes/pubic bone prior to Swan/Superman or pelvic sag during Slider Body Saw.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-blue-500 transition-colors">
+                            <input type="checkbox" id="som-wrist" onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-blue-400 uppercase block">Joint Alert: Wrist / Finger Grip Fatigue (Mae RA Profile)</span>
+                                <span class="text-[11px] text-gray-400">Mandates forearm straps and unweighted active ROM for Week 3 Rotational Endurance.</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-gray-500 mb-2">Instructor Field Notes (Trio / Individual Observations)</label>
+                        <textarea id="auditNotes" oninput="evaluateAuditLoop()" rows="2" placeholder="e.g., Daughter 1 held 5s eccentric Long Stretch cleanly; used Foam Roller + Yoga Block on Station 2..." class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono focus:border-[#00e5ff] outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUTOMATED ROUTING VERDICT -->
+            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]">
+                <!-- Dynamically populated by evaluateAuditLoop() -->
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const EQUIP_LABELS = {
+            reformer: 'Reformer',
+            cadillac: 'Cadillac',
+            chair: 'Wunda Chair',
+            barrel: 'Ladder Barrel',
+            mat: 'Mat / Props (Roller, Block, Band, Sliders)'
+        };
+
+        // Selected equipment state per phase and station (Defaulting to balanced Trio studio setup)
+        const stationSelections = {
+            primer:   { M1: 'reformer', M2: 'cadillac', M3: 'mat' },
+            anchor:   { M1: 'reformer', M2: 'cadillac', M3: 'chair' },
+            crucible: { M1: 'reformer', M2: 'chair',    M3: 'mat' },
+            unwind:   { M1: 'barrel',   M2: 'reformer', M3: 'cadillac' }
+        };
+
+        // Complete Week 2 Biomechanical Matrix with per-station Apparatus & Mat/Prop alternatives
+        const PROTOCOL_DB = {
+            primer: {
+                id: 'primer',
+                title: '1. The Primer (Eccentric Calibration & 5 Principles)',
+                subtitle: '4-Second Eccentric Scapular Braking, Roller/Barrel Fulcrum & Closed-Chain Prep (15 Mins)',
+                clockHint: 'PHASE 1 TARGET: 0-15M',
+                wolfCue: 'To permanently reverse rounded shoulders, we cannot just static-stretch the chest; we must eccentrically load the anterior fascia while teaching the lower traps and rhomboids to act as 4-second hydraulic brakes. M1 calibrates 4-second eccentric scapular control without rib flare. M2 mobilizes the rigid thoracic spine over an apex/roller fulcrum while locking the pelvis via adductor/yoga-block compression. M3 primes the serratus anterior under eccentric closed-chain tension for Phase 3.',
+                shepherdCue: '"Fight the return. The spring or band wants to snap your arms forward—make it move through thick mud for a slow 4-second count while your bottom ribs stay heavy."',
+                safetyGate: 'Ribcage popping off the Reformer carriage/Foam Roller to fake overhead shoulder range, or letting the springs/band snap the shoulders forward into internal rotation.',
+                stations: {
+                    M1: {
+                        role: 'Principle 4: 4-Second Eccentric Scapular Braking & Chest Opening',
+                        options: {
+                            reformer: {
+                                name: 'Supine Chest Expansion w/ 4s Eccentric Return',
+                                setup: 'Reformer // 1 Red, 1 Blue Spring // Headrest Up',
+                                reps: '10 Reps [1s Press : 4s Eccentric]',
+                                exec: 'Supine in imprinted/neutral pelvis, legs in tabletop (squeeze a Yoga Block between knees to fire the Deep Front Line). Hold straps in hands. Depress scapulae first and press straight down to hips (1s); actively resist the spring pull back to 90° for a full 4-second eccentric count without letting the lower ribs pop.',
+                                ra: 'Thread loops onto forearms/wrists and drop to 1 Red spring so fingers remain completely open and relaxed.'
+                            },
+                            cadillac: {
+                                name: 'Seated Eccentric Hug-a-Tree (Arm Springs)',
+                                setup: 'Cadillac // 2 Light Arm Springs // Seated Facing Out',
+                                reps: '10 Reps [1s Close : 4s Eccentric Open]',
+                                exec: 'Sit tall on Cadillac edge (or Yoga Block) facing away from tower, holding arm springs. Exhale to bring arms into a wide hug in front of sternum (1s); inhale and eccentrically resist the springs pulling the arms wide for 4 full seconds, feeling the pecs lengthen under load while ribs stay knitted.',
+                                ra: 'Use padded wrist/forearm cuffs attached to the arm springs.'
+                            },
+                            chair: {
+                                name: 'Seated Pedal Scapular Depression w/ 4s Eccentric Rise',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring',
+                                reps: '10 Reps [1s Depress : 4s Eccentric]',
+                                exec: 'Sit facing chair (on a Yoga Block if hamstrings are tight), hands on pedal with straight elbows. Slide shoulder blades down into back pockets to press pedal 3 inches (1s), then resist the pedal rising for a strict 4-second count.',
+                                ra: 'Rest heels of open palms on the padded pedal to avoid finger gripping.'
+                            },
+                            mat: {
+                                name: 'Vertical Foam Roller Eccentric Pec Fly & Band Brake',
+                                setup: 'Mat // Vertical Foam Roller + Yoga Block + Light DBs/Band',
+                                reps: '10 Reps [4s Eccentric Lowering]',
+                                exec: 'Lie lengthwise along a Foam Roller (head to sacrum supported), squeezing a Yoga Block between knees. Hold light DBs or a resistance band above sternum. Slowly open arms toward a wide "T" over a strict 4-second eccentric count while keeping the bottom ribs melted into the roller; exhale to return.',
+                                ra: 'Perform with unweighted arms (or 0.5kg wrist weights) on the Foam Roller so hands stay completely relaxed.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Principles 1, 3 & 5: Cranio-Cervical Nod & Thoracic Fulcrum Extension',
+                        options: {
+                            cadillac: {
+                                name: 'Kneeling Push-Through Bar 4s Eccentric Thoracic Extension',
+                                setup: 'Cadillac // Top-Sprung PTB + Yoga Block Between Thighs',
+                                reps: '8 Reps [4s Eccentric Extension]',
+                                exec: 'Tall kneeling facing tower, squeezing a Yoga Block between inner thighs to lock glutes and pelvis over knees. Hold PTB. Nod chin slightly, press bar down, and articulate upper thoracic spine into extension over 4 seconds without dumping into the lower back.',
+                                ra: 'Use open-palm contact on the bar and place a thick foam pad under knees.'
+                            },
+                            barrel: {
+                                name: 'Apex Thoracic Extension w/ 4s Eccentric Unfurl',
+                                setup: 'Ladder Barrel // Mid-Back on Apex + Yoga Block',
+                                reps: '8 Reps [4s Eccentric Arc]',
+                                exec: 'Sit with mid-thoracic spine against barrel apex, feet anchored, hands cradling base of skull. Squeeze a Yoga Block between knees. Inhale and slowly lengthen upper back over the barrel for 4 seconds while keeping anterior ribs connected to hips; exhale curl up to neutral.',
+                                ra: 'Support head on a rolled towel/bolster if shoulder external rotation is restricted.'
+                            },
+                            reformer: {
+                                name: 'Short Box Thoracic Arc w/ Yoga Block Adductor Lock',
+                                setup: 'Reformer // 2 Red Springs // Short Box + Yoga Block',
+                                reps: '8 Reps [4s Eccentric Arc]',
+                                exec: 'Sit on Short Box, feet under strap, squeezing a Yoga Block between knees. Hands cradle skull. Maintain neutral lower back while hinging 10 degrees and extending purely from T1–T8 over a 4-second count, then stack tall.',
+                                ra: 'Cross forearms over chest if cradling the head strains the wrists/elbows.'
+                            },
+                            mat: {
+                                name: 'Horizontal Foam Roller Thoracic Extension w/ Block Lock',
+                                setup: 'Mat // Horizontal Foam Roller (T4-T8) + Yoga Block',
+                                reps: '8 Reps [4s Eccentric Extension]',
+                                exec: 'Place Foam Roller horizontally under mid-back (shoulder blades), knees bent, squeezing a Yoga Block firmly between thighs to lock the pelvis. Hands cradle skull to protect cervical spine. Slowly extend upper back over the roller for 4 seconds keeping hips glued to mat; exhale return.',
+                                ra: 'S-Rank safe for RA—hands support head passively with zero wrist compression.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Closed-Chain Eccentric Serratus & Deep Core Prep (Phase 3 Foundation)',
+                        options: {
+                            mat: {
+                                name: 'Quadruped Serratus Pushup to 4s Eccentric Bear Slider Glide',
+                                setup: 'Mat // 2 Sliders (Toes) + Yoga Block (Between Thighs)',
+                                reps: '8 Reps [4s Eccentric Slide]',
+                                exec: 'Quadruped with toes on Sliders and a Yoga Block squeezed between upper thighs. Perform 1 strict scapular pushup (wrapping serratus wide), hover knees 1 inch off mat, slide knees 3 inches back over a 4-second eccentric count, and scoop lower abs to pull home.',
+                                ra: 'Drop to forearms (resting on a Foam Roller or mat) and omit sliders; hold static 10s Bear hovers.'
+                            },
+                            reformer: {
+                                name: 'Quadruped Carriage 4s Eccentric Serratus Hover',
+                                setup: 'Reformer // 2 Red Springs // Footbar High + Yoga Block',
+                                reps: '8 Reps [4s Eccentric Press]',
+                                exec: 'Hands on footbar, knees on carriage squeezing a Yoga Block between thighs. Push footbar away to protract scapulae, hover knees 1 inch, and let the carriage glide back 4 inches over a strict 4-second eccentric count before scooping abs to return.',
+                                ra: 'Place padded box on carriage and perform on forearms to bypass wrist extension.'
+                            },
+                            chair: {
+                                name: 'Quadruped Pedal 4s Eccentric Serratus Press',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring + Yoga Block',
+                                reps: '8 Reps [4s Eccentric Release]',
+                                exec: 'Kneel facing chair squeezing a Yoga Block between thighs, hands on pedal. Press pedal down 4 inches by protracting scapulae, hover knees 1 inch, and resist the pedal rising for 4 full seconds.',
+                                ra: 'Place forearms on chair seat cushion and perform alternating knee hovers.'
+                            },
+                            cadillac: {
+                                name: 'Quadruped Bed 4s Eccentric Scapular Pushup to Bear Hover',
+                                setup: 'Cadillac Bed // Yoga Block Between Thighs',
+                                reps: '8 Reps [4s Eccentric Lower]',
+                                exec: 'Quadruped on bed squeezing Yoga Block between knees. Lower chest 2 inches between shoulder blades over 4 seconds (controlled retraction), press floor away to protract, and float knees 1 inch for 3 seconds.',
+                                ra: 'Execute on forearms to protect wrists.'
+                            }
+                        }
+                    }
+                }
+            },
+
+            anchor: {
+                id: 'anchor',
+                title: '2. The Anchor (Stable-Base Eccentric Slings & Extension)',
+                subtitle: 'Glute-Anchored Thoracic Pulls, Split-Stance Eccentric Flies & Coronal Control (20 Mins)',
+                clockHint: 'PHASE 2 TARGET: 15-35M',
+                wolfCue: 'Notice how we eliminated the v1.0 mechanical conflict: you never row or fly while balancing in moving-carriage Side Splits. Instead, M1 isolates sagittal thoracic extension with mandatory glute pre-activation. M2 uses a rock-solid split-stance or kneeling base so the client can overload the 4-second eccentric release on rows and chest flies. M3 challenges the coronal/transverse lower-body base independently.',
+                shepherdCue: '"Your legs are a tripod bolted to the floor. Squeeze a coin between your glutes first, and make the strap fight for every millimeter on the 4-second return."',
+                safetyGate: 'Twisting the pelvis away from the anchor point during Split-Stance Flies/Rows, or failing to squeeze the glutes before lifting the chest in Prone Pulling Straps.',
+                stations: {
+                    M1: {
+                        role: 'Glute-Anchored Thoracic Extension & Posterior Deltoid Eccentric Lock',
+                        options: {
+                            reformer: {
+                                name: 'Long Box Pulling Straps II (T-Pull) w/ 4s Eccentric Return',
+                                setup: 'Reformer // 1 Red Spring // Long Box',
+                                reps: '10 Reps [1s Pull : 4s Eccentric]',
+                                exec: 'Prone on Long Box, chest off front edge, hands gripping ropes in a wide "T". MANDATORY PRE-CUE: Press pubic bone into box and squeeze glutes first. Depress scapulae, pull arms back to hip level lifting sternum (1s), and resist the ropes forward for 4 full seconds.',
+                                ra: 'Thread Long Loops over forearms/wrists so hands remain open and relaxed.'
+                            },
+                            cadillac: {
+                                name: 'Standing / Tall-Kneeling High Back Row (4s Eccentric)',
+                                setup: 'Cadillac // 2 Medium Arm Springs // Solid Floor Base',
+                                reps: '12 Reps [1s Pull : 4s Eccentric]',
+                                exec: 'Stand or tall-kneel facing tower (squeezing Yoga Block between thighs). Pull arm springs high and wide toward bridge of nose to lock rhomboids and rear delts (1s); resist the forward pull for a strict 4-second eccentric count.',
+                                ra: 'Attach padded wrist cuffs to arm springs.'
+                            },
+                            chair: {
+                                name: 'Prone Chair Swan w/ 4s Eccentric Descent',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring',
+                                reps: '8 Reps [4s Eccentric Lower]',
+                                exec: 'Prone on chair seat, hands on pedal. Press pubic bone into cushion and squeeze glutes heavily first. Lift sternum into thoracic Swan as pedal rises, then take 4 full seconds to lower back down without losing scapular depression.',
+                                ra: 'Rest heels of hands lightly on pedal and keep range small.'
+                            },
+                            mat: {
+                                name: 'Standing 4s Eccentric Band Face-Pull & External Rotation',
+                                setup: 'Mat // Anchored Resistance Band + Yoga Block Between Thighs',
+                                reps: '12 Reps [1s Pull : 4s Eccentric]',
+                                exec: 'Stand tall squeezing a Yoga Block between thighs, glutes engaged, ribcage knitted down. Pull chest-height band toward forehead while externally rotating thumbs back (1s); fight the band’s pull forward for a full 4-second eccentric count.',
+                                ra: 'Loop flat band around wrists/forearms instead of gripping with fingers.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Stable Split-Stance Contralateral Eccentric Chest Fly & Row',
+                        options: {
+                            cadillac: {
+                                name: 'Split-Stance Single-Arm Eccentric Chest Fly',
+                                setup: 'Cadillac // 1 Medium Arm Spring // Solid Floor Split-Stance',
+                                reps: '8 Reps / Side [4s Eccentric Open]',
+                                exec: 'Stand on solid floor facing away from tower in a locked 45° split-stance (back glute anchored). Hold single arm spring in back-leg hand. Press arm across midline (1s), then eccentrically resist the spring opening the chest for 4 full seconds while keeping hips dead square.',
+                                ra: 'Use padded forearm cuff and reduce spring height to below shoulder level.'
+                            },
+                            reformer: {
+                                name: 'Half-Kneeling Carriage Contralateral Eccentric Fly',
+                                setup: 'Reformer // 1 Blue Spring // Locked Half-Kneeling Base',
+                                reps: '8 Reps / Side [4s Eccentric Open]',
+                                exec: 'Half-kneel on carriage facing side of room (front foot braced against shoulder block for a stable, non-sliding base). Hold front strap in outside hand. Sweep strap across chest, then control the 4-second eccentric opening without twisting the torso.',
+                                ra: 'Thread Reformer loop onto forearm crease and use 1 Yellow/Light spring.'
+                            },
+                            chair: {
+                                name: 'Pedal-Anchored Split Lunge w/ 4s Eccentric Band Fly',
+                                setup: 'Wunda Chair (1 Heavy) + Side-Anchored Band',
+                                reps: '8 Reps / Side [4s Eccentric]',
+                                exec: 'Front foot on solid floor, back foot pressing chair pedal halfway down and frozen isometrically. While holding the pedal still, perform 8 single-arm chest flies focusing on a 4-second eccentric opening.',
+                                ra: 'Place both feet on floor (front foot on Yoga Block) and wrap band around wrist.'
+                            },
+                            mat: {
+                                name: 'Transverse Lunge (Front Foot on Block) w/ 4s Eccentric Band Fly',
+                                setup: 'Mat // Anchored Band + Yoga Block Under Front Foot',
+                                reps: '8 Reps / Side [4s Eccentric]',
+                                exec: 'Step front foot onto a flat Yoga Block and back foot out at a 45° transverse angle into a stable split squat. Hold anchored band at chest height. Sweep arm across sternum (1s), and resist the band opening your chest for a full 4-second eccentric count.',
+                                ra: 'Loop band around forearm/wrist and keep both feet flat on floor.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Coronal & Transverse Lower-Body Base + Thoracic Reach',
+                        options: {
+                            chair: {
+                                name: 'Wunda Chair Transverse Step-Down (4s Eccentric Lower)',
+                                setup: 'Wunda Chair // 1 Heavy Spring + Yoga Block Overhead',
+                                reps: '8 Reps / Side [4s Eccentric]',
+                                exec: 'Stand beside chair, inside foot on top of chair seat, outside foot on pedal (or hovering). Hold a Yoga Block overhead to lock scapular upward rotation. Take 4 seconds to bend the standing knee and lower down, keeping ASIS hip headlights dead level; drive up.',
+                                ra: 'Rest one hand lightly on wall/pole for balance instead of holding block overhead.'
+                            },
+                            reformer: {
+                                name: 'Reformer Side Splits (4s Eccentric Adductor Control)',
+                                setup: 'Reformer // 1 Blue (or 1 Red) Spring // Hands on Hips/Block',
+                                reps: '8 Reps / Side [4s Eccentric Glide]',
+                                exec: 'Stand with one foot on platform, one on carriage, holding a Yoga Block pressed between palms at sternum (zero strap conflict!). Press carriage out over a strict 4-second eccentric count keeping torso vertical, then squeeze inner thighs (Deep Front Line) to draw carriage home.',
+                                ra: 'Use 1 Red spring for higher stability assistance and keep hands on hips.'
+                            },
+                            barrel: {
+                                name: 'Ladder Barrel Lateral Side-Over (4s Eccentric Lowering)',
+                                setup: 'Ladder Barrel // Hip on Apex + Yoga Block Between Hands',
+                                reps: '8 Reps / Side [4s Eccentric]',
+                                exec: 'Side-sit with hip on barrel apex, feet locked in rungs, holding a Yoga Block overhead. Lower torso laterally over the barrel for a 4-second eccentric count to lengthen the lateral line; drive up through top oblique.',
+                                ra: 'Cross arms over chest instead of holding block overhead.'
+                            },
+                            mat: {
+                                name: 'Cossack Squat w/ Foam Roller / Yoga Block Overhead Reach',
+                                setup: 'Mat // Foam Roller or Yoga Block Held Overhead',
+                                reps: '8 Reps / Side [4s Eccentric Descent]',
+                                exec: 'Wide stance holding a Foam Roller or Yoga Block overhead (shoulder blades depressed). Sink laterally into a deep Cossack Squat over a 4-second eccentric count while keeping the chest proud and roller vertical; drive through heel to stand.',
+                                ra: 'Hold Foam Roller vertically on the floor in front of you as a balance cane to offload knee shear.'
+                            }
+                        }
+                    }
+                }
+            },
+
+            crucible: {
+                id: 'crucible',
+                title: '3. The Crucible (Unified Ascending Eccentric Series)',
+                subtitle: 'Closed-Chain Eccentric Overload: Elephant → Down Stretch → 5s Long Stretch & Body Saw (20 Mins)',
+                clockHint: 'PHASE 3 TARGET: 35-55M',
+                wolfCue: 'We now ascend through the unified closed-chain progression with a brutal eccentric tempo. M1 (Eccentric Elephant) trains 4-second hip-flexion deceleration. M2 (Eccentric Down Stretch / Pedal Pushup) overloads kneeling anti-extension and serratus protraction. M3 (5s Long Stretch / Toe-Slider Body Saw + Glute-Anchored Superman) is the peak test of anterior core and posterior chain endurance.',
+                shepherdCue: '"Squeeze a coin between your glutes before you lift or slide. Lower yourself as if onto a sheet of glass—total 4-to-5 second control."',
+                safetyGate: 'Scapular winging during pushup/rollout descent, or lumbar pinching in Swan/Superman because the glutes and pubic bone were not anchored first.',
+                stations: {
+                    M1: {
+                        role: 'Level 1 (Base): Short-Lever Eccentric Core & Serratus Control',
+                        options: {
+                            reformer: {
+                                name: 'The Elephant w/ 4s Eccentric Return & Yoga Block Lock',
+                                setup: 'Reformer // 2 Red Springs // Yoga Block Between Thighs',
+                                reps: '10 Reps [4s Eccentric Release]',
+                                exec: 'Hands on footbar, heels on carriage against blocks, squeezing a Yoga Block between upper thighs. Pike hips high and protract scapulae. Scoop deep abs to pull carriage in (1s), then resist the springs pushing the carriage out for a strict 4-second eccentric count.',
+                                ra: 'Rest forearms on a padded Long Box placed on the carriage.'
+                            },
+                            chair: {
+                                name: 'Standing Pike Pull-Up w/ 4s Eccentric Pedal Descent',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring + Yoga Block',
+                                reps: '8 Reps [4s Eccentric Lower]',
+                                exec: 'Hands on chair seat, balls of feet on pedal squeezing a Yoga Block between calves/thighs. Scoop lower abs to float pedal up (1s), then lower the pedal back down over a slow 4-second eccentric count without collapsing into the shoulders.',
+                                ra: 'Place forearms on chair seat cushion to eliminate wrist extension.'
+                            },
+                            cadillac: {
+                                name: 'Standing PTB Pike Scoop (4s Eccentric Return)',
+                                setup: 'Cadillac // Top-Sprung PTB + Yoga Block',
+                                reps: '10 Reps [4s Eccentric]',
+                                exec: 'Stand on bed facing tower, squeezing Yoga Block between thighs, hands on PTB. Press bar down into pike, then control the bar’s upward return over a 4-second eccentric count while keeping serratus wrapped.',
+                                ra: 'Use open palms on bar with light spring tension.'
+                            },
+                            mat: {
+                                name: 'Slider Pike Scoops w/ Yoga Block Adductor Squeeze',
+                                setup: 'Mat // 2 Sliders Under Toes + Yoga Block Between Thighs',
+                                reps: '10 Reps [4s Eccentric Slide Out]',
+                                exec: 'Start in high plank (or forearm plank) with toes on Sliders and a Yoga Block squeezed tightly between thighs. Pike hips up by scooping lower abs (1s), then slide feet back out to plank over a strict 4-second eccentric count without letting hips sag.',
+                                ra: 'Execute on forearms (Dolphin Pike) with a 2-inch slider range.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Level 2 (Intermediate): Kneeling Eccentric Pushup & Down Stretch',
+                        options: {
+                            chair: {
+                                name: 'Kneeling Chair Pedal 4s Eccentric Pushup & Down-Stretch',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring + Knee Pad',
+                                reps: '8 Reps [4s Eccentric Lower]',
+                                exec: 'Kneel facing chair, squeeze glutes to lock hips into a diagonal plank, hands on pedal. Press pedal down while controlling a 4-second eccentric elbow bend (scapulae gliding smoothly without winging); drive up and lift sternum into Down-Stretch.',
+                                ra: 'Substitute with standing Wall Pushup Negatives (4s eccentric) to protect wrists.'
+                            },
+                            reformer: {
+                                name: 'The Down Stretch (4s Eccentric Carriage Press-Out)',
+                                setup: 'Reformer // 2 Red Springs // Footbar High',
+                                reps: '8 Reps [4s Eccentric Press]',
+                                exec: 'Kneel on carriage, feet against shoulder blocks, hands on footbar. Squeeze glutes hard to press hips forward. Take 4 full seconds to press carriage back from the shoulders while maintaining proud thoracic extension; exhale pull home.',
+                                ra: 'Perform Kneeling Forearm Rollout on Long Box (1 Red spring).'
+                            },
+                            cadillac: {
+                                name: 'Kneeling PTB 4s Eccentric Push-Through & Sternum Lift',
+                                setup: 'Cadillac // Top-Sprung PTB + Yoga Block',
+                                reps: '8 Reps [4s Eccentric]',
+                                exec: 'Kneel facing tower squeezing Yoga Block between thighs. Press PTB forward into a long diagonal kneeling line over 4 seconds, resisting lumbar arch; pull back lifting sternum.',
+                                ra: 'Use light spring and open-palm contact.'
+                            },
+                            mat: {
+                                name: 'Eccentric Slider Pushup & Rollout to Yoga Block Target',
+                                setup: 'Mat // 2 Sliders (Hands) + Yoga Block Under Sternum',
+                                reps: '8 Reps [4s Eccentric Descent]',
+                                exec: 'Start in high plank (or kneeling plank) with hands on Sliders and a Yoga Block placed under chest as a depth gauge. Slide one hand forward while lowering chest to lightly kiss the Yoga Block over a strict 4-second eccentric count. Drop to knees to push back up safely.',
+                                ra: 'Perform kneeling Forearm Rollout on a Foam Roller (4s eccentric roll out, 2s pull back) so wrists bear zero weight.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Level 3 (Peak): 5s Eccentric Long Stretch / Body Saw + Glute-Anchored Extension',
+                        options: {
+                            mat: {
+                                name: 'Forearm Plank Toe-Slider Body Saw (4s) + Glute-Anchored Superman',
+                                setup: 'Mat // 2 Sliders Under Toes + Foam Roller / Yoga Block',
+                                reps: '8 Body Saws + 45s Superman Hold',
+                                exec: 'Part A: Forearm plank with Sliders under TOES (squeeze Yoga Block between ankles). Push through forearms to slide body backward over a 4s eccentric count; pull lats to return. Part B: Lie prone. PRESS PUBIC BONE INTO MAT AND SQUEEZE GLUTES FIRST, then float chest and arms (holding Foam Roller or unweighted) for 45s.',
+                                ra: 'Hold static Forearm Plank (omit slider saw) + unweighted Glute-Anchored Prone Cobra hold.'
+                            },
+                            reformer: {
+                                name: 'Reformer Long Stretch (5s Eccentric Return) + Prone Swan',
+                                setup: 'Reformer // 1 Red, 1 Blue Spring // Footbar High',
+                                reps: '8 Long Stretch (5s) + 6 Swan',
+                                exec: 'Set a steel-rod full plank (balls of feet on blocks, hands on footbar). Press carriage out, then take a brutal 5-second eccentric count to return to the stopper using lats and serratus. Immediately transition to prone on Long Box for 6 Glute-Anchored Swans.',
+                                ra: 'STRICTLY CONTRAINDICATED on wrists. Execute Forearm Plank on Long Box (1R) with 4s shoulder glides.'
+                            },
+                            chair: {
+                                name: 'Full-Lever Chair Pushup to Prone Chair Swan',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring',
+                                reps: '6 Pushups (4s) + 6 Chair Swans',
+                                exec: 'Part A: Hands on pedal, feet on floor in full plank; control a 4-second eccentric pedal press, explode up. Part B: Lie prone on chair seat, squeeze glutes and anchor pubic bone first, then press pedal into 6 slow thoracic Swans.',
+                                ra: 'Substitute Part A with Forearm Plank on mat; execute Part B on mat with Yoga Block support.'
+                            },
+                            cadillac: {
+                                name: 'Bar Plank 5s Eccentric Saw to Prone PTB Swan',
+                                setup: 'Cadillac // Heavy Roll-Down Bar / Top-Sprung PTB',
+                                reps: '8 Plank Saws + 6 Prone Swans',
+                                exec: 'Hands on bar in plank, glide forward and resist 5s eccentric return. Then lie prone, anchor pubic bone and glutes first, and perform 6 slow Thoracic Swans with PTB.',
+                                ra: 'Forearm plank on Cadillac bed + unweighted Prone Scapular Flight.'
+                            }
+                        }
+                    }
+                }
+            },
+
+            unwind: {
+                id: 'unwind',
+                title: '4. The Unwind (Deep Front Line & Anterior Fascia Reset)',
+                subtitle: 'Passive Thoracic Fulcrum, Psoas Couch-Stretch Traction & Rotational Flush (10 Mins)',
+                clockHint: 'PHASE 4 TARGET: 55-65M',
+                wolfCue: 'Total Parasympathetic Reset. The upper back and serratus have been heavily taxed under 4-to-5 second eccentric loads. Now we use gravity, Barrels, Foam Rollers, and Yoga Blocks to passively open the Superficial and Deep Front Lines so the nervous system locks in the new length.',
+                shepherdCue: '"Melt like warm wax over the barrel or roller. Your muscles have done the heavy braking; now let gravity open your chest and hips."',
+                safetyGate: 'Arching the lower back off the support to force a deeper chest stretch, or clenching the jaw and neck during the Psoas Couch Stretch.',
+                stations: {
+                    M1: {
+                        role: 'Passive Thoracic Fulcrum & Anterior Chest Decompression',
+                        options: {
+                            barrel: {
+                                name: 'Ladder Barrel Passive Backbend Drape',
+                                setup: 'Ladder Barrel // Mid-Back at Apex',
+                                reps: '90 Seconds Passive Hold',
+                                exec: 'Drape mid-thoracic spine backward over the barrel apex, supporting head with hands (or a Yoga Block/Bolster), letting gravity passively open the pectoralis major/minor and anterior ribcage.',
+                                ra: 'Place bolster under head so arms can rest passively out to the sides.'
+                            },
+                            cadillac: {
+                                name: 'Trapeze Hang / Bolster Supine Bridge Decompression',
+                                setup: 'Cadillac // Trapeze or Foam Roller Under T-Spine',
+                                reps: '90 Seconds Hold',
+                                exec: 'Execute a supported Trapeze traction hang (or lie supine draped over a Foam Roller holding top-sprung bar lightly) to traction the spine and completely switch off the upper traps.',
+                                ra: 'Omit Trapeze ankle hang; use passive supine bridge over Foam Roller + Yoga Block.'
+                            },
+                            reformer: {
+                                name: 'Long Box Thoracic Drape w/ Passive Strap Opening',
+                                setup: 'Reformer // 1 Red Spring // Long Box',
+                                reps: '90 Seconds Hold',
+                                exec: 'Lie supine on Long Box with upper back slightly over front edge, holding straps in wide "T" to let spring tension gently open the anterior chest wall.',
+                                ra: 'Thread loops over wrists and support head on a Yoga Block.'
+                            },
+                            mat: {
+                                name: 'Supported Camel Pose (Blocks) to Vertical Foam Roller Drape',
+                                setup: 'Mat // 2 Tall Yoga Blocks + Vertical Foam Roller',
+                                reps: '45s Camel + 45s Roller Drape',
+                                exec: 'Part A: Kneeling Camel Pose placing hands on two tall Yoga Blocks beside heels (pressing hips forward while lifting sternum). Part B: Lie lengthwise on Vertical Foam Roller with arms in a cactus "W" melting to the floor.',
+                                ra: 'Place hands on posterior pelvis for Camel Pose (or skip directly to Vertical Foam Roller Cactus Drape).'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Deep Front Line: Psoas & Rectus Femoris Traction',
+                        options: {
+                            reformer: {
+                                name: 'Reformer Eve’s Lunge w/ Overhead Thoracic Reach',
+                                setup: 'Reformer // 1 Red Spring + Knee Pad',
+                                reps: '60 Seconds / Side',
+                                exec: 'One foot on floor, back knee on carriage. Press carriage back to open hip flexor/psoas, tuck tailbone slightly (posterior tilt), and sweep same-side arm overhead.',
+                                ra: 'Use thick foam pad under kneeling patella.'
+                            },
+                            mat: {
+                                name: 'Psoas Wall "Couch Stretch" w/ Yoga Block Support',
+                                setup: 'Mat / Wall // Foam Pad + 2 Yoga Blocks',
+                                reps: '60 Seconds / Side',
+                                exec: 'Place back knee on a thick foam pad against the wall (shin vertical up wall), front foot stepped forward into lunge with hands supported on two tall Yoga Blocks. Squeeze back glute to open the entire Deep Front Line from quad to psoas.',
+                                ra: 'If knee flexion is sensitive, substitute with Supine Sacral Yoga-Block Psoas Release (block under sacrum, one leg extended long).'
+                            },
+                            cadillac: {
+                                name: 'Supine Leg Springs Passive Acetabular Traction',
+                                setup: 'Cadillac // 2 Light Leg Springs',
+                                reps: '90 Seconds Passive Traction',
+                                exec: 'Supine with feet in padded loops. Let the springs gently traction the femurs out of the hip sockets while taking slow 6-second exhales.',
+                                ra: 'S-Rank safe for RA.'
+                            },
+                            chair: {
+                                name: 'Chair-Supported Split Hip Flexor Release',
+                                setup: 'Wunda Chair // 1 Light Spring',
+                                reps: '60 Seconds / Side',
+                                exec: 'Front foot on chair seat cushion, back leg extended on floor. Tuck tailbone slightly and lean hips forward to lengthen psoas.',
+                                ra: 'Keep both feet on floor in split stance, resting forearms on chair seat.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Rotational Ribcage Flush & Parasympathetic Reset',
+                        options: {
+                            cadillac: {
+                                name: 'Sidelying Open-Book Stretch w/ Foam Roller Knee Anchor',
+                                setup: 'Cadillac Bed // Yoga Block (Head) + Foam Roller (Knee)',
+                                reps: '60 Seconds / Side',
+                                exec: 'Lie on side, head resting on Yoga Block, top knee anchored onto a Foam Roller so the lumbar spine cannot twist. Sweep top arm across ribcage to opposite side, breathing deep into the open pectoral wall.',
+                                ra: 'S-Rank safe for RA—zero grip or wrist load.'
+                            },
+                            reformer: {
+                                name: 'Seated / Supine Carriage Rotational Rib Flush',
+                                setup: 'Reformer // 1 Red Spring // Yoga Block',
+                                reps: '60 Seconds / Side',
+                                exec: 'Lie supine on carriage with knees draped to right side over a Yoga Block while looking left and melting left shoulder blade into mat; switch sides.',
+                                ra: 'S-Rank safe for RA.'
+                            },
+                            barrel: {
+                                name: 'Barrel Apex Sidelying Intercostal & Pec Sweep',
+                                setup: 'Ladder Barrel // Side Draped on Apex',
+                                reps: '60 Seconds / Side',
+                                exec: 'Drape side waist over barrel apex, sweeping top arm back in a slow semi-circle to flush the intercostals and anterior deltoid.',
+                                ra: 'Support head on a folded towel.'
+                            },
+                            mat: {
+                                name: 'Mat Open-Book Stretch w/ Yoga Block & Foam Roller Lock',
+                                setup: 'Mat // Yoga Block (Under Head) + Foam Roller (Under Top Knee)',
+                                reps: '60 Seconds / Side',
+                                exec: 'Sidelying on mat with head supported on a Yoga Block and top knee resting firmly on a Foam Roller (locking the pelvis). Inhale reach top arm to ceiling; exhale melt top arm and upper back toward floor behind you for 5 deep breaths.',
+                                ra: 'Bend top elbow (hand resting on ribcage) if long-lever arm weight strains the shoulder capsule.'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        let currentPhase = 'primer';
+        let isRaActive = false;
+
+        function getInventory() {
+            return {
+                reformer: parseInt(document.getElementById('inv-reformer').value || 0, 10),
+                cadillac: parseInt(document.getElementById('inv-cadillac').value || 0, 10),
+                chair: parseInt(document.getElementById('inv-chair').value || 0, 10),
+                barrel: parseInt(document.getElementById('inv-barrel').value || 0, 10),
+                mat: 99
+            };
+        }
+
+        function setSelectStationEquip(phaseId, stationKey, newEquip) {
+            stationSelections[phaseId][stationKey] = newEquip;
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function setGlobalPreset(mode) {
+            Object.keys(stationSelections).forEach(phaseKey => {
+                ['M1', 'M2', 'M3'].forEach(stKey => {
+                    const availOpts = Object.keys(PROTOCOL_DB[phaseKey].stations[stKey].options);
+                    if (mode === 'mat') {
+                        stationSelections[phaseKey][stKey] = 'mat';
+                    } else {
+                        const studioOpt = availOpts.find(o => o !== 'mat') || 'mat';
+                        stationSelections[phaseKey][stKey] = studioOpt;
+                    }
+                });
+            });
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function autoOptimizeEquipment() {
+            const inv = getInventory();
+            const format = document.getElementById('flowFormat').value;
+
+            if (currentPhase === 'audit') return;
+
+            const usedCounts = { reformer: 0, cadillac: 0, chair: 0, barrel: 0, mat: 0 };
+            ['M1', 'M2', 'M3'].forEach(stKey => {
+                const opts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options);
+                let chosen = stationSelections[currentPhase][stKey];
+
+                if (format === 'circuit') {
+                    if (inv[chosen] - usedCounts[chosen] < 1) {
+                        chosen = opts.find(o => (inv[o] - usedCounts[o]) >= 1) || 'mat';
+                    }
+                    usedCounts[chosen]++;
+                } else {
+                    if (inv[chosen] === 0) {
+                        chosen = opts.find(o => inv[o] > 0) || 'mat';
+                    }
+                }
+                stationSelections[currentPhase][stKey] = chosen;
+            });
+
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function updateLogistics() {
+            const pax = parseInt(document.getElementById('paxCount').value, 10);
+            const format = document.getElementById('flowFormat').value;
+            const inv = getInventory();
+            const banner = document.getElementById('logisticsBanner');
+
+            if (currentPhase === 'audit') {
+                banner.style.display = 'none';
+                return;
+            }
+            banner.style.display = 'block';
+
+            const phaseSel = stationSelections[currentPhase];
+            const eqM1 = phaseSel.M1;
+            const eqM2 = phaseSel.M2;
+            const eqM3 = phaseSel.M3;
+
+            if (format === 'circuit') {
+                const demand = { reformer: 0, cadillac: 0, chair: 0, barrel: 0, mat: 0 };
+                [eqM1, eqM2, eqM3].slice(0, Math.min(pax, 3)).forEach(eq => demand[eq]++);
+
+                const conflicts = [];
+                Object.keys(demand).forEach(eq => {
+                    if (eq !== 'mat' && demand[eq] > inv[eq]) {
+                        conflicts.push(`${EQUIP_LABELS[eq]} (Need ${demand[eq]}, Have ${inv[eq]})`);
+                    }
+                });
+
+                const hasConflict = conflicts.length > 0;
+                const statusColor = hasConflict ? 'border-amber-500 bg-[#181005]' : 'border-[#333333] bg-[#111111]';
+                const badgeHtml = hasConflict
+                    ? `<span class="px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 border border-amber-500 text-amber-400 uppercase font-bold">BOTTLENECK: ${conflicts.join(', ')} — CLICK AUTO-FIT OR SWITCH DROPDOWN</span>`
+                    : `<span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 border border-emerald-500 text-emerald-400 uppercase font-bold">ZERO HARDWARE CONFLICT // READY FOR ROTATION</span>`;
+
+                let rotationHtml = '';
+                if (pax === 1) {
+                    rotationHtml = `<p class="text-xs font-mono text-gray-300 mt-3">SOLO FLOW: Client executes <span class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</span> → <span class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</span> → <span class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</span> sequentially.</p>`;
+                } else if (pax === 2) {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A:</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → Rotates to M2 → M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B:</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → Rotates to M3 → M1</div>
+                        </div>`;
+                } else {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Upper Crossed):</span> R1 <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → R2 M2 → R3 M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B (Sister):</span> R1 <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → R2 M3 → R3 M1</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX C (Mae / RA):</span> R1 <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</strong> → R2 M1 → R3 M2</div>
+                        </div>`;
+                }
+
+                banner.className = `mb-8 border p-5 ${statusColor}`;
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400">Active Logistics // ${pax} Pax Station Rotation (3 Rounds)</span>
+                        </div>
+                        ${badgeHtml}
+                    </div>
+                    ${rotationHtml}
+                `;
+            } else {
+                const buildSplitText = (stKey, primaryEq) => {
+                    const availPrimary = inv[primaryEq];
+                    if (availPrimary >= pax) {
+                        return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    }
+                    const altOpts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options).filter(o => o !== primaryEq && inv[o] > 0);
+                    const fallbackEq = altOpts[0] || 'mat';
+                    const onPrimary = Math.max(0, availPrimary);
+                    const onFallback = pax - onPrimary;
+                    return `<span class="text-amber-300">${onPrimary} Pax on ${EQUIP_LABELS[primaryEq]} + ${onFallback} Pax on ${EQUIP_LABELS[fallbackEq]}</span>`;
+                };
+
+                banner.className = 'mb-8 border border-[#333333] bg-[#111111] p-5';
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Synchronized Flow Mode // Smart Hardware Allocation (${pax} Pax)</span>
+                        <span class="text-[10px] font-mono text-gray-400">Inventory: ${inv.reformer} Ref | ${inv.cadillac} Cad | ${inv.chair} Chair | ${inv.barrel} Barrel | Unlimited Mat Props</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M1:</strong> ${buildSplitText('M1', eqM1)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M2:</strong> ${buildSplitText('M2', eqM2)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M3:</strong> ${buildSplitText('M3', eqM3)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCurrentPhase() {
+            if (currentPhase === 'audit') {
+                document.getElementById('dynamic-phase-view').classList.remove('active');
+                document.getElementById('audit-phase-view').classList.add('active');
+                document.getElementById('clockPhaseHint').innerText = 'POST-SESSION AUDIT';
+                evaluateAuditLoop();
+                return;
+            }
+
+            document.getElementById('audit-phase-view').classList.remove('active');
+            const view = document.getElementById('dynamic-phase-view');
+            view.classList.add('active');
+
+            const phaseData = PROTOCOL_DB[currentPhase];
+            document.getElementById('clockPhaseHint').innerText = phaseData.clockHint;
+
+            const stationCardsHtml = ['M1', 'M2', 'M3'].map(stKey => {
+                const stObj = phaseData.stations[stKey];
+                const selectedEquip = stationSelections[currentPhase][stKey];
+                const activeMove = stObj.options[selectedEquip];
+
+                const dropdownOptionsHtml = Object.keys(stObj.options).map(eqKey => {
+                    const isSel = eqKey === selectedEquip ? 'selected' : '';
+                    return `<option value="${eqKey}" ${isSel}>${EQUIP_LABELS[eqKey]} — ${stObj.options[eqKey].name}</option>`;
+                }).join('');
+
+                return `
+                    <div class="border border-[#333333] bg-[#0a0a0a] p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-[#222222]">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 bg-[#111111] border border-[#00e5ff] text-[#00e5ff] font-mono text-xs font-bold">${stKey}</span>
+                                    <span class="text-xs font-mono uppercase tracking-wider text-gray-400">${stObj.role}</span>
+                                </div>
+                                <span class="text-xs font-mono text-white bg-[#111111] border border-[#333333] px-3 py-1 shrink-0">${activeMove.reps}</span>
+                            </div>
+
+                            <!-- PER-MOVEMENT EQUIPMENT / PROP DROPDOWN SELECTOR -->
+                            <div class="mb-4">
+                                <label class="block text-[9px] font-mono uppercase tracking-widest text-gray-500 mb-1">Select Station Apparatus or Mat Prop Substitution</label>
+                                <select onchange="setSelectStationEquip('${currentPhase}', '${stKey}', this.value)" class="w-full bg-[#111111] border border-[#333333] hover:border-[#00e5ff] text-xs font-mono text-[#00e5ff] px-3 py-2 pr-8 appearance-none outline-none transition-colors cursor-pointer">
+                                    ${dropdownOptionsHtml}
+                                </select>
+                            </div>
+
+                            <div class="flex items-start gap-4 mb-4">
+                                <input type="checkbox" class="mt-1 shrink-0">
+                                <div>
+                                    <h4 class="text-lg text-white font-serif mb-1">${activeMove.name}</h4>
+                                    <p class="text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-2">${activeMove.setup}</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">${activeMove.exec}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RA OVERRIDE MODULE PER STATION -->
+                        <div class="ra-module border border-[#1e3a8a] bg-[#0a0f1c] p-4 mt-4 border-l-4 border-l-[#3b82f6]">
+                            <span class="text-[10px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">RA / Grip Override (${stKey})</span>
+                            <p class="text-xs text-gray-200 leading-relaxed">${activeMove.ra}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            view.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl text-white mb-2">${phaseData.title}</h2>
+                        <p class="text-gray-400 uppercase tracking-widest text-xs font-mono">${phaseData.subtitle}</p>
+                    </div>
+                </div>
+
+                <!-- 3 STATIONS GRID -->
+                <div class="grid grid-cols-1 gap-6 mb-8">
+                    ${stationCardsHtml}
+                </div>
+
+                <!-- WOLF CUE, SHEPHERD CUE & SAFETY GATE -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-[#111111] border border-[#333333] p-6">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold mb-2">The Wolf Cue (Biomechanical)</h3>
+                        <p class="text-sm text-gray-200 leading-relaxed">${phaseData.wolfCue}</p>
+                    </div>
+                    <div class="bg-[#111111] border border-[#333333] p-6">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-400 font-bold mb-2">The Shepherd Cue (Imagery)</h3>
+                        <p class="text-sm text-gray-300 font-serif italic leading-relaxed">${phaseData.shepherdCue}</p>
+                    </div>
+                    <div class="border border-red-900/60 bg-[#110505] p-6 border-l-4 border-l-red-500">
+                        <h3 class="text-red-500 font-mono font-bold uppercase tracking-widest text-[10px] mb-2">Safety Gate (QA Fail)</h3>
+                        <p class="text-sm text-red-200 leading-relaxed">${phaseData.safetyGate}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function evaluateAuditLoop() {
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+
+            const hitTarget = document.getElementById('som-target').checked;
+            const antShoulderComp = document.getElementById('som-anterior-shoulder').checked;
+            const lumbarComp = document.getElementById('som-lumbar').checked;
+            const wristComp = document.getElementById('som-wrist').checked;
+
+            const directives = [];
+            let clearanceBadge = 'CLEARED FOR WEEK 3 (ROTATIONAL ENDURANCE)';
+            let badgeColor = 'text-[#00e5ff] border-[#00e5ff]';
+
+            if (g1 !== 'pass' || antShoulderComp) {
+                clearanceBadge = 'HOLD AT WEEK 2 // RE-CALIBRATE 4S ECCENTRIC BRAKE';
+                badgeColor = 'text-amber-400 border-amber-400';
+                directives.push('• [GATE 01 / ANTERIOR HUMERAL GLIDE]: Client lost the 4-second eccentric brake or felt anterior deltoid pinching. Reduce spring/band tension by 25% and cue scapular depression on the Vertical Foam Roller before opening into Chest Flies.');
+            }
+            if (g2 !== 'pass' || lumbarComp) {
+                if (lumbarComp) {
+                    clearanceBadge = 'MODIFY WEEK 3 // ENFORCE GLUTE-FIRST ANCHOR';
+                    badgeColor = 'text-red-400 border-red-500';
+                }
+                directives.push('• [GATE 02 / LUMBOPELVIC ANCHOR]: Lumbar compression or pelvic rotation detected. Enforce squeezing a Yoga Block between the thighs and pressing the pubic bone down BEFORE lifting into Swan/Superman or releasing Split-Stance Flies.');
+            }
+            if (g3 !== 'level3') {
+                directives.push(`• [GATE 03 / ECCENTRIC SERIES CEILING]: Client reached eccentric stability limit at ${g3.toUpperCase()}. Keep client at Kneeling Down Stretch / Slider Rollout to Yoga Block Target until serratus holds flat for the full 4-second eccentric phase.`);
+            }
+            if (wristComp) {
+                directives.push('• [RA / WRIST OVERRIDE]: Grip or wrist fatigue logged. Maintain forearm cuffs on Reformer/Cadillac and use Forearm Foam Roller Rollouts for Week 3.');
+            }
+            if (hitTarget && directives.length === 0) {
+                directives.push('• [ALL GATES PASSED]: Client mastered the 4-second eccentric scapular braking tempo, maintained a rock-solid split-stance glute anchor, and cleared the 5s Long Stretch / Toe-Slider Body Saw series. Advance to KIN-P016_W3 (Rotational Endurance).');
+            }
+
+            const verdictBox = document.getElementById('auditVerdictBox');
+            verdictBox.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b border-[#1e3a5f] pb-4">
+                    <div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Automated Diagnostic Routing</span>
+                        <h3 class="text-2xl text-white">Post-Session Prescription & Week 3 Gate Status</h3>
+                    </div>
+                    <span class="px-3 py-1 border font-mono text-xs font-bold uppercase ${badgeColor}">${clearanceBadge}</span>
+                </div>
+                <div class="space-y-2 text-sm text-gray-200 font-mono leading-relaxed">
+                    ${directives.map(d => `<p>${d}</p>`).join('')}
+                </div>
+            `;
+        }
+
+        function copyAuditReport() {
+            const pax = document.getElementById('paxCount').value;
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+            const notes = document.getElementById('auditNotes').value || 'None';
+            const verdictText = document.getElementById('auditVerdictBox').innerText;
+
+            const report = `MOVEMENT OS // KIN-P016_W2 POST-SESSION GATE AUDIT\nPax: ${pax} | Gate 1: ${g1} | Gate 2: ${g2} | Gate 3: ${g3}\nNotes: ${notes}\n\n${verdictText}`;
+            
+            const tempInput = document.createElement('textarea');
+            tempInput.value = report;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById('copyAuditBtn');
+            btn.innerText = 'REPORT COPIED TO CLIPBOARD';
+            setTimeout(() => { btn.innerText = 'COPY TELEMETRY REPORT'; }, 2000);
+        }
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('border-[#00e5ff]', 'bg-[#111111]');
+                btn.classList.add('border-[#333333]');
+            });
+            const activeBtn = document.getElementById('nav-' + phaseId);
+            activeBtn.classList.remove('border-[#333333]');
+            activeBtn.classList.add('border-[#00e5ff]', 'bg-[#111111]');
+
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function toggleRA() {
+            const btn = document.getElementById('raToggleBtn');
+            isRaActive = !isRaActive;
+            if (isRaActive) {
+                document.body.classList.add('ra-active');
+                btn.classList.add('active');
+                btn.innerText = '[X] RA OVERRIDE ACTIVE (MAE)';
+            } else {
+                document.body.classList.remove('ra-active');
+                btn.classList.remove('active');
+                btn.innerText = '[ ] RA OVERRIDE (MAE)';
+            }
+        }
+
+        let timerInterval;
+        let seconds = 0;
+        let isRunning = false;
+
+        function updateDisplay() {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${mins}:${secs}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            if (isRunning) {
+                clearInterval(timerInterval);
+                btn.innerText = 'RESUME';
+                btn.classList.replace('text-red-500', 'text-white');
+            } else {
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateDisplay();
+                }, 1000);
+                btn.innerText = 'PAUSE';
+                btn.classList.add('text-red-500');
+            }
+            isRunning = !isRunning;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            seconds = 0;
+            isRunning = false;
+            updateDisplay();
+            const btn = document.getElementById('startBtn');
+            btn.innerText = 'START';
+            btn.classList.remove('text-red-500');
+            btn.classList.add('text-white');
+        }
+
+        window.onload = function() {
+            renderCurrentPhase();
+            updateLogistics();
+        };
+    </script>
+</body>
+</html>

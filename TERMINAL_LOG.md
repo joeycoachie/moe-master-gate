@@ -41,6 +41,9 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 ## 2. Cadence — every change, by date
 
 ### Oct 2
+- **KIN-P016_W2 added to the Armory** — Upper Crossed Week 2, "4s Eccentric Load & Tension". Sits under the KIN-P016 arc next to W1, behind SYS.OP.
+
+### Oct 2
 - **Station 8: Ctrl+Enter / ⌘+Enter saves the programming log** from any field. Plain Enter still never submits. A hint sits under the Lock In button.
 - **Station 04 roster** (separate repo `KIN-OPTIMUMFIT_INTRUCTOR_TERMINAL`). Shiuan removed. Lanice added as cleared instructor on all four tiers.
 

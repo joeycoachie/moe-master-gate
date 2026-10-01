@@ -26,6 +26,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'https://github.com/joeycoachie/KIN-P016_W1_Upper-Crossed_Advanced-Kinetic-Load',
     addedOn: '2026-10-01',
   },
+  {
+    id: 'KIN-P016_W2',
+    arc: 'KIN-P016 — Upper Crossed',
+    week: 2,
+    title: '4s Eccentric Load & Tension',
+    focus: '4s Eccentric Scapular Braking → Stable-Base Anterior/Posterior Slings → 5s Long Stretch',
+    doctrine: 'SYS-D022 V2.0',
+    source: 'movement_os_advanced_upper_crossed_w2.html',
+    addedOn: '2026-10-02',
+  },
 ];
 
 const PROTOCOL_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
