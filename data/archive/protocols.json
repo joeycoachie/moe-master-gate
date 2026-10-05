@@ -1,0 +1,530 @@
+[
+  {
+    "id": "D-001",
+    "name": "Founder as Funnel",
+    "classification": "STRATEGY [DOCTRINE]",
+    "desc": "The enterprise's grand strategy. The Founder's authentic journey is the primary asset for building trust."
+  },
+  {
+    "id": "D-002",
+    "name": "Base Camp Protocol",
+    "classification": "STRATEGY [PROTOCOL]",
+    "desc": "Focus all resources on a single, foundational objective before expanding."
+  },
+  {
+    "id": "D-003",
+    "name": "The Architect's Path (Path C)",
+    "classification": "STRATEGY [PROTOCOL]",
+    "desc": "The “Doctrine-First” path: forging IP (Playbook) and Brand (Founder) as the two core leverage assets."
+  },
+  {
+    "id": "D-004",
+    "name": "Singularity Bridge Protocol",
+    "classification": "STRATEGY [DOCTRINE]",
+    "desc": "Bridges the 40-year “Summit” vision to 90-day crucible operations."
+  },
+  {
+    "id": "D-005",
+    "name": "The Signal Translation Framework",
+    "classification": "COMMUNICATION [DOCTRINE]",
+    "desc": "Official doctrine for external comms — the Iceberg Model and Wolf-to-Shepherd Translation Matrix."
+  },
+  {
+    "id": "D-006",
+    "name": "The Content Funnel Doctrine",
+    "classification": "COMMUNICATION [DOCTRINE]",
+    "desc": "3-phase strategic foundation (Awareness, Trust, Conversion) governing all content funnels."
+  },
+  {
+    "id": "D-007",
+    "name": "The Crucible as Curriculum",
+    "classification": "STRATEGY [DOCTRINE]",
+    "desc": "The “Air War” doctrine — 3-phase engine (Extraction, Forge, Disseminate) turning raw Crucibles into Pillar content."
+  },
+  {
+    "id": "D-008",
+    "name": "The Renaissance Protocol",
+    "classification": "STRATEGY [DOCTRINE]",
+    "desc": "“Guide, not a Guru” identity governing the Socratic Loop model — architects sovereignty, not dependency."
+  },
+  {
+    "id": "D-009",
+    "name": "The Clarity vs. Momentum Protocol",
+    "classification": "STRATEGY [DOCTRINE]",
+    "desc": "Sell Clarity (the Blueprint) first, then Momentum (the Execution)."
+  },
+  {
+    "id": "D-011",
+    "name": "The Instagram Doctrine v1.0",
+    "classification": "COMMUNICATION [DOCTRINE]",
+    "desc": "Source of truth for the Instagram platform — “Operator's Stack” and “Digital Handshake.”"
+  },
+  {
+    "id": "D-013",
+    "name": "The Separation of Powers Doctrine",
+    "classification": "ENTERPRISE_OS [DOCTRINE]",
+    "desc": "Rejects Generalist AI for Specialized Nodes to protect Signal Purity."
+  },
+  {
+    "id": "KIN-D024",
+    "name": "The Shepherd & Wolf Doctrine (Kinetic Adaptation)",
+    "classification": "COMM_OS / KINETIC_OS [INTERNAL]",
+    "desc": "Toggle Wolf (firm/anatomical, CNS safety) vs. Shepherd (rhythmic/imagery, PNS release) cueing."
+  },
+  {
+    "id": "P-001",
+    "name": "RPH Lift Multiplier",
+    "classification": "FINANCE [PLAYBOOK]",
+    "desc": "Primary financial KPI measuring the quantitative impact of IP on Founder time/revenue."
+  },
+  {
+    "id": "P-002",
+    "name": "Shepherd-to-Wolf Arc",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "Lead with a raw, human story (Shepherd), then deconstruct it into an actionable system (Wolf)."
+  },
+  {
+    "id": "P-002-B",
+    "name": "The Silk & Steel Framework",
+    "node": "COMM_OS",
+    "desc": "3-phase universal storytelling architecture (Absolution → Systemic Diagnosis → Sovereignty)."
+  },
+  {
+    "id": "P-005",
+    "name": "S+ Rank Output Mandate",
+    "classification": "ENTERPRISE_OS [PLAYBOOK]",
+    "desc": "Mandates all Armory outputs ship in “Executor-Ready”, copy-pasteable format."
+  },
+  {
+    "id": "P-008",
+    "name": "Content Funnel Playbook v1.0",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "Tactical playbook executing D-006."
+  },
+  {
+    "id": "P-009",
+    "name": "Closed-Loop Debrief Protocol (CLDP)",
+    "classification": "ENTERPRISE_OS [PLAYBOOK]",
+    "desc": "Solves the “data remains siloed” distribution bottleneck."
+  },
+  {
+    "id": "P-010",
+    "name": "Founder's Weekly Cognitive Loop v3.0",
+    "classification": "ENTERPRISE_OS [PLAYBOOK]",
+    "desc": "6-step protocol positioning the Founder as Enterprise Synthesizer, absorbing AI debriefs into new IP."
+  },
+  {
+    "id": "P-011",
+    "name": "The “SOW as Shield”",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "Transfers C-Rank emotional price objections into an impersonal, systemic SOW review. Forged from S-011."
+  },
+  {
+    "id": "P-012",
+    "name": "S-Rank Onboarding Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "5-step protocol for seizing the “Project Architect” frame post-sale via SOW + Dual-Channel System."
+  },
+  {
+    "id": "P-013",
+    "name": "The Pre-Flight Authenticity Check",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "The final, non-negotiable quality gate for all Pillar content — “Gift of Service” + “Impacts Culture.”"
+  },
+  {
+    "id": "P-014",
+    "name": "“DM to Doctrine” Conversion Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "4-phase system (Shepherd, Probe, Bridge, Invitation) converting inbound DMs into newsletter subscribers."
+  },
+  {
+    "id": "P-015",
+    "name": "The Unified Outreach Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "4-stage chain of command (Spymaster, Forgemaster, Herald, Operator) for high-value outreach."
+  },
+  {
+    "id": "P-016",
+    "name": "The Envoy Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "4-pillar system (Resonance Hook, Value-Driven Follow-Up, De-Risking, Sovereignty Clause) for partnership building."
+  },
+  {
+    "id": "P-017",
+    "name": "The 90-Day “Air & Ground War” Protocol (Tripwire OS)",
+    "classification": "CLIENT_OS [PLAYBOOK]",
+    "desc": "Low-touch Tripwire OS for 90-day client sprints; explicitly excludes the Crucible Pipeline."
+  },
+  {
+    "id": "P-018",
+    "name": "The 90-Day Ascent Protocol (Client OS)",
+    "classification": "CLIENT_OS [PLAYBOOK]",
+    "desc": "High-touch Master Brief; includes Crucible Extraction and System Forging."
+  },
+  {
+    "id": "P-019",
+    "name": "The Inbound Filter Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "4-phase system (Re-Frame, Filter, Hold, Takeaway) for filtering C-Rank inbound requests."
+  },
+  {
+    "id": "P-020",
+    "name": "The M.O.E. High-Signal Funnel v1.0",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "5-phase framework (Hook, Filter, Call, Offer, Takeaway) converting Protagonist-Peers."
+  },
+  {
+    "id": "P-021",
+    "name": "The Hypothesis Test Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "S-Rank application of closed-ended questions — Label-as-Question and Commitment Question."
+  },
+  {
+    "id": "P-023",
+    "name": "The “Fresh Start” Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "One-time Shock & Awe operation eliminating Digital Hoarding and Ghost Signals."
+  },
+  {
+    "id": "P-024",
+    "name": "Peer Reconnaissance Sprint Protocol",
+    "classification": "CLIENT_OS [PLAYBOOK]",
+    "desc": "5-step Ground War system gathering intel from 10 Protagonist-Peers via 15-min calls."
+  },
+  {
+    "id": "P-025",
+    "name": "High-Signal Communication Playbook",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "Enterprise-wide system for high-stakes sales funnels — Architect's Hook, Value Deposit, Systemic Shield."
+  },
+  {
+    "id": "P-026",
+    "name": "The Honorable Discharge Protocol",
+    "classification": "CLIENT_OS [PLAYBOOK]",
+    "desc": "5-phase system (Audit, Narrative, Handover, Price Anchor, Close) for blameless client offboarding."
+  },
+  {
+    "id": "P-027",
+    "name": "The Crucible-to-Asset Pipeline",
+    "classification": "STRATEGY [PLAYBOOK]",
+    "desc": "3-phase system (Deconstruct, Forge, Deploy) turning Founder Services into Tripwire Assets."
+  },
+  {
+    "id": "P-028",
+    "name": "S+ Rank AI Prompting Protocol",
+    "classification": "ENTERPRISE_OS [PLAYBOOK]",
+    "desc": "5-part system (Intent, Composition, Sensory, Tech, Negative) for commanding AI visual generators."
+  },
+  {
+    "id": "P-031",
+    "name": "Phantom Equity (The Exit Legacy)",
+    "classification": "CLIENT_OS [PLAYBOOK] [FRANCHISE]",
+    "desc": "The “Final Artifact Rule” — replacing physical presence with S-Rank artifacts to prevent value decay on exit."
+  },
+  {
+    "id": "P-033",
+    "name": "The Visceral Avatar Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK]",
+    "desc": "Transforms staff bios from “Resumes” into “Character Profiles” to trigger client self-identification."
+  },
+  {
+    "id": "P-038",
+    "name": "The Authority Shield Protocol",
+    "classification": "COMMUNICATION [PLAYBOOK] [FRANCHISE]",
+    "desc": "Shifts authority from Person (“I want”) to Protocol (“The System requires”)."
+  },
+  {
+    "id": "P-041",
+    "name": "The Universal Sales OS (Diagnostic Protocol)",
+    "classification": "COMMUNICATION [PLAYBOOK] [FRANCHISE]",
+    "desc": "“Doctor Frame” sales system — replaces pitching with diagnostics."
+  },
+  {
+    "id": "P-044",
+    "name": "The Operator's Playbook",
+    "classification": "PRODUCT [BASE CAMP 1]",
+    "desc": "Core 5-day execution product for leaders navigating crisis without losing professional momentum."
+  },
+  {
+    "id": "P-045",
+    "name": "The MOE Negotiation Doctrine V2.0",
+    "classification": "COMMUNICATION",
+    "desc": "“Discovery Mandate” protocol — upgrades negotiation to the Kohlrieser Engagement Loop (Bond, Pain Point, Hope)."
+  },
+  {
+    "id": "P-046",
+    "name": "The Debrief Protocol",
+    "classification": "FOUNDER_OS",
+    "desc": "End-of-Day sequence — Professional Debrief, Skill Assessment (Leveling), Forward Directive."
+  },
+  {
+    "id": "P-047",
+    "name": "The Engineering Pipeline (GitHub-Vercel)",
+    "classification": "ENTERPRISE_OS [INFRASTRUCTURE]",
+    "desc": "Continuous Deployment doctrine; 1:1 sync between the Code Vault and Live Hosting Engine."
+  },
+  {
+    "id": "SYS-D020",
+    "name": "The M.O.E. Taxonomy",
+    "classification": "ENTERPRISE_OS [INTERNAL]",
+    "desc": "The SSOT for nomenclature — the Triad Prefix System (SYS-/KIN-/MET-) plus the 6 OS nodes."
+  },
+  {
+    "id": "SYS-D022",
+    "name": "The “Quiet Good Taste” UI/UX Standard",
+    "classification": "ENTERPRISE_OS [INTERNAL]",
+    "desc": "Visual hygiene doctrine — clinical, high-contrast aesthetic for all custom-coded digital assets."
+  },
+  {
+    "id": "SYS-D023",
+    "name": "The Integration Doctrine (The Moat)",
+    "classification": "STRATEGY_OS [INTERNAL]",
+    "desc": "Bridges M.O.E. Group and Herbalife; defines Visceral Inversion as the primary conversion tool."
+  },
+  {
+    "id": "SYS-D025",
+    "name": "The Barbell Liquidity Protocol",
+    "classification": "FOUNDER_OS",
+    "desc": "Risk management — 85% hyper-safe capital anchor, 15% speculative tinkering for asymmetric upside."
+  },
+  {
+    "id": "SYS-D027",
+    "name": "UI/UX Master Architecture Guide",
+    "classification": "ENTERPRISE_OS [ALL FLEET] [INTERNAL]",
+    "desc": "“Quiet Good Taste” design law for all Vercel endpoints — deep black, 1px borders, strict Tailwind."
+  },
+  {
+    "id": "SYS-D028",
+    "name": "Plain Language Mandate",
+    "classification": "COMM_OS [DOCTRINE] [SSOT]",
+    "node": "COMM_OS",
+    "layer": "L1-I",
+    "status": "live",
+    "desc": "The single rulebook for every word a customer of M.O.E. or RECUP.STN sees. Eight rules, a gate check before anything ships, one 5-step flow for every program, and a live lexicon that people and AI agents both read from.",
+    "answers": [
+      "How do I write anything a customer will read?",
+      "Which words are we not allowed to say in public?",
+      "Can I make this health claim or use this number?",
+      "How do I take someone from a post to a paid program?",
+      "Who should we not sell RECUP 90 to?",
+      "How do I brief an AI agent to write customer copy?"
+    ],
+    "classified": "2026-10-05",
+    "components": [
+      {
+        "answers": "Is this line safe to send?",
+        "kind": "tool",
+        "name": "Gate check",
+        "status": "live"
+      },
+      {
+        "kind": "rules",
+        "name": "Eight rules (R1 to R8)",
+        "status": "live"
+      },
+      {
+        "kind": "playbook",
+        "name": "One flow: post, reply, Whale questions, 15-min call, deploy",
+        "status": "live"
+      },
+      {
+        "answers": "Is this lead worth a call?",
+        "kind": "diagnostic",
+        "name": "Whale questions",
+        "note": "Awaiting founder approval. Replaces the FORMOH Audit for non-runners. Promote to its own Tool ID once approved.",
+        "status": "draft"
+      },
+      {
+        "kind": "tracker",
+        "name": "Live lexicon and ban list",
+        "note": "Lives in the mandate artifact's database, collection lexicon.",
+        "status": "live"
+      },
+      {
+        "kind": "process",
+        "name": "Auto-improve loop and weekly after-action",
+        "status": "live"
+      },
+      {
+        "kind": "script",
+        "name": "Agent protocol block",
+        "status": "live"
+      },
+      {
+        "kind": "log",
+        "name": "Decision record",
+        "status": "live"
+      }
+    ],
+    "concepts": [
+      "plain-language",
+      "wolf-shepherd",
+      "lexicon",
+      "health-claims",
+      "quality-gate",
+      "sales-flow",
+      "lead-qualification",
+      "safety-screening",
+      "ai-agent-briefing",
+      "improvement-loop"
+    ],
+    "doc_version": "1.0",
+    "edges": [
+      {
+        "rel": "requires",
+        "to": "D-005",
+        "why": "Wolf and Shepherd words come from the Translation Matrix here."
+      },
+      {
+        "rel": "requires",
+        "to": "P-002",
+        "why": "Explains the Shepherd (human) and Wolf (system) split the mandate enforces."
+      },
+      {
+        "rel": "supersedes",
+        "to": "D-005",
+        "why": "Partly. The Translation Matrix now lives in the live lexicon. The Iceberg Model stays in D-005."
+      },
+      {
+        "rel": "uses",
+        "to": "T-013",
+        "why": "Built on the Iron Skeleton: intent, objectives, procedures."
+      },
+      {
+        "rel": "uses",
+        "to": "T-015",
+        "why": "Whale questions were drafted from the Metabolic Profile Schema."
+      },
+      {
+        "rel": "uses",
+        "to": "P-041",
+        "why": "The Whale questions and 15-min call apply the Doctor Frame."
+      },
+      {
+        "rel": "uses",
+        "to": "P-009",
+        "why": "The weekly after-action is a Closed-Loop Debrief."
+      },
+      {
+        "rel": "feeds",
+        "to": "P-010",
+        "why": "Proposals and weekly misses go to the founder's weekly loop for approval."
+      },
+      {
+        "rel": "governs",
+        "to": "T-014",
+        "why": "The RECUP.STN HQ booking form. Disease words removed, safety question added."
+      },
+      {
+        "rel": "governs",
+        "to": "D-011",
+        "why": "Every Instagram post and DM must pass the gate check."
+      },
+      {
+        "rel": "governs",
+        "to": "P-008",
+        "why": "Content funnel copy is customer-facing."
+      },
+      {
+        "rel": "governs",
+        "to": "SYS-P050",
+        "why": "Trial Rail captions must pass the gate check."
+      },
+      {
+        "rel": "governs",
+        "to": "P-044",
+        "why": "Public product copy."
+      },
+      {
+        "rel": "governs",
+        "to": "KIN-T040",
+        "why": "Client-facing dossier. Recheck against the lexicon."
+      },
+      {
+        "rel": "governs",
+        "to": "SYS-T041",
+        "why": "Client-facing dossier. Recheck against the lexicon."
+      },
+      {
+        "rel": "governs",
+        "to": "MET-T042",
+        "why": "Client-facing dossier written in system language. Recheck first."
+      },
+      {
+        "rel": "governs",
+        "to": "SYS-T064",
+        "why": "Customer-facing CTA."
+      },
+      {
+        "rel": "governs",
+        "to": "SYS-T065",
+        "why": "Customer-facing DM script."
+      },
+      {
+        "rel": "governs",
+        "to": "SYS-T066",
+        "why": "Headline formula. Headlines are customer-facing."
+      },
+      {
+        "rel": "governs",
+        "to": "SYS-T067",
+        "why": "Opening paragraph pattern. Customer-facing."
+      },
+      {
+        "rel": "overlaps",
+        "to": "P-020",
+        "why": "Two 5-step funnels for the same job. The founder should pick one as the main one."
+      },
+      {
+        "rel": "overlaps",
+        "to": "P-014",
+        "why": "Both script the first DM reply. The goals differ: newsletter vs call."
+      },
+      {
+        "rel": "overlaps",
+        "to": "P-013",
+        "why": "Two quality gates. Pillar content should pass both."
+      },
+      {
+        "rel": "overlaps",
+        "to": "SYS-T065",
+        "why": "Another short diagnostic. Decide when to use it instead of the Whale questions."
+      },
+      {
+        "rel": "overlaps",
+        "to": "KIN-D024",
+        "why": "Same words, different meaning. Wolf here means internal jargon. In KIN-D024 it means a firm coaching cue."
+      },
+      {
+        "rel": "conflicts",
+        "to": "SYS-D023",
+        "why": "D-023 links M.O.E. to Herbalife. The mandate bars naming the partner brand in public until it is tested."
+      },
+      {
+        "rel": "proven_by",
+        "to": "C-003",
+        "why": "Ops Healthbar became RECUP.STN HQ. Its public copy was rewritten to this mandate."
+      }
+    ],
+    "owner": "Founder",
+    "sources_unfiled": [
+      "COMMS-D V1.0",
+      "EX-COMM V2.0",
+      "Plain Language Dossiers",
+      "Brand Bible v2.9"
+    ],
+    "source": "mandate.html"
+  },
+  {
+    "id": "SYS-P050",
+    "name": "The Trial Rail Protocol",
+    "classification": "COMM_OS [PLAYBOOK]",
+    "desc": "Standardized caption architecture for A/B-testing formats via Radical Transparency."
+  },
+  {
+    "id": "SYS-P061",
+    "name": "The Physical Router Protocol",
+    "classification": "ENTERPRISE_OS [INTERNAL]",
+    "desc": "QR codes must encode a static subdomain router, never a raw dynamic Vercel endpoint."
+  }
+]

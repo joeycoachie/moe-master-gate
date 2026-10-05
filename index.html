@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Intelligence Archive</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #0a0a0c; --surface: #131316; --surface-2: #1c1c20;
+    --ink: #f2f1ed; --ink-dim: #8b8b93; --line: #2a2a30;
+    --accent: #3b63e0; --accent-ink: #f5f7ff;
+    --sys: #4a7fd6; --kin: #d67a4a; --met: #4ab08a; --legacy: #9b8bd6;
+    --ok: #3fa66b; --warn: #d9a441; --bad: #e0675c;
+    font-family: "Inter", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); padding-inline: 16px; padding-block: 26px 60px; }
+  .wrap { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+
+  h1 { font-size: clamp(24px, 5vw, 32px); font-weight: 800; margin: 0; }
+  .sub { font-size: 13px; color: var(--ink-dim); line-height: 1.5; max-width: 68ch; }
+  .note { font-size: 11.5px; color: var(--ink-dim); border: 1px dashed var(--line); border-radius: 6px; padding: 10px 12px; line-height: 1.5; }
+  code { font-family: "JetBrains Mono", monospace; font-size: 0.95em; }
+
+  .tabs { display: flex; gap: 2px; background: var(--line); border-radius: 8px; padding: 2px; width: fit-content; max-width: 100%; overflow-x: auto; }
+  .tab { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 6px; background: transparent; color: var(--ink-dim); cursor: pointer; border: none; white-space: nowrap; }
+  .tab.active { background: var(--surface); color: var(--ink); }
+
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .search {
+    flex: 1; min-width: 180px; background: var(--surface); border: 1px solid var(--line); color: var(--ink);
+    font-family: inherit; font-size: 13px; padding: 9px 12px; border-radius: 6px;
+  }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip {
+    font-family: "JetBrains Mono", monospace; font-size: 10.5px; font-weight: 700; padding: 6px 10px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink-dim); cursor: pointer;
+  }
+  .chip.active { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  .count { font-size: 11.5px; color: var(--ink-dim); }
+  #results { display: flex; flex-direction: column; gap: 10px; }
+
+  .entry {
+    border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .entry.rich { border-color: #34343c; }
+  .entry-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .idtag {
+    font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; color: #04070f;
+  }
+  .name { font-weight: 700; font-size: 14.5px; }
+  .classtag { font-family: "JetBrains Mono", monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-dim); border: 1px solid var(--line); border-radius: 999px; padding: 2px 7px; margin-left: auto; }
+  .stat { font-family: "JetBrains Mono", monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 3px; border: 1px solid currentColor; }
+  .stat.live { color: var(--ok); } .stat.draft { color: var(--warn); } .stat.frozen, .stat.retired { color: var(--ink-dim); }
+  .desc { font-size: 12.5px; color: var(--ink-dim); line-height: 1.55; }
+  .node { font-family: "JetBrains Mono", monospace; font-size: 10px; color: var(--ink-dim); }
+  .ssot { font-family: "JetBrains Mono", monospace; font-size: 10.5px; color: var(--accent); text-decoration: none; width: fit-content; }
+  .ssot:hover { text-decoration: underline; }
+
+  .answers { margin: 4px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; }
+  .answers li { font-size: 12.5px; padding-left: 14px; position: relative; }
+  .answers li::before { content: "?"; position: absolute; left: 0; color: var(--accent); font-family: "JetBrains Mono", monospace; font-weight: 700; font-size: 11px; }
+  .sec { font-family: "JetBrains Mono", monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); margin-top: 6px; }
+
+  .rels { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .relrow { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 10px; align-items: start; }
+  .rellbl { font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-dim); padding-top: 4px; }
+  .rellbl.warn { color: var(--warn); } .rellbl.bad { color: var(--bad); } .rellbl.acc { color: var(--accent); }
+  .reltargets { display: flex; flex-wrap: wrap; gap: 5px; }
+  .rt { font-family: "JetBrains Mono", monospace; font-size: 10.5px; font-weight: 600; background: var(--surface-2); color: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 3px 7px; cursor: pointer; text-align: left; max-width: 100%; }
+  .rt:hover, .rt:focus-visible { border-color: var(--accent); outline: none; }
+  .rt span { color: var(--ink-dim); font-weight: 500; font-family: "Inter", sans-serif; }
+  .rt.missing { border-style: dashed; color: var(--ink-dim); cursor: default; }
+  .rt[data-tip] { position: relative; }
+  .why { font-size: 11.5px; color: var(--ink-dim); line-height: 1.45; margin-top: 3px; }
+  @media (max-width: 560px) { .relrow { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+
+  details.comp { font-size: 12.5px; }
+  details.comp summary { cursor: pointer; font-family: "JetBrains Mono", monospace; font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-dim); }
+  details.comp ul { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; color: var(--ink-dim); }
+  details.comp li b { color: var(--ink); font-weight: 600; }
+
+  .add-box { border: 1px solid var(--accent); background: var(--surface-2); border-radius: 8px; padding: 16px 18px; }
+  .add-box h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin: 0 0 10px; }
+  .status { font-size: 11px; color: var(--ink-dim); }
+
+  .sync-note { font-size: 11px; color: var(--ink-dim); text-align: center; }
+  [hidden] { display: none !important; }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <div>
+    <h1>Intelligence Archive</h1>
+    <div class="sub">Browsable reference for the M.O.E. Group's real Armory (SYS-D020 taxonomy): Doctrines &amp; Playbooks, Tools, and Crucibles. Each classified entry shows how it connects to the rest: what to learn first, what it uses, what comes next, what it rules over, and where it overlaps or conflicts. Search by a question too, such as “what can't I say”.</div>
+  </div>
+  <div class="note">Scope note: roughly 50 Doctrines/Playbooks, 40 Tools and all 9 Crucibles are seeded. The relationship map (Forge Log) has started: entries that list links have been fully classified, and links pointing back are worked out automatically. Classification rules live in <code>data/schema.json</code>. Data lives in <code>data/</code> as plain JSON in this repo and deploys as a static site (P-047). See <a href="mandate.html" style="color:var(--accent)">SYS-D028 Plain Language Mandate</a>.</div>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="toolbar">
+    <input class="search" id="searchBox" type="search" placeholder="Search by ID, name, description or a question…" aria-label="Search the archive">
+  </div>
+  <div class="chips" id="domainChips"></div>
+  <div class="count" id="countLine"></div>
+
+  <div id="results"></div>
+
+  <div class="add-box">
+    <h3>Add or correct an entry</h3>
+    <div class="desc">Edit <code>data/archive/protocols.json</code>, <code>tools.json</code> or <code>crucibles.json</code>, then run <code>npm run validate</code>. Entries marked <code>classified</code> need links, questions, a status and a layer, or the check fails. Rules: <code>data/schema.json</code> and <code>HANDOVER.md</code>.</div>
+  </div>
+
+  <div class="sync-note" id="syncNote"></div>
+</div>
+
+<script>
+(function () {
+  /* Relation vocabulary. Stored one way on the source entry; the reverse is computed here. */
+  var REL = {
+    requires:  { out: "Learn first",  inn: "Unlocks",       tone: "acc" },
+    uses:      { out: "Uses",         inn: "Used by",       tone: "" },
+    feeds:     { out: "Leads to",     inn: "Comes after",   tone: "" },
+    governs:   { out: "Rules over",   inn: "Must follow",   tone: "acc" },
+    supersedes:{ out: "Replaces",     inn: "Replaced by",   tone: "warn" },
+    overlaps:  { out: "Overlaps",     inn: "Overlaps",      tone: "warn" },
+    conflicts: { out: "Conflicts",    inn: "Conflicts",     tone: "bad" },
+    proven_by: { out: "Proven in",    inn: "Proves",        tone: "" }
+  };
+  var REL_ORDER = ["requires", "uses", "feeds", "governs", "supersedes", "overlaps", "conflicts", "proven_by"];
+
+  function domainOf(id) {
+    if (id.indexOf("SYS-") === 0) return "sys";
+    if (id.indexOf("KIN-") === 0) return "kin";
+    if (id.indexOf("MET-") === 0) return "met";
+    return "legacy";
+  }
+  var DOMAIN_COLOR = { sys: "var(--sys)", kin: "var(--kin)", met: "var(--met)", legacy: "var(--legacy)" };
+  var DOMAIN_LABEL = { all: "All", sys: "SYS", kin: "KIN", met: "MET", legacy: "Legacy" };
+  var COLLS = ["protocols", "tools", "crucibles"];
+
+  var state = { tab: "protocols", domain: "all", q: "", dbData: { protocols: [], tools: [], crucibles: [] } };
+
+
+  function esc(s) { if (s == null) return ""; var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
+
+  /* Data comes from data/archive/<collection>.json. Those files are the single source of truth. */
+  function merged(coll) { return state.dbData[coll]; }
+
+  var INDEX = {}, INCOMING = {};
+  function buildIndex() {
+    INDEX = {}; INCOMING = {};
+    COLLS.forEach(function (c) { merged(c).forEach(function (r) { INDEX[r.id] = { r: r, coll: c }; }); });
+    Object.keys(INDEX).forEach(function (id) {
+      (INDEX[id].r.edges || []).forEach(function (e) {
+        if (!e || !e.to || !REL[e.rel]) return;
+        (INCOMING[e.to] = INCOMING[e.to] || []).push({ rel: e.rel, from: id, why: e.why });
+      });
+    });
+  }
+
+  function haystack(r) {
+    var parts = [r.id, r.name, r.desc, r.classification, r.node];
+    (r.answers || []).forEach(function (a) { parts.push(a); });
+    (r.concepts || []).forEach(function (c) { parts.push(c.replace(/-/g, " ")); });
+    (r.components || []).forEach(function (c) { parts.push(c.name, c.answers || ""); });
+    return parts.join(" ").toLowerCase();
+  }
+
+  function currentList() {
+    var q = state.q.trim().toLowerCase();
+    var base = q ? COLLS.reduce(function (a, c) { return a.concat(merged(c)); }, []) : merged(state.tab);
+    var exact = base.filter(function (r) { return r.id.toLowerCase() === q; });
+    if (exact.length) return exact;
+    var STOP = { what: 1, how: 1, the: 1, can: 1, are: 1, which: 1, who: 1, why: 1, does: 1, should: 1, our: 1, for: 1, and: 1, you: 1, this: 1, that: 1, with: 1, want: 1, need: 1 };
+    var words = q.replace(/[?.,!]/g, " ").split(/\s+/).filter(function (w) { return (w.length > 2 || /\d/.test(w)) && !STOP[w]; });
+    return base.filter(function (r) {
+      if (state.domain !== "all" && domainOf(r.id) !== state.domain) return false;
+      if (!q) return true;
+      var h = haystack(r);
+      if (h.indexOf(q) !== -1) return true;
+      return words.length > 1 && words.every(function (w) { return h.indexOf(w) !== -1; });
+    });
+  }
+
+  function renderTabs() {
+    var el = document.getElementById("tabs");
+    el.innerHTML = "";
+    [["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"]].forEach(function (t) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "tab" + (state.tab === t[0] ? " active" : "");
+      b.textContent = t[1];
+      b.addEventListener("click", function () { state.tab = t[0]; renderAll(); });
+      el.appendChild(b);
+    });
+  }
+
+  function renderChips() {
+    var el = document.getElementById("domainChips");
+    el.innerHTML = "";
+    ["all", "sys", "kin", "met", "legacy"].forEach(function (d) {
+      var c = document.createElement("button");
+      c.type = "button";
+      c.className = "chip" + (state.domain === d ? " active" : "");
+      c.textContent = DOMAIN_LABEL[d];
+      c.addEventListener("click", function () { state.domain = d; renderAll(); });
+      el.appendChild(c);
+    });
+  }
+
+  function targetBtn(id, why) {
+    var hit = INDEX[id];
+    var label = hit ? esc(id) + ' <span>' + esc(hit.r.name) + '</span>' : esc(id) + ' <span>not filed yet</span>';
+    return '<button type="button" class="rt' + (hit ? '' : ' missing') + '" data-go="' + esc(id) + '"' + (why ? ' title="' + esc(why) + '"' : '') + '>' + label + '</button>';
+  }
+
+  function relBlock(r) {
+    var groups = {};
+    (r.edges || []).forEach(function (e) {
+      if (!REL[e.rel]) return;
+      var k = "out:" + e.rel; (groups[k] = groups[k] || []).push({ id: e.to, why: e.why });
+    });
+    (INCOMING[r.id] || []).forEach(function (e) {
+      var sym = e.rel === "overlaps" || e.rel === "conflicts";
+      var k = (sym ? "out:" : "in:") + e.rel;
+      var list = (groups[k] = groups[k] || []);
+      if (!list.some(function (x) { return x.id === e.from; })) list.push({ id: e.from, why: e.why });
+    });
+    var rows = [];
+    REL_ORDER.forEach(function (rel) {
+      ["out", "in"].forEach(function (dir) {
+        var list = groups[dir + ":" + rel]; if (!list || !list.length) return;
+        var meta = REL[rel];
+        var whys = list.filter(function (x) { return x.why; });
+        var showWhy = (rel === "overlaps" || rel === "conflicts" || rel === "supersedes" || rel === "requires");
+        rows.push('<div class="relrow"><div class="rellbl ' + meta.tone + '">' + esc(dir === "out" ? meta.out : meta.inn) + '</div><div><div class="reltargets">' +
+          list.map(function (x) { return targetBtn(x.id, x.why); }).join("") + '</div>' +
+          (showWhy && whys.length ? whys.map(function (x) { return '<div class="why"><b style="color:var(--ink);font-weight:600">' + esc(x.id) + '.</b> ' + esc(x.why) + '</div>'; }).join("") : '') +
+          '</div></div>');
+      });
+    });
+    return rows.length ? '<div class="rels">' + rows.join("") + '</div>' : '';
+  }
+
+  function renderResults() {
+    buildIndex();
+    var list = currentList();
+    document.getElementById("countLine").textContent = list.length + " entr" + (list.length === 1 ? "y" : "ies") + (state.q.trim() ? " across the whole archive" : "");
+    var host = document.getElementById("results");
+    host.innerHTML = "";
+    list.forEach(function (r) {
+      var dom = domainOf(r.id);
+      var rich = !!(r.edges && r.edges.length);
+      var card = document.createElement("div");
+      card.className = "entry" + (rich ? " rich" : "");
+      var comps = r.components && r.components.length
+        ? '<details class="comp"><summary>Inside it · ' + r.components.length + ' parts</summary><ul>' + r.components.map(function (c) {
+            return '<li><b>' + esc(c.name) + '</b>' + (c.status && c.status !== "live" ? ' <span class="stat ' + esc(c.status) + '">' + esc(c.status) + '</span>' : '') + (c.note ? '. ' + esc(c.note) : '') + '</li>';
+          }).join("") + '</ul></details>' : '';
+      card.innerHTML =
+        '<div class="entry-head">' +
+          '<span class="idtag" style="background:' + DOMAIN_COLOR[dom] + '">' + esc(r.id) + '</span>' +
+          '<span class="name">' + esc(r.name) + '</span>' +
+          (r.status ? '<span class="stat ' + esc(r.status) + '">' + esc(r.status) + '</span>' : '') +
+          (r.classification || r.layer ? '<span class="classtag">' + esc([r.classification, r.layer].filter(Boolean).join(" · ")) + '</span>' : '') +
+        '</div>' +
+        '<div class="desc">' + esc(r.desc) + '</div>' +
+        (r.node ? '<div class="node">' + esc(r.node) + '</div>' : '') +
+        (r.source ? '<a class="ssot" href="' + esc(r.source) + '">Open the source →</a>' : '') +
+        (r.answers && r.answers.length ? '<div class="sec">Answers</div><ul class="answers">' + r.answers.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join("") + '</ul>' : '') +
+        comps +
+        relBlock(r);
+      host.appendChild(card);
+    });
+    host.querySelectorAll("[data-go]").forEach(function (b) {
+      b.addEventListener("click", function () { goTo(b.getAttribute("data-go")); });
+    });
+    if (!list.length) {
+      host.innerHTML = '<div class="note">No entries match. Try clearing the search or filter.</div>';
+    }
+  }
+
+  function goTo(id) {
+    var hit = INDEX[id]; if (!hit) return;
+    state.tab = hit.coll; state.domain = "all"; state.q = id;
+    document.getElementById("searchBox").value = id;
+    renderAll();
+    window.scrollTo({ top: document.getElementById("tabs").offsetTop - 12, behavior: "smooth" });
+  }
+
+  function renderAll() { renderTabs(); renderChips(); renderResults(); }
+
+  document.getElementById("searchBox").addEventListener("input", function (e) { state.q = e.target.value; renderResults(); });
+
+  async function boot() {
+    var note = document.getElementById("syncNote");
+    try {
+      var res = await Promise.all(COLLS.map(function (c) {
+        return fetch("data/archive/" + c + ".json", { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+      }));
+      COLLS.forEach(function (c, i) { state.dbData[c] = res[i]; });
+      var n = res.reduce(function (a, l) { return a + l.length; }, 0);
+      var k = res.reduce(function (a, l) { return a + l.filter(function (e) { return e.classified; }).length; }, 0);
+      note.textContent = n + " entries loaded from data/archive. " + k + " fully classified.";
+    } catch (e) {
+      note.textContent = "Could not load data/archive/*.json. Run npm run dev and open http://localhost:3000 (browsers block data files opened straight from disk).";
+    }
+    renderAll();
+  }
+
+  boot();
+})();
+</script>
+
+</body>
+</html>

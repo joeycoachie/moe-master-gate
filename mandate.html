@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plain Language Mandate</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
+<style>
+  /* Layout: a doctrine file. Sticky section index on wide screens, one reading column, tools inline where they are used. */
+  :root {
+    --bg: #0b0c0e; --panel: #121418; --panel-2: #181b20; --line: #262a31; --line-2: #343943;
+    --ink: #eceef1; --dim: #8d939d; --faint: #5b616b;
+    --accent: #7fa3ff; --accent-ink: #0a1022; --accent-soft: rgba(127,163,255,.12);
+    --ok: #4cc38a; --warn: #e3a64a; --bad: #f0645c;
+    --ok-soft: rgba(76,195,138,.12); --warn-soft: rgba(227,166,74,.13); --bad-soft: rgba(240,100,92,.13);
+    --display: "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f6f7f9; --panel: #ffffff; --panel-2: #eef0f4; --line: #dcdfe5; --line-2: #c8ccd4;
+      --ink: #14161a; --dim: #5d636d; --faint: #8b909a;
+      --accent: #2f56c9; --accent-ink: #ffffff; --accent-soft: rgba(47,86,201,.09);
+      --ok: #1f8a57; --warn: #a8670f; --bad: #c2362e;
+      --ok-soft: rgba(31,138,87,.1); --warn-soft: rgba(168,103,15,.1); --bad-soft: rgba(194,54,46,.09);
+      color-scheme: light;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f7f9; --panel: #ffffff; --panel-2: #eef0f4; --line: #dcdfe5; --line-2: #c8ccd4;
+    --ink: #14161a; --dim: #5d636d; --faint: #8b909a;
+    --accent: #2f56c9; --accent-ink: #ffffff; --accent-soft: rgba(47,86,201,.09);
+    --ok: #1f8a57; --warn: #a8670f; --bad: #c2362e;
+    --ok-soft: rgba(31,138,87,.1); --warn-soft: rgba(168,103,15,.1); --bad-soft: rgba(194,54,46,.09);
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.6 var(--sans); padding-inline: 16px; padding-block: 28px 80px; }
+  .shell { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 40px; }
+  @media (max-width: 860px) { .shell { grid-template-columns: minmax(0, 1fr); gap: 0; } .index { display: none; } }
+  .index { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; display: grid; gap: 2px; font: 500 12px var(--mono); }
+  .index a { color: var(--dim); text-decoration: none; padding: 5px 8px; border-left: 1px solid var(--line); }
+  .index a:hover, .index a:focus-visible { color: var(--ink); border-left-color: var(--accent); outline: none; }
+  .index b { font: 600 10px var(--mono); letter-spacing: .12em; color: var(--faint); padding: 0 8px 8px; text-transform: uppercase; }
+  main { display: grid; gap: 44px; min-width: 0; }
+  section { display: grid; gap: 14px; scroll-margin-top: 20px; min-width: 0; }
+  section > * { min-width: 0; }
+  p, code { overflow-wrap: anywhere; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  h1 { font: 700 clamp(34px, 6vw, 54px)/1 var(--display); letter-spacing: -.01em; text-transform: uppercase; }
+  h2 { font: 700 26px/1.1 var(--display); text-transform: uppercase; letter-spacing: .01em; }
+  h3 { font: 600 15px var(--sans); }
+  p { margin: 0; max-width: 68ch; }
+  .lbl { font: 600 10.5px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  .lbl.acc { color: var(--accent); }
+  .dim { color: var(--dim); }
+  .mono { font-family: var(--mono); }
+  code { font: 500 .9em var(--mono); background: var(--panel-2); border: 1px solid var(--line); padding: 1px 5px; border-radius: 3px; }
+
+  /* header */
+  .file { display: grid; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px 18px; font: 500 12px var(--mono); color: var(--dim); }
+  .meta span b { color: var(--ink); font-weight: 600; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font: 600 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border: 1px solid currentColor; border-radius: 2px; white-space: nowrap; }
+  .chip.ok { color: var(--ok); } .chip.warn { color: var(--warn); } .chip.bad { color: var(--bad); } .chip.acc { color: var(--accent); } .chip.idle { color: var(--dim); }
+  .lede { font-size: 17px; line-height: 1.55; max-width: 62ch; }
+
+  /* objectives */
+  .objs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .objs > div { background: var(--panel); padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+  .objs .n { font: 700 11px var(--mono); color: var(--accent); }
+  @media (max-width: 700px) { .objs { grid-template-columns: minmax(0, 1fr); } }
+
+  /* checker */
+  .tool { border: 1px solid var(--line-2); background: var(--panel); padding: 18px; display: grid; gap: 12px; }
+  textarea, input, select { font: 15px/1.5 var(--sans); color: var(--ink); background: var(--panel-2); border: 1px solid var(--line); border-radius: 3px; padding: 10px 12px; width: 100%; }
+  textarea:focus, input:focus, select:focus { outline: none; border-color: var(--accent); }
+  textarea { min-height: 120px; resize: vertical; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .btn { font: 600 11.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); border: 1px solid var(--accent); border-radius: 3px; padding: 10px 14px; cursor: pointer; }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+  .btn.sm { padding: 6px 10px; font-size: 10.5px; }
+  .btn.ok { background: var(--ok); border-color: var(--ok); color: var(--bg); }
+  .btn.no { background: transparent; color: var(--bad); border-color: var(--bad); }
+  .btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .verdict { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); background: var(--panel-2); font: 600 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+  .verdict.pass { border-color: var(--ok); color: var(--ok); background: var(--ok-soft); }
+  .verdict.fix { border-color: var(--warn); color: var(--warn); background: var(--warn-soft); }
+  .verdict.stop { border-color: var(--bad); color: var(--bad); background: var(--bad-soft); }
+  .marked { white-space: pre-wrap; background: var(--panel-2); border: 1px solid var(--line); padding: 12px; font-size: 15px; line-height: 1.7; overflow-wrap: anywhere; }
+  mark { color: inherit; padding: 0 2px; border-radius: 2px; }
+  mark.ban { background: var(--bad-soft); box-shadow: inset 0 -2px 0 var(--bad); }
+  mark.swap { background: var(--warn-soft); box-shadow: inset 0 -2px 0 var(--warn); }
+  .hits { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .hits li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 10px; font-size: 14px; padding: 8px 10px; border-left: 2px solid var(--line-2); background: var(--panel-2); }
+  .hits li.ban { border-left-color: var(--bad); } .hits li.swap { border-left-color: var(--warn); } .hits li.note { border-left-color: var(--accent); }
+  .hits .k { font: 600 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; padding-top: 3px; }
+  .hits li.ban .k { color: var(--bad); } .hits li.swap .k { color: var(--warn); } .hits li.note .k { color: var(--accent); }
+  .manual { display: grid; gap: 6px; }
+  .manual label { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; cursor: pointer; }
+  .manual input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--ok); flex: none; padding: 0; }
+
+  /* rules */
+  .rules { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .rule { background: var(--panel); display: grid; grid-template-columns: 52px minmax(0, 1fr) minmax(0, 1fr); gap: 16px; padding: 14px 16px; align-items: start; }
+  .rule .id { font: 700 13px var(--mono); color: var(--accent); }
+  .rule .eg { font-size: 13.5px; color: var(--dim); display: grid; gap: 2px; }
+  .rule .eg s { color: var(--bad); text-decoration-thickness: 1px; }
+  .rule .eg span { color: var(--ok); }
+  @media (max-width: 700px) { .rule { grid-template-columns: 40px minmax(0, 1fr); } .rule .eg { grid-column: 2; } }
+
+  /* flow */
+  .flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; border: 1px solid var(--line); }
+  .step { padding: 14px; display: grid; gap: 6px; align-content: start; border-right: 1px solid var(--line); background: var(--panel); }
+  .step:last-child { border-right: 0; }
+  .step .n { font: 700 11px var(--mono); color: var(--accent); }
+  .step b { font: 700 17px/1.15 var(--display); text-transform: uppercase; }
+  .step small { color: var(--dim); font-size: 13px; line-height: 1.45; }
+  .gate { margin-top: 6px; border-top: 1px dashed var(--line-2); padding-top: 8px; font-size: 12.5px; line-height: 1.45; }
+  .gate i { font: 600 9.5px var(--mono); letter-spacing: .12em; font-style: normal; color: var(--warn); display: block; margin-bottom: 2px; }
+  @media (max-width: 900px) { .flow { grid-template-columns: minmax(0, 1fr); } .step { border-right: 0; border-bottom: 1px solid var(--line); } .step:last-child { border-bottom: 0; } }
+
+  /* whale */
+  .qs { counter-reset: q; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin: 0; padding: 0; list-style: none; }
+  .qs li { background: var(--panel); padding: 12px 16px; display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px; align-items: baseline; }
+  .qs li::before { counter-increment: q; content: counter(q, decimal-leading-zero); font: 700 12px var(--mono); color: var(--accent); }
+  .qs .why { font: 500 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); white-space: nowrap; }
+  .qs li div small { display: block; color: var(--dim); font-size: 13px; }
+  @media (max-width: 600px) { .qs li { grid-template-columns: 26px minmax(0, 1fr); } .qs .why { grid-column: 2; } }
+  .split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 700px) { .split { grid-template-columns: minmax(0, 1fr); } }
+  .box { border: 1px solid var(--line); background: var(--panel); padding: 14px 16px; display: grid; gap: 6px; align-content: start; }
+  .box.ok { border-left: 2px solid var(--ok); } .box.warn { border-left: 2px solid var(--warn); } .box.bad { border-left: 2px solid var(--bad); }
+  .box ul { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 3px; }
+
+  /* lexicon */
+  .lexbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .lexbar input { flex: 1; min-width: 180px; width: auto; }
+  .seg { display: inline-flex; border: 1px solid var(--line-2); border-radius: 3px; overflow: hidden; }
+  .seg button { font: 600 10.5px var(--mono); letter-spacing: .08em; text-transform: uppercase; background: transparent; color: var(--dim); border: 0; padding: 8px 12px; cursor: pointer; font-variant-numeric: tabular-nums; }
+  .seg button.on { background: var(--panel-2); color: var(--ink); }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 620px; }
+  th { text-align: left; font: 600 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--dim); padding: 10px 12px; border-bottom: 1px solid var(--line); background: var(--panel); }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; background: var(--panel); }
+  tr:last-child td { border-bottom: 0; }
+  td.term { color: var(--dim); }
+  td.say { font-weight: 600; }
+  td.say.never { color: var(--bad); font-weight: 600; }
+  td.why { color: var(--dim); font-size: 13px; }
+  .kind { font: 600 9.5px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .kind.ban { color: var(--bad); } .kind.swap { color: var(--warn); }
+  .empty { border: 1px dashed var(--line-2); padding: 16px; color: var(--dim); font-size: 14px; }
+  .formgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .formgrid .full { grid-column: 1 / -1; }
+  .formgrid label { display: grid; gap: 4px; }
+  @media (max-width: 600px) { .formgrid { grid-template-columns: minmax(0, 1fr); } }
+  .status { font: 500 12px var(--mono); color: var(--dim); }
+  .status.err { color: var(--bad); }
+  .prop { border: 1px solid var(--line); background: var(--panel); padding: 12px 14px; display: grid; gap: 8px; }
+  .prop .top { display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline; justify-content: space-between; }
+  .prop .pair { font-size: 15px; } .prop .pair s { color: var(--dim); } .prop .pair b { color: var(--ok); }
+  .props { display: grid; gap: 8px; }
+
+  /* agent block, decisions */
+  pre.block { margin: 0; white-space: pre-wrap; font: 500 12.5px/1.6 var(--mono); background: var(--panel); border: 1px solid var(--line-2); padding: 14px 16px; overflow-wrap: anywhere; }
+  .dec { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .dec > div { background: var(--panel); display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; padding: 10px 14px; font-size: 14px; }
+  .dec time { font: 500 12px var(--mono); color: var(--dim); font-variant-numeric: tabular-nums; padding-top: 2px; }
+  .dec b { font-weight: 600; }
+  .audits { display: grid; gap: 8px; }
+  .audit { border: 1px solid var(--line); background: var(--panel); padding: 12px 14px; display: grid; gap: 4px; font-size: 14px; }
+  footer { border-top: 1px solid var(--line); padding-top: 16px; font: 500 12px var(--mono); color: var(--dim); display: grid; gap: 4px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+
+</head>
+<body>
+<div class="shell">
+  <nav class="index" aria-label="Sections">
+    <b>SYS-D028</b>
+    <a href="#intent">Intent</a>
+    <a href="#check">Gate check</a>
+    <a href="#rules">The rules</a>
+    <a href="#flow">The flow</a>
+    <a href="#whale">Whale questions</a>
+    <a href="#lexicon">Lexicon</a>
+    <a href="#improve">Improve it</a>
+    <a href="#agents">For AI agents</a>
+    <a href="#record">Decision record</a>
+  </nav>
+
+  <main>
+    <header class="file">
+      <div class="row"><span class="chip acc">SYS-D028</span><span class="chip ok">Live · SSOT</span><span class="chip idle">data/lexicon.json</span><span class="chip idle">COMM_OS</span></div>
+      <h1>Plain Language Mandate</h1>
+      <p class="lede">One place for how M.O.E. and RECUP.STN talk to customers. Every person and every AI agent reads from here before they write. If it is not in here, it is not the rule.</p>
+      <div class="meta">
+        <span>Version <b>1.0</b></span>
+        <span>Owner <b>Founder</b></span>
+        <span>Built from <b>COMMS-D V1.0 · EX-COMM V2.0 · Plain Language Dossiers · Brand Bible v2.9</b></span>
+        <span>Updated <b>5 Oct 2026</b></span>
+        <span><a href="index.html" style="color:var(--accent)">← Intelligence Archive</a></span>
+      </div>
+    </header>
+
+    <!-- COMMANDER'S INTENT + OBJECTIVES (T-013) -->
+    <section id="intent">
+      <div class="lbl acc">1.0 · Commander's intent</div>
+      <h2>We think in systems. We speak like people.</h2>
+      <p>Our internal words (Wolf) are for us. Customers only ever hear the plain version (Shepherd). Jargon is a shield. Plain words are a bridge. A customer has 7 seconds to feel understood, so we lead with their problem in their words, then give a fix of 3 lines or less.</p>
+      <div class="lbl" style="margin-top:6px">2.0 · Objectives</div>
+      <div class="objs">
+        <div><span class="n">O1</span><b>Same words everywhere</b><span class="dim">Posts, DMs, booth, site, calls, and every AI agent use one live lexicon.</span></div>
+        <div><span class="n">O2</span><b>Nothing ships unchecked</b><span class="dim">Every customer-facing line passes the gate check below before it goes out.</span></div>
+        <div><span class="n">O3</span><b>It gets better every week</b><span class="dim">Misses become proposals. The founder approves. Everyone gets the update at once.</span></div>
+      </div>
+      <p class="dim" style="font-size:14px"><b style="color:var(--ink)">Scope.</b> Anything a customer sees, hears or reads. Staff-only screens (God Terminal, jug recipes, the Armory) can keep internal words.</p>
+    </section>
+
+    <!-- GATE CHECK -->
+    <section id="check">
+      <div class="lbl acc">3.0 · Procedure 1 · Gate check</div>
+      <h2>Check before you send</h2>
+      <p class="dim">Paste a caption, DM, script or page line. It is checked against the live lexicon, sentence length, punctuation and numbers. Then tick the three gates a machine can't judge.</p>
+      <div class="tool">
+        <label class="lbl" for="draft">Your draft</label>
+        <textarea id="draft">If you can't do this after your run, your metabolic engine is leaking. Our shake protocol heals your gut in 14 days and boosts decision speed 20%!</textarea>
+        <div class="row"><button class="btn" id="runCheck" type="button">Run the check</button><button class="btn ghost" id="clearCheck" type="button">Clear</button><span class="status" id="lexState">Loading the live lexicon…</span></div>
+        <div id="verdict" class="verdict">Not checked yet</div>
+        <div id="marked" class="marked" hidden></div>
+        <ul class="hits" id="hits"></ul>
+        <div class="manual" aria-label="Gates to tick by hand">
+          <div class="lbl">Tick by hand</div>
+          <label><input type="checkbox" id="g1"><span><b>G1 · 7-year-old test.</b> A child gets the idea. A busy auntie gets it in one read.</span></label>
+          <label><input type="checkbox" id="g2"><span><b>G2 · Their problem first.</b> It opens with what the reader feels, before anything about us.</span></label>
+          <label><input type="checkbox" id="g3"><span><b>G3 · One next step.</b> It asks for one thing only (comment, DM, take the check, book the call).</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- RULES -->
+    <section id="rules">
+      <div class="lbl acc">3.0 · Procedure 2 · The rules</div>
+      <h2>Eight rules</h2>
+      <div class="rules">
+        <div class="rule"><span class="id">R1</span><div><b>Say what it does, not what we call it.</b></div><div class="eg"><s>Fuel System Architecture</s><span>Lose belly fat, keep your muscle</span></div></div>
+        <div class="rule"><span class="id">R2</span><div><b>Short words. Sentences under 15 words.</b> The checker flags anything over 20.</div><div class="eg"><s>Postprandial somnolence</s><span>Feeling slow after lunch</span></div></div>
+        <div class="rule"><span class="id">R3</span><div><b>One name per thing, at most.</b> A product can have a name (THE BUILD, RECUP 90). Everything around it is plain.</div><div class="eg"><s>Deploy your Fuel Protocol</s><span>Get your plan and products</span></div></div>
+        <div class="rule"><span class="id">R4</span><div><b>A number only if we can show where it came from.</b> One study supports a claim. It never proves it.</div><div class="eg"><s>Decision speed drops 20% at 3:10pm</s><span>Most people dip between 2 and 4pm</span></div></div>
+        <div class="rule"><span class="id">R5</span><div><b>We help. We never treat, heal or cure.</b> Disease words appear only in the safety question, never in a claim.</div><div class="eg"><s>Heals your gut</s><span>Settles your stomach</span></div></div>
+        <div class="rule"><span class="id">R6</span><div><b>Say who it is not for, plainly, before they pay.</b></div><div class="eg"><span>Not for you right now if you're pregnant or breastfeeding</span></div></div>
+        <div class="rule"><span class="id">R7</span><div><b>Answer the five questions.</b> What you get. How long. What you do. How much. Is it safe for me.</div><div class="eg"><span>90 days. One measured meal a day. RM 1,600, free with a starter pack.</span></div></div>
+        <div class="rule"><span class="id">R8</span><div><b>Plain punctuation.</b> Periods and commas. No dashes, semicolons or exclamation marks.</div><div class="eg"><s>Ready? Let's go!</s><span>Ready when you are.</span></div></div>
+      </div>
+    </section>
+
+    <!-- FLOW -->
+    <section id="flow">
+      <div class="lbl acc">3.0 · Procedure 3 · The flow</div>
+      <h2>One path for every program</h2>
+      <p class="dim">B2C (RECUP 90, runners) and B2B (gyms, teams) both follow these five steps. Each step has a gate. Don't move someone forward until it passes.</p>
+      <div class="flow">
+        <div class="step"><span class="n">01</span><b>A post catches them</b><small>Their problem in their words. Content is a gift, not a pitch.</small><div class="gate"><i>Gate</i>Passed the gate check above.</div></div>
+        <div class="step"><span class="n">02</span><b>They comment or DM</b><small>We reply with one warm line and one question. No price, no program name.</small><div class="gate"><i>Gate</i>They answered our question.</div></div>
+        <div class="step"><span class="n">03</span><b>Whale questions</b><small>A few quick questions. Runners already did The Diagnostic, so they only fill in the HQ booking form.</small><div class="gate"><i>Gate</i>Whale rule passes and safety is clear.</div></div>
+        <div class="step"><span class="n">04</span><b>15-minute call</b><small>We go through their answers or body scan. Then we explain the program and price.</small><div class="gate"><i>Gate</i>They say yes, or we let them go kindly.</div></div>
+        <div class="step"><span class="n">05</span><b>Deploy</b><small>They get their plan and products. Week 1 check-in is booked before they leave.</small><div class="gate"><i>Gate</i>First check-in is in the calendar.</div></div>
+      </div>
+      <div class="split">
+        <div class="box"><span class="lbl">B2C · RECUP 90 (public card)</span>
+          <ul>
+            <li><b>Weeks 1–2:</b> settle your stomach, sleep better, steady energy.</li>
+            <li><b>Weeks 3–13:</b> lose belly fat and keep your muscle by hitting your daily protein number. One measured meal a day makes that easy.</li>
+            <li><b>Cost:</b> RM 1,600 coaching. Free when you get your starter pack from us.</li>
+            <li><b>Where:</b> RECUP.STN HQ in Bukit Damansara, or a video call.</li>
+          </ul>
+        </div>
+        <div class="box bad"><span class="lbl">Not for you right now if</span>
+          <ul>
+            <li>You're pregnant or breastfeeding, unless your doctor says OK.</li>
+            <li>You have stage 3, 4 or 5 kidney disease.</li>
+            <li>You're having chemo or radiotherapy.</li>
+            <li>You take blood thinners like warfarin. Ask your doctor before fish oil or garlic supplements.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHALE -->
+    <section id="whale">
+      <div class="lbl acc">3.0 · Procedure 4 · Whale Diagnostic</div>
+      <div class="row"><h2>Whale questions</h2><span class="chip warn">Draft · awaiting founder</span></div>
+      <p class="dim">Drafted from The Diagnostic, the Three Shepherd Questions and the Metabolic Profile Schema (T-015). It replaces the FORMOH Audit for non-runners. Send as a short form or ask them in DMs, one at a time.</p>
+      <ol class="qs">
+        <li><div>What's the one thing about your body or energy that bugs you most right now?<small>Example answers: crash after lunch, belly fat that won't move, sore after every run.</small></div><span class="why">Friction</span></li>
+        <li><div>When does it show up the most?<small>Mornings, after lunch, after runs, at night.</small></div><span class="why">Pattern</span></li>
+        <li><div>What have you already tried?<small>Diets, gym, apps, coffee, nothing yet.</small></div><span class="why">Effort</span></li>
+        <li><div>If this was fixed 90 days from now, what would be different for you?</div><span class="why">Aspiration</span></li>
+        <li><div>Do any of these apply: pregnant or breastfeeding, kidney disease stage 3 to 5, chemo or radiotherapy, blood thinners?</div><span class="why">Safety</span></li>
+        <li><div>If the plan makes sense on our call, could you start within 2 weeks?</div><span class="why">Ready</span></li>
+        <li><div><b>B2B only:</b> How many people on your team or in your gym, and what happens when they crash or quit?<small>Replaces Q4 for gyms and teams.</small></div><span class="why">Cost of pain</span></li>
+      </ol>
+      <div class="split">
+        <div class="box ok"><span class="lbl">Whale · book the 15-minute call</span>
+          <ul><li>Clear problem (Q1) and they've tried something (Q3).</li><li>Ready within 2 weeks (Q6 yes).</li><li>Safety clear (Q5 none).</li></ul>
+        </div>
+        <div class="box warn"><span class="lbl">Not yet · keep giving, no call</span>
+          <ul><li>Vague problem or not ready: send one useful free piece and check back in 30 days.</li><li>Safety yes: thank them, refer to their doctor first. Never sell.</li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEXICON -->
+    <section id="lexicon">
+      <div class="lbl acc">3.0 · Procedure 5 · The lexicon (live)</div>
+      <h2>Say this, not that</h2>
+      <p class="dim">The Translation Matrix and Ban List, loaded from <code>data/lexicon.json</code>. People, this page, <code>npm run gate</code> and AI agents all read the same file. Only the founder changes it, by approving a proposal below.</p>
+      <div class="lexbar">
+        <input id="lexSearch" type="search" placeholder="Search a word…" aria-label="Search the lexicon">
+        <div class="seg" role="group" aria-label="Filter"><button type="button" data-f="all" class="on">All <b id="nAll">0</b></button><button type="button" data-f="swap">Swap <b id="nSwap">0</b></button><button type="button" data-f="ban">Never <b id="nBan">0</b></button></div>
+      </div>
+      <div id="lexBody"><div class="empty">The live lexicon loads here: every internal word with the plain words to use instead, plus the words we never say. If it stays empty, run <code>npm run dev</code> and open this page from http://localhost:3000.</div></div>
+    </section>
+
+    <!-- IMPROVE -->
+    <section id="improve">
+      <div class="lbl acc">3.0 · Procedure 6 · Auto-improve loop</div>
+      <h2>Spot a miss, fix it for everyone</h2>
+      <p class="dim">Anyone on the team (or an AI agent) proposes a change. The form below makes the entry for <code>data/proposals.json</code>. The founder approves by moving it into <code>data/lexicon.json</code> and running <code>npm run validate</code>. Nothing changes the rules without that approval.</p>
+      <div class="tool">
+        <span class="lbl">Propose a change</span>
+        <div class="formgrid">
+          <label><span class="lbl">Type</span><select id="pKind"><option value="swap">Swap (say this instead)</option><option value="ban">Never say</option></select></label>
+          <label><span class="lbl">Scope</span><select id="pScope"><option value="all">All of M.O.E.</option><option value="recup">RECUP.STN only</option></select></label>
+          <label><span class="lbl">The word we used</span><input id="pTerm" placeholder="e.g. Circadian rhythm"></label>
+          <label><span class="lbl">Say instead</span><input id="pSay" placeholder="e.g. your body clock"></label>
+          <label class="full"><span class="lbl">Why (where did it confuse someone?)</span><input id="pWhy" placeholder="e.g. 3 people asked what it meant in DMs this week"></label>
+        </div>
+        <div class="row"><button class="btn" id="pSend" type="button">Make proposal entry</button><span class="status" id="pState"></span></div>
+      </div>
+      <pre class="block" id="pOut" hidden></pre>
+      <div class="lbl">Waiting for approval (data/proposals.json)</div>
+      <div class="props" id="props"><div class="empty">Proposals from data/proposals.json appear here.</div></div>
+
+      <div class="tool" style="margin-top:8px">
+        <span class="lbl">Weekly after-action (Closed Loop Debrief)</span>
+        <div class="formgrid">
+          <label class="full"><span class="lbl">Where were we unclear this week?</span><input id="aUnclear" placeholder="e.g. People thought 'measured meal' meant a diet plan"></label>
+          <label class="full"><span class="lbl">Which message was our best example?</span><input id="aBest" placeholder="e.g. The 2–4pm dip reel: 40 comments, 6 DMs"></label>
+        </div>
+        <div class="row"><button class="btn ghost" id="aSend" type="button">Make log entry</button><span class="status" id="aState"></span></div>
+      </div>
+      <pre class="block" id="aOut" hidden></pre>
+      <div class="audits" id="audits"></div>
+    </section>
+
+    <!-- AGENTS -->
+    <section id="agents">
+      <div class="lbl acc">3.0 · Procedure 7 · For AI agents</div>
+      <h2>Agent protocol</h2>
+      <p class="dim">Paste this into any agent's instructions (GRAHAM, Protocol Atlas, Claude sessions, VS Code agents). Agents read <code>data/lexicon.json</code> in this repo, so they pick up a change as soon as the founder commits it.</p>
+      <pre class="block" id="agentBlock"></pre>
+      <div class="row"><button class="btn ghost" id="copyAgent" type="button">Copy agent block</button><span class="status" id="copyState"></span></div>
+    </section>
+
+    <!-- RECORD -->
+    <section id="record">
+      <div class="lbl acc">4.0 · Decision record</div>
+      <h2>What we've decided</h2>
+      <div class="dec">
+        <div><time>5 Oct 2026</time><span><b>RECUP.STN HQ</b> replaces "HealthBar" in everything customers see. The internal key stays <code>healthbar</code>.</span></div>
+        <div><time>5 Oct 2026</time><span><b>RECUP 90</b> is the public name. "The Sovereign Health Protocol" stays internal.</span></div>
+        <div><time>5 Oct 2026</time><span><b>"Measured meal"</b> replaces "shake". The partner brand is not named in public until we've tested how people react.</span></div>
+        <div><time>5 Oct 2026</time><span>The meal replacement study (Flechtner-Mors, 2010) is <b>internal only</b>. Citing it would mean naming the funder. Recheck the exact paper before any use.</span></div>
+        <div><time>5 Oct 2026</time><span>The "20% decision speed drop" and "3:10 PM" figures are retired. They have no single source. We use "most people dip between 2 and 4pm".</span></div>
+        <div><time>5 Oct 2026</time><span>Disease words (fertility, PCOS, thyroid, blood sugar) were removed from the RECUP.STN HQ booking form. A required safety question was added in their place.</span></div>
+        <div><time>5 Oct 2026</time><span>One flow for every program: post, reply, Whale questions, 15-minute call, deploy. Runners skip the questions because The Diagnostic already covers them.</span></div>
+        <div><time>5 Oct 2026</time><span>The live RECUP.STN site was rewritten to this mandate: The Diagnostic, the member card, the Repair Manual, the posters, the marketing kit and the playbook.</span></div>
+      </div>
+    </section>
+
+    <footer>
+      <div>SYS-D028 · Plain Language Mandate · indexed in the <a href="index.html" style="color:inherit">Intelligence Archive</a> (M.O.E. Armory)</div>
+      <div id="dbState">Loading data/lexicon.json…</div>
+    </footer>
+  </main>
+</div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  let LEX = [], PROPS = [], filter = 'all', loaded = false;
+
+  /* ---------- agent block ---------- */
+  
+  $('agentBlock').textContent =
+`PLAIN LANGUAGE MANDATE (SYS-D028) · applies to every customer-facing word for M.O.E. and RECUP.STN.
+SSOT: the moe-armory repo. Lexicon: data/lexicon.json. Rules: mandate.html (R1 to R8).
+
+BEFORE WRITING
+1. Read data/lexicon.json. kind "ban" = never use. kind "swap" = replace "term" with "say".
+   Match on the "match" strings. Respect "scope" (all, or recup only).
+2. Follow rules R1 to R8. Customers hear the plain version only.
+
+BEFORE HANDING OVER
+3. Run: npm run gate -- "<your draft>". Exit 0 to continue. Then self-check: no ban words, no unswapped terms, sentences under 15 words, periods and commas only,
+   every number has a source, no treat / heal / cure claims, the reader's problem comes first, one next step.
+4. Program copy must answer: what you get, how long, what you do, how much, is it safe for me.
+
+WHEN YOU FIND A GAP
+5. Append to data/proposals.json: {kind, term, say, why, scope, status: "pending", by: "agent", ts}.
+   Never edit data/lexicon.json yourself. The founder approves.
+
+FIXED NAMES: RECUP.STN HQ (not HealthBar) · RECUP 90 (not Sovereign) · measured meal (not shake).
+Do not name the partner brand in public copy until the founder lifts that rule.`;
+  $('copyAgent').addEventListener('click', () => {
+    const t = $('agentBlock').textContent;
+    navigator.clipboard.writeText(t).then(() => { $('copyState').textContent = 'Copied'; })
+      .catch(() => { const r = document.createRange(); r.selectNodeContents($('agentBlock')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $('copyState').textContent = 'Selected. Press copy.'; });
+  });
+
+  /* ---------- gate check ---------- */
+  const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  function findHits(text) {
+    const hits = [];
+    LEX.forEach(e => (e.match || [e.term]).forEach(m => {
+      if (!m) return;
+      const re = new RegExp('(^|[^a-z0-9])(' + reEsc(String(m).toLowerCase()) + ')(?=$|[^a-z0-9])', 'gi');
+      let x; while ((x = re.exec(text))) { const start = x.index + x[1].length; hits.push({ start, end: start + x[2].length, e }); }
+    }));
+    hits.sort((a, b) => a.start - b.start || (a.e.kind === 'ban' ? 0 : 1) - (b.e.kind === 'ban' ? 0 : 1) || (b.end - b.start) - (a.end - a.start));
+    const out = []; let last = -1;
+    hits.forEach(h => { if (h.start >= last) { out.push(h); last = h.end; } });
+    return out;
+  }
+  function runCheck() {
+    const text = $('draft').value;
+    const hits = findHits(text);
+    let html = '', pos = 0;
+    hits.forEach(h => { html += esc(text.slice(pos, h.start)) + `<mark class="${h.e.kind === 'ban' ? 'ban' : 'swap'}">${esc(text.slice(h.start, h.end))}</mark>`; pos = h.end; });
+    html += esc(text.slice(pos));
+    $('marked').innerHTML = html; $('marked').hidden = !text.trim();
+
+    const items = [];
+    const seen = new Set();
+    hits.forEach(h => {
+      const key = h.e.id || h.e.term; if (seen.has(key)) return; seen.add(key);
+      items.push(h.e.kind === 'ban'
+        ? ['ban', `<b>${esc(text.slice(h.start, h.end))}</b> is on the never-say list. ${esc(h.e.why || '')}${h.e.say && h.e.say !== '—' ? ` Use: <b>${esc(h.e.say)}</b>.` : ''}`]
+        : ['swap', `<b>${esc(text.slice(h.start, h.end))}</b> → say <b>${esc(h.e.say)}</b>. ${esc(h.e.why || '')}`]);
+    });
+    const sentences = text.split(/(?<=[.?!])\s+|\n+/).map(s => s.trim()).filter(Boolean);
+    sentences.forEach(s => { const n = s.split(/\s+/).length; if (n > 20) items.push(['swap', `Long sentence (${n} words). Split it: "${esc(s.slice(0, 60))}${s.length > 60 ? '…' : ''}"`]); });
+    const punct = (text.match(/[!;—–]/g) || []).length;
+    if (punct) items.push(['swap', `${punct} mark${punct > 1 ? 's' : ''} outside periods and commas (! ; or dashes). Rule R8.`]);
+    const nums = text.match(/\d+(\.\d+)?\s?%|\d{1,2}:\d{2}\s?(am|pm)?/gi) || [];
+    if (nums.length) items.push(['note', `Numbers found: ${esc(nums.join(', '))}. Rule R4: can you show the source? If not, remove them.`]);
+    if (!loaded) items.push(['note', 'The live lexicon has not loaded, so word checks were skipped.']);
+
+    $('hits').innerHTML = items.map(([k, t]) => `<li class="${k}"><span class="k">${k === 'ban' ? 'Stop' : k === 'swap' ? 'Fix' : 'Check'}</span><span>${t}</span></li>`).join('');
+    const bans = items.filter(i => i[0] === 'ban').length, fixes = items.filter(i => i[0] === 'swap').length;
+    const manual = ['g1', 'g2', 'g3'].filter(id => $(id).checked).length;
+    const v = $('verdict');
+    if (!text.trim()) { v.className = 'verdict'; v.textContent = 'Not checked yet'; return; }
+    if (bans) { v.className = 'verdict stop'; v.textContent = `Stop · ${bans} never-say word${bans > 1 ? 's' : ''} · do not send`; }
+    else if (fixes) { v.className = 'verdict fix'; v.textContent = `Fix first · ${fixes} thing${fixes > 1 ? 's' : ''} to change`; }
+    else if (manual < 3) { v.className = 'verdict fix'; v.textContent = `Words pass · tick G1 to G3 (${manual} of 3)`; }
+    else { v.className = 'verdict pass'; v.textContent = 'Pass · ready to send'; }
+  }
+  $('runCheck').addEventListener('click', runCheck);
+  $('clearCheck').addEventListener('click', () => { $('draft').value = ''; ['g1', 'g2', 'g3'].forEach(i => $(i).checked = false); $('hits').innerHTML = ''; runCheck(); });
+  ['g1', 'g2', 'g3'].forEach(i => $(i).addEventListener('change', () => { if ($('draft').value.trim()) runCheck(); }));
+
+  /* ---------- lexicon table ---------- */
+  function renderLex() {
+    const q = $('lexSearch').value.trim().toLowerCase();
+    $('nAll').textContent = LEX.length; $('nSwap').textContent = LEX.filter(e => e.kind === 'swap').length; $('nBan').textContent = LEX.filter(e => e.kind === 'ban').length;
+    if (!LEX.length) return;
+    const rows = LEX.filter(e => (filter === 'all' || e.kind === filter) && (!q || [e.term, e.say, e.why].join(' ').toLowerCase().includes(q)))
+      .sort((a, b) => (a.kind === b.kind ? 0 : a.kind === 'ban' ? 1 : -1) || String(a.term).localeCompare(String(b.term)));
+    $('lexBody').innerHTML = rows.length ? `<div class="tablewrap"><table><thead><tr><th style="width:30%">We used to say</th><th style="width:30%">Say instead</th><th>Why</th><th style="width:84px">Scope</th></tr></thead><tbody>${rows.map(e => `<tr>
+      <td class="term"><span class="kind ${e.kind}">${e.kind === 'ban' ? 'Never' : 'Swap'}</span><br>${esc(e.term)}</td>
+      <td class="say ${e.kind === 'ban' && (!e.say || e.say === '—') ? 'never' : ''}">${e.kind === 'ban' && (!e.say || e.say === '—') ? 'Don\'t say it' : esc(e.say)}</td>
+      <td class="why">${esc(e.why || '')}</td><td class="mono dim" style="font-size:12px">${e.scope === 'recup' ? 'RECUP' : 'All'}</td></tr>`).join('')}</tbody></table></div>`
+      : '<div class="empty">No words match that search.</div>';
+  }
+  $('lexSearch').addEventListener('input', renderLex);
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+    filter = b.dataset.f; document.querySelectorAll('.seg button').forEach(x => x.classList.toggle('on', x === b)); renderLex();
+  }));
+
+  /* ---------- proposals ---------- */
+  function renderProps() {
+    const pend = PROPS.filter(p => p.status === 'pending').sort((a, b) => String(a.ts).localeCompare(String(b.ts)));
+    if (!pend.length) { $('props').innerHTML = '<div class="empty">Nothing waiting in data/proposals.json.</div>'; return; }
+    $('props').innerHTML = pend.map(p => `<div class="prop"><div class="top"><span class="pair">${p.kind === 'ban' ? `Never say <b style="color:var(--bad)">${esc(p.term)}</b>` : `<s>${esc(p.term)}</s> → <b>${esc(p.say)}</b>`}</span>
+      <span class="mono dim" style="font-size:11.5px">${p.by === 'agent' ? 'AI agent' : 'Team'} · ${esc(String(p.ts || '').slice(0, 10))} · ${p.scope === 'recup' ? 'RECUP' : 'All'}</span></div>
+      ${p.why ? `<div class="dim" style="font-size:14px">${esc(p.why)}</div>` : ''}
+      <div class="lbl">Founder: approve by adding it to data/lexicon.json and setting status to "approved"</div></div>`).join('');
+  }
+  function showSnippet(el, obj, st, msg) {
+    const t = JSON.stringify(obj, null, 2);
+    el.textContent = t; el.hidden = false;
+    navigator.clipboard?.writeText(t).then(() => { st.textContent = msg + ' Copied.'; }).catch(() => { st.textContent = msg; });
+  }
+  $('pSend').addEventListener('click', () => {
+    const term = $('pTerm').value.trim(), say = $('pSay').value.trim(), kind = $('pKind').value;
+    const st = $('pState'); st.className = 'status';
+    if (!term) { st.textContent = 'Add the word we used.'; st.className = 'status err'; return; }
+    if (kind === 'swap' && !say) { st.textContent = 'Add what to say instead.'; st.className = 'status err'; return; }
+    showSnippet($('pOut'), { kind, term, say, why: $('pWhy').value.trim(), scope: $('pScope').value, status: 'pending', by: 'team', ts: new Date().toISOString() }, st, 'Paste this into the list in data/proposals.json.');
+  });
+
+  /* ---------- after-action ---------- */
+  function renderAudits(list) {
+    $('audits').innerHTML = list.length ? list.map(a => `<div class="audit"><span class="lbl">Week of ${esc(String(a.ts || '').slice(0, 10))}</span>
+      ${a.unclear ? `<div><b>Unclear:</b> ${esc(a.unclear)}</div>` : ''}${a.best ? `<div><b>Best:</b> ${esc(a.best)}</div>` : ''}</div>`).join('')
+      : '<div class="empty">No weeks logged yet. Each Friday, answer the two questions above. Turn every "unclear" into a proposal.</div>';
+  }
+  renderAudits([]);
+  $('aSend').addEventListener('click', () => {
+    const unclear = $('aUnclear').value.trim(), best = $('aBest').value.trim(), st = $('aState'); st.className = 'status';
+    if (!unclear && !best) { st.textContent = 'Answer at least one question.'; st.className = 'status err'; return; }
+    showSnippet($('aOut'), { unclear, best, ts: new Date().toISOString() }, st, 'Paste this into the list in data/audits.json.');
+  });
+
+  /* ---------- boot ---------- */
+  runCheck();
+  const get = f => fetch(f, { cache: 'no-store' }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  (async () => {
+    try {
+      const lex = await get('data/lexicon.json');
+      LEX = lex.entries.map(e => ({ ...e, say: e.say || '—' })); loaded = true;
+      $('lexState').textContent = `Lexicon v${lex.version}: ${LEX.length} entries`;
+      $('dbState').textContent = `data/lexicon.json v${lex.version} · updated ${lex.updated}`;
+      renderLex(); if ($('draft').value.trim()) runCheck();
+    } catch {
+      $('dbState').textContent = 'Could not load data/lexicon.json. Run npm run dev and open http://localhost:3000/mandate.html.';
+      $('lexState').textContent = 'Lexicon not loaded. Word checks are off.';
+    }
+    try { PROPS = await get('data/proposals.json'); } catch { PROPS = []; }
+    renderProps();
+    try { renderAudits((await get('data/audits.json')).sort((a, b) => String(b.ts).localeCompare(String(a.ts))).slice(0, 12)); } catch {}
+  })();
+})();
+</script>
+
+
+</body>
+</html>

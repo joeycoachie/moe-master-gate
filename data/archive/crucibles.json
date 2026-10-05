@@ -1,0 +1,56 @@
+[
+  {
+    "id": "C-001",
+    "name": "Case File 001: Ops AOL",
+    "node": "OPS_AOL",
+    "desc": "Proof-of-work for architecting and installing a new operational OS for a client, validating the B2B model."
+  },
+  {
+    "id": "C-002",
+    "name": "Case File 002: Project Chiller",
+    "node": "PROJECT_CHILLER",
+    "desc": "Proof-of-work for MVP validation, vendor onboarding, and product launch for a physical goods venture."
+  },
+  {
+    "id": "C-003",
+    "name": "Case File 003: Ops Healthbar",
+    "node": "OPS_HEALTHBAR",
+    "desc": "Proof-of-work for the Founder's Hardware Optimization protocol — the Metabolic Architecture Hub Blueprint. Primary KPI: $50k ROI."
+  },
+  {
+    "id": "C-004",
+    "name": "The Operator's Playbook (Base Camp 1)",
+    "node": "OPS_PLAYBOOK",
+    "desc": "The core B2C Tripwire product — proof-of-work for the Founder as Funnel doctrine and Base Camp 1."
+  },
+  {
+    "id": "C-005",
+    "name": "Project Genesis (v1.0)",
+    "node": "PROJECT_GENESIS",
+    "desc": "[PENDING FORGE] The enterprise venture to build a public-facing LLM product."
+  },
+  {
+    "id": "C-006",
+    "name": "Project Genesis (Digital Twin)",
+    "node": "PROJECT_GENESIS",
+    "desc": "[FROZEN] The public-facing “Voice-to-Asset” product. Pricing: RM 12–15k setup."
+  },
+  {
+    "id": "C-007",
+    "name": "Operation Kinetic Architect",
+    "node": "MOVE_WITH_COACH",
+    "desc": "The strategic pivot of “Move with Coach” into a Human Performance Architecture hub."
+  },
+  {
+    "id": "C-008",
+    "name": "Operation Kinetic (Bio-Architecture)",
+    "node": "OPS_KINETIC",
+    "desc": "Validates the Human Performance Architect model. Targets HVOs, scales via B2B Team Licenses."
+  },
+  {
+    "id": "C-009",
+    "name": "The Ground War BML Archives (Cycle 1–2)",
+    "node": "M.O.E. GROUP",
+    "desc": "Master historical record of the Ground War campaign — the BML evolution validating Healthbar, Kinetic, and Playbook pivots."
+  }
+]

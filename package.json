@@ -1,0 +1,15 @@
+{
+  "name": "moe-armory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "M.O.E. Armory: the Intelligence Archive and the Plain Language Mandate, with data as plain JSON.",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "validate": "node scripts/validate.mjs",
+    "gaps": "node scripts/gaps.mjs",
+    "gate": "node scripts/gate.mjs",
+    "drift": "node scripts/drift.mjs"
+  }
+}
