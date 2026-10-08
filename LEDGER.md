@@ -16,3 +16,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-05 · RECUP.STN · Customer naming: RECUP.STN HQ, RECUP 90, measured meal
 - 2026-10-06 · Domain · terminal.theoperatorplaybook.com live (Squarespace A record → Vercel); Gumroad on www untouched
 - 2026-10-06 · Hub · ~/theoperatorplaybook created (REGISTRY, DECISIONS, LEDGER); hub rule added to every product's instruction file
+- 2026-10-08 · M.O.E. Terminal · KIN-P019_W1 (Knee/Nerve Diagnostic & Hip Flow) added to the Armory as a new arc · 53a0f7e
