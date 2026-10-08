@@ -17,3 +17,5 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-06 · Domain · terminal.theoperatorplaybook.com live (Squarespace A record → Vercel); Gumroad on www untouched
 - 2026-10-06 · Hub · ~/theoperatorplaybook created (REGISTRY, DECISIONS, LEDGER); hub rule added to every product's instruction file
 - 2026-10-08 · M.O.E. Terminal · KIN-P019_W1 (Knee/Nerve Diagnostic & Hip Flow) added to the Armory as a new arc · 53a0f7e
+- 2026-10-09 · M.O.E. Terminal · Founder reports the retainer behind the instructor calibration terminal was lost. Data handover / access / repositioning not yet decided
+- 2026-10-09 · Intelligence Archive · ~/Downloads/moe-armory folder missing from disk (not found by search; Trash unreadable from Claude). The claude.ai artifact still holds the 52 protocols; the 42 tools + 9 crucibles have no other copy found
