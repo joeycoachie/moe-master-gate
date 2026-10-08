@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement OS | KIN-P019 W1 (Disguised Knee/Nerve Diagnostic & Hip Flow)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff; 
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono, .clock-display { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
+        
+        .phase-content { display: none; }
+        .phase-content.active { display: block; animation: fadeIn 0.25s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ra-module { display: none; }
+        body.ra-active .ra-module { 
+            display: block; 
+            animation: fadeIn 0.25s ease-in;
+        }
+        .ra-toggle-btn.active {
+            background-color: #1e3a8a; 
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            background-color: #050505;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.25em;
+            height: 1.25em;
+            border: 1px solid #333333;
+            display: grid;
+            place-content: center;
+            border-radius: 0;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #00e5ff;
+            background-color: #00e5ff;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        input[type="checkbox"]:checked::before { transform: scale(1); }
+        input[type="checkbox"]:checked { border-color: #00e5ff; }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-linecap='square'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.65rem center;
+            background-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden ra-active">
+
+    <!-- SIDEBAR: Metadata, Clock, Smart Hardware Matrix & Phase Nav -->
+    <aside class="w-full md:w-80 border-b md:border-b-0 md:border-r border-[#333333] bg-[#050505] p-6 flex flex-col overflow-y-auto shrink-0 z-20">
+        <div class="mb-6 border-b border-[#222222] pb-5">
+            <div class="flex items-center justify-between mb-2">
+                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2</p>
+                <span class="text-[10px] font-mono px-2 py-0.5 border border-[#3b82f6] bg-[#0a192f] text-blue-300">TRIAGE + FLOW</span>
+            </div>
+            <h1 class="text-2xl text-white">KIN-P019_W1</h1>
+            <p class="text-xs text-gray-400 mt-1">Disguised Knee/Nerve Diagnostic & Hip Engine</p>
+        </div>
+
+        <!-- SESSION CLOCK MODULE -->
+        <div class="mb-6 border border-[#333333] bg-[#0a0a0a] p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Flow Clock</h3>
+                <span id="clockPhaseHint" class="text-[10px] font-mono text-[#00e5ff]">PHASE 1 TARGET: 0-15M</span>
+            </div>
+            <div id="timerDisplay" class="clock-display text-3xl text-white mb-4 text-center tracking-widest">00:00</div>
+            <div class="flex space-x-2">
+                <button id="startBtn" onclick="toggleTimer()" class="flex-1 border border-[#333333] bg-[#111111] hover:bg-[#222222] transition-colors py-2 text-xs font-mono font-semibold tracking-wider">START</button>
+                <button onclick="resetTimer()" class="flex-1 border border-[#333333] bg-[#050505] hover:bg-[#1a1a1a] transition-colors py-2 text-xs font-mono font-semibold tracking-wider text-gray-500">RESET</button>
+            </div>
+        </div>
+
+        <!-- SMART CLASS LOGISTICS & INVENTORY ENGINE -->
+        <div class="mb-6 border border-[#333333] p-4 bg-[#0a0a0a] space-y-4">
+            <div class="flex justify-between items-center border-b border-[#222222] pb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Class & Hardware Matrix</h3>
+                <button onclick="autoOptimizeEquipment()" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors" title="Automatically resolve equipment conflicts across stations">
+                    AUTO-FIT
+                </button>
+            </div>
+
+            <!-- PAX & FLOW FORMAT -->
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Pax</label>
+                    <select id="paxCount" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="1">1 Pax (Mae Solo)</option>
+                        <option value="2">2 Pax (Duet)</option>
+                        <option value="3" selected>3 Pax (Trio Cohort)</option>
+                        <option value="4">4 Pax (Quad)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Structure</label>
+                    <select id="flowFormat" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="circuit" selected>Station Rotation</option>
+                        <option value="sync">Synced (All M1→M3)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- HARDWARE INVENTORY COUNTERS -->
+            <div>
+                <span class="block text-[9px] font-mono uppercase text-gray-500 mb-2">Studio Apparatus Available</span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">REFORMER</span>
+                        <input id="inv-reformer" type="number" min="0" max="8" value="2" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CADILLAC</span>
+                        <input id="inv-cadillac" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CHAIR</span>
+                        <input id="inv-chair" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">BARREL</span>
+                        <input id="inv-barrel" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                </div>
+                <span class="block text-[9px] font-mono text-gray-500 mt-1.5">Mat Props Active: Foam Rollers, Yoga Blocks, Bands, Sliders</span>
+            </div>
+
+            <!-- GLOBAL PRESET & RA OVERRIDE -->
+            <div class="pt-1 space-y-2">
+                <div class="flex gap-2">
+                    <button onclick="setGlobalPreset('apparatus')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">
+                        STUDIO PRESET
+                    </button>
+                    <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">
+                        MAT / PROPS ONLY
+                    </button>
+                </div>
+                <button id="raToggleBtn" onclick="toggleRA()" class="ra-toggle-btn active w-full border border-[#3b82f6] bg-[#1e3a8a] transition-colors py-2.5 text-xs font-mono font-semibold tracking-wider text-white">
+                    [X] MAE KNEE/NERVE + RA OVERRIDE
+                </button>
+            </div>
+        </div>
+
+        <!-- PHASE NAVIGATION -->
+        <nav class="flex-1 space-y-2.5" id="nav-menu">
+            <button onclick="switchPhase('primer')" id="nav-primer" class="nav-btn w-full text-left p-3.5 border border-[#00e5ff] bg-[#111111] transition-colors">
+                <span class="text-[10px] font-mono text-[#00e5ff] block mb-0.5">0:00 - 15:00 // PHASE 1</span>
+                <span class="font-semibold text-sm tracking-wide block">1. Primer (Neural & ROM Tests)</span>
+                <span class="text-[11px] text-gray-400">Tests 01 & 02 + Scapular Calibration</span>
+            </button>
+            <button onclick="switchPhase('anchor')" id="nav-anchor" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">15:00 - 35:00 // PHASE 2</span>
+                <span class="font-semibold text-sm tracking-wide block">2. Anchor (Hip Engine / Zero Shear)</span>
+                <span class="text-[11px] text-gray-400">Test 03 Vertical Shin + Glute Medius</span>
+            </button>
+            <button onclick="switchPhase('crucible')" id="nav-crucible" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">35:00 - 50:00 // PHASE 3</span>
+                <span class="font-semibold text-sm tracking-wide block">3. Crucible (Proximal Hip & Core)</span>
+                <span class="text-[11px] text-gray-400">Abductor Loop, Forearm Core & Pull</span>
+            </button>
+            <button onclick="switchPhase('unwind')" id="nav-unwind" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">50:00 - 60:00 // PHASE 4</span>
+                <span class="font-semibold text-sm tracking-wide block">4. Unwind (Vagal & Popliteal Reset)</span>
+                <span class="text-[11px] text-gray-400">Supported Knee Bolster & Rib Breath</span>
+            </button>
+            <button onclick="switchPhase('audit')" id="nav-audit" class="nav-btn w-full text-left p-3.5 border border-[#3b82f6] bg-[#0a1224] hover:border-[#00e5ff] transition-colors">
+                <span class="text-[10px] font-mono text-[#3b82f6] font-bold block mb-0.5">DEDUCTION MATRIX // PHASE 5</span>
+                <span class="font-semibold text-sm tracking-wide block">5. Mae's Diagnostic Lab & Notes</span>
+                <span class="text-[11px] text-gray-300">Deduce Nerve vs. Joint & Prescribe W2</span>
+            </button>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 bg-[#050505] p-6 md:p-12 overflow-y-auto" id="content-area">
+        
+        <!-- PERMANENT SESSION INTENTION & BIOMECHANICAL FOCUS BANNER -->
+        <div class="mb-8 border border-[#333333] bg-[#0a0a0a] p-6 border-l-4 border-l-[#3b82f6]">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#3b82f6] font-bold block mb-1">Commander's Intent // KIN-P019 W1 Disguised Diagnostic & Hip Armor</span>
+                    <h2 class="text-xl md:text-2xl text-white">Calm Sympathetic Nerve Guarding → Eliminate Anterior Knee Shear → Build Proximal Hip Strength</h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="border border-[#333333] bg-[#111111] px-3 py-2 text-right">
+                        <span class="text-[9px] font-mono text-gray-500 uppercase block">Banned Movements Today</span>
+                        <span class="text-xs font-mono text-red-400">NO RDLs // NO Petersen Squats</span>
+                    </div>
+                    <div class="border border-[#333333] bg-[#111111] px-3 py-2 text-right">
+                        <span class="text-[9px] font-mono text-gray-500 uppercase block">Diagnostic Target</span>
+                        <span class="text-xs font-mono text-[#00e5ff]">3 Disguised Tests → Phase 5</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-300 mt-4 leading-relaxed">
+                <strong class="text-white font-mono uppercase">Why Mae's Hairs Stand Up in RDLs:</strong> Piloerection ("goosebumps") during a hip hinge is a textbook <strong class="text-[#00e5ff]">Autonomic Sympathetic Nervous System reflex</strong> caused by mechanical traction on the <strong class="text-white">Sciatic-Tibial nerve tract</strong> where it passes through the popliteal fossa (back of both knees). Combined with her left anterior knee pain from last week's heel-elevated Petersen squat, today's workout embeds <strong class="text-[#3b82f6]">3 Disguised Movement Tests</strong> directly into the Trio stations while shifting 100% of her lower-body training to <strong class="text-white">Vertical-Shin Glute Max & Medius loading</strong> (zero anterior knee translation, zero nerve stretching).
+            </p>
+        </div>
+
+        <!-- LIVE LOGISTICS & PAX ROTATION STATUS BAR -->
+        <div id="logisticsBanner" class="mb-8 border border-[#333333] bg-[#111111] p-5">
+            <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- DYNAMIC PHASE CONTAINER (Phases 1-4) -->
+        <div id="dynamic-phase-view" class="phase-content active">
+            <!-- Dynamically populated by JS -->
+        </div>
+
+        <!-- PHASE 5: MAE'S CLINICAL DEDUCTION ENGINE & GATE AUDIT -->
+        <div id="audit-phase-view" class="phase-content">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] block mb-1">Phase 5 // Disguised Diagnostic Deduction Engine</span>
+                    <h2 class="text-4xl text-white">Mae's Neuro-Articular Deduction & Field Ledger</h2>
+                    <p class="text-gray-400 uppercase tracking-widest text-xs mt-2">Log Today's 3 Embedded Movement Tests to Deduce the Root Driver & Generate Her 4-Week Arc</p>
+                </div>
+                <button onclick="copyAuditReport()" id="copyAuditBtn" class="border border-[#00e5ff] bg-[#0a192f] hover:bg-[#00e5ff] hover:text-black text-[#00e5ff] transition-colors px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider">
+                    COPY CLINICAL DEDUCTION REPORT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- 3 DISGUISED DIAGNOSTIC TESTS -->
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">1. Results of Today's 3 Disguised Movement Tests</h3>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Test 01 (Phase 1 M1): Supine Nerve Slider vs. Tensioner</span>
+                                <select id="gate1-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 pr-7 appearance-none focus:border-[#00e5ff] outline-none">
+                                    <option value="nerve-confirmed">POSITIVE: Pointing Toe + Soft Knee Eliminated Pull/Goosebumps</option>
+                                    <option value="clear">CLEAR: Zero Nerve Tugging or Piloerection in Any Ankle Position</option>
+                                    <option value="severe-nerve">HIGH IRRITABILITY: Goosebumps/Pain Even w/ Bent Knee & Pointed Toe</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">When Mae lifted her leg in supine with a <strong class="text-white">20-30° micro-bent knee and pointed toes (plantarflexion)</strong> versus a flexed foot (dorsiflexion), did pointing the toe relieve the back-of-knee pull and stop the "hair standing up" sensation?</p>
+                        </div>
+
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Test 02 (Phase 1 M3): Unloaded Heel Slide (Popliteal Capsule Check)</span>
+                                <select id="gate2-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 pr-7 appearance-none focus:border-[#00e5ff] outline-none">
+                                    <option value="capsular-swelling">POSITIVE: Felt "Full/Tight Water-Balloon" Pressure Behind Knees &lt;90°</option>
+                                    <option value="clear-rom">CLEAR: Smooth Unloaded Bending Past 90° Without Back-of-Knee Pressure</option>
+                                    <option value="anterior-pinch">ANTERIOR PINCH: Felt Left Front Knee Pinch During Unloaded Bend</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">During the unloaded supine heel slide, did she feel a mechanical "fullness/swelling" block at the back of both knees (indicating synovial effusion / Baker's cyst pressure), or did it bend smoothly when unloaded?</p>
+                        </div>
+
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Test 03 (Phase 2 M3): Vertical-Shin High-Box Squat vs. Left Front Knee</span>
+                                <select id="gate3-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 pr-7 appearance-none focus:border-[#00e5ff] outline-none">
+                                    <option value="vertical-painfree">CLEARED: 0/10 Left Front Knee Pain When Shin Stays 100% Vertical</option>
+                                    <option value="mild-anterior">MILD SENSITIVITY: Still Felt Slight Left Front Knee Load on Sit-to-Stand</option>
+                                    <option value="hot-knee">HOT JOINT: Cannot Tolerate Any Weight-Bearing Knee Bend Today</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">When you kept her shins 100% vertical (heels flat, sitting back into glutes onto a high box—opposite of last week's Petersen squat), did her left anterior knee feel completely safe and pain-free?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SOMATIC FEEDBACK & INSTRUCTOR DEDUCTION NOTES -->
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">2. Autonomic & Somatic Body Interrogation</h3>
+                    <p class="text-xs text-gray-400 italic">Check all sensations Mae reported during and immediately after today's modified hip-dominant flow:</p>
+
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-[#00e5ff] transition-colors">
+                            <input type="checkbox" id="som-glute-hit" checked onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-[#00e5ff] uppercase block">Target Hit: Deep Side-Glutes (Glute Medius) & Upper Hamstring/Glute Fold</span>
+                                <span class="text-[11px] text-gray-400">Confirms we successfully loaded her hip stabilizers without irritating the knee joint capsule.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-amber-500 transition-colors">
+                            <input type="checkbox" id="som-piloerection" onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-amber-400 uppercase block">Sympathetic Alert: "Hair Standing Up" (Piloerection) Triggered Today</span>
+                                <span class="text-[11px] text-gray-400">Indicates the sciatic/tibial nerve was still stretched past its threshold during a movement.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500 transition-colors">
+                            <input type="checkbox" id="som-popliteal" onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">Popliteal Alert: Back-of-Knee Swelling / Pinch Persisted</span>
+                                <span class="text-[11px] text-gray-400">Indicates active synovial effusion or popliteus guarding; keep knee flexion range between 15° and 40° only.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-blue-500 transition-colors">
+                            <input type="checkbox" id="som-left-patella" onchange="evaluateAuditLoop()" class="mt-0.5">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-blue-400 uppercase block">Left Anterior Knee Alert: Front Knee Ache Felt</span>
+                                <span class="text-[11px] text-gray-400">Mandates 100% open-chain/supine/sidelying hip strengthening in Week 2 while patellofemoral synovium cools down.</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-gray-500 mb-2">Joey's Clinical Observation Notes (Log Exact Angles, Sensations & Trio Notes)</label>
+                        <textarea id="auditNotes" oninput="evaluateAuditLoop()" rows="3" placeholder="e.g., Pointing toes in M1 completely stopped the goosebumps! Back of knees feel tight past 80 deg flexion. Left front knee had zero pain on vertical-shin box bridge & clamshells..." class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono focus:border-[#00e5ff] outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AUTOMATED ROUTING VERDICT -->
+            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]">
+                <!-- Dynamically populated by evaluateAuditLoop() -->
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const EQUIP_LABELS = {
+            reformer: 'Reformer',
+            cadillac: 'Cadillac',
+            chair: 'Wunda Chair',
+            barrel: 'Ladder Barrel',
+            mat: 'Mat / Props (Roller, Block, Band, Sliders)'
+        };
+
+        const stationSelections = {
+            primer:   { M1: 'reformer', M2: 'cadillac', M3: 'mat' },
+            anchor:   { M1: 'reformer', M2: 'cadillac', M3: 'chair' },
+            crucible: { M1: 'reformer', M2: 'chair',    M3: 'mat' },
+            unwind:   { M1: 'barrel',   M2: 'reformer', M3: 'mat' }
+        };
+
+        const PROTOCOL_DB = {
+            primer: {
+                id: 'primer',
+                title: '1. The Primer (Disguised Neural & Capsular Calibration)',
+                subtitle: 'STOTT 5 Principles + Disguised Tests 01 & 02 (Sciatic Slider vs. Popliteal ROM) (15 Mins)',
+                clockHint: 'PHASE 1 TARGET: 0-15M',
+                wolfCue: 'While the daughters warm up their posterior chain and thoracic extension, we run Tests 01 and 02 on Mae completely disguised as normal class stations. M1 tests whether taking distal tension off the tibial nerve (by pointing the toe and keeping a 25° soft knee bend) eliminates her "hair standing up" sympathetic reflex. M3 tests unloaded knee flexion to check for synovial fullness behind the knee.',
+                shepherdCue: '"Keep your knees soft like velvet springs today—never lock the back of the knee tight, and let your ankles glide smoothly."',
+                safetyGate: 'Locking the knees into 0° hyperextension or pulling the toes hard toward the shin at the top of a straight-leg arc (which over-tractions the tibial nerve and triggers piloerection/goosebumps).',
+                stations: {
+                    M1: {
+                        role: 'DISGUISED TEST 01: Sciatic-Tibial Nerve Slider vs. Tensioner Check',
+                        options: {
+                            reformer: {
+                                name: 'Supine Feet-in-Straps Arcs (Daughters) // Soft-Knee Nerve Slider (Mae)',
+                                setup: 'Reformer // 2 Red Springs // Headrest Up',
+                                reps: '10 Slow Arcs [3s Tempo]',
+                                exec: 'Daughters: Standard Feet-in-Straps Lower & Lift (4s eccentric) with neutral pelvis. MAE DIAGNOSTIC EXECUTION: Keep knees softly bent at 25° (never lock out!). As legs float up to 60°, POINT TOES (plantarflex) to slacken the tibial nerve behind the knee; as legs press down, gently bring ankles to neutral.',
+                                ra: 'TEST 01 DEDUCTION: Ask Mae if pointing the toes with a 25° soft knee completely eliminates the back-of-knee pull and "hair standing up" feeling. Log result in Phase 5.'
+                            },
+                            cadillac: {
+                                name: 'Supine Leg Springs Arcs // Soft-Knee Tibial Nerve Slider',
+                                setup: 'Cadillac // 2 Light/Medium Leg Springs',
+                                reps: '10 Slow Arcs [3s Tempo]',
+                                exec: 'Supine with padded loops on arches. Daughters execute full 4s eccentric leg lowers. Mae maintains a 25° micro-bend in both knees and points her toes as the legs rise so the sciatic-tibial tract glides without tension.',
+                                ra: 'TEST 01 DEDUCTION: Place a rolled towel or Foam Roller under Mae’s knees at the bottom of the arc so she cannot hyperextend into the popliteal space.'
+                            },
+                            chair: {
+                                name: 'Supine Heel-Press Pedal Glides (Micro-ROM)',
+                                setup: 'Wunda Chair // 1 Heavy, 1 Light Spring // Supine on Mat',
+                                reps: '10 Controlled Reps',
+                                exec: 'Lie supine on mat with flat heels on chair pedal, pelvis imprinted/neutral. Press pedal down halfway (stopping 20% before full knee lockout) and return smoothly.',
+                                ra: 'TEST 01 DEDUCTION: Keep heels flat (zero toe/MTP load) and never lock out the back of the knees at the bottom.'
+                            },
+                            mat: {
+                                name: 'Supine Banded Leg Slider / Somatic Sciatic Floss',
+                                setup: 'Mat // Long Band Around Arches + Foam Roller Nearby',
+                                reps: '8 Slow Sliders / Side',
+                                exec: 'Supine with neutral pelvis. Hold band loosely around one foot (or support behind thigh with hands). Extend knee to a soft 30° bend while pointing the toe toward the ceiling; bend knee slightly while bringing ankle to neutral ("Sliders, not Tensioners").',
+                                ra: 'TEST 01 DEDUCTION: Mae holds behind her thigh (or loops band over forearms) and performs gentle, pain-free ankle-knee sliders. Zero straight-leg hamstring stretching!'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Principles 1 & 4: Scapular Depression & Thoracic Calibration (Zero Knee Load)',
+                        options: {
+                            cadillac: {
+                                name: 'Seated / Tall-Supported PTB Thoracic Extension & Scapular Glide',
+                                setup: 'Cadillac // Top-Sprung Light PTB + High Box/Bolster',
+                                reps: '8 Reps [4s Eccentric]',
+                                exec: 'Sit tall on a high box/bolster (so knees rest comfortably at a loose 45° angle, not deep kneeling!). Press PTB down and forward while extending upper thoracic spine.',
+                                ra: 'Sitting on a high box eliminates kneeling patellofemoral compression while calibrating Mae’s upper back.'
+                            },
+                            reformer: {
+                                name: 'Supine Midback Scapular Glides (Knees Supported on Roller/Box)',
+                                setup: 'Reformer // 1 Red, 1 Blue Spring // Forearm Loops',
+                                reps: '10 Reps [4s Eccentric Return]',
+                                exec: 'Supine on carriage. Daughters hold tabletop; Mae rests calves passively on the footbar or a Foam Roller. Depress scapulae and press straps to hips; resist 4s eccentric return.',
+                                ra: 'Thread loops onto Mae’s forearms and let her legs rest passively so her knees experience zero shear.'
+                            },
+                            barrel: {
+                                name: 'Seated Barrel Apex Thoracic Arc (Wide Open Knee Angle)',
+                                setup: 'Ladder Barrel // Sit High on Apex',
+                                reps: '8 Slow Reps',
+                                exec: 'Sit high on the barrel apex with feet resting lightly on a high rung (knees bent less than 60°). Hands support skull; extend upper back over the barrel for 4 seconds.',
+                                ra: 'Do not hook toes aggressively under the rung; keep legs relaxed and focus 100% on thoracic mobility.'
+                            },
+                            mat: {
+                                name: 'Vertical Foam Roller Chest Fly (Knees Draped Over Block/Bolster)',
+                                setup: 'Mat // Vertical Foam Roller + Yoga Block Under Knees',
+                                reps: '10 Reps [4s Eccentric]',
+                                exec: 'Lie lengthwise on Foam Roller. Perform 4-second eccentric chest flies while keeping lower ribs knitted down.',
+                                ra: 'Keep knees softly bent at 45° with feet flat on floor—zero wrist, finger, or knee stress.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'DISGUISED TEST 02: Unloaded Heel Slide (Popliteal Capsule Check) & Deep Core',
+                        options: {
+                            mat: {
+                                name: 'Supine Dead Bug (Daughters) // Unloaded Heel Slide ROM Check (Mae)',
+                                setup: 'Mat // 1 Slider under Heel + Yoga Block',
+                                reps: '8 Slow Reps / Side',
+                                exec: 'Daughters: Supine Dead Bug squeezing Yoga Block between contralateral knee/elbow. MAE DIAGNOSTIC EXECUTION: Lie supine, neutral pelvis, one heel on a Slider. Slowly slide heel away to 30° soft bend (never locking flat), then slide heel back toward hip only until the first hint of tightness.',
+                                ra: 'TEST 02 DEDUCTION: Note the exact angle where Mae feels fullness behind her knees during the unloaded slide. If it feels like a "water balloon" before 90°, she has synovial effusion—keep all knee bends shallow today!'
+                            },
+                            reformer: {
+                                name: 'Supine Single-Leg Carriage Float / Shallow Heel Slide Check',
+                                setup: 'Reformer // 1 Red, 1 Blue Spring // Flat Heels on Bar',
+                                reps: '8 Reps [4s Tempo]',
+                                exec: 'Supine with flat heels on footbar. Daughters perform single-leg marches; Mae performs bilateral shallow presses (moving between 30° and 70° knee flexion only, never slamming straight or bending past 80°).',
+                                ra: 'TEST 02 DEDUCTION: Watch if coming close to the stopper (deep flexion) or pressing all the way out (extension) triggers popliteal discomfort.'
+                            },
+                            chair: {
+                                name: 'Supine Tabletop Core Iso-Press on Chair Seat',
+                                setup: 'Wunda Chair // Mat in Front of Chair',
+                                reps: '8 Breaths (5s Exhale)',
+                                exec: 'Lie supine with calves resting passively on the padded chair seat (hips at 70°, knees supported on pad). Press forearms gently into thighs to fire deep transverse abdominis.',
+                                ra: 'Total knee offloading while firing the deep abdominal core.'
+                            },
+                            cadillac: {
+                                name: 'Supine Roll-Down Bar Core Imprint w/ Supported Knees',
+                                setup: 'Cadillac // Foam Roller Under Knees',
+                                reps: '8 Reps',
+                                exec: 'Supine with a thick Foam Roller under the back of the knees (preventing popliteal hyperextension) while performing gentle pelvic clocks and ribcage breaths.',
+                                ra: 'S-Rank diagnostic baseline for calming the nervous system.'
+                            }
+                        }
+                    }
+                }
+            },
+
+            anchor: {
+                id: 'anchor',
+                title: '2. The Anchor (Hip Engine Strengthening // Zero Knee Shear)',
+                subtitle: 'Flat-Heel Glute Max Bridging, Stable-Base Oblique Pull & Test 03 Vertical-Shin Check (20 Mins)',
+                clockHint: 'PHASE 2 TARGET: 15-35M',
+                wolfCue: 'Here is how you strengthen Mae’s hips without aggravating her knees or sciatic nerve: (1) We ban RDLs (which stretch the nerve) and replace them with Short-Lever Flat-Heel Glute Bridges (hamstrings and nerve are slackened because the knee is bent, while Glute Max fires at 100%). (2) We ban Petersen squats (which push the knee over the toes) and run Test 03: Vertical-Shin High-Box Sit-to-Stand + Sidelying Glute Medius Abduction.',
+                shepherdCue: '"Drive straight down through your flat heels like elevator pistons. Your shins stay vertical—let your glutes take 100% of the load off your knees."',
+                safetyGate: 'Knees translating forward past the ankles (Petersen shear), locking knees straight at the end of a press, or hinging at the waist with straight legs (RDL nerve traction).',
+                stations: {
+                    M1: {
+                        role: 'Posterior Chain Hip Engine (Replaces RDL — Zero Nerve Traction!)',
+                        options: {
+                            reformer: {
+                                name: 'Flat-Heel Isometric Glute Bridge w/ Yoga Block Adductor Squeeze',
+                                setup: 'Reformer // 3 Red Springs (Locked Carriage) + Yoga Block',
+                                reps: '10 Reps [3s Glute Hold at Top]',
+                                exec: 'Supine, flat heels wide on footbar (or platform), Yoga Block squeezed between knees. WITHOUT moving the carriage, squeeze glutes first and lift hips 4 inches off carriage into a neutral bridge (shins near vertical). Hold 3s, lower over 4s.',
+                                ra: 'WHY THIS WORKS FOR MAE: Because the knees are bent at ~75°, the sciatic/tibial nerve is completely slackened (zero goosebumps!), and because the shins stay vertical, there is zero anterior patellar shear on her left knee.'
+                            },
+                            chair: {
+                                name: 'Supine Floor-Heel Glute Bridge (Chair Used as Upper-Body Target)',
+                                setup: 'Mat // Yoga Block Between Thighs // Heels on Floor',
+                                reps: '10 Reps [3s Hold : 4s Eccentric]',
+                                exec: 'Daughters perform Chair Hamstring Pelvic Press (if cleared); MAE performs Flat-Floor Heel Glute Bridges with a Yoga Block squeezed between her knees, lifting hips 4 inches by firing glute max only.',
+                                ra: 'Do NOT put Mae’s feet on the moving Chair pedal for hamstring curls today—keep her heels on the solid floor so her popliteus muscle does not spasm.'
+                            },
+                            cadillac: {
+                                name: 'Supine Elevated-Foot Block Glute Bridge',
+                                setup: 'Cadillac Bed // Feet Flat on Low Wide Box + Yoga Block',
+                                reps: '10 Reps [3s Hold]',
+                                exec: 'Supine on bed, heels flat on bed or a 4-inch block, squeezing Yoga Block between knees. Squeeze glutes to hover hips in neutral alignment; lower with 4s eccentric control.',
+                                ra: 'Keep bridge height low (3-4 inches) so there is zero deep knee flexion angle.'
+                            },
+                            mat: {
+                                name: 'Supine Glute Bridge w/ Band Above Knees & Block Squeeze',
+                                setup: 'Mat // Mini-Band Above Knees + Yoga Block Between Knees',
+                                reps: '12 Reps [3s Iso-Hold]',
+                                exec: 'Lie supine, knees bent at a comfortable 70° angle (feet stepped slightly further forward than usual to keep shins vertical and protect the left front knee). Push knees out into mini-band, squeeze glutes, and lift hips 4 inches.',
+                                ra: 'Stepping the feet 3 inches further away from the glutes opens the knee angle and shifts 100% of the load out of the front knee and into the glutes.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Posterior Oblique Sling: Seated / Tall-Supported Contralateral Row',
+                        options: {
+                            cadillac: {
+                                name: 'High-Box Seated Contralateral Arm-Spring Row w/ Glute Squeeze',
+                                setup: 'Cadillac // Medium Arm Spring // Seated on High Box + Block',
+                                reps: '10 Reps / Side [4s Eccentric]',
+                                exec: 'Daughters stand in split-stance; MAE sits tall on a High Box facing the tower, squeezing a Yoga Block between her knees (anchoring adductors and pelvic floor). Pull single arm spring back with forearm cuff while rotating thoracic spine; 4s eccentric return.',
+                                ra: 'Seated on a high box completely unloads both knees while still training the exact same contralateral lat-to-pelvis sling as her daughters!'
+                            },
+                            reformer: {
+                                name: 'Short-Box Seated Contralateral Forearm Row',
+                                setup: 'Reformer // 1 Red Spring // Seated on Short Box Facing Risers',
+                                reps: '10 Reps / Side [4s Eccentric]',
+                                exec: 'Sit tall on Short Box facing risers, feet resting flat and wide on floor/platform (knees at a comfortable open angle). Thread loop onto forearm, depress scapula, and row elbow back with 4s eccentric control.',
+                                ra: 'Zero knee compression, zero finger grip strain.'
+                            },
+                            chair: {
+                                name: 'Seated Chair-Top Band Row w/ Adductor Block Lock',
+                                setup: 'Wunda Chair (Used as High Seat) + Anchored Band + Yoga Block',
+                                reps: '10 Reps / Side [4s Eccentric]',
+                                exec: 'Sit tall on top of the padded Wunda Chair seat (feet flat on floor, squeezing Yoga Block between knees). Loop anchored resistance band around forearm and execute 4-second eccentric rows.',
+                                ra: 'Using the Wunda Chair as a high seat keeps Mae’s knee angle open (>100°) and pain-free.'
+                            },
+                            mat: {
+                                name: 'Tall Box / Chair-Seated Band Row w/ Block Adductor Lock',
+                                setup: 'Mat // Seated on High Stack of Boxes/Chair + Band + Block',
+                                reps: '10 Reps / Side [4s Eccentric]',
+                                exec: 'Sit tall on a high surface, squeezing Yoga Block between thighs. Loop band around wrists/forearms and row elbows back, holding 2s at peak retraction.',
+                                ra: 'Protects knees and wrists 100%.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'DISGUISED TEST 03: Vertical-Shin High-Box Sit-to-Stand vs. Left Knee Shear',
+                        options: {
+                            chair: {
+                                name: 'Chair Step-Down (Daughters) // High-Box Vertical-Shin Sit-to-Stand (Mae)',
+                                setup: 'Wunda Chair (Daughters) // High Box + Pole/Wall (Mae)',
+                                reps: '8 Slow Reps [4s Eccentric]',
+                                exec: 'Daughters perform Chair Lateral Step-Downs. MAE DIAGNOSTIC EXECUTION: Stand in front of a High Box (or Reformer Long Box stacked high) with a mini-band above knees. Keep SHINS 100% VERTICAL (knees NEVER move forward over toes!). Hinge hips back 30° to lightly touch glutes to the high box, then drive through flat heels to stand.',
+                                ra: 'TEST 03 DEDUCTION: Compare this vertical-shin hip sit-back against last week’s Petersen squat. If Mae’s left front knee has 0/10 pain here, you have proven she can train squats safely as long as the tibia stays vertical!'
+                            },
+                            reformer: {
+                                name: 'Reformer Side Splits (Daughters) // Sidelying Glute Medius Leg Series (Mae)',
+                                setup: 'Reformer (Daughters) // Mat or Cadillac Bed w/ Band (Mae)',
+                                reps: '10 Reps / Side [3s Hold]',
+                                exec: 'While daughters perform Reformer Side Splits, Mae lies on her side on the Cadillac/Mat with a Foam Roller between her ankles/knees (or mini-band above knees) and executes strict Sidelying Clamshells and Straight-Leg Hip Abduction (knee kept softly unlocked at 10°).',
+                                ra: 'Sidelying Hip Abduction builds massive Glute Medius strength to stabilize her left patella with 0% weight-bearing knee joint compression!'
+                            },
+                            barrel: {
+                                name: 'Wall-Supported Vertical-Shin Spanish-Style Glute Sit (Shallow 30°)',
+                                setup: 'Wall + Yoga Block Between Knees',
+                                reps: '5 x 15-Second Isometric Holds',
+                                exec: 'Stand with back against wall (or holding Ladder Barrel rungs), feet stepped 18 inches forward so shins are vertical. Bend knees a tiny 25-30° only, pushing hips back and squeezing glutes/quads isometrically for 15 seconds.',
+                                ra: 'Shallow 25-30° isometric holds provide immediate tendon analgesia (pain relief) for anterior knee pain without pinching the back of the knee.'
+                            },
+                            mat: {
+                                name: 'Sidelying Glute Medius Clamshell & Soft-Knee Abduction',
+                                setup: 'Mat // Mini-Band Above Knees + Yoga Block Under Head',
+                                reps: '12 Clamshells + 10 Abductions / Side',
+                                exec: 'Lie on side, head on Yoga Block, ASIS hip headlights stacked vertically. Place mini-band ABOVE the knees (never around ankles, which torques the knee joint). Perform 12 slow Clamshells (3s hold at top), then 10 slight-bent-knee hip abductions.',
+                                ra: 'Placing the band ABOVE the knees loads the hip socket directly and bypasses the knee joint completely.'
+                            }
+                        }
+                    }
+                }
+            },
+
+            crucible: {
+                id: 'crucible',
+                title: '3. The Crucible (Proximal Hip Armor & Forearm Anti-Extension)',
+                subtitle: '360° Glute Medius Loop, Forearm Core Stability & Prone Glute-First Extension (15 Mins)',
+                clockHint: 'PHASE 3 TARGET: 35-50M',
+                wolfCue: 'In Phase 3, we push muscular fatigue into Mae’s proximal hip musculature (glute medius, glute minimus, deep external rotators) and deep core while keeping her knees, wrists, and sciatic nerve completely out of the line of fire. Notice that all band resistance for Mae is placed ABOVE the knee joint (distal femur), never at the ankle.',
+                shepherdCue: '"Fire from the side of your hip pocket and deep abs. Your knees and wrists are simply passengers on the ride."',
+                safetyGate: 'Placing heavy bands around the ankles (which creates valgus shear on an arthritic knee), kneeling directly on an inflamed patella, or hyperextending the knees in standing.',
+                stations: {
+                    M1: {
+                        role: 'Lateral Hip & Glute Medius Armor (Protects Left Patellar Tracking)',
+                        options: {
+                            reformer: {
+                                name: 'Sidelying Foot-in-Strap (Strap Above Knee for Mae!)',
+                                setup: 'Reformer // 1 Red or 1 Blue Spring // Yoga Block Under Head',
+                                reps: '10 Reps / Side [4s Eccentric]',
+                                exec: 'Lie on side on carriage, head on headrest/block, bottom leg slightly bent. CRITICAL MAE RIGGING: Thread the large Reformer loop ABOVE Mae’s top knee (around lower thigh) so zero force crosses the knee joint! Press thigh down toward footbar using glute max/medius, and control a 4s eccentric lift.',
+                                ra: 'PROXIMAL RIGGING HACK: Putting the Reformer strap above the knee turns Side-Lying Leg Series into a 100% pure hip machine with zero knee or ankle stress!'
+                            },
+                            cadillac: {
+                                name: 'Sidelying Thigh-Cuff Spring Press (Above-Knee Rigging)',
+                                setup: 'Cadillac // 1 Light Leg Spring // Loop Above Knee',
+                                reps: '10 Reps / Side [4s Eccentric]',
+                                exec: 'Sidelying on Cadillac bed. Place padded loop above the top knee (distal femur). Keep knee softly bent at 20° and press the femur down and back from the glute medius/maximus.',
+                                ra: 'Zero knee joint torque, zero sciatic traction (because the knee stays softly bent).'
+                            },
+                            chair: {
+                                name: 'Standing Hip-Hike / Pelvic Drop on 4-Inch Yoga Block (Locked Soft Knee)',
+                                setup: 'Floor // 1 Flat Yoga Block + Wall Support',
+                                reps: '10 Pelvic Lists / Side',
+                                exec: 'Stand with right foot on a flat Yoga Block (knee softly unlocked at 10°—do not bend or squat the knee!), hands lightly on wall/chair frame. Lower the left hip 2 inches, then contract the right Glute Medius to hike the left hip level.',
+                                ra: 'Trains single-leg walking stability (Glute Medius) with zero knee bending!'
+                            },
+                            mat: {
+                                name: 'Sidelying Above-Knee Banded Fire Hydrant & Iso-Hold',
+                                setup: 'Mat // Mini-Band Above Knees + Yoga Block Under Head',
+                                reps: '10 Reps + 15s Top Hold / Side',
+                                exec: 'Sidelying on mat with mini-band above knees and a pillow/block between ankles if needed. Lift entire top leg (maintaining a fixed 30° knee angle) toward ceiling by firing the posterior glute medius; hold 15s on final rep.',
+                                ra: 'Builds the exact lateral hip strength needed to stop her left front knee from caving inward.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Closed-Chain Serratus & Deep Core (Zero Wrist or Knee Compression)',
+                        options: {
+                            chair: {
+                                name: 'Chair Down-Stretch (Daughters) // Standing Forearm-on-Box Plank Saw (Mae)',
+                                setup: 'Wunda Chair (Daughters) // High Box on Reformer or Wall (Mae)',
+                                reps: '8 Slow Saws [4s Eccentric]',
+                                exec: 'Daughters perform Chair Pedal Pushups/Down-Stretch. MAE EXECUTION: Stand facing the Reformer (with Long Box placed on carriage, 1 Red spring) or a wall with a Foam Roller. Rest forearms on the box/roller in an inclined standing plank (feet on floor, knees softly unlocked) and glide shoulders 3 inches forward and back.',
+                                ra: 'Standing inclined forearm plank trains Mae’s serratus and deep core while eliminating both wrist extension AND kneeling patellar pressure!'
+                            },
+                            reformer: {
+                                name: 'Standing Forearm-on-Long-Box Carriage Plank Glide',
+                                setup: 'Reformer // 1 Red Spring // Long Box on Carriage // Standing on Floor',
+                                reps: '8 Reps [4s Eccentric Glide]',
+                                exec: 'Stand on solid studio floor facing the side/back of the Reformer. Rest forearms on the padded Long Box in a 45° inclined plank (knees softly unlocked at 10°). Push the box away 4 inches from the serratus/lats and resist the 4-second eccentric return.',
+                                ra: 'By standing on the floor instead of kneeling on the carriage, Mae’s sensitive knees never touch a surface!'
+                            },
+                            cadillac: {
+                                name: 'Standing Forearm Press on High Push-Through Bar',
+                                setup: 'Cadillac // Top-Sprung PTB // Standing',
+                                reps: '10 Reps [4s Eccentric]',
+                                exec: 'Stand facing tower with knees softly unlocked, glutes engaged. Rest forearms on PTB, protract scapulae, and press bar down 6 inches while maintaining an iron anti-extension core.',
+                                ra: 'Zero wrist grip, zero kneeling knee pressure.'
+                            },
+                            mat: {
+                                name: 'Wall Forearm Roller Plank Saw (Standing Inclined)',
+                                setup: 'Wall // Foam Roller Against Wall at Chest Height',
+                                reps: '10 Slow Glides [4s Tempo]',
+                                exec: 'Stand 2 feet from wall (knees softly micro-bent, glutes squeezed), resting forearms on a horizontal Foam Roller against the wall. Roll forearms up 4 inches while keeping ribs knitted down and abs braced; roll back down.',
+                                ra: 'S-Rank safe for both RA wrists and sensitive knees.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Prone / Standing Glute-Anchored Thoracic Extension (Zero Hamstring/Nerve Pull)',
+                        options: {
+                            mat: {
+                                name: 'Prone Glute-Anchored Scapular Flight (Ankles Bolstered on Roller!)',
+                                setup: 'Mat // Foam Roller Under Ankles/Shins (Bends Knees 20°)',
+                                reps: '8 Reps [3s Hold : 4s Lower]',
+                                exec: 'Lie prone on mat with a Foam Roller placed under the ankles/shins so the knees remain softly bent at 20° (taking all tension off the popliteal space and tibial nerve!). Squeeze glutes and press pubic bone into mat FIRST, then float sternum and externally rotate open palms for 3 seconds.',
+                                ra: 'CRITICAL NERVE HACK: Placing a Foam Roller under the ankles in prone prevents the knees from straightening fully, completely stopping back-of-knee nerve irritation!'
+                            },
+                            reformer: {
+                                name: 'Long Box Forearm Pulling Straps (Knees Slightly Flexed)',
+                                setup: 'Reformer // 1 Red Spring // Long Box // Forearm Loops',
+                                reps: '8 Reps [4s Eccentric]',
+                                exec: 'Prone on Long Box withloops on forearms. Cue Mae to keep her knees softly bent at 20° (never locking legs straight behind her). Squeeze glutes, depress scapulae, and pull forearms back to lift sternum.',
+                                ra: 'Softening the knees to 20° during Prone Pulling Straps prevents sciatic/tibial nerve traction.'
+                            },
+                            chair: {
+                                name: 'Standing Banded Scapular Flight & Glute Squeeze',
+                                setup: 'Floor // Light Band Around Wrists',
+                                reps: '10 Reps [3s Hold]',
+                                exec: 'Stand tall with soft knees, squeezing glutes and pressing hips slightly forward (zero forward RDL hinge!). Pull wrist-cuffed band back past hips while lifting sternum.',
+                                ra: 'Standing upright eliminates prone knee pressure altogether.'
+                            },
+                            cadillac: {
+                                name: 'Standing High-Row to Thoracic Extension (Forearm Cuffs)',
+                                setup: 'Cadillac // 2 Light Arm Springs // Standing',
+                                reps: '10 Reps [4s Eccentric]',
+                                exec: 'Stand facing tower with soft 15° knee bend and glutes locked. Pull forearm cuffs back to open chest while keeping pelvis neutral.',
+                                ra: 'Zero knee flexion load, zero RDL nerve tension.'
+                            }
+                        }
+                    }
+                }
+            },
+
+            unwind: {
+                id: 'unwind',
+                title: '4. The Unwind (Parasympathetic Vagal Reset & Popliteal Offloading)',
+                subtitle: 'Calming the Sympathetic Nervous System & Decompressing the Knee Capsule (10 Mins)',
+                clockHint: 'PHASE 4 TARGET: 50-60M',
+                wolfCue: 'Because Mae experienced a sympathetic autonomic response ("hair standing up" / piloerection), we must finish by shifting her nervous system into deep Parasympathetic Vagal Dominance. We elevate her legs with a bolster/roller under the knees (30° resting flexion—the "loose-packed position" of the knee joint where intra-articular pressure and tibial nerve tension are at absolute zero) and run 4s-inhale / 6s-exhale lateral rib breathing.',
+                shepherdCue: '"Let the bolster hold the weight of your legs. With every slow exhale, tell the nerves behind your knees that they are completely safe."',
+                safetyGate: 'Do NOT stretch Mae’s hamstrings, do NOT do Kneeling Couch Stretch, and do NOT do deep Malasana or Z-Sit Mermaid today.',
+                stations: {
+                    M1: {
+                        role: 'Knee Loose-Packed Decompression & Vagal Down-Regulation',
+                        options: {
+                            barrel: {
+                                name: 'Supine Legs-Draped-Over-Barrel Lymphatic & Popliteal Drain',
+                                setup: 'Mat + Ladder Barrel (or Reformer Box) // Calves Resting on Curve',
+                                reps: '90 Seconds (4s Inhale : 6s Exhale)',
+                                exec: 'Lie supine on mat with lower legs/calves resting passively over the padded curve of the Barrel (or Long Box) so hips and knees rest at a gentle, supported 45° angle. Perform slow 6-second exhales.',
+                                ra: 'Elevating the calves with a 45° supported knee bend gently drains synovial swelling from the back of the knee (popliteal fossa) and puts zero tension on the sciatic nerve.'
+                            },
+                            reformer: {
+                                name: 'Supine Carriage Rest w/ Foam Roller Under Knees',
+                                setup: 'Reformer // Locked Carriage // Foam Roller Under Knees',
+                                reps: '90 Seconds Passive Reset',
+                                exec: 'Lie supine on carriage with a thick Foam Roller + Pad under the knees (putting the knee capsule in its 30° loose-packed resting position) and arms wide in a "T".',
+                                ra: 'S-Rank safe for acute popliteal and anterior knee irritation.'
+                            },
+                            cadillac: {
+                                name: 'Supine Bolstered Knee & Thoracic Cactus Release',
+                                setup: 'Cadillac Bed // Bolster Under Knees',
+                                reps: '90 Seconds Hold',
+                                exec: 'Lie supine on Cadillac bed with bolster supporting the knees at 30° flexion while arms melt open to decompress pectorals.',
+                                ra: 'Zero joint or nerve tension.'
+                            },
+                            mat: {
+                                name: 'Constructive Rest Position w/ Foam Roller Under Knees',
+                                setup: 'Mat // Foam Roller + Yoga Blocks Under Knees',
+                                reps: '90 Seconds',
+                                exec: 'Lie supine with knees draped comfortably over a Foam Roller supported on two flat Yoga Blocks, hands resting on lower ribs for 4s-in / 6s-out vagal breathing.',
+                                ra: 'Turns off sympathetic nerve guarding immediately.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Supine Psoas Release (Zero Kneeling Patellar Pressure)',
+                        options: {
+                            reformer: {
+                                name: 'Supine Sacral-Block Passive Psoas Release (Replaces Eve’s Lunge)',
+                                setup: 'Reformer or Mat // 1 Flat Yoga Block Under Sacrum',
+                                reps: '60 Seconds / Side',
+                                exec: 'Daughters perform Eve’s Lunge; MAE lies supine with a flat Yoga Block under her sacrum (pelvis). Keep both knees softly bent (never force the extended leg flat if it pulls behind the knee) to gently open the front of the hip.',
+                                ra: 'Replaces kneeling Eve’s Lunge so Mae never kneels on her left patella.'
+                            },
+                            mat: {
+                                name: 'Supine Sacral-Block Psoas Decompression (Soft Knee)',
+                                setup: 'Mat // 1 Flat Yoga Block Under Sacrum + Roller Under Heel',
+                                reps: '60 Seconds / Side',
+                                exec: 'Place flat Yoga Block under sacrum. Slide one foot forward with the knee remaining softly bent at 20° (resting heel on a Foam Roller) so the psoas lengthens without pulling on the back of the knee.',
+                                ra: 'Opens the hip flexor without triggering tibial nerve tension.'
+                            },
+                            cadillac: {
+                                name: 'Supine Supported Hip Flexor Hang off Bed Edge (Soft Knee)',
+                                setup: 'Cadillac Bed // Sacrum Near Edge',
+                                reps: '60 Seconds / Side',
+                                exec: 'Lie supine and let one thigh gently drop 10 degrees toward the floor with a relaxed, soft knee to lengthen the iliopsoas.',
+                                ra: 'Zero patellar contact.'
+                            },
+                            chair: {
+                                name: 'Standing Micro-Stance Pelvic Tilt Hip Opener',
+                                setup: 'Floor // Hands on Chair Seat',
+                                reps: '45 Seconds / Side',
+                                exec: 'Stand in a short, comfortable staggered stance (both knees soft at 15°). Gently tuck tailbone (posterior pelvic tilt) and squeeze back glute to open the front of the hip without bending the front knee deeply.',
+                                ra: 'Pain-free standing psoas release.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Thoracic Open-Book Flush (Knees Supported at 45°)',
+                        options: {
+                            mat: {
+                                name: 'Sidelying Open-Book Stretch w/ Soft 45° Knee Stack on Roller',
+                                setup: 'Mat // Yoga Block (Head) + Foam Roller (Between Knees)',
+                                reps: '60 Seconds / Side',
+                                exec: 'Lie on side, head on Yoga Block, knees bent at a loose, comfortable 45° angle (not 90°!) with a Foam Roller placed between the knees to keep the hips aligned. Sweep top arm open across ribcage.',
+                                ra: 'Keeping the knees at a loose 45° angle instead of a tight 90° tuck prevents popliteal pinching while flushing the thoracic spine.'
+                            },
+                            cadillac: {
+                                name: 'Sidelying Cadillac Open-Book w/ Bolster Between Knees',
+                                setup: 'Cadillac Bed // Block + Bolster',
+                                reps: '60 Seconds / Side',
+                                exec: 'Sidelying with a thick bolster between loosely bent knees (45°); sweep top arm open with slow exhales.',
+                                ra: 'S-Rank safe for RA and knee flare-ups.'
+                            },
+                            reformer: {
+                                name: 'Supine Gentle Upper-Back Rib Twist (Feet Wide on Bar)',
+                                setup: 'Reformer // Locked Carriage',
+                                reps: '60 Seconds / Side',
+                                exec: 'Supine with feet resting wide and knees softly bent at 45°. Let knees sway just 3 inches side to side while breathing into opposite ribs.',
+                                ra: 'Micro-ROM lumbar and rib release.'
+                            },
+                            barrel: {
+                                name: 'Seated High-Apex Lateral Rib Breath & Arm Sweep',
+                                setup: 'Ladder Barrel // Sit High on Apex',
+                                reps: '60 Seconds / Side',
+                                exec: 'Sit tall on barrel apex with legs relaxed and open; sweep one arm overhead and breathe into the lateral ribcage.',
+                                ra: 'Zero lower-extremity stress.'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        let currentPhase = 'primer';
+        let isRaActive = true;
+
+        function getInventory() {
+            return {
+                reformer: parseInt(document.getElementById('inv-reformer').value || 0, 10),
+                cadillac: parseInt(document.getElementById('inv-cadillac').value || 0, 10),
+                chair: parseInt(document.getElementById('inv-chair').value || 0, 10),
+                barrel: parseInt(document.getElementById('inv-barrel').value || 0, 10),
+                mat: 99
+            };
+        }
+
+        function setSelectStationEquip(phaseId, stationKey, newEquip) {
+            stationSelections[phaseId][stationKey] = newEquip;
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function setGlobalPreset(mode) {
+            Object.keys(stationSelections).forEach(phaseKey => {
+                ['M1', 'M2', 'M3'].forEach(stKey => {
+                    const availOpts = Object.keys(PROTOCOL_DB[phaseKey].stations[stKey].options);
+                    if (mode === 'mat') {
+                        stationSelections[phaseKey][stKey] = 'mat';
+                    } else {
+                        const studioOpt = availOpts.find(o => o !== 'mat') || 'mat';
+                        stationSelections[phaseKey][stKey] = studioOpt;
+                    }
+                });
+            });
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function autoOptimizeEquipment() {
+            const inv = getInventory();
+            const format = document.getElementById('flowFormat').value;
+
+            if (currentPhase === 'audit') return;
+
+            const usedCounts = { reformer: 0, cadillac: 0, chair: 0, barrel: 0, mat: 0 };
+            ['M1', 'M2', 'M3'].forEach(stKey => {
+                const opts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options);
+                let chosen = stationSelections[currentPhase][stKey];
+
+                if (format === 'circuit') {
+                    if (inv[chosen] - usedCounts[chosen] < 1) {
+                        chosen = opts.find(o => (inv[o] - usedCounts[o]) >= 1) || 'mat';
+                    }
+                    usedCounts[chosen]++;
+                } else {
+                    if (inv[chosen] === 0) {
+                        chosen = opts.find(o => inv[o] > 0) || 'mat';
+                    }
+                }
+                stationSelections[currentPhase][stKey] = chosen;
+            });
+
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function updateLogistics() {
+            const pax = parseInt(document.getElementById('paxCount').value, 10);
+            const format = document.getElementById('flowFormat').value;
+            const inv = getInventory();
+            const banner = document.getElementById('logisticsBanner');
+
+            if (currentPhase === 'audit') {
+                banner.style.display = 'none';
+                return;
+            }
+            banner.style.display = 'block';
+
+            const phaseSel = stationSelections[currentPhase];
+            const eqM1 = phaseSel.M1;
+            const eqM2 = phaseSel.M2;
+            const eqM3 = phaseSel.M3;
+
+            if (format === 'circuit') {
+                const demand = { reformer: 0, cadillac: 0, chair: 0, barrel: 0, mat: 0 };
+                [eqM1, eqM2, eqM3].slice(0, Math.min(pax, 3)).forEach(eq => demand[eq]++);
+
+                const conflicts = [];
+                Object.keys(demand).forEach(eq => {
+                    if (eq !== 'mat' && demand[eq] > inv[eq]) {
+                        conflicts.push(`${EQUIP_LABELS[eq]} (Need ${demand[eq]}, Have ${inv[eq]})`);
+                    }
+                });
+
+                const hasConflict = conflicts.length > 0;
+                const statusColor = hasConflict ? 'border-amber-500 bg-[#181005]' : 'border-[#333333] bg-[#111111]';
+                const badgeHtml = hasConflict
+                    ? `<span class="px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 border border-amber-500 text-amber-400 uppercase font-bold">BOTTLENECK: ${conflicts.join(', ')} — CLICK AUTO-FIT OR SWITCH DROPDOWN</span>`
+                    : `<span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 border border-emerald-500 text-emerald-400 uppercase font-bold">ZERO HARDWARE CONFLICT // DISGUISED TRIAGE READY</span>`;
+
+                let rotationHtml = '';
+                if (pax === 1) {
+                    rotationHtml = `<p class="text-xs font-mono text-gray-300 mt-3">MAE SOLO DIAGNOSTIC FLOW: Execute <span class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</span> → <span class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</span> → <span class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</span> and log findings in Phase 5.</p>`;
+                } else if (pax === 2) {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Daughter):</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → M2 → M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#3b82f6]"><span class="text-blue-400">PAX B (Mae / Disguised Triage):</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → M3 → M1</div>
+                        </div>`;
+                } else {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Older Daughter):</span> R1 <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → R2 M2 → R3 M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B (Zi Xuen):</span> R1 <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → R2 M3 → R3 M1</div>
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">PAX C (Mae // Triage Active):</span> R1 <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</strong> → R2 M1 → R3 M2</div>
+                        </div>`;
+                }
+
+                banner.className = `mb-8 border p-5 ${statusColor}`;
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400">Active Logistics // ${pax} Pax Disguised Diagnostic Rotation</span>
+                        </div>
+                        ${badgeHtml}
+                    </div>
+                    ${rotationHtml}
+                `;
+            } else {
+                const buildSplitText = (stKey, primaryEq) => {
+                    const availPrimary = inv[primaryEq];
+                    if (availPrimary >= pax) {
+                        return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    }
+                    const altOpts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options).filter(o => o !== primaryEq && inv[o] > 0);
+                    const fallbackEq = altOpts[0] || 'mat';
+                    const onPrimary = Math.max(0, availPrimary);
+                    const onFallback = pax - onPrimary;
+                    return `<span class="text-amber-300">${onPrimary} Pax on ${EQUIP_LABELS[primaryEq]} + ${onFallback} Pax on ${EQUIP_LABELS[fallbackEq]}</span>`;
+                };
+
+                banner.className = 'mb-8 border border-[#333333] bg-[#111111] p-5';
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Synchronized Flow Mode // Smart Hardware Allocation (${pax} Pax)</span>
+                        <span class="text-[10px] font-mono text-gray-400">Inventory: ${inv.reformer} Ref | ${inv.cadillac} Cad | ${inv.chair} Chair | ${inv.barrel} Barrel | Unlimited Mat Props</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M1:</strong> ${buildSplitText('M1', eqM1)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M2:</strong> ${buildSplitText('M2', eqM2)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M3:</strong> ${buildSplitText('M3', eqM3)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCurrentPhase() {
+            if (currentPhase === 'audit') {
+                document.getElementById('dynamic-phase-view').classList.remove('active');
+                document.getElementById('audit-phase-view').classList.add('active');
+                document.getElementById('clockPhaseHint').innerText = 'PHASE 5 // DEDUCTION LAB';
+                evaluateAuditLoop();
+                return;
+            }
+
+            document.getElementById('audit-phase-view').classList.remove('active');
+            const view = document.getElementById('dynamic-phase-view');
+            view.classList.add('active');
+
+            const phaseData = PROTOCOL_DB[currentPhase];
+            document.getElementById('clockPhaseHint').innerText = phaseData.clockHint;
+
+            const stationCardsHtml = ['M1', 'M2', 'M3'].map(stKey => {
+                const stObj = phaseData.stations[stKey];
+                const selectedEquip = stationSelections[currentPhase][stKey];
+                const activeMove = stObj.options[selectedEquip];
+
+                const dropdownOptionsHtml = Object.keys(stObj.options).map(eqKey => {
+                    const isSel = eqKey === selectedEquip ? 'selected' : '';
+                    return `<option value="${eqKey}" ${isSel}>${EQUIP_LABELS[eqKey]} — ${stObj.options[eqKey].name}</option>`;
+                }).join('');
+
+                return `
+                    <div class="border border-[#333333] bg-[#0a0a0a] p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-4 border-b border-[#222222]">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 bg-[#111111] border border-[#00e5ff] text-[#00e5ff] font-mono text-xs font-bold">${stKey}</span>
+                                    <span class="text-xs font-mono uppercase tracking-wider text-gray-300 font-semibold">${stObj.role}</span>
+                                </div>
+                                <span class="text-xs font-mono text-white bg-[#111111] border border-[#333333] px-3 py-1 shrink-0">${activeMove.reps}</span>
+                            </div>
+
+                            <!-- PER-MOVEMENT EQUIPMENT / PROP DROPDOWN SELECTOR -->
+                            <div class="mb-4">
+                                <label class="block text-[9px] font-mono uppercase tracking-widest text-gray-500 mb-1">Select Station Apparatus or Mat Prop Substitution</label>
+                                <select onchange="setSelectStationEquip('${currentPhase}', '${stKey}', this.value)" class="w-full bg-[#111111] border border-[#333333] hover:border-[#00e5ff] text-xs font-mono text-[#00e5ff] px-3 py-2 pr-8 appearance-none outline-none transition-colors cursor-pointer">
+                                    ${dropdownOptionsHtml}
+                                </select>
+                            </div>
+
+                            <div class="flex items-start gap-4 mb-4">
+                                <input type="checkbox" class="mt-1 shrink-0">
+                                <div>
+                                    <h4 class="text-lg text-white font-serif mb-1">${activeMove.name}</h4>
+                                    <p class="text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-2">${activeMove.setup}</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">${activeMove.exec}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MAE CLINICAL OVERRIDE & DEDUCTION MODULE PER STATION -->
+                        <div class="ra-module border border-[#1e3a8a] bg-[#0a0f1c] p-4 mt-4 border-l-4 border-l-[#3b82f6]">
+                            <span class="text-[10px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">Mae Clinical Override & Deduction Lens (${stKey})</span>
+                            <p class="text-xs text-gray-200 leading-relaxed">${activeMove.ra}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            view.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl text-white mb-2">${phaseData.title}</h2>
+                        <p class="text-gray-400 uppercase tracking-widest text-xs font-mono">${phaseData.subtitle}</p>
+                    </div>
+                </div>
+
+                <!-- 3 STATIONS GRID -->
+                <div class="grid grid-cols-1 gap-6 mb-8">
+                    ${stationCardsHtml}
+                </div>
+
+                <!-- WOLF CUE, SHEPHERD CUE & SAFETY GATE -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-[#111111] border border-[#333333] p-6">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold mb-2">The Wolf Cue (Biomechanical)</h3>
+                        <p class="text-sm text-gray-200 leading-relaxed">${phaseData.wolfCue}</p>
+                    </div>
+                    <div class="bg-[#111111] border border-[#333333] p-6">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-400 font-bold mb-2">The Shepherd Cue (Imagery)</h3>
+                        <p class="text-sm text-gray-300 font-serif italic leading-relaxed">${phaseData.shepherdCue}</p>
+                    </div>
+                    <div class="border border-red-900/60 bg-[#110505] p-6 border-l-4 border-l-red-500">
+                        <h3 class="text-red-500 font-mono font-bold uppercase tracking-widest text-[10px] mb-2">Safety Gate (QA Fail)</h3>
+                        <p class="text-sm text-red-200 leading-relaxed">${phaseData.safetyGate}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function evaluateAuditLoop() {
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+
+            const gluteHit = document.getElementById('som-glute-hit').checked;
+            const piloAlert = document.getElementById('som-piloerection').checked;
+            const popAlert = document.getElementById('som-popliteal').checked;
+            const patellaAlert = document.getElementById('som-left-patella').checked;
+
+            const deductions = [];
+            let clearanceBadge = 'DEDUCTION COMPLETE // CLEAR FOR KIN-P019 WEEK 2 (HIP ARMOR)';
+            let badgeColor = 'text-[#00e5ff] border-[#00e5ff]';
+
+            if (g1 === 'nerve-confirmed' || piloAlert) {
+                deductions.push('• [NEURAL DEDUCTION — SCIATIC/TIBIAL MECHANOSENSITIVITY CONFIRMED]: Pointing the toe and maintaining a 25° knee micro-bend relieved her back-of-knee pull and autonomic piloerection ("hair standing up"). Her previous hamstring flexibility gains and RDLs were over-tractioning the tibial nerve behind the knee. PRESCRIPTION: Strictly ban straight-leg RDLs and passive hamstring stretches for the entire 4-week arc; use pointed-toe nerve sliders and bent-knee glute bridges.');
+            } else if (g1 === 'severe-nerve') {
+                clearanceBadge = 'HIGH NEURAL IRRITABILITY // REFER FOR PHYSIO CLEARANCE + KEEP SUPINE';
+                badgeColor = 'text-red-400 border-red-500';
+                deductions.push('• [HIGH NEURAL IRRITABILITY]: Sympathetic piloerection/pain occurred even with a slackened nerve. Keep all lower-body work in open-chain sidelying/supine with 30-45° supported knee flexion and advise a medical/physio check for lumbar/popliteal nerve entrapment.');
+            }
+
+            if (g2 === 'capsular-swelling' || popAlert) {
+                deductions.push('• [ARTICULAR DEDUCTION — POPLITEAL SYNOVIAL EFFUSION / BAKER’S CYST]: Unloaded knee bending produced a "full water-balloon" pressure behind both knees. In RA profiles, joint fluid pools in the posterior capsule and pinches when flexed past 80° or locked at 0°. PRESCRIPTION: Cap all knee flexion angles between 15° and 60° (never deep squat, never kneel, and never hyperextend the knee flat).');
+            }
+
+            if (g3 === 'vertical-painfree' && !patellaAlert) {
+                deductions.push('• [ANTERIOR KNEE DEDUCTION — PETERSEN SHEAR CONFIRMED & RESOLVED]: Mae experienced 0/10 left front knee pain when her shin stayed 100% vertical. This confirms last week’s heel-elevated Petersen squat caused patellofemoral compression. PRESCRIPTION: Proceed to Week 2 heavy Glute Medius (above-knee band/strap) and Vertical-Shin Glute Max loading.');
+            } else if (g3 !== 'vertical-painfree' || patellaAlert) {
+                clearanceBadge = 'MODIFY WEEK 2 // 100% NON-WEIGHT-BEARING HIP STRENGTHENING';
+                badgeColor = 'text-amber-400 border-amber-400';
+                deductions.push('• [LEFT PATELLOFEMORAL PROTECTION]: Left front knee is still reactive to closed-chain standing squats. For Week 2, build her hip strength 100% via Sidelying Above-Knee Reformer Strap Series, Clamshells, and Supine Flat-Heel Glute Bridges until standing squats are 0/10.');
+            }
+
+            if (gluteHit && deductions.length === 0) {
+                deductions.push('• [ALL TESTS CLEAR]: Mae tolerated soft-knee sliders, unloaded flexion, and vertical-shin glute loading with zero nerve guarding or joint pain. Advance to Week 2.');
+            }
+
+            const verdictBox = document.getElementById('auditVerdictBox');
+            verdictBox.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b border-[#1e3a5f] pb-4">
+                    <div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Automated Biomechanical Triage & 4-Week Arc Routing</span>
+                        <h3 class="text-2xl text-white">Mae's Clinical Deduction & Week 2 Prescription</h3>
+                    </div>
+                    <span class="px-3 py-1 border font-mono text-xs font-bold uppercase ${badgeColor}">${clearanceBadge}</span>
+                </div>
+                <div class="space-y-2.5 text-xs md:text-sm text-gray-200 font-mono leading-relaxed">
+                    ${deductions.map(d => `<p>${d}</p>`).join('')}
+                </div>
+            `;
+        }
+
+        function copyAuditReport() {
+            const pax = document.getElementById('paxCount').value;
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+            const notes = document.getElementById('auditNotes').value || 'None';
+            const verdictText = document.getElementById('auditVerdictBox').innerText;
+
+            const report = `MOVEMENT OS // KIN-P019_W1 MAE DISGUISED DIAGNOSTIC & HIP-KNEE AUDIT\nPax: ${pax} | Test 1 (Nerve Slider): ${g1} | Test 2 (Popliteal ROM): ${g2} | Test 3 (Vertical Shin): ${g3}\nField Notes: ${notes}\n\n${verdictText}`;
+            
+            const tempInput = document.createElement('textarea');
+            tempInput.value = report;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            const btn = document.getElementById('copyAuditBtn');
+            btn.innerText = 'DEDUCTION REPORT COPIED';
+            setTimeout(() => { btn.innerText = 'COPY CLINICAL DEDUCTION REPORT'; }, 2000);
+        }
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('border-[#00e5ff]', 'bg-[#111111]');
+                if (btn.id !== 'nav-audit') btn.classList.add('border-[#333333]');
+            });
+            const activeBtn = document.getElementById('nav-' + phaseId);
+            activeBtn.classList.remove('border-[#333333]');
+            activeBtn.classList.add('border-[#00e5ff]', 'bg-[#111111]');
+
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function toggleRA() {
+            const btn = document.getElementById('raToggleBtn');
+            isRaActive = !isRaActive;
+            if (isRaActive) {
+                document.body.classList.add('ra-active');
+                btn.classList.add('active');
+                btn.innerText = '[X] MAE KNEE/NERVE + RA OVERRIDE';
+            } else {
+                document.body.classList.remove('ra-active');
+                btn.classList.remove('active');
+                btn.innerText = '[ ] MAE KNEE/NERVE + RA OVERRIDE';
+            }
+        }
+
+        let timerInterval;
+        let seconds = 0;
+        let isRunning = false;
+
+        function updateDisplay() {
+            const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            document.getElementById('timerDisplay').innerText = `${mins}:${secs}`;
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            if (isRunning) {
+                clearInterval(timerInterval);
+                btn.innerText = 'RESUME';
+                btn.classList.replace('text-red-500', 'text-white');
+            } else {
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    updateDisplay();
+                }, 1000);
+                btn.innerText = 'PAUSE';
+                btn.classList.add('text-red-500');
+            }
+            isRunning = !isRunning;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            seconds = 0;
+            isRunning = false;
+            updateDisplay();
+            const btn = document.getElementById('startBtn');
+            btn.innerText = 'START';
+            btn.classList.remove('text-red-500');
+            btn.classList.add('text-white');
+        }
+
+        window.onload = function() {
+            renderCurrentPhase();
+            updateLogistics();
+        };
+    </script>
+</body>
+</html>

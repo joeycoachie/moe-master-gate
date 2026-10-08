@@ -36,6 +36,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'movement_os_advanced_upper_crossed_w2.html',
     addedOn: '2026-10-02',
   },
+  {
+    id: 'KIN-P019_W1',
+    arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
+    week: 1,
+    title: 'Disguised Knee/Nerve Diagnostic & Hip Engine',
+    focus: 'Calm Sympathetic Nerve Guarding → Eliminate Anterior Knee Shear → Build Proximal Hip Strength',
+    doctrine: 'SYS-D022 V2.0',
+    source: 'Pasted in chat 2026-10-08',
+    addedOn: '2026-10-08',
+  },
 ];
 
 const PROTOCOL_ID_PATTERN = /^[A-Za-z0-9_-]+$/;

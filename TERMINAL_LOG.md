@@ -40,6 +40,9 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 
 ## 2. Cadence — every change, by date
 
+### Oct 8
+- **KIN-P019_W1 added to the Armory** — new arc "KIN-P019 — Knee/Nerve Diagnostic & Hip Flow", Week 1 (Disguised Knee/Nerve Diagnostic & Hip Engine). Behind SYS.OP.
+
 ### Oct 2
 - **KIN-P016_W2 added to the Armory** — Upper Crossed Week 2, "4s Eccentric Load & Tension". Sits under the KIN-P016 arc next to W1, behind SYS.OP.
 
