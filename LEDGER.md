@@ -19,3 +19,5 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-08 · M.O.E. Terminal · KIN-P019_W1 (Knee/Nerve Diagnostic & Hip Flow) added to the Armory as a new arc · 53a0f7e
 - 2026-10-09 · M.O.E. Terminal · Founder reports the retainer behind the instructor calibration terminal was lost. Data handover / access / repositioning not yet decided
 - 2026-10-09 · Intelligence Archive · ~/Downloads/moe-armory folder missing from disk (not found by search; Trash unreadable from Claude). The claude.ai artifact still holds the 52 protocols; the 42 tools + 9 crucibles have no other copy found
+- 2026-10-09 · Intelligence Archive · Founder restored ~/Downloads/moe-armory from Trash; verified complete (52 protocols, 42 tools, 9 crucibles, 36 lexicon, git history intact, validate passes). Still no GitHub remote
+- 2026-10-09 · M.O.E. Terminal · Optimum Fit sunsets today 5 PM. Founder decision: export their operational data to them; Terminal software, protocols and Armory stay with M.O.E. Export prepared at ~/Downloads/OptimumFit_Export_2026-10-09 (6 instructors, 63 availability slots, 9 programming logs, 1 saved sequence)

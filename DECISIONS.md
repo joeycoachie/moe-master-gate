@@ -35,3 +35,7 @@ Newest at the top within each section.
 
 - **2026-10-05 · Repo wins.** `moe-armory/data/` is the source of truth. The two claude.ai artifacts are retiring; never write to them.
 - **2026-10-05 · Founder-only.** Lexicon edits and overlap/conflict calls are the founder's (HANDOVER D1).
+
+## 2026-10-09 · Optimum Fit sunset
+- Optimum Fit's retainer ends Friday 9 Oct 2026, 5 PM.
+- Optimum Fit receives an export of their operational data. The Terminal software, protocols and Armory stay with The M.O.E. Group.
