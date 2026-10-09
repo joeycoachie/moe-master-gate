@@ -15,7 +15,21 @@
     "id": "C-003",
     "name": "Case File 003: Ops Healthbar",
     "node": "OPS_HEALTHBAR",
-    "desc": "Proof-of-work for the Founder's Hardware Optimization protocol — the Metabolic Architecture Hub Blueprint. Primary KPI: $50k ROI."
+    "desc": "Proof-of-work for the Founder's Hardware Optimization protocol — the Metabolic Architecture Hub Blueprint. Deal: RM 3k/month retainer + 25% profit share (Base Camp 2). Primary KPI: $50k ROI. Runs today as RECUP.STN (internal key `healthbar`).",
+    "status": "live",
+    "components": [
+      "Deal terms: RM 3k retainer + 25% profit share",
+      "Ground War / Air War split by function (build Healthbar publicly)",
+      "Live system: RECUP.STN (GitHub Pages + Supabase)"
+    ],
+    "source": "~/Downloads/The Healthbar Victory.pdf",
+    "edges": [
+      {
+        "rel": "uses",
+        "to": "SYS-D023",
+        "why": "Healthbar is where the M.O.E.–Herbalife integration (Doctor/Pharmacy model) is run."
+      }
+    ]
   },
   {
     "id": "C-004",
@@ -25,32 +39,77 @@
   },
   {
     "id": "C-005",
-    "name": "Project Genesis (v1.0)",
+    "name": "Project Genesis",
     "node": "PROJECT_GENESIS",
-    "desc": "[PENDING FORGE] The enterprise venture to build a public-facing LLM product."
+    "desc": "The enterprise venture to build a public-facing LLM product. Consolidated 2026-10-09 from C-005 (v1.0, pending forge) and C-006 (Digital Twin, frozen).",
+    "status": "frozen",
+    "components": [
+      "v1.0: public-facing LLM product (was PENDING FORGE)",
+      "Digital Twin: “Voice-to-Asset” product, RM 12–15k setup (was FROZEN)"
+    ],
+    "edges": [
+      {
+        "rel": "supersedes",
+        "to": "C-006",
+        "why": "Fully. Same venture (node PROJECT_GENESIS) filed twice; the Digital Twin is now a component here. Founder consolidated, 2026-10-09."
+      }
+    ]
   },
   {
     "id": "C-006",
     "name": "Project Genesis (Digital Twin)",
     "node": "PROJECT_GENESIS",
-    "desc": "[FROZEN] The public-facing “Voice-to-Asset” product. Pricing: RM 12–15k setup."
+    "desc": "[RETIRED 2026-10-09] Merged into C-005 Project Genesis as the Digital Twin component. Kept so the ID is never reused.",
+    "status": "retired"
   },
   {
     "id": "C-007",
     "name": "Operation Kinetic Architect",
     "node": "MOVE_WITH_COACH",
-    "desc": "The strategic pivot of “Move with Coach” into a Human Performance Architecture hub."
+    "desc": "[RETIRED 2026-10-09] Merged into C-008 Operation Kinetic as its origin component. Kept so the ID is never reused.",
+    "status": "retired"
   },
   {
     "id": "C-008",
-    "name": "Operation Kinetic (Bio-Architecture)",
+    "name": "Operation Kinetic (Optimum Fit)",
     "node": "OPS_KINETIC",
-    "desc": "Validates the Human Performance Architect model. Targets HVOs, scales via B2B Team Licenses."
+    "desc": "Validates the Human Performance Architect model: a fractional consulting engagement designing the operating system for Optimum Fit's 24-bed studio, delivered as the Instructor Calibration Terminal. Optimum Fit engagement ended Fri 9 Oct 2026, 5 PM; their operational data was exported to them and the Terminal, protocols and Armory stay with M.O.E. Targets HVOs, scales via B2B Team Licenses. Consolidated 2026-10-09 with C-007.",
+    "status": "live",
+    "components": [
+      "Origin: “Move with Coach” pivot into a Human Performance Architecture hub (was C-007)",
+      "Optimum Fit fractional engagement (ended 2026-10-09)",
+      "Instructor Calibration Terminal + Armory arcs (now terminal.theoperatorplaybook.com)",
+      "Next: the Terminal becomes the B2B Showroom demo for the 90-day setup"
+    ],
+    "edges": [
+      {
+        "rel": "supersedes",
+        "to": "C-007",
+        "why": "Fully. C-007 was the pivot that became Operation Kinetic; one crucible, filed twice. Founder consolidated, 2026-10-09."
+      }
+    ]
   },
   {
     "id": "C-009",
     "name": "The Ground War BML Archives (Cycle 1–2)",
     "node": "M.O.E. GROUP",
-    "desc": "Master historical record of the Ground War campaign — the BML evolution validating Healthbar, Kinetic, and Playbook pivots."
+    "desc": "Master historical record of the Ground War campaign — the BML evolution validating Healthbar, Kinetic, and Playbook pivots.",
+    "edges": [
+      {
+        "rel": "feeds",
+        "to": "C-003",
+        "why": "BML cycles validated the Healthbar pivot."
+      },
+      {
+        "rel": "feeds",
+        "to": "C-008",
+        "why": "BML cycles validated the Kinetic pivot."
+      },
+      {
+        "rel": "feeds",
+        "to": "C-004",
+        "why": "BML cycles validated the Playbook pivot."
+      }
+    ]
   }
 ]
