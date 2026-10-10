@@ -50,3 +50,9 @@ Newest at the top within each section.
 - Signals, doctrines, playbooks, tools and crucibles live in `archive/data/archive/`. The Forge Log (`archive/data/forge.json`) and the Digital Fleet (`archive/data/fleet.json`) are kept word-for-word.
 - Every clash is a numbered gate in `archive/DECISION_GATES.md`. Agents never resolve a gate themselves; the founder says "gate G-xx: option N".
 - Mae Lim = "Mae" in KIN-P016 (RA override) and KIN-P019 W1. Pei Suen and Zi Suen = the daughters in the trio. Eleine Wong is a 1-1 client, about 3 cycles in, on the Upper Crossed arc (KIN-P016) to build her shoulder frame.
+
+## 2026-10-10 · Founder answers (roadmap v0.2)
+- Ops Healthbar's 25% profit share is not active. RECUP.STN is a separate, new proof of concept. Both use Herbalife products. President's Team is still a goal.
+- Monthly money floor: 3k.
+- Why Optimum Fit left: they wanted the 90-day Phase 1 build to run permanently without paying the Tier 2 monthly management retainer.
+- Dream buyer: a high-agency studio owner who values systems, data and accountable execution. Refused: enterprise systems at freelance rates; "busy" as an excuse to avoid decisions; free hosting or management outside an active retainer.
