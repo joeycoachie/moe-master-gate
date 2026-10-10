@@ -1,6 +1,6 @@
 # The Roadmap
 
-**Status: DRAFT v0.1 · 10 Oct 2026.** Built only from our own doctrines, crucibles and ledger. It becomes v1.0 when the founder answers the open questions in section 7. Nothing here is a forecast. The numbers are there to show the size of the job.
+**Status: DRAFT v0.1 · 10 Oct 2026.** Built only from our own doctrines, crucibles and ledger. It becomes v1.0 when the founder answers the open questions in section 8. Nothing here is a forecast. The numbers are there to show the size of the job.
 
 ## 1. The end in mind
 
@@ -91,13 +91,35 @@ The three pillars run the same loop. **Base Camp (D-002):** new resources go to 
 - **New-framework gate (proposed):** proven in a paid crucible, and it names what it replaces or merges. Otherwise it waits as a signal.
 - **Advisor prompt (proposed rewrite of the last ask):** keep the brutal honesty, and change "provide frameworks" to: "use our Archive first; tell me which existing protocol applies; propose a new one only if none fits, and say what it replaces."
 
-## 7. Open questions for the founder (needed for v1.0)
+## 7. Positioning: the gap we fill, and the safety floor
+
+**The gap (hypothesis, from our own files).** Studios already buy software for the *front desk*: booking, payments, memberships. Nothing manages *what happens on the floor*: whether the programming is right for each body, whether 10 instructors teach to one standard, and whether a client with a knee or RA is progressing or quietly getting hurt. Today that lives in the owner's head, Google Sheets and WhatsApp (7-Year-Old Plan, USP 1 and 2). We fill it with three things:
+
+1. **Clinical arcs any instructor can run**, with regressions built in (Armory; KIN-P016, KIN-P019 RA and knee overrides).
+2. **Instructor quality control** (V.A.E. audits, SYS-T050; the Terminal).
+3. **A per-client record that proves results**, which becomes the case study that sells the next studio.
+
+The **moat** is the Triad on top (SYS-D023): the same client record also routes fuel and recovery (RECUP.STN), which booking software will never do.
+
+**What is not proven yet.** One studio used it and left on 9 Oct. Until we know *why* Optimum Fit left (question 5), the gap is a hypothesis. That answer is the most valuable data we own right now.
+
+**The safety floor: a 9-to-5 is allowed (SYS-D025 Barbell).** Our own risk doctrine says 85% safe anchor, 15% asymmetric bets. If revenue does not cover your costs, a job is the 85%, not a failure. Pick one that keeps the crucible running and makes you better at the 15%:
+
+| Role type | Why it fits | Why it compounds |
+|---|---|---|
+| Implementation / customer success at a fitness or health-tech software company | It is what you did for Optimum Fit, paid | You learn exactly why studios buy and cancel software |
+| Operations or systems lead at a multi-site studio, clinic or gym chain | Your Terminal is a portfolio piece for this job | You run the crucible on someone else's payroll |
+| Product role (junior PM / solutions) at a wellness platform | Domain plus systems thinking is rare | You learn how software companies package and price |
+
+**Avoid:** pure coding jobs (AI makes code cheap; your edge is the domain and the system) and going back to only teaching hours (the freelancer era). Keep the 15% fixed: about 10 hours a week on BC3 and your 4 clients.
+
+## 8. Open questions for the founder (needed for v1.0)
 
 1. **Revenue today, per month, by stream:** RECUP.STN / Healthbar (retainer + 25%), Herbalife, the Playbook, private clients.
 2. **Healthbar deal:** is the RM3k + 25% still active, and is RECUP.STN that same venture? What number ends Base Camp 2?
 3. **Herbalife:** current rank and volume, the 2,000 VP gate date, and whether President's Team is still a goal.
 4. **Price of the 90-Day Setup.** Our files hold three answers: RM30,000 (7-Year-Old Plan), RM500 + RM5,000 + 15% royalty (P-048), and US$5–10k (the Foundation tier). Which one is the offer?
-5. **The three homework answers** from the 7-Year-Old Plan: where studios bleed money, the dream buyer, and who we refuse. Optimum Fit's exit is the first real evidence.
-6. **Capacity:** hours a week for BC3, and who is on the team. Is KA-Alex a person or an AI role? Anyone else?
+5. **The three homework answers** from the 7-Year-Old Plan (where studios bleed money, the dream buyer, who we refuse), plus **why Optimum Fit left**, in their words if you have them. That exit is the first real evidence.
+6. **Capacity and money floor:** hours a week for BC3, monthly costs you must cover, and whether a 9-to-5 is on the table (section 7). Who is on the team? Is KA-Alex a person or an AI role? Anyone else?
 7. **Approve or reject** the two proposed rules: the IP Deployment metric and the new-framework gate.
 8. **The Summit in your words:** one sentence for D-004's 40-year vision, so the end in mind is yours and not mine.
