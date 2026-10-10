@@ -107,6 +107,9 @@ export default function Terminal() {
             {architect ? (
               <>
                 <Link href="/ops/armory" className="border border-[#00e5ff]/60 px-4 py-2 text-xs text-[#00e5ff] hover:text-white hover:border-[#00e5ff] transition-colors">ARMORY</Link>
+                {/* Plain <a>: the Archive is a static page served by a route handler, so it needs a full page load. */}
+                {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+                <a href="/ops/archive" className="border border-[#00e5ff]/60 px-4 py-2 text-xs text-[#00e5ff] hover:text-white hover:border-[#00e5ff] transition-colors">ARCHIVE</a>
                 <Link href="/ops/architect" className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors">TRAINING COMMAND</Link>
                 <button onClick={handleLock} title="Lock SYS.OP" className="border border-[#a855f7] text-[#a855f7] bg-[#a855f7]/10 px-4 py-2 text-xs tracking-widest">[SYS.OP] ●</button>
               </>

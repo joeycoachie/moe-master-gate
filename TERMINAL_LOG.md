@@ -40,6 +40,9 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 
 ## 2. Cadence — every change, by date
 
+### Oct 10
+- **Intelligence Archive online** at `/ops/archive`, behind SYS.OP, with an ARCHIVE button on the Terminal header after unlock. Works on phone. Serves only the two viewer pages and the JSON in `archive/data`.
+
 ### Oct 8
 - **KIN-P019_W1 added to the Armory** — new arc "KIN-P019 — Knee/Nerve Diagnostic & Hip Flow", Week 1 (Disguised Knee/Nerve Diagnostic & Hip Engine). Behind SYS.OP.
 

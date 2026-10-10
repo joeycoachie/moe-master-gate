@@ -18,11 +18,14 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // The Armory is Architect-only: an Ops session alone isn't enough, and the way
+  // The Armory and the Intelligence Archive are Architect-only: an Ops session alone isn't enough, and the way
   // in is the SYNC.OP gate on /ops/architect, not Danny's login.
-  if (pathname === '/ops/armory' || pathname.startsWith('/ops/armory/')) {
+  const architectArea = ['/ops/armory', '/ops/archive'].find(
+    (base) => pathname === base || pathname.startsWith(`${base}/`),
+  );
+  if (architectArea) {
     if (!isValidOpsArchitectToken(request.cookies.get(OPS_ARCHITECT_COOKIE_NAME)?.value)) {
-      return NextResponse.redirect(new URL('/ops/architect?next=/ops/armory', request.url));
+      return NextResponse.redirect(new URL(`/ops/architect?next=${architectArea}`, request.url));
     }
     return NextResponse.next();
   }
