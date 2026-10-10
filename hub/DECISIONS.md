@@ -9,7 +9,7 @@ Newest at the top within each section.
 ## Company-wide
 
 - **2026-10-06 · Domain.** All products live under `theoperatorplaybook.com` as subdomains. `www`/root stay on the Gumroad store.
-- **2026-10-06 · Shared source of truth.** This hub (`~/theoperatorplaybook`) is the cross-project source of truth. Every product's instruction file points here.
+- **2026-10-06 · Shared source of truth.** This hub (`~/moe-master-gate/hub`) is the cross-project source of truth. Every product's instruction file points here.
 - **2026-10-05 · Plain language (SYS-D028).** Every customer-facing word follows the lexicon in `moe-armory/data/lexicon.json` (ban = never use, swap = say this instead). Agents propose changes in `data/proposals.json`; only the founder edits the lexicon.
 - **2026-09-29 · Architect the whole system.** When new assets or ideas arrive: audit what exists, design one architecture, ask about real gaps. Don't bolt things on piecemeal or fill gaps with guesses.
 - **Standing · Naming.** Asset IDs use the SYS-D020 taxonomy (`SYS-`, `KIN-`, `MET-` prefixes) for zero collisions.
@@ -39,3 +39,8 @@ Newest at the top within each section.
 ## 2026-10-09 · Optimum Fit sunset
 - Optimum Fit's retainer ends Friday 9 Oct 2026, 5 PM.
 - Optimum Fit receives an export of their operational data. The Terminal software, protocols and Armory stay with The M.O.E. Group.
+
+## 2026-10-10 · One home, one weekly ritual
+- The Intelligence Archive and this hub live inside `moe-master-gate` (folders `archive/` and `hub/`). No separate repos.
+- P-010 Founder's Weekly Cognitive Loop is the single weekly ritual. "Scale Faster" (7 Oct 2026) is merged into it as v4.0, not given its own ID.
+- New IDs are never minted without checking the founder's O_IP_ARMORY_DATABASE sheet first, and every new or changed ID is flagged to the founder.

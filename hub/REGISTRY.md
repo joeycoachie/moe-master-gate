@@ -11,8 +11,8 @@ Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel acco
 | Product | ID | Local folder (this Mac) | GitHub repo | Live at | Data | Claude window opened on |
 |---|---|---|---|---|---|---|
 | **M.O.E. Terminal** (instructor stations, Ops, Armory arcs) | — | `~/moe-master-gate` | joeycoachie/moe-master-gate | https://terminal.theoperatorplaybook.com (also instructor-callibration-terminal.vercel.app) | Supabase `wpdidthdbfoualvnklwq` | `~/moe-master-gate` |
-| **RECUP.STN** (site, God Terminal, booth flow) | — | `~/Downloads/recupstn-workspace/recup-station` | joeycoachie/recup-station- | https://joeycoachie.github.io/recup-station-/ (GitHub Pages) | Supabase `bjpekyumhgyssvmhwiyz` (table `runners`, staff in `recup_staff`) | `~/Downloads/recupstn-workspace` |
-| **M.O.E. Intelligence Archive** (+ SYS-D028 Plain Language Mandate) | — | `~/Downloads/moe-armory` | none yet (local git only) | not hosted yet | JSON in repo: `data/archive/*.json`, `data/lexicon.json` | `~/Downloads/moe-armory` |
+| **RECUP.STN** (site, God Terminal, booth flow) | — | **missing from this Mac since 2026-10-10** (was `~/Downloads/recupstn-workspace/recup-station`); re-clone from GitHub | joeycoachie/recup-station- | https://joeycoachie.github.io/recup-station-/ (GitHub Pages) | Supabase `bjpekyumhgyssvmhwiyz` (table `runners`, staff in `recup_staff`) | `~/Downloads/recupstn-workspace` |
+| **M.O.E. Intelligence Archive** (+ SYS-D028 Plain Language Mandate) | — | `~/moe-master-gate/archive` | joeycoachie/moe-master-gate (folder `archive/`, history kept) | not hosted yet | JSON in repo: `data/archive/*.json`, `data/lexicon.json` | `~/moe-master-gate/archive` |
 | **Hyrox Engine** (Hybrid Race Engine) | SYS-HRX-001 | `~/Desktop/KIN-/-SYS-HRX-001_MASTER-NODE` | joeycoachie/-SYS-HRX-001_MASTER-NODE | https://sys-hrx-001-master-node.vercel.app | Browser only (localStorage), no shared DB | `~/Desktop/KIN - SYS-HRX-001 MASTER NODE` (old path, folder since renamed) |
 | **Protocol Atlas** (GRAHAM content-strategy library) | — | `~/Desktop/GRAHAM Intel Library of Protocols ` (trailing space in name) | none (not a git repo) | Claude artifact https://claude.ai/artifact/V9U3iJpq5iPBpZEh19h3dH | `.md`/`.pdf` protocol files in the folder | same folder |
 | **Product Academy** (Sovereign Fuel OS & Clinical Directory) | MET | `~/Desktop/MET-PRODUCT-DIRECTORY/moe_product_academy` | joeycoachie/moe_product_academy | https://moe-product-academy.vercel.app | `fuel_protocol_v2.json` in repo | same folder |
@@ -42,7 +42,7 @@ Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel acco
 | Protocol Atlas (older) | https://claude.ai/artifact/W18q8pQ4recvpJptEvzUKh | duplicate, 2026-09-25. Retire? |
 | Protocol Atlas — System Check & Scaling Playbook | https://claude.ai/artifact/FsM63Z6RdPnufwGQjxu8Rt | reference |
 | Recup Founder Command | https://claude.ai/artifact/8uKpPyAphr7jCHRf6kyHyk | live, 2026-10-06. Input to the Founder Command build |
-| Intelligence Archive | https://claude.ai/artifact/4WWfjCqRHPbCbpqM4c6n1c | **retiring.** `moe-armory/data/` wins; never write to it |
+| Intelligence Archive | https://claude.ai/artifact/4WWfjCqRHPbCbpqM4c6n1c | **retiring.** `moe-master-gate/archive/data/` wins; never write to it |
 | Plain Language Mandate (SYS-D028) | https://claude.ai/artifact/QQsoLdJFPAVo6usBZE8Z9v | **retiring.** `moe-armory/data/lexicon.json` wins |
 | Operator's Playbook | https://claude.ai/artifact/JUE3rUvGEay21JvNQ6RJt6 | 2026-09-23 |
 | Cadence Matrix / GRAHAM Cadence Matrix (Copy) | BkBPzEyXXi3ijGJ7BzTt1k / 67AGTcXrt8ESKrbdAKmvVK | duplicate pair |
@@ -59,4 +59,4 @@ Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel acco
 2. **Kinetic Diagnostic quiz in two codebases:** `moe-master-gate/KIN-Kinetic_Diagnostic_Tool-` (live QR page, kin-kinetic-diagnostic-tool-rcuk.vercel.app) and `moe-master-gate/app/diagnostic`. Change both until consolidated.
 3. **Hyrox Engine folder was renamed** (`KIN - SYS-HRX-001 MASTER NODE` → `KIN-/-SYS-HRX-001_MASTER-NODE`), so its old Claude window's memory is orphaned. Open new HRX windows on the new path.
 4. **The Vercel account has 100+ projects**, many duplicates (e.g. about 10 copies of `kin-014-p3-w1-metabolic-duet`). Protocol sites move into the Terminal's Armory over time, then the copies get retired.
-5. **Intelligence Archive has no GitHub remote yet.** Its history lives on this Mac only.
+5. **Archive and hub now live inside `moe-master-gate`** (2026-10-10), backed up by its GitHub repo once pushed. The old folders `~/Downloads/moe-armory` and `~/theoperatorplaybook` are retired copies.

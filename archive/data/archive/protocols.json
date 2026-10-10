@@ -109,9 +109,30 @@
   },
   {
     "id": "P-010",
-    "name": "Founder's Weekly Cognitive Loop v3.0",
+    "name": "Founder's Weekly Cognitive Loop (v4.0)",
     "classification": "ENTERPRISE_OS [PLAYBOOK]",
-    "desc": "6-step protocol positioning the Founder as Enterprise Synthesizer, absorbing AI debriefs into new IP."
+    "desc": "6-step protocol positioning the Founder as Enterprise Synthesizer, absorbing AI debriefs into new IP. v4.0 (2026-10-10) merges in \"Scale Faster\": each week, find the one constraint in the loop, change one lever for two weeks, hand off the rest in writing, and write down the lesson. One shared source of truth, a 15-minute weekly review, and five guardrails (claims, health, people and credit, data and access, money and promises).",
+    "doc_version": "4.0",
+    "components": [
+      "Scale Faster method (7 Oct 2026): five-box loop with one number per box; one constraint, one lever, two weeks",
+      "Collaboration rules: written handoffs, one shared source of truth, 15-minute weekly review",
+      "Structured borrowing: borrow, strip, adapt, test small, keep or drop",
+      "Five guardrails: claims, health, people and credit, data and access, money and promises",
+      "30-day plan and monthly checklist"
+    ],
+    "source": "~/Downloads/Scale Faster.pdf (7 Oct 2026) merged into v4.0",
+    "edges": [
+      {
+        "rel": "requires",
+        "to": "D-002",
+        "why": "Base Camp's single objective is the same rule as working one constraint at a time."
+      },
+      {
+        "rel": "uses",
+        "to": "P-009",
+        "why": "\"Write the lesson down\" and the weekly review are a Closed-Loop Debrief."
+      }
+    ]
   },
   {
     "id": "P-011",
@@ -526,60 +547,5 @@
     "name": "The Physical Router Protocol",
     "classification": "ENTERPRISE_OS [INTERNAL]",
     "desc": "QR codes must encode a static subdomain router, never a raw dynamic Vercel endpoint."
-  },
-  {
-    "id": "SYS-P062",
-    "name": "Scale Faster: Systems, Collaboration and Structured Borrowing",
-    "classification": "FOUNDER_OS [PLAYBOOK]",
-    "node": "FOUNDER_OS",
-    "layer": "L1-I",
-    "status": "live",
-    "desc": "Scale by building less from scratch. Three levers: systems thinking (find the one constraint in the loop and fix only that), collaboration (keep only the work only you can do; written handoffs, one shared source of truth, a 15-minute weekly review) and structured borrowing (borrow the structure of a proven pattern, adapt, test small, keep or drop). One rule: change one thing at a time, measure it, write down what you learned. Includes a 30-day plan, five safety guardrails and a monthly checklist.",
-    "answers": [
-      "How do I grow faster without doing more?",
-      "Which part of my business should I fix first?",
-      "What should I hand off, and how?",
-      "How do I copy something that works without copying someone?",
-      "How do I test a new offer before selling it widely?",
-      "What are the safety rules before I scale?"
-    ],
-    "classified": "2026-10-10",
-    "concepts": [
-      "systems-thinking",
-      "constraint",
-      "collaboration",
-      "handoff",
-      "structured-borrowing",
-      "weekly-review",
-      "quality-gate",
-      "health-claims"
-    ],
-    "components": [
-      "Five-box loop with one number per box",
-      "Collaboration table (peers, specialists, audience, AI tools)",
-      "Five-step borrowing method",
-      "Use-case table",
-      "30-day plan (one job per week, decision in week 4)",
-      "Five guardrails: claims, health, people and credit, data and access, money and promises",
-      "Monthly checklist"
-    ],
-    "source": "~/Downloads/Scale Faster.pdf (7 Oct 2026, The Architect)",
-    "edges": [
-      {
-        "rel": "requires",
-        "to": "D-002",
-        "why": "Base Camp's single objective is the same rule as working one constraint at a time."
-      },
-      {
-        "rel": "uses",
-        "to": "P-009",
-        "why": "\"Write the lesson down\" and the weekly review are a Closed-Loop Debrief."
-      },
-      {
-        "rel": "overlaps",
-        "to": "P-010",
-        "why": "Both define a weekly founder review. Decide which one is the weekly ritual."
-      }
-    ]
   }
 ]
