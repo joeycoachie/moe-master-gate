@@ -1,0 +1,1338 @@
+[
+  {
+    "id": "F-001",
+    "signal": "S-001",
+    "protocol": "P-001",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-001 (\"Sovereign Worker\") intel was the raw signal that led to the creation of the P-001 (\"RPH Lift Multiplier\")."
+  },
+  {
+    "id": "F-002",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-001",
+    "tool": "T-001",
+    "note": "The C-001 (\"Ops AOL\") crucible produced the T-001 (\"AOL Lead Tracker\") as a tangible tool."
+  },
+  {
+    "id": "F-003",
+    "signal": "S-003",
+    "protocol": "D-003",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-003 (\"Architect vs. Bricklayer\") signal was codified into \"The Architect's Path\" Doctrine (D-003)."
+  },
+  {
+    "id": "F-004",
+    "signal": "S-004",
+    "protocol": "D-004",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-004 (\"Singularity\") signal is bridged to all L2_Crucibles by the D-004 (\"Singularity Bridge Protocol\")."
+  },
+  {
+    "id": "F-005",
+    "signal": "",
+    "protocol": "D-001, C-001",
+    "crucible": "C-004",
+    "tool": "",
+    "note": "D-001 (\"Founder as Funnel\") is the grand strategy for the C-004 (\"Operator's Playbook\") and is proven by C-001 (\"Ops AOL\")."
+  },
+  {
+    "id": "F-006",
+    "signal": "",
+    "protocol": "D-002",
+    "crucible": "C-001, C-004",
+    "tool": "",
+    "note": "C-001 (\"Ops AOL\") and C-004 (\"Operator's Playbook\") are executions of our \"Base Camp\" strategy, governed by D-002 (\"Base Camp Protocol\")."
+  },
+  {
+    "id": "F-007",
+    "signal": "",
+    "protocol": "P-002, D-005",
+    "crucible": "",
+    "tool": "",
+    "note": "The P-002 (\"Shepherd-to-Wolf Arc\") is a core playbook operationalized by the D-005 (\"Signal Translation Framework\")."
+  },
+  {
+    "id": "F-008",
+    "signal": "",
+    "protocol": "P-003, P-004",
+    "crucible": "",
+    "tool": "",
+    "note": "The P-003 (\"Armory Intake Protocol\") utilizes \"The Classification Filter\" (P-004) to execute its mission."
+  },
+  {
+    "id": "F-009",
+    "signal": "S-005",
+    "protocol": "D-005",
+    "crucible": "",
+    "tool": "",
+    "note": "S-005 (HubSpot Intel) provides C-Rank tactical validation for the D-005 (\"Signal Translation Framework\")."
+  },
+  {
+    "id": "F-010",
+    "signal": "S-005",
+    "protocol": "P-001",
+    "crucible": "",
+    "tool": "",
+    "note": "S-005 (HubSpot Intel) provides standard industry formulas (ROI, CPL) that serve as a C-Rank baseline for our S-Rank P-001 (\"RPH Lift Multiplier\")."
+  },
+  {
+    "id": "F-011",
+    "signal": "S-005",
+    "protocol": "D-002",
+    "crucible": "",
+    "tool": "",
+    "note": "The 'Pre-Crisis Protocol' framework in S-005 is a tactical execution of the D-002 (\"Base Camp\") philosophy."
+  },
+  {
+    "id": "F-012",
+    "signal": "",
+    "protocol": "P-003, P-005",
+    "crucible": "",
+    "tool": "",
+    "note": "The P-005 (Output Mandate) is a meta-protocol that governs the executional output of the P-003 (\"Armory Intake Protocol\")."
+  },
+  {
+    "id": "F-013",
+    "signal": "",
+    "protocol": "P-003, P-006",
+    "crucible": "",
+    "tool": "",
+    "note": "The P-006 (Cognitive Forge Mandate) is a meta-protocol that governs the analytical quality of the P-003 (\"Armory Intake Protocol\")."
+  },
+  {
+    "id": "F-014",
+    "signal": "",
+    "protocol": "D-006, P-007",
+    "crucible": "",
+    "tool": "",
+    "note": "S-Rank Hierarchy: D-006 (The Content Funnel Strategy) is the foundational doctrine that governs the (now archived) P-007 (The Weekly Tactic)."
+  },
+  {
+    "id": "F-015",
+    "signal": "S-006",
+    "protocol": "P-007",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-006 (Cadence's Analysis) is a raw signal/debrief that breaks down the execution of protocol P-007."
+  },
+  {
+    "id": "F-016",
+    "signal": "",
+    "protocol": "D-006, P-002, D-005",
+    "crucible": "",
+    "tool": "",
+    "note": "D-006 (Content Funnel) utilizes P-002 (Shepherd-to-Wolf) and D-005 (Signal Translation) in its \"Mid-Funnel\" phase."
+  },
+  {
+    "id": "F-017",
+    "signal": "",
+    "protocol": "P-007, D-005",
+    "crucible": "",
+    "tool": "",
+    "note": "P-007 (The Weekly Cadence) used the \"Gift of Service,\" which is a core component of D-005 (Signal Translation Framework)."
+  },
+  {
+    "id": "F-018",
+    "signal": "",
+    "protocol": "D-006, P-008",
+    "crucible": "",
+    "tool": "",
+    "note": "S-Rank Hierarchy: P-008 is the new, active [L1-P] PLAYBOOK being forged to execute the [L1-D] DOCTRINE D-006."
+  },
+  {
+    "id": "F-019",
+    "signal": "S-007, S-008",
+    "protocol": "P-009",
+    "crucible": "",
+    "tool": "",
+    "note": "Aura's raw intel signals (S-007, S-008) are the L0 justification for its proposal and ratification of the P-009 (CLDP) playbook."
+  },
+  {
+    "id": "F-020",
+    "signal": "",
+    "protocol": "D-005, P-009",
+    "crucible": "",
+    "tool": "",
+    "note": "P-009 (CLDP) is the execution playbook that provides the data feedback loop for the D-005 (\"Signal Translation Framework\") and its Resonance Engine."
+  },
+  {
+    "id": "F-021",
+    "signal": "S-009",
+    "protocol": "P-010",
+    "crucible": "",
+    "tool": "",
+    "note": "P-010 (\"Founder's Weekly Loop\" v3.0) is the S-Rank protocol that formally supersedes the obsolete legacy protocol documented in S-009."
+  },
+  {
+    "id": "F-022",
+    "signal": "",
+    "protocol": "P-003, P-010",
+    "crucible": "",
+    "tool": "",
+    "note": "The P-010 protocol (Step 5 & 6) is dependent on and utilizes P-003 (\"Armory Intake Protocol\") as its final, loop-closing function."
+  },
+  {
+    "id": "F-023",
+    "signal": "S-010",
+    "protocol": "",
+    "crucible": "",
+    "tool": "T-003",
+    "note": "The S-010 (Onboarding Email) is the S-Rank communication signal that was used to formally deploy the T-003 (SOW)."
+  },
+  {
+    "id": "F-024",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-003",
+    "tool": "T-003",
+    "note": "The T-003 (SOW) is the foundational L3_TOOL that initiated and defines the scope for the C-003 (Ops Healthbar) crucible."
+  },
+  {
+    "id": "F-025",
+    "signal": "S-011",
+    "protocol": "P-011, C-003",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-011 (\"Battle for Value\") crucible, which occurred during C-003 (Ops Healthbar), directly forged P-011 (\"SOW as Shield\")."
+  },
+  {
+    "id": "F-026",
+    "signal": "S-011",
+    "protocol": "P-012, C-003",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-011 crucible also forged P-012 (\"S-Rank Onboarding Protocol\") to solve the \"frame failure\" from the C-Rank negotiation."
+  },
+  {
+    "id": "F-027",
+    "signal": "S-011",
+    "protocol": "",
+    "crucible": "",
+    "tool": "T-004",
+    "note": "The S-011 debrief explicitly identifies the \"Tactical Failure\" as the failure to use the T-004 (Negotiation One Sheet)."
+  },
+  {
+    "id": "F-028",
+    "signal": "",
+    "protocol": "P-011",
+    "crucible": "",
+    "tool": "T-004",
+    "note": "P-011 (\"SOW as Shield\") is the S-Rank execution protocol that is supported by the T-004 (Negotiation One Sheet) preparation tool."
+  },
+  {
+    "id": "F-029",
+    "signal": "",
+    "protocol": "P-013, D-007",
+    "crucible": "",
+    "tool": "",
+    "note": "P-013 (\"Pre-Flight Check\") is the mandatory \"Phase 3\" quality gate for the D-007 (\"Crucible as Curriculum\") pipeline."
+  },
+  {
+    "id": "F-030",
+    "signal": "",
+    "protocol": "D-001, D-007",
+    "crucible": "",
+    "tool": "",
+    "note": "D-007 (\"Crucible as Curriculum\") is the S-Rank engine that \"weaponizes\" the D-001 (\"Founder as Funnel\") doctrine."
+  },
+  {
+    "id": "F-031",
+    "signal": "S-011",
+    "protocol": "P-011, D-007, C-003",
+    "crucible": "",
+    "tool": "",
+    "note": "D-007 is the meta-protocol that processed S-011 (Battle for Value) from C-003 (Ops Healthbar) to forge P-011 (\"SOW as Shield\")."
+  },
+  {
+    "id": "F-032",
+    "signal": "",
+    "protocol": "P-002, D-005, P-013",
+    "crucible": "",
+    "tool": "",
+    "note": "P-013 (\"Pre-Flight Check\") enforces the doctrines of P-002 (\"Shepherd's Voice\") and D-005 (Signal Translation / \"Gift of Service\")."
+  },
+  {
+    "id": "F-033",
+    "signal": "S-012",
+    "protocol": "P-007",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-012 (Mission Command log) provides the full historical record and proof-of-work for the P-007 (\"Weekly Signal Cadence\") sprint."
+  },
+  {
+    "id": "F-034",
+    "signal": "",
+    "protocol": "D-008, D-001, P-002",
+    "crucible": "",
+    "tool": "",
+    "note": "D-008 (\"Renaissance Protocol\") is the foundational \"Why\" that governs D-001 (\"Founder as Funnel\") and P-002 (\"Shepherd-to-Wolf\")."
+  },
+  {
+    "id": "F-035",
+    "signal": "",
+    "protocol": "D-009, P-011, C-001, C-003",
+    "crucible": "",
+    "tool": "",
+    "note": "D-009 (\"Clarity vs. Momentum\") is the core doctrine for all B2B crucibles (C-001, C-003) and the \"Why\" behind P-011 (\"SOW as Shield\")."
+  },
+  {
+    "id": "F-036",
+    "signal": "",
+    "protocol": "D-010, D-005, P-014, P-015, P-016",
+    "crucible": "",
+    "tool": "",
+    "note": "D-010 (\"Unified Comms\") is the \"parent\" doctrine governing all communication playbooks, including D-005, P-014, P-015, and P-016."
+  },
+  {
+    "id": "F-037",
+    "signal": "",
+    "protocol": "P-017, P-018",
+    "crucible": "",
+    "tool": "",
+    "note": "P-017 (\"Tripwire OS\") is the S-Rank, low-touch version of the S+ Rank, high-touch P-018 (\"Ascent OS\")."
+  },
+  {
+    "id": "F-038",
+    "signal": "",
+    "protocol": "D-007, D-011",
+    "crucible": "",
+    "tool": "",
+    "note": "D-011 (\"Instagram Doctrine\") is the executional playbook for the \"Pillar & Pulse\" model (D-007) on the Instagram platform. [cite: 622-627]"
+  },
+  {
+    "id": "F-039",
+    "signal": "",
+    "protocol": "D-011, P-017, P-018",
+    "crucible": "",
+    "tool": "T-005",
+    "note": "The P-017 & P-018 client systems both utilize D-011 (\"Instagram Doctrine\") [cite: 157, 1184]and are executed via the T-005 (\"Content Brief\") template[cite: 165, 1185]."
+  },
+  {
+    "id": "F-040",
+    "signal": "S-011",
+    "protocol": "P-011, P-018",
+    "crucible": "",
+    "tool": "",
+    "note": "The P-018 (\"Ascent OS\") is the only client-facing protocol that executes the \"Crucible Extraction\" pipeline (P3.3), which was forged from S-011 (\"Battle for Value\") and created P-011 (\"SOW as Shield\") [cite: 173-180]."
+  },
+  {
+    "id": "F-041",
+    "signal": "",
+    "protocol": "D-005, D-007, P-013, T-005",
+    "crucible": "",
+    "tool": "",
+    "note": "T-005 (\"Content Brief\") is the \"container\" tool that integrates D-005 (Resonance Engine), D-007 (Pillar & Pulse), and P-013 (Pre-Flight Check) [cite: 406-408, 415-417, 477]."
+  },
+  {
+    "id": "F-042",
+    "signal": "",
+    "protocol": "D-001, P-019",
+    "crucible": "",
+    "tool": "",
+    "note": "P-019 (\"Inbound Filter\") is a key execution playbook for D-001 (\"Renaissance Protocol\"), enforcing the \"S-Rank Guide\" frame against C-Rank \"Guru\" (influencer) requests."
+  },
+  {
+    "id": "F-043",
+    "signal": "S-013",
+    "protocol": "P-020",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-013 (\"Richard Yu\") crucible debrief was the direct forge for the P-020 (\"M.O.E. High-Signal Funnel\")."
+  },
+  {
+    "id": "F-044",
+    "signal": "",
+    "protocol": "D-006, P-020",
+    "crucible": "",
+    "tool": "",
+    "note": "P-020 (\"M.O.E. High-Signal Funnel\") is a new S-Rank execution playbook for the D-006 (\"Content Funnel Doctrine\")."
+  },
+  {
+    "id": "F-045",
+    "signal": "S-014",
+    "protocol": "",
+    "crucible": "",
+    "tool": "T-006",
+    "note": "The S-014 (Graham Prompt Intel) was the raw signal forged into the T-006 (S+ Rank Prompt Template: Air War)."
+  },
+  {
+    "id": "F-046",
+    "signal": "",
+    "protocol": "D-010",
+    "crucible": "",
+    "tool": "T-006",
+    "note": "T-006 is a tactical \"tool\" that executes the D-010 (\"Unified Communications Doctrine\") and its \"S+ Rank Prompt\" framework."
+  },
+  {
+    "id": "F-047",
+    "signal": "",
+    "protocol": "D-010, P-021",
+    "crucible": "",
+    "tool": "",
+    "note": "P-021 (\"Hypothesis Test\") is an S-Rank \"finishing move\" that operationalizes a key part of D-010 (\"Unified Comms\")."
+  },
+  {
+    "id": "F-048",
+    "signal": "",
+    "protocol": "P-019, P-022",
+    "crucible": "",
+    "tool": "",
+    "note": "P-022 (\"Strategic Takeaway\") is the non-negotiable \"Phase 4\" and \"consequence phase\" of the P-019 (\"Inbound Filter Protocol\"). 1"
+  },
+  {
+    "id": "F-049",
+    "signal": "",
+    "protocol": "P-020, P-022",
+    "crucible": "",
+    "tool": "",
+    "note": "The \"Takeaway\" (Phase 5) 2 of the P-020 (\"M.O.E. High-Signal Funnel\") is the P-022 (\"Strategic Takeaway Protocol\")."
+  },
+  {
+    "id": "F-050",
+    "signal": "S-003",
+    "protocol": "D-012",
+    "crucible": "",
+    "tool": "",
+    "note": "The D-012 (\"Clarity vs. Momentum\") doctrine is the S-Rank codification of the S-003 (\"Architect vs. Bricklayer\") signal."
+  },
+  {
+    "id": "F-051",
+    "signal": "S-015",
+    "protocol": "",
+    "crucible": "C-005",
+    "tool": "",
+    "note": "The S-015 (Praxis QNA) is the foundational L0_SIGNAL and direct architectural input for the C-005 (\"Project Genesis\") crucible."
+  },
+  {
+    "id": "F-052",
+    "signal": "",
+    "protocol": "D-012, P-002, P-020",
+    "crucible": "",
+    "tool": "",
+    "note": "D-012 (\"Clarity vs. Momentum\") is the \"parent doctrine\" that provides the strategic rationale for P-002 (\"Shepherd-to-Wolf\") and P-020 (\"High-Signal Funnel\")."
+  },
+  {
+    "id": "F-053",
+    "signal": "",
+    "protocol": "D-012",
+    "crucible": "",
+    "tool": "",
+    "note": "D-012 is the parent philosophy for the \"Unified Engagement Framework (UEF)\". Link pending formal codification of the UEF as an asset."
+  },
+  {
+    "id": "F-054",
+    "signal": "S-016",
+    "protocol": "P-023",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-016 document codified the principles of \"Brand Hygiene\" into the executable P-023 (\"Fresh Start Protocol\")."
+  },
+  {
+    "id": "F-055",
+    "signal": "",
+    "protocol": "D-011, P-023",
+    "crucible": "",
+    "tool": "",
+    "note": "P-023 (\"Fresh Start\") is the prerequisite \"sanitation phase\" required to successfully install the D-011 (\"Instagram Doctrine\")."
+  },
+  {
+    "id": "F-056",
+    "signal": "",
+    "protocol": "D-005, P-023",
+    "crucible": "",
+    "tool": "",
+    "note": "P-023 executes the D-005 (\"Signal Translation\") doctrine by physically purging \"Noise\" to amplify the \"Signal\" 8."
+  },
+  {
+    "id": "F-057",
+    "signal": "",
+    "protocol": "P-020, P-024",
+    "crucible": "",
+    "tool": "",
+    "note": "P-024 (\"Peer Recon Sprint\") is a specific tactical execution of the broader P-020 (\"High-Signal Funnel\") playbook7."
+  },
+  {
+    "id": "F-058",
+    "signal": "",
+    "protocol": "P-024",
+    "crucible": "",
+    "tool": "T-007",
+    "note": "T-007 (\"Peer Recon One-Sheet\") is the mandatory tool required to execute Step 2 of the P-024 protocol 8."
+  },
+  {
+    "id": "F-059",
+    "signal": "",
+    "protocol": "P-011, T-004, T-007",
+    "crucible": "",
+    "tool": "T-007",
+    "note": "T-007 is a synthesis of T-004 (\"Negotiation One Sheet\") adapted for the \"Ground War\" mission9."
+  },
+  {
+    "id": "F-060",
+    "signal": "S-013",
+    "protocol": "P-025",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-013 (\"Richard Yu\") crucible debrief was the primary source intel forged into the P-025 (\"High-Signal Comms Playbook\")."
+  },
+  {
+    "id": "F-061",
+    "signal": "",
+    "protocol": "P-020, P-022, P-025",
+    "crucible": "",
+    "tool": "",
+    "note": "P-025 is the master playbook that integrates and governs the specific tactics of P-020 (\"High-Signal Funnel\") and P-022 (\"Strategic Takeaway\")4444."
+  },
+  {
+    "id": "F-062",
+    "signal": "",
+    "protocol": "D-001, P-025",
+    "crucible": "",
+    "tool": "",
+    "note": "P-025 executes the D-001 (\"Renaissance Protocol\") by enforcing the \"Architect\" frame and rejecting the C-Rank \"Guru\" frame in sales comms 5555."
+  },
+  {
+    "id": "F-063",
+    "signal": "S-017",
+    "protocol": "P-026",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-017 (\"Ops Airen\") crucible debrief was the direct forge for the P-026 (\"Honorable Discharge Protocol\")."
+  },
+  {
+    "id": "F-064",
+    "signal": "",
+    "protocol": "D-001, P-026",
+    "crucible": "",
+    "tool": "",
+    "note": "P-026 executes the D-001 (\"Renaissance Protocol\") by proving we are \"Architects\" who prioritize mission alignment over C-Rank \"retention\" 5."
+  },
+  {
+    "id": "F-065",
+    "signal": "",
+    "protocol": "P-011, P-026",
+    "crucible": "",
+    "tool": "",
+    "note": "P-026 utilizes the same \"Price Anchor\" logic found in P-011 (\"SOW as Shield\"), but uses it as an exit mechanism rather than a negotiation tool 6."
+  },
+  {
+    "id": "F-066",
+    "signal": "S-018",
+    "protocol": "P-027",
+    "crucible": "",
+    "tool": "",
+    "note": "The S-018 (Praxis Debrief) was the direct source signal that forged the P-027 (\"Crucible-to-Asset Pipeline\")."
+  },
+  {
+    "id": "F-067",
+    "signal": "",
+    "protocol": "D-003, P-027",
+    "crucible": "",
+    "tool": "",
+    "note": "P-027 is the tactical execution of D-003 (\"The Architect's Path\"), moving from \"Service\" to \"Product\" leverage."
+  },
+  {
+    "id": "F-068",
+    "signal": "",
+    "protocol": "P-027",
+    "crucible": "C-003, C-004",
+    "tool": "",
+    "note": "P-027 is the methodology used to forge C-003 (Ops Healthbar) and C-004 (Operator's Playbook) from services into assets7777."
+  },
+  {
+    "id": "F-069",
+    "signal": "",
+    "protocol": "P-003, P-027",
+    "crucible": "",
+    "tool": "",
+    "note": "P-027 explicitly utilizes the P-003 (\"Armory Intake Protocol\") as its final \"Codification\" step (Phase 3.3) 8."
+  },
+  {
+    "id": "F-070",
+    "signal": "S-019",
+    "protocol": "",
+    "crucible": "C-001",
+    "tool": "T-008",
+    "note": "The C-001 (\"Ops AOL\") crucible was the foundry that forged the T-008 (\"Master Ledger Template\")."
+  },
+  {
+    "id": "F-071",
+    "signal": "",
+    "protocol": "D-002, T-008",
+    "crucible": "",
+    "tool": "",
+    "note": "T-008 is the primary tool for executing the D-002 (\"Base Camp Protocol\") by enforcing a \"Single Source of Truth\" and \"Ruthless Focus\" in every venture."
+  },
+  {
+    "id": "F-072",
+    "signal": "S-020",
+    "protocol": "",
+    "crucible": "C-006",
+    "tool": "",
+    "note": "The S-020 (Digital Twin Blueprint) provides the technical architecture for the C-006 (\"Digital Twin\") product."
+  },
+  {
+    "id": "F-073",
+    "signal": "S-022",
+    "protocol": "",
+    "crucible": "C-007",
+    "tool": "",
+    "note": "S-022 (The Master Brief) is the foundational document that defines the C-007 (\"Kinetic Architect\") crucible."
+  },
+  {
+    "id": "F-074",
+    "signal": "S-021",
+    "protocol": "",
+    "crucible": "C-007",
+    "tool": "",
+    "note": "S-021 (The Strategy Canvas) is the core strategic visual for C-007, defining its market positioning."
+  },
+  {
+    "id": "F-075",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-007",
+    "tool": "T-009",
+    "note": "T-009 (Master Prompt) is the tool used to generate the strategy canvas (S-021) for the C-007 venture."
+  },
+  {
+    "id": "F-076",
+    "signal": "",
+    "protocol": "D-009, C-007",
+    "crucible": "",
+    "tool": "",
+    "note": "C-007 executes D-009 (\"Clarity vs Momentum\") by pivoting from \"Decoration\" (Vanity/Momentum) to \"Architecture\" (Clarity/Longevity)11."
+  },
+  {
+    "id": "F-077",
+    "signal": "",
+    "protocol": "D-013",
+    "crucible": "",
+    "tool": "T-011, T-012",
+    "note": "D-013 (\"Separation of Powers\") is the doctrine that necessitates the creation of distinct activation tools T-011 (Head of IA) and T-012 (Armorer)."
+  },
+  {
+    "id": "F-078",
+    "signal": "",
+    "protocol": "D-010, T-013",
+    "crucible": "",
+    "tool": "T-013",
+    "note": "T-013 (\"Iron Skeleton\") enforces the \"S-Rank Prompt\" rigor of D-010 (\"Unified Comms\") on all document creation."
+  },
+  {
+    "id": "F-079",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-003",
+    "tool": "T-014",
+    "note": "T-014 (\"Digital Gate\") was forged directly from the C-003 (\"Ops Healthbar\") crucible but is now a standalone [L3-P] product."
+  },
+  {
+    "id": "F-080",
+    "signal": "",
+    "protocol": "P-028",
+    "crucible": "",
+    "tool": "",
+    "note": "P-028 (\"AI Prompting\") is a specialized execution protocol for generating S-Rank visual assets."
+  },
+  {
+    "id": "F-081",
+    "signal": "S-023",
+    "protocol": "",
+    "crucible": "C-003",
+    "tool": "T-015",
+    "note": "S-023 (The Transmission) confirms that T-015 (The Schema) was successfully forged and validated within the C-003 (Ops Healthbar) crucible."
+  },
+  {
+    "id": "F-082",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "T-014, T-015",
+    "note": "T-015 (The Schema) is the mandatory execution script required to activate the T-014 (\"Digital Gate Protocol\"). They are a bundle."
+  },
+  {
+    "id": "F-083",
+    "signal": "",
+    "protocol": "D-006, T-015",
+    "crucible": "",
+    "tool": "",
+    "note": "T-015 executes the D-006 (\"Content Funnel Doctrine\") in a physical setting by using a \"Value Gate\" (Member Rate) to capture the signal3."
+  },
+  {
+    "id": "F-084",
+    "signal": "",
+    "protocol": "P-029, P-030",
+    "crucible": "",
+    "tool": "T-016",
+    "note": "The \"Spearhead Stack\": P-030 (Workflow) connects P-029 (The Manual) to T-016 (The Tool) to execute the Recon mission."
+  },
+  {
+    "id": "F-085",
+    "signal": "",
+    "protocol": "D-010, P-030",
+    "crucible": "",
+    "tool": "T-013",
+    "note": "P-030 (The Workflow) is an S-Rank execution of the T-013 (\"Iron Skeleton\") structure, enforcing the D-010 (\"Unified Comms\") standard."
+  },
+  {
+    "id": "F-086",
+    "signal": "",
+    "protocol": "P-024, P-029",
+    "crucible": "",
+    "tool": "",
+    "note": "P-029 (\"Operator Recon\") provides the deep \"Archetype\" intelligence required to execute the P-024 (\"Peer Recon Sprint\")."
+  },
+  {
+    "id": "F-087",
+    "signal": "S-024, S-025",
+    "protocol": "",
+    "crucible": "C-008",
+    "tool": "",
+    "note": "The Operational Directives (S-024, S-025) are the founding mandates that initialized the C-008 (\"Ops Kinetic\") crucible."
+  },
+  {
+    "id": "F-088",
+    "signal": "",
+    "protocol": "D-009",
+    "crucible": "C-008",
+    "tool": "",
+    "note": "C-008 (\"Ops Kinetic\") executes D-009 (\"Clarity vs. Momentum\") by selling the \"Audit\" (Clarity) before the \"Training\" (Momentum)."
+  },
+  {
+    "id": "F-089",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-008",
+    "tool": "T-017, T-018",
+    "note": "T-017 and T-018 are the specific \"Shepherd\" tools deployed within C-008 to filter and capture leads."
+  },
+  {
+    "id": "F-090",
+    "signal": "",
+    "protocol": "D-010",
+    "crucible": "",
+    "tool": "T-019",
+    "note": "T-019 extends the D-010 (\"Unified Comms\") standard by enforcing a specific \"Build-Measure-Learn\" syntax for experimental protocols."
+  },
+  {
+    "id": "F-091",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-003",
+    "tool": "T-020",
+    "note": "T-020 (\"Neighbourhood Goods Shell\") was forged in the C-003 (\"Ops Healthbar\") crucible but is now a replicable [L3-P] franchise asset."
+  },
+  {
+    "id": "F-092",
+    "signal": "",
+    "protocol": "D-001, P-031",
+    "crucible": "",
+    "tool": "",
+    "note": "P-031 (\"Phantom Equity\") operationalizes D-001 (\"Founder as Funnel\") by ensuring the Founder's signal (\"Phantom Equity\") remains even after physical exit."
+  },
+  {
+    "id": "F-093",
+    "signal": "",
+    "protocol": "P-026, P-031",
+    "crucible": "",
+    "tool": "",
+    "note": "P-031 is the \"Asset Creation\" engine required to execute Phase 3 (\"S+ Rank Handover\") of the P-026 (\"Honorable Discharge Protocol\")."
+  },
+  {
+    "id": "F-094",
+    "signal": "",
+    "protocol": "P-032",
+    "crucible": "",
+    "tool": "T-021",
+    "note": "T-021 (The Template) is the sanitized, franchise-ready version forged directly from the live P-032 (Product Omission Protocol)."
+  },
+  {
+    "id": "F-095",
+    "signal": "",
+    "protocol": "D-001, P-032",
+    "crucible": "",
+    "tool": "",
+    "note": "P-032 executes D-001 (\"Founder as Funnel\") by prioritizing long-term relationship (\"Save the Relationship\") over short-term transactions (\"Save the Sale\")."
+  },
+  {
+    "id": "F-096",
+    "signal": "",
+    "protocol": "D-011, P-033",
+    "crucible": "",
+    "tool": "",
+    "note": "P-033 (\"Visceral Avatar\") provides the tactical execution for the \"Team\" chapter of the D-011 (\"Instagram Doctrine\"), ensuring team posts are high-signal 4."
+  },
+  {
+    "id": "F-097",
+    "signal": "",
+    "protocol": "P-033",
+    "crucible": "C-003",
+    "tool": "",
+    "note": "P-033 was forged to solve the \"Generic Instructor\" friction within the C-003 (\"Ops Healthbar\") crucible, elevating staff to \"Specialists.\""
+  },
+  {
+    "id": "F-098",
+    "signal": "",
+    "protocol": "D-006",
+    "crucible": "C-001",
+    "tool": "T-022",
+    "note": "T-022 (Content Cycle Template) is the tactical execution of D-006 (Content Funnel) forged from the C-001 (Ops AOL) crucible."
+  },
+  {
+    "id": "F-099",
+    "signal": "",
+    "protocol": "D-002",
+    "crucible": "",
+    "tool": "T-023",
+    "note": "T-023 is the tactical execution of D-002 (\"Base Camp Protocol\"), creating a standardized \"Base Camp\" (Ledger) for every new mission."
+  },
+  {
+    "id": "F-100",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-001",
+    "tool": "T-023",
+    "note": "T-023 was reverse-engineered from the C-001 (Ops AOL) Master Ledger to create a scalable, universal template."
+  },
+  {
+    "id": "F-101",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "T-024, T-025",
+    "note": "T-025 (Archivist 7) is the designated operator and guardian of the T-024 (SSOT Prompt Catalog)."
+  },
+  {
+    "id": "F-102",
+    "signal": "",
+    "protocol": "P-032",
+    "crucible": "",
+    "tool": "T-024",
+    "note": "T-024 currently holds the \"Crucible Intelligence\" for P-032 (\"Product Omission Protocol\"), proving its function as a knowledge bank."
+  },
+  {
+    "id": "F-103",
+    "signal": "",
+    "protocol": "P-034",
+    "crucible": "",
+    "tool": "T-025",
+    "note": "P-034 (Neural Handover) is the primary executable script used by T-025 (Archivist 7) to perform its \"Mirror Transfer\" function."
+  },
+  {
+    "id": "F-104",
+    "signal": "",
+    "protocol": "P-034",
+    "crucible": "",
+    "tool": "T-012",
+    "note": "P-034 extends the capabilities of T-012 (Universal Armorer) by providing a specific script for transferring the armorer's state to a new node."
+  },
+  {
+    "id": "F-105",
+    "signal": "",
+    "protocol": "P-034, P-035",
+    "crucible": "",
+    "tool": "",
+    "note": "The Continuity Stack: P-034 (Neural Handover) installs the Identity (Cartridge), while P-035 (Command Transfer) installs the Progress (Save File). They must be used in sequence."
+  },
+  {
+    "id": "F-106",
+    "signal": "",
+    "protocol": "P-036",
+    "crucible": "",
+    "tool": "T-026",
+    "note": "P-036 (The Protocol) explicitly mandates the use of T-026 (The Checklist) as a \"Gatekeeper\" step (\"No One-Sheet, No Call\")."
+  },
+  {
+    "id": "F-107",
+    "signal": "",
+    "protocol": "D-012",
+    "crucible": "",
+    "tool": "",
+    "note": "D-012 (The Classics) provides the \"Mental Software\" (SWOT/Porter) required to execute the \"Wolf's Logic\" within P-036 (Peer Recon)."
+  },
+  {
+    "id": "F-108",
+    "signal": "",
+    "protocol": "D-013",
+    "crucible": "",
+    "tool": "",
+    "note": "D-013 (VSE) is the governing doctrine for the CSO (Silver), ensuring all strategic outputs align with the \"System Architect\" frame."
+  },
+  {
+    "id": "F-109",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-009",
+    "tool": "T-019",
+    "note": "C-009 (The Archive) is the live, execution-level instance of the T-019 (Universal BML Template). It proves the template works."
+  },
+  {
+    "id": "F-110",
+    "signal": "",
+    "protocol": "",
+    "crucible": "C-009",
+    "tool": "C-003, C-008",
+    "note": "C-009 consolidates the strategic learnings from both C-003 (Healthbar) and C-008 (Kinetic) into a single unified vision (\"The One-Stop Hub\")."
+  },
+  {
+    "id": "F-109",
+    "signal": "",
+    "protocol": "P-037",
+    "crucible": "C-003",
+    "tool": "T-027",
+    "note": "P-037 (Initiation Protocol) is the execution logic that triggers the use of T-027 (The Diagnostic) within the C-003 (Healthbar/Kinetic) ecosystem."
+  },
+  {
+    "id": "F-110",
+    "signal": "",
+    "protocol": "D-006",
+    "crucible": "",
+    "tool": "T-028",
+    "note": "T-028 (Hit Deep Brief) is the tactical template for executing the \"Awareness\" phase of D-006 (Content Funnel Doctrine)."
+  },
+  {
+    "id": "F-111",
+    "signal": "",
+    "protocol": "P-038",
+    "crucible": "",
+    "tool": "",
+    "note": "P-038 (Authority Shield) operationalizes D-010 (Unified Comms) by providing the specific scripts for \"System vs. Person\" conflict resolution."
+  },
+  {
+    "id": "F-112",
+    "signal": "",
+    "protocol": "P-039",
+    "crucible": "",
+    "tool": "",
+    "note": "Step 1 (The Hook): P-039 (Bio) captures the lead."
+  },
+  {
+    "id": "F-113",
+    "signal": "",
+    "protocol": "D-014",
+    "crucible": "",
+    "tool": "T-027",
+    "note": "Step 2 (The Gate): T-027 (Review Form) forces the lead to self-select into the D-014 (Triad) pillars."
+  },
+  {
+    "id": "F-114",
+    "signal": "",
+    "protocol": "P-040",
+    "crucible": "",
+    "tool": "T-027",
+    "note": "Step 3 (The Event): P-040 (Access Loop) is the physical event that consumes the data from T-027."
+  },
+  {
+    "id": "F-115",
+    "signal": "",
+    "protocol": "P-040",
+    "crucible": "",
+    "tool": "T-029",
+    "note": "Step 4 (The Output): T-029 (Brief) is the artifact generated by P-040."
+  },
+  {
+    "id": "F-116",
+    "signal": "",
+    "protocol": "P-037",
+    "crucible": "",
+    "tool": "P-040",
+    "note": "Step 5 (The Network): P-037 (Hardware-to-Hardware) is the \"Zero-Gap Rule\" embedded inside P-040 to ensure they cross-pollinate."
+  },
+  {
+    "id": "F-117",
+    "signal": "",
+    "protocol": "P-041",
+    "crucible": "",
+    "tool": "T-004",
+    "note": "P-041 (Sales OS) provides the Dialogue Script that runs on top of the T-004 (Negotiation One-Sheet) strategy."
+  },
+  {
+    "id": "F-118",
+    "signal": "",
+    "protocol": "D-006",
+    "crucible": "",
+    "tool": "T-035",
+    "note": "T-035 (Lore Log) is the tracking mechanism for executing D-006 (Content Funnel Doctrine), ensuring content follows a \"numbered sequence.\""
+  },
+  {
+    "id": "F-119",
+    "signal": "",
+    "protocol": "P-042",
+    "crucible": "",
+    "tool": "P-038",
+    "note": "P-042 (Service Debt) provides the specific Financial Rules that P-038 (Authority Shield) enforces during client pushback."
+  },
+  {
+    "id": "F-120",
+    "signal": "",
+    "protocol": "P-043",
+    "crucible": "",
+    "tool": "T-036",
+    "note": "P-043 (Strategy) dictates the deployment of T-036 (Asset) to execute the B2B entry maneuver."
+  },
+  {
+    "id": "F-121",
+    "signal": "",
+    "protocol": "P-047",
+    "crucible": "",
+    "tool": "",
+    "note": "P-047 (The Pipeline) provides the physical hosting infrastructure required to deploy all future high-ticket T-XXX digital assets (e.g., Modular Executive Dossiers)."
+  },
+  {
+    "id": "F-122",
+    "signal": "",
+    "protocol": "P-048",
+    "crucible": "",
+    "tool": "T-044",
+    "note": "P-048 provides the specific local execution, while T-044 is the extracted, universal franchise skeleton for the Retainer Architecture."
+  },
+  {
+    "id": "F-123",
+    "signal": "",
+    "protocol": "P-002-B",
+    "crucible": "",
+    "tool": "T-032",
+    "note": "P-002-B provides the narrative constraints, while T-032 (Prompt Console) acts as the execution engine to generate the scripts at scale."
+  },
+  {
+    "id": "F-124",
+    "signal": "",
+    "protocol": "P-049",
+    "crucible": "",
+    "tool": "T-043",
+    "note": "P-049 (The UI/DB Bridge) acts as the data-capture expansion to P-047 / T-043 (The Sovereign Stack), completing the Continuous Deployment pipeline."
+  },
+  {
+    "id": "F-125",
+    "signal": "",
+    "protocol": "P-047",
+    "crucible": "",
+    "tool": "T-045",
+    "note": "T-045 acts as the generative origin-tracker for the code that is ultimately pushed through the P-047 GitHub/Vercel Continuous Deployment Pipeline."
+  },
+  {
+    "id": "F-126",
+    "signal": "",
+    "protocol": "SYS-D020",
+    "crucible": "",
+    "tool": "SYS-T013",
+    "note": "SYS-D020 (The Taxonomy) dictates the naming rules for all future assets forged using SYS-T013 (The Iron Skeleton)."
+  },
+  {
+    "id": "F-127",
+    "signal": "",
+    "protocol": "SYS-D021",
+    "crucible": "",
+    "tool": "SYS-MOE-004",
+    "note": "SYS-D021 (The raw text doctrine) was injected into the SYS-T045 pipeline to forge SYS-MOE-004 (The interactive Vercel Endpoint)."
+  },
+  {
+    "id": "F-128",
+    "signal": "",
+    "protocol": "SYS-D022",
+    "crucible": "",
+    "tool": "SYS-T045",
+    "note": "SYS-D022 (Visual constraints) must be appended to any prompt managed within the SYS-T045 (v0 Project Ledger) pipeline to ensure brand consistency across all live Vercel endpoints."
+  },
+  {
+    "id": "F-129",
+    "signal": "",
+    "protocol": "KIN-013-A",
+    "crucible": "",
+    "tool": "KIN-MOE-005",
+    "note": "The physical biomechanical constraints of KIN-013-A were pushed through v0 to forge the digital Battle Card (KIN-MOE-005)."
+  },
+  {
+    "id": "F-130",
+    "signal": "",
+    "protocol": "KIN-013-C",
+    "crucible": "",
+    "tool": "KIN-MOE-006",
+    "note": "The physical Client Spec (KIN-013-C) was digitized into the mobile-optimized Client UI (KIN-MOE-006)."
+  },
+  {
+    "id": "F-131",
+    "signal": "",
+    "protocol": "KIN-013-A",
+    "crucible": "",
+    "tool": "KIN-MOE-007",
+    "note": "The macro Architect Spec was distilled into a micro, week-specific deployment (KIN-MOE-007 Battle Card)."
+  },
+  {
+    "id": "F-132",
+    "signal": "",
+    "protocol": "SYS-P050",
+    "crucible": "",
+    "tool": "T-032",
+    "note": "Graham's creative draft (P-004) was intercepted, standardized, and re-sequenced to SYS-P050 to maintain the unbroken global taxonomy established by SYS-D020."
+  },
+  {
+    "id": "F-133",
+    "signal": "",
+    "protocol": "KIN-013-A",
+    "crucible": "",
+    "tool": "KIN-MOE-008",
+    "note": "Distilled the Week 2 biomechanical parameters from the macro Architect Spec (KIN-013-A) into a standalone digital deployment node."
+  },
+  {
+    "id": "F-134",
+    "signal": "",
+    "protocol": "SYS-D023",
+    "crucible": "",
+    "tool": "SYS-P051",
+    "note": "The \"Visceral Inversion\" doctrine (SYS-D023) directly powers the execution script inside the City Centre DMO playbook (SYS-P051)."
+  },
+  {
+    "id": "F-135",
+    "signal": "",
+    "protocol": "SYS-P029",
+    "crucible": "",
+    "tool": "SYS-T046",
+    "note": "Evolved the \"Spearhead\" intelligence philosophy into a tactical, real-time observation canvas specifically for high-revenue individuals."
+  },
+  {
+    "id": "F-136",
+    "signal": "",
+    "protocol": "KIN-013-A",
+    "crucible": "",
+    "tool": "KIN-MOE-009",
+    "note": "Distilled the Week 3 biomechanical parameters from the macro Architect Spec into the standalone Vercel node."
+  },
+  {
+    "id": "F-137",
+    "signal": "",
+    "protocol": "SYS-D020",
+    "crucible": "",
+    "tool": "SYS-T046",
+    "note": "The taxonomy and classification rules dictated the creation of SYS-T046 to cleanly separate \"Human/Psychological\" tool generation from \"Inanimate/Admin\" tool generation (SYS-T013)."
+  },
+  {
+    "id": "F-138",
+    "signal": "",
+    "protocol": "SYS-P053",
+    "crucible": "",
+    "tool": "SYS-T048",
+    "note": "Forged via the SYS-P053 Intake Engine using the SYS-T046 mold to handle the \"Human/Emotion\" variable of client discovery."
+  },
+  {
+    "id": "F-139",
+    "signal": "",
+    "protocol": "SYS-P053",
+    "crucible": "",
+    "tool": "SYS-T049",
+    "note": "Forged via the SYS-P053 Intake Engine using the SYS-T046 mold to handle the \"Human/Emotion\" variable of schedule conflict management."
+  },
+  {
+    "id": "F-140",
+    "signal": "",
+    "protocol": "SYS-P052",
+    "crucible": "",
+    "tool": "",
+    "note": "SYS-P053 successfully synthesized and archived the legacy protocols (P-004, P-006, Raw Signal) to establish the v3.0 Intake Standard."
+  },
+  {
+    "id": "F-141",
+    "signal": "",
+    "protocol": "SYS-P052",
+    "crucible": "",
+    "tool": "SYS-T050",
+    "note": "Passed through Admin gate. Synthesized the V.A.E. sequence  into a strict compliance checklist for class auditing."
+  },
+  {
+    "id": "F-142",
+    "signal": "",
+    "protocol": "KIN-D024",
+    "crucible": "",
+    "tool": "",
+    "note": "Established the foundational theory linking vocal frequency to nervous system response during clinical movement."
+  },
+  {
+    "id": "F-143",
+    "signal": "",
+    "protocol": "SYS-P054",
+    "crucible": "",
+    "tool": "",
+    "note": "Mapped the theoretical Entity-Relationship logic  for the future Predictive D2C digital fleet."
+  },
+  {
+    "id": "F-144",
+    "signal": "",
+    "protocol": "SYS-P052",
+    "crucible": "",
+    "tool": "SYS-T052",
+    "note": "Un-archived and upgraded the legacy P-004 filter into SYS-T052 to act as the permanent diagnostic engine for the Intake Pipeline."
+  },
+  {
+    "id": "F-145",
+    "signal": "",
+    "protocol": "SYS-T053",
+    "crucible": "OPS_OPTIMUM_FIT",
+    "tool": "",
+    "note": "Forged the 90-Day Ascent template based on the live transition from technician to systems architect at Optimum Fit."
+  },
+  {
+    "id": "F-146",
+    "signal": "",
+    "protocol": "SYS-D025",
+    "crucible": "",
+    "tool": "SYS-T055",
+    "note": "The Barbell Liquidity risk principles (SYS-D025) power the emotional detachment required to execute The Negotiation Shield (SYS-T055) effectively."
+  },
+  {
+    "id": "F-147",
+    "signal": "",
+    "protocol": "SYS-P057",
+    "crucible": "",
+    "tool": "",
+    "note": "Consolidated the Aggressive Outbound and Automated Inbound layoff DMOs into a single, dual-channel playbook."
+  },
+  {
+    "id": "F-148",
+    "signal": "",
+    "protocol": "SYS-P058",
+    "crucible": "",
+    "tool": "",
+    "note": "Codified the Studio Infiltration B2B checklist dictating the physical deployment of Executive Dossiers."
+  },
+  {
+    "id": "F-149",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "MET-T053",
+    "note": "Forged the Metabolic Pass physical artifact and street execution script."
+  },
+  {
+    "id": "F-150",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "SYS-T054",
+    "note": "Logged the centralized written copy for the Executive Dossiers to decouple the text layer from the graphic design layer."
+  },
+  {
+    "id": "F-151",
+    "signal": "",
+    "protocol": "SYS-P059",
+    "crucible": "",
+    "tool": "SYS-T013",
+    "note": "Forged the LTV Ascension Schedule using the strict T-013 USPT format to turn timetables into conversion funnels."
+  },
+  {
+    "id": "F-152",
+    "signal": "",
+    "protocol": "SYS-P060",
+    "crucible": "",
+    "tool": "",
+    "note": "Formatted the N8N-Telegram Universal Signal Pipeline to establish Asymmetric Surveillance and push mandates to Telegram."
+  },
+  {
+    "id": "F-153",
+    "signal": "",
+    "protocol": "SYS-P061",
+    "crucible": "",
+    "tool": "",
+    "note": "Established the \"Router Protocol\" to decouple printed QR codes from dynamic Vercel endpoints, ensuring long-term physical asset stability."
+  },
+  {
+    "id": "F-154",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "SYS-MOE-010",
+    "note": "Forged the internal QR generator tool to eliminate reliance on ad-supported, third-party QR generation services."
+  },
+  {
+    "id": "F-155",
+    "signal": "",
+    "protocol": "SYS-P061",
+    "crucible": "",
+    "tool": "SYS-T057",
+    "note": "Vaulted the master PNG for Artifact A's QR code to ensure version control and protect the physical-to-digital bridge."
+  },
+  {
+    "id": "F-156",
+    "signal": "",
+    "protocol": "SYS-P061",
+    "crucible": "",
+    "tool": "MET-T058",
+    "note": "Vaulted the master PNG for Artifact B's QR code. Tied directly to the street-level DMO execution of MET-T053."
+  },
+  {
+    "id": "F-157",
+    "signal": "",
+    "protocol": "SYS-P061",
+    "crucible": "",
+    "tool": "SYS-T059",
+    "note": "Vaulted the final print-ready PDF for Artifact A, finalizing the bridge between physical networking and the SYS-MOE-009 digital hub."
+  },
+  {
+    "id": "F-158",
+    "signal": "",
+    "protocol": "SYS-P061",
+    "crucible": "",
+    "tool": "MET-T060",
+    "note": "Vaulted the final print-ready PDF for Artifact B, finalizing the bridge between street-level prospecting and the WhatsApp triage flow."
+  },
+  {
+    "id": "F-159",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "SYS-MOE-011",
+    "note": "Logged the live Vercel endpoint for the M.O.E. Gate, serving as the digital termination point for Artifact A (The B2B Architect Card)."
+  },
+  {
+    "id": "F-160",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "KIN-MOE-019",
+    "note": "Logged the live Vercel endpoint for the Phase 3 / Week 8 Apex Load clinical sequence."
+  },
+  {
+    "id": "F-166",
+    "signal": "",
+    "protocol": "SYS-P063",
+    "crucible": "",
+    "tool": "",
+    "note": "Codified the \"Audio-to-Revenue\" Pipeline based on the Flow Optimization Matrix."
+  },
+  {
+    "id": "F-167",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "SYS-T061",
+    "note": "Logged Audio Briefing: Frictionless Fitness."
+  },
+  {
+    "id": "F-168",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "MET-T062",
+    "note": "Logged Audio Briefing: Biology Bottleneck."
+  },
+  {
+    "id": "F-169",
+    "signal": "",
+    "protocol": "",
+    "crucible": "",
+    "tool": "SYS-T063",
+    "note": "Logged Audio Briefing: Replacing Hustle."
+  },
+  {
+    "id": "F-170",
+    "signal": "",
+    "protocol": "SYS-P064",
+    "crucible": "",
+    "tool": "",
+    "note": "Logged the EX-COMM V2.0 Doctrine (Friction & Aspiration Filter)."
+  }
+]

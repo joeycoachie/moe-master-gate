@@ -254,5 +254,210 @@
     "name": "S+ Rank Operational Standard",
     "classification": "BRIEFING [INTERNAL]",
     "desc": "Foundational onboarding doc — standards for Mindset, Strategy, Execution, Communication."
+  },
+  {
+    "id": "T-011",
+    "name": "Functional Spec: Tesseract [Head of IA]",
+    "tool_type": "CANVAS",
+    "format": "canvas",
+    "desc": "The activation canvas for the \"Mainframe\" node. Focus: Doctrine Synthesis, Flow Optimization, and Brand Philosophy.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-012",
+    "name": "Functional Spec: Tesseract [Armorer]",
+    "tool_type": "CANVAS",
+    "format": "canvas",
+    "desc": "The activation canvas for the \"Splinter Node\" (e.g., KA-TES). Focus: Armory Intake, Classification, and Database Integrity.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-017",
+    "name": "Form: HVO Audit (Aquatic)",
+    "tool_type": "DIAGNOSTIC",
+    "format": "typeform",
+    "desc": "The \"Performance Audit\" intake for High-Value Operators (e.g., Stephanie). Frames the engagement as a clinical audit, not a session.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-018",
+    "name": "Form: Junior Diagnostic",
+    "tool_type": "DIAGNOSTIC",
+    "format": "typeform",
+    "desc": "The automated triage form for the \"Swimmer Team\" (B2B scale). Ensures no one touches the Architect without data submission.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-020",
+    "name": "[L3-P] Neighbourhood Goods Strategy Shell (Franchise Manual)",
+    "tool_type": "TEMPLATE",
+    "format": "gdoc/pdf",
+    "franchise_ready": true,
+    "desc": "The \"Franchise-Ready\" empty shell for the Neighbourhood Goods (B2B Partner) strategy. Includes the \"Pivot Protocol\" logic pre-installed.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-021",
+    "name": "[L3-P] Trust-Based Sales Signal Template (Franchise Manual)",
+    "tool_type": "TEMPLATE",
+    "format": "gdoc/pdf",
+    "franchise_ready": true,
+    "desc": "The \"Franchise-Ready\" empty shell for the Trust-Based Sales Signal Protocol. Contains the logic for \"Vulnerability Management\" and \"Solution Framing.\"",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-023",
+    "name": "THE MENTAL MODEL DICTIONARY (HVO EDITION)",
+    "tool_type": "TRACKER",
+    "format": "gdoc/pdf",
+    "franchise_ready": true,
+    "desc": "The \"Franchise-Ready\" empty shell for a Venture's Command Center. Pre-structured with \"Working Files,\" \"Crucible Assets,\" and \"Client Facing\" optics. The universal seed for any Client OS.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-025",
+    "name": "[L3-I] Functional Spec: Archivist 7 (L.A.I.A.)",
+    "tool_type": "CANVAS",
+    "format": "canvas/prompt",
+    "desc": "The activation canvas for the \"Logistics & Architectural Integrity Agent.\" Core mandate: Manage T-024, enforce architectural integrity, and eliminate cognitive friction.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-030",
+    "name": "[L3-P] Hybrid Bio & Triage Gate Template",
+    "tool_type": "TEMPLATE",
+    "format": "gdoc",
+    "franchise_ready": true,
+    "desc": "[PLAYBOOK] [FRANCHISE] The \"Digital Handshake\" system. Mandates stripping local signals (Flags) and using \"Visceral Inversion\" to convert a profile into an Active Logic Gate (Linktree).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-034",
+    "name": "The Honorable Discharge Notice",
+    "tool_type": "TEMPLATE",
+    "format": "pdf",
+    "franchise_ready": true,
+    "desc": "[FRANCHISE] The \"Client Off-boarding\" email shell. Executes P-026. Frames the exit as a \"Strategic Pivot\" rather than a firing.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-036",
+    "name": "Base Camp 01: The Intel Dossiers",
+    "tool_type": "CANVAS",
+    "format": "pdf",
+    "desc": "[GENESIS] The \"Trojan Horse\" content asset. A deck of 9 Psychological Dossiers used to engage corporate teams and extract friction data. The \"Ammunition\" for P-043.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-037",
+    "name": "Speech Vision: The Mianzi (Face) Trap",
+    "tool_type": "CANVAS",
+    "format": "pdf",
+    "desc": "Keynote module reframing discomfort as biological data and Ego (\"Face\") as the bottleneck to growth.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-038",
+    "name": "The M.O.E. Unified Historical Record",
+    "tool_type": "LORE",
+    "format": "pdf",
+    "desc": "[INTERNAL] The chronological history of the enterprise (Seasons I, II, III). Tracks all major strategic pivots and Chief Strategist eras.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-043",
+    "name": "The Sovereign Stack Setup Guide",
+    "tool_type": "MANUAL",
+    "format": "pdf",
+    "desc": "[FRANCHISE] The sanitized, client-facing version of P-047. Stripped of internal M.O.E. names. Used to teach HVOs how to build their own digital Walled Gardens.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "T-044",
+    "name": "The Universal B2B Retainer Shell",
+    "tool_type": "TEMPLATE",
+    "format": "pdf",
+    "desc": "[FRANCHISE] The agnostic structural blueprint for B2B consulting deals. Dictates the \"Capital-Forward\" pricing rule and the Net-Profit Royalty offer.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T047",
+    "name": "The Titan Observation Canvas",
+    "tool_type": "STRATEGY_OS",
+    "format": "pdf/doc",
+    "desc": "[RECONNAISSANCE] Agnostic data-capture template for extracting operational behavior from high-earning operators. Tracks Cortisol Pacing, Simplicity Metrics, and Friction Dismissal.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T048",
+    "name": "The 66% Extraction Protocol",
+    "tool_type": "COMM_OS",
+    "format": "pdf",
+    "desc": "[PLAYBOOK] A psychological architecture designed to force the target to reveal their true friction (Black Swans) by weaponizing strategic silence. Phases: Disarm (10%), Provocation (24%), Void (66%).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T049",
+    "name": "The Reschedule Protocol",
+    "tool_type": "COMM_OS",
+    "format": "pdf",
+    "desc": "[PLAYBOOK] A communication architecture that eliminates guilt and low-status over-explaining when altering a timeline. Phases: Hard Stop (10%), Boundary (80%), Pivot (10%).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T051",
+    "name": "The HireVue Intercept Protocol",
+    "tool_type": "COMM_OS",
+    "format": "doc",
+    "desc": "[PLAYBOOK] A psychological architecture for corporate interviews. Uses \"Visceral Inversion\" to flip standard HR questions (e.g., feedback/learning) into an opportunity to display S-Rank system-building and operational detachment.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T054",
+    "name": "The Master Executive Dossiers (Copy)",
+    "tool_type": "COMM_OS",
+    "format": "md/pdf",
+    "desc": "[INTERNAL] The master written text for the B2B Dossiers (Hardware, Fuel, Software). Defines the \"Audrey Chan\" aesthetic and locks the specific copywriting for the Enterprise Systems Architect positioning.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "MET-T053",
+    "name": "The Metabolic Pass (Social Currency)",
+    "tool_type": "COMM_OS",
+    "format": "pdf / print",
+    "desc": "[ASSET] The physical artifact and street execution script. Uses the wooden easel \"pop-up\" aesthetic to bypass salesman defenses. Links directly to MET-MOE-004.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T056",
+    "name": "The Executive Dossiers (Master Copy)",
+    "tool_type": "COMM_OS",
+    "format": "md",
+    "desc": "[ASSET] The centralized written copy for the Hardware, Fuel, and Software B2B dossiers. Allows for iterative updates to the core text independent of graphic design execution.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "MET-T058",
+    "name": "Artifact B: Metabolic Pass QR",
+    "tool_type": "COMM_OS",
+    "format": "QR",
+    "desc": "[ASSET] The official high-resolution QR code bridging physical Artifact B (The Metabolic Pass) to the WhatsApp intake flow. Encodes a pre-filled text payload to remove user friction. Serves as the activation trigger for MET-T053.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-T059",
+    "name": "Artifact A: B2B Architect Card (Print File)",
+    "tool_type": "COMM_OS",
+    "format": "pdf",
+    "desc": "[ASSET] The print-ready digital file for the physical B2B networking card. Employs the \"Quiet Good Taste\" aesthetic. Encodes SYS-T057 (The Master Ecosystem QR).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "MET-T060",
+    "name": "Artifact B: Metabolic Pass (Print File)",
+    "tool_type": "COMM_OS",
+    "format": "pdf",
+    "desc": "[ASSET] The print-ready digital file for the physical street-level diagnostic card. Features the triage checklist. Encodes MET-T058 (The WhatsApp Intake QR). Pending final spell-check before print run.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
   }
 ]

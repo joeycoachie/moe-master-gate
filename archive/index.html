@@ -141,9 +141,9 @@
   }
   var DOMAIN_COLOR = { sys: "var(--sys)", kin: "var(--kin)", met: "var(--met)", legacy: "var(--legacy)" };
   var DOMAIN_LABEL = { all: "All", sys: "SYS", kin: "KIN", met: "MET", legacy: "Legacy" };
-  var COLLS = ["protocols", "tools", "crucibles"];
+  var COLLS = ["signals", "protocols", "tools", "crucibles"];
 
-  var state = { tab: "protocols", domain: "all", q: "", dbData: { protocols: [], tools: [], crucibles: [] } };
+  var state = { tab: "protocols", domain: "all", q: "", dbData: { signals: [], protocols: [], tools: [], crucibles: [] } };
 
 
   function esc(s) { if (s == null) return ""; var d = document.createElement("div"); d.textContent = String(s); return d.innerHTML; }
@@ -190,7 +190,7 @@
   function renderTabs() {
     var el = document.getElementById("tabs");
     el.innerHTML = "";
-    [["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"]].forEach(function (t) {
+    [["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"], ["signals", "Signals"]].forEach(function (t) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "tab" + (state.tab === t[0] ? " active" : "");

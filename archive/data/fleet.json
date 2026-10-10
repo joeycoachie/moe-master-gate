@@ -1,0 +1,668 @@
+[
+  {
+    "id": "P-MOE-002",
+    "name": "The Unified System Gate",
+    "node": "STRATEGY_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "None (Static)",
+    "status": "LIVE",
+    "function": "[Top-of-Funnel] Separates Physical (Kinetic) from Internal (Metabolic)."
+  },
+  {
+    "id": "MET-T001",
+    "name": "The Metabolic Baseline",
+    "node": "CLIENT_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "WhatsApp API",
+    "status": "LIVE",
+    "function": "[Diagnostic Capture] Diagnoses metabolic drag and routes data payload directly to WhatsApp."
+  },
+  {
+    "id": "KIN-P013",
+    "name": "The Unwind Protocol",
+    "node": "REVENUE_OS",
+    "hosting": "v0 (Code Gen)",
+    "backend": "Pending",
+    "status": "STAGED",
+    "function": "[Client-Facing Spec] Visual spec for the 12-week Phase 2 Arc. Awaiting Vercel push."
+  },
+  {
+    "id": "P-MOE-003",
+    "name": "The Obsidian Gate",
+    "node": "ENTERPRISE_OS",
+    "hosting": "Pending",
+    "backend": "Pending",
+    "status": "BLUEPRINT",
+    "function": "[Secure Portal] Client & Architect Login Portal. Architecture not yet coded."
+  },
+  {
+    "id": "SYS-T004",
+    "name": "The Intelligence Archive Library",
+    "node": "ENTERPRISE_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "None (Static)",
+    "status": "LIVE",
+    "function": "[Knowledge Hub] Interactive UI rendering the SYS-D021 reading list."
+  },
+  {
+    "id": "KIN-T005",
+    "name": "The Unwind (Architect UI)",
+    "node": "KINETIC_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "Digital dashboard for instructors. Renders KIN-013 data for quick on-floor reference (Cues, Failure Points)."
+  },
+  {
+    "id": "KIN-MOE-006",
+    "name": "The Unwind (Client UI)",
+    "node": "KINETIC_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "Mobile-optimized client portal. Renders client-facing data, acting as a high-status digital takeaway post-session."
+  },
+  {
+    "id": "KIN-MOE-007",
+    "name": "KIN-013_P2_W1 Crucible (Battle Card)",
+    "node": "KINETIC_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "STAGED",
+    "status": "Unlinked",
+    "function": "Specific execution card for Phase 2, Week 1. URL: kin-013-p2-w1.vercel.app"
+  },
+  {
+    "id": "KIN-MOE-008",
+    "name": "KIN-013_P2_W2 Crucible (Battle Card)",
+    "node": "KINETIC_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Clinical UI] Specific execution card for Phase 2, Week 2 of the KIN-013 protocol. URL: kin-013-p2-w2.vercel.app"
+  },
+  {
+    "id": "KIN-MOE-009",
+    "name": "KIN-013_P2_W3 Crucible (Battle Card)",
+    "node": "KINETIC_OS",
+    "hosting": "Vercel",
+    "backend": "Unlinked",
+    "status": "Unlinked",
+    "function": "[Clinical UI] Specific execution card for Phase 2, Week 3 of the KIN-013 protocol. URL: kin-013-p2-w3.vercel.app"
+  },
+  {
+    "id": "KIN-MOE-010",
+    "name": "KIN-013_P2_W4_MatFlow",
+    "node": "CLIENT_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Clinical UI] Specific execution card for Phase 2, Week 4."
+  },
+  {
+    "id": "KIN-MOE-011",
+    "name": "NCIP QUIZ",
+    "node": "ENTERPRISE_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[QA Tool] Internal instructor certification and knowledge testing."
+  },
+  {
+    "id": "KIN-MOE-012",
+    "name": "KIN-CALLIBRATION_MANUAL",
+    "node": "ENTERPRISE_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "MOE-MASTER-GATE",
+    "function": "[Instructor Terminal] The core visual operating manual for Optimum Fit instructors."
+  },
+  {
+    "id": "KIN-P013_W5",
+    "name": "Phase 2 (Tension) - Roll Down Bar.",
+    "node": "CLIENT_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Clinical UI] Specific execution card for Phase 2, Week 5 (Tension focus). (Kinetic Playbook)."
+  },
+  {
+    "id": "KIN-MOE-014",
+    "name": "KIN-013_P2_W5_Duet",
+    "node": "CLIENT_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Clinical UI] Specific execution card for Phase 2, Week 5 (Duet programming)."
+  },
+  {
+    "id": "KIN-MOE-015",
+    "name": "Kin-Intructor_Base Camp Incubator",
+    "node": "ENTERPRISE_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Training Hub] Onboarding pipeline for new kinetic operators."
+  },
+  {
+    "id": "KIN-MOE-016",
+    "name": "KIN-Kinetic_Diagnostic_Tool",
+    "node": "CLIENT_OS",
+    "hosting": "QR / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Diagnostic Capture] Front-end client assessment for kinetic triage."
+  },
+  {
+    "id": "MET-P001",
+    "name": "HBL Basic System",
+    "node": "REVENUE_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Retail Tool] Standard operational ecosystem for baseline fuel clients."
+  },
+  {
+    "id": "SYS-MOE-005",
+    "name": "MOE SPRINT COMMANDER",
+    "node": "ENTERPRISE_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Execution Hub] Internal DMO tracker for the Founder (m-o-e-dmo-tracker)."
+  },
+  {
+    "id": "SYS-MOE-006",
+    "name": "HBL Ascension Model & Dynamic Downline Forge",
+    "node": "STRATEGY_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Business Logic] Dynamic downline forge and compensation architecture logic."
+  },
+  {
+    "id": "KIN-D001",
+    "name": "Hardware-Doctrine-Ladder-Barrel",
+    "node": "CLIENT_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Clinical UI] Specific hardware operating procedures."
+  },
+  {
+    "id": "SYS-MOE-007",
+    "name": "Moe Goru Protocol",
+    "node": "STRATEGY_OS",
+    "hosting": "v0 / Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Logic Sandbox] Testing environment for the decoupled Pantry/Grocery/Kitchen API triggers."
+  },
+  {
+    "id": "KIN-MOE-018",
+    "name": "KIN-013_P2_W7_Kinetic_HIIT",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Clinical UI] Scheduled execution card for Phase 3, Week 7."
+  },
+  {
+    "id": "KIN-MOE-019",
+    "name": "KIN-013_P2_W8_Apex_Load",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Clinical UI] Scheduled execution card for Phase 3, Week 8."
+  },
+  {
+    "id": "SYS-MOE-008",
+    "name": "MOE CRM TERMINAL",
+    "node": "ENTERPRISE_OS",
+    "hosting": "Firebase",
+    "backend": "Active",
+    "status": "LIVE",
+    "function": "[Master Hub] The secure, live-database terminal for global enterprise management."
+  },
+  {
+    "id": "MET-MOE-003",
+    "name": "MOE Metabolic Audit v2",
+    "node": "CLIENT_OS",
+    "hosting": "Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Diagnostic Capture] V2 top-of-funnel intake. Multi-language requirement pending for C-Rank diet correction."
+  },
+  {
+    "id": "SYS-MOE-009",
+    "name": "Artifact A: B2B Architect Card",
+    "node": "COMM_OS",
+    "hosting": "Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Authority Hub] Digital business card. Replaces paper cards with a high-status digital interface detailing the Architect ecosystem."
+  },
+  {
+    "id": "MET-MOE-004",
+    "name": "Artifact B: Metabolic Baseline Evaluation",
+    "node": "CLIENT_OS",
+    "hosting": "Vercel",
+    "backend": "Unlinked",
+    "status": "LIVE",
+    "function": "[Diagnostic Capture] Mobile-optimized intake for the physical Metabolic Pass. Captures 3 PM crashes and joint pain data."
+  },
+  {
+    "id": "KIN-D002",
+    "name": "STABILITY CHAIR",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-D003",
+    "name": "(Reformer) DOCTRINE",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-D004",
+    "name": "(Cadillac) Doctrines.",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-T001",
+    "name": "Posterior Chain & RA Diagnostic (Slump/ASLR). (Kinetic Tool).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-T002",
+    "name": "Master Plumb Line Audit (Influencer UI).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "SYS-T001",
+    "name": "Postural Audit Server Engine (GAS Backend). (System Tool).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P013_W8",
+    "name": "Phase 3 (Peak Load) - Crucible Rotations.",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "[FIX] KIN-T003",
+    "name": "Dynamic Biomechanical Override (Dropdown Tool).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "SYS-MOE-010",
+    "name": "The M.O.E. QR Forge",
+    "node": "ENTERPRISE_OS",
+    "hosting": "Local HTML",
+    "backend": "None (Static)",
+    "status": "LIVE",
+    "function": "[Internal Tool] Generates high-res, ad-free, static QR codes for physical print runs. Protects against third-party tracking."
+  },
+  {
+    "id": "SYS-MOE-011",
+    "name": "The M.O.E. Gate (B2B Hub)",
+    "node": "COMM_OS",
+    "hosting": "Vercel",
+    "backend": "Unlinked",
+    "status": "STAGED",
+    "function": "[Authority Hub] The digital landing environment triggered by scanning Artifact A (SYS-T057). Serves as the primary intake gate for B2B consulting/architecture leads."
+  },
+  {
+    "id": "KIN-P013_W9",
+    "name": "Phase 4 (Flow) - Front Splits & Continuous.",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Clinical UI] Scheduled execution card for Phase 2, Week 9 (Flow)."
+  },
+  {
+    "id": "SYS-MOE-012",
+    "name": "Financial Yield Calculator",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P013_W10",
+    "name": "Asymmetric Mat Flow",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Clinical UI] Scheduled execution card for Phase 4, Week 10 (Asymmetry)."
+  },
+  {
+    "id": "MET-MOE-005",
+    "name": "MET PRODUCT ACADEMY SOVEREIGN HEALTH DIRECTORY",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": "This manual ensures that as the coaching volume scales, the integrity and authority of the intelligence delivered remain completely undiluted."
+  },
+  {
+    "id": "KIN-MOE-023",
+    "name": "KIN-013_P4_W10_Asymmetry_MAT",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P013_W11",
+    "name": "Props & Jumpboard Circuit.",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P013_W12",
+    "name": "The Apex (Final Exam).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P013",
+    "name": "Weeks 1-4, 6-7, and Week 10 Reformer.",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P014_W1-W4",
+    "name": "",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-MOE-024",
+    "name": "KIN-014_P1_W1 Sliders: Frictionless Foundation",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Clinical UI] KIN-014 Slider sequence."
+  },
+  {
+    "id": "KIN-MOE-025",
+    "name": "KIN-014_W2 Slider Integration (Band-Assisted)",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Clinical UI] KIN-014 Slider sequence."
+  },
+  {
+    "id": "KIN-MOE-026",
+    "name": "KIN-014_W3 Slider Crucible (Weight-Loaded)",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Clinical UI] KIN-014 Slider sequence."
+  },
+  {
+    "id": "KIN-MOE-027",
+    "name": "KIN-014_W4 Slider Peak (K-HIIT Circuit)",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Clinical UI] KIN-014 Slider sequence."
+  },
+  {
+    "id": "KIN-MOE-028",
+    "name": "KIN- POSTURAL DIAGSNOTIC INTAKE",
+    "node": "CLIENT_OS",
+    "hosting": "Pending",
+    "backend": "STAGED",
+    "status": "",
+    "function": "[Diagnostic] Data capture endpoint for physical assessment."
+  },
+  {
+    "id": null,
+    "name": "DATA SYNC SHEET :",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-MOE-029",
+    "name": "KIN- POSTURAL ANALYSIS ASSESSMENT",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": "[Data Bridge] Backend sync sheet for capturing the diagnostic intake."
+  },
+  {
+    "id": "KIN-MOE-030",
+    "name": "KIN-INSTRUCTOR-PROGRAMMING-TERMINAL",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": "[Ops Terminal] Instructor-facing programming dashboard."
+  },
+  {
+    "id": null,
+    "name": "DATA SYNC SHEET :",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "SYS-MOE-013",
+    "name": "SYS-HRYG MASTER NODE",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": "[Master Hub] Centralized enterprise node."
+  },
+  {
+    "id": "SYS-MOE-014",
+    "name": "SYS-HRX-LOG",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": "[Data Bridge] Internal tracking ledger."
+  },
+  {
+    "id": "SYS-MOE-015",
+    "name": "SYS-HRX-MOD6-NERVE IMPINGEMENT",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": "[Internal Tool] Specific enterprise module interface."
+  },
+  {
+    "id": "KIN-016",
+    "name": "Upper Crossed Arc",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P015",
+    "name": "QL Nerve Impingement Corrective (3-Week Toggle).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P016",
+    "name": "Upper Crossed / Rounded Shoulder Arc",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P018",
+    "name": "The 20-Week Hyrox KL Periodization Plan. (Kinetic Playbook).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-D005",
+    "name": "Fascial Biomechanics & Anatomy Trains. (Kinetic Doctrine).",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "MET-P002",
+    "name": "RA/Inflammatory Defense Protocol.",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "MET-P003",
+    "name": "Hyrox Glycogen Fueling Architecture",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": null,
+    "name": "hyrox double",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": null,
+    "name": "INFLUCER MAT X CHAIR",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": null,
+    "name": "RECUP IPAD UI",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": null,
+    "name": "UPPER CROSS W1",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": null,
+    "name": "UPPER CROSS W2",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "CLAUDE ARTIFACT",
+    "name": "KINETIC GATE -- PRODUCT FLOW",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "DESKTOP DOWNLOAD",
+    "name": "RECUPT STN. GOD MODE DASHBAORD",
+    "node": "",
+    "hosting": "",
+    "backend": "",
+    "status": "",
+    "function": ""
+  },
+  {
+    "id": "KIN-P019_W1",
+    "name": "Disguised Knee/Nerve Diagnostic & Hip Engine",
+    "node": "",
+    "hosting": "VISUAL CODE - MOE GATE",
+    "backend": "",
+    "status": "",
+    "function": ""
+  }
+]

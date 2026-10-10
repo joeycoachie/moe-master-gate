@@ -4,7 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const COLLECTIONS = ['protocols', 'tools', 'crucibles'];
+export const COLLECTIONS = ['signals', 'protocols', 'tools', 'crucibles'];
 
 export function readJSON(rel) {
   return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));

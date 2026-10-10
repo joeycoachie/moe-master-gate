@@ -40,6 +40,9 @@ The JSON files under `data/` are the **single source of truth**. The pages and s
 
 ## 3. Where this came from
 
+**10 Oct 2026:** the founder's Google Sheet O_IP_ARMORY_DATABASE was imported in full (signals, doctrines, playbooks, tools, Forge Log, Digital Fleet). The sheet is frozen; this repo is the source of truth. Open clashes are in `DECISION_GATES.md`.
+
+
 Moved out of two Claude artifacts on 5 Oct 2026, so that everything lives in one repo and can be packaged:
 
 - Intelligence Archive (claude.ai artifact) → `index.html` + `data/archive/` + `data/schema.json`

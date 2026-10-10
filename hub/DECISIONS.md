@@ -44,3 +44,9 @@ Newest at the top within each section.
 - The Intelligence Archive and this hub live inside `moe-master-gate` (folders `archive/` and `hub/`). No separate repos.
 - P-010 Founder's Weekly Cognitive Loop is the single weekly ritual. "Scale Faster" (7 Oct 2026) is merged into it as v4.0, not given its own ID.
 - New IDs are never minted without checking the founder's O_IP_ARMORY_DATABASE sheet first, and every new or changed ID is flagged to the founder.
+
+## 2026-10-10 · The Archive is the source of truth
+- The founder's Google Sheet O_IP_ARMORY_DATABASE was imported into `archive/` in full and is frozen as of 10 Oct 2026. It is not edited again.
+- Signals, doctrines, playbooks, tools and crucibles live in `archive/data/archive/`. The Forge Log (`archive/data/forge.json`) and the Digital Fleet (`archive/data/fleet.json`) are kept word-for-word.
+- Every clash is a numbered gate in `archive/DECISION_GATES.md`. Agents never resolve a gate themselves; the founder says "gate G-xx: option N".
+- Mae Lim = "Mae" in KIN-P016 (RA override) and KIN-P019 W1. Pei Suen and Zi Suen = the daughters in the trio. Eleine Wong is a 1-1 client, about 3 cycles in, on the Upper Crossed arc (KIN-P016) to build her shoulder frame.

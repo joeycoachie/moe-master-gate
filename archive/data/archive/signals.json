@@ -1,0 +1,252 @@
+[
+  {
+    "id": "S-001",
+    "name": "Sovereign Worker Profile",
+    "date": "2025-10-24",
+    "origin": "V1.pdf",
+    "desc": "Sovereign Worker Profile: Analysis of the high-leverage solopreneur, the \"Scaling Paradox,\" and the \"RPE Lift\" concept.",
+    "vault_link": "[L0_INTEL_FORGE]/S-001_Sovereign_Worker_Intel.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-002",
+    "name": "Sovereign Systems Founder",
+    "date": "2025-10-24",
+    "origin": "V2.pdf",
+    "desc": "Sovereign Systems Founder: Profile of the avatar who scales via code/contracts, not people. Key pain: \"Owner Dependency\".",
+    "vault_link": "[L0_INTEL_FORGE]/S-002_Sovereign_Systems_Intel.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-003",
+    "name": "Architect vs. Bricklayer",
+    "date": "2025-10-20",
+    "origin": "Untitled document.pdf",
+    "desc": "Architect vs. Bricklayer: Crucible debrief on impostor syndrome, clarifying the high-leverage, \"abstract\" work of an Architect.",
+    "vault_link": "[L0_INTEL_FORGE]/S-003_Architect_vs_Bricklayer.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-004",
+    "name": "The Singularity (Kurzweil)",
+    "date": "2025-11-01",
+    "origin": "IMG_1246.jpg",
+    "desc": "The Singularity (Kurzweil): Market signal on the 2045 human-AI merger. Validates our \"Blue Pond\" thesis.",
+    "vault_link": "[L0_INTEL_FORGE]/S-004_Kurzweil_Singularity_Signal.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-005",
+    "name": "Inbound Marketing Intel",
+    "date": "2025-11-02",
+    "origin": "HubSpot Academy",
+    "desc": "Inbound Marketing Intel: A consolidated debrief of HubSpot's inbound marketing certification, covering ROI, engagement formulas, and crisis protocols.",
+    "vault_link": "[L0_INTEL_FORGE]/S-005_HubSpot_Inbound_Intel.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-006",
+    "name": "Project analysis and asset breakdown of the \"Indoctrination Funnel v2.0\" (P-013), a 7-day tactical content cadence.",
+    "date": "2025-11-03",
+    "origin": "Cadence (Project Manager)",
+    "desc": "Project analysis and asset breakdown of the \"Indoctrination Funnel v2.0\" (P-013), a 7-day tactical content cadence.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-006_Cadence_Analysis_v2.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-007",
+    "name": "Crucible Extraction",
+    "date": "2025-11-03",
+    "origin": "Aura (Data Analyst)",
+    "desc": "Crucible Extraction: \"The most valuable content (high Saves/Shares) is failing to produce any doctrine-engaging comments, \nvalidating that the Resonance Engine is successfully executing the Utility/Social Triggers but failing at the Clarity/Emotion Triggers required for high-trust engagement, \nwhich is the core flaw of the Air War sprint.\"",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-007_Aura_Quant_Report.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-008",
+    "name": "Operational Audit",
+    "date": "2025-11-03",
+    "origin": "Aura (Data Analyst)",
+    "desc": "Operational Audit: \"Identified the primary internal friction as a failure in applying the S+ Rank Prompt to metric definition and a need to strengthen Anticipatory Intelligence \nto prevent future reactive analysis loops. This is essential input for Silver's strategic oversight.\"",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-008_Aura_Cognitive_Debrief.gdoc",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-009",
+    "name": "The Cognitive Debrief Protocol\" (v1/v2). The \"obsolete\" 3 legacy protocol for weekly cognitive bias debriefs. Superseded",
+    "date": "2025-11-03",
+    "origin": "Founder (Legacy Doc)",
+    "desc": "\"The Cognitive Debrief Protocol\" (v1/v2). The \"obsolete\" 3 legacy protocol for weekly cognitive bias debriefs. Superseded by P-016.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-009_Legacy_Cognitive_Debrief.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-010",
+    "name": "The S-Rank client onboarding email (\"Welcome to the Architecture\") used to deploy the T-003 SOW, establishing the \"Dual-",
+    "date": "2025-11-04",
+    "origin": "Founder (Email)",
+    "desc": "The S-Rank client onboarding email (\"Welcome to the Architecture\") used to deploy the T-003 SOW, establishing the \"Dual-Channel System.\" [cite: 1877, 1883-1888]",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-010_Ops_Healthbar_Onboarding_Email.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-011",
+    "name": "The 'Battle for Value' Crucible",
+    "date": "2025-11-04",
+    "origin": "\"The Battle for Value\" OPS HEALTHBAR crucible",
+    "desc": "\"The 'Battle for Value' Crucible\": The S-Rank debrief of the \"40% Discount\" failure, identifying the \"pleasure point\" friction and C-Rank rationalizations as the root cause. [cite: 1160-1182]",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-011_Battle_for_Value_Crucible.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-012",
+    "name": "Mission Command v1.0",
+    "date": "2025-11-05",
+    "origin": "Mission Command (Archive)",
+    "desc": "\"Mission Command v1.0\": A high-fidelity historical record of all operations, sprints, and handovers from project inception (Jul '25) to its conclusion (Oct '25)",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-012_Mission_Command_v1_ARCHIVE.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-013",
+    "name": "S-Rank Crucible Debrief",
+    "date": "2025-11-05",
+    "origin": "Competitor (Richard Yu)",
+    "desc": "S-Rank Crucible Debrief: Deconstruction of the \"Richard Yu\" high-ticket funnel, analyzing his \"Value Deposit,\" \"System-Blame Price Anchor,\" and \"Sovereignty Clause Takeaway.\"",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-013_Richard_Yu_Crucible.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-014",
+    "name": "Raw intel and draft of the S+ Rank Prompt Template for the \"Air War\" sprint, detailing the need for \"variable factors\" (",
+    "date": "2025-11-05",
+    "origin": "Founder (Internal)",
+    "desc": "Raw intel and draft of the S+ Rank Prompt Template for the \"Air War\" sprint, detailing the need for \"variable factors\" (x=pain, y=solution).",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-014_Prompt_Template_Intel_Graham.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-015",
+    "name": "QNA [BLUEPRINT SYNTHESIS] PRAXIS",
+    "date": "2025-11-10",
+    "origin": "Praxis (AI Operator)",
+    "desc": "\"QNA [BLUEPRINT SYNTHESIS] PRAXIS\": The synthesized intelligence debrief defining the core mechanisms for \"Project Genesis,\" our public-facing LLM product.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-015_Praxis_QNA_Genesis_Blueprint.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-016",
+    "name": "The Fresh Start Protocol",
+    "date": "2025-11-12",
+    "origin": "Founder (Internal)",
+    "desc": "\"The Fresh Start Protocol\": The operational mandate for transforming cluttered brands. Defines \"Digital Hoarding\" and \"Ghost Signals\" as active liabilities. 66",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-016_The_Fresh_Start_Protocol.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-017",
+    "name": "Operation Airen\" Crucible Debrief",
+    "date": "2025-11-14",
+    "origin": "Founder (Internal)",
+    "desc": "\"Operation Airen\" Crucible Debrief: The raw intel on the \"burnout\" friction with a legacy client and the successful deployment of the \"Voss Price Anchor\" to secure an exit. 3",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-017_Operation_Airen_Crucible.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-018",
+    "name": "Founder's Crucible Reading",
+    "date": "2025-11-15",
+    "origin": "Praxis (AI Operator)",
+    "desc": "\"Founder's Crucible Reading\": The raw debrief forging the \"Crucible-to-Asset Pipeline.\" Integrates \"Blue Ocean Strategy\" and \"Form 4 to Form 1\" value shifts. 5555",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-018_Praxis_Crucible_to_Asset_Debrief.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-019",
+    "name": "Ops AOLOVE\" Crucible Debrief",
+    "date": "2025-11-20",
+    "origin": "Founder (Internal)",
+    "desc": "\"Ops AOLOVE\" Crucible Debrief: The realization that the \"Master Ledger\" used in Ops AOLOVE is a scalable system that \"birthed the template\" for all future ventures.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-019_AOLOVE_Master_Ledger_Debrief.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-020",
+    "name": "Digital Twin\" Architecture",
+    "date": "2025-11-23",
+    "origin": "Founder (Internal)",
+    "desc": "\"Digital Twin\" Architecture: The master blueprint for the Voice-to-Asset Pipeline product (Project Genesis sub-module).",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-020_Digital_Twin_Architecture.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-021",
+    "name": "Kinetic Lab\" Strategy Canvas",
+    "date": "2025-11-23",
+    "origin": "Founder (Internal)",
+    "desc": "\"Kinetic Lab\" Strategy Canvas: The visual strategy map contrasting the \"Red Ocean\" (Entertainment/Burn) vs. the \"Blue Ocean\" (Precision/Wiring) 6.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-021_Kinetic_Lab_Strategy_Canvas.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-022",
+    "name": "Operation Kinetic Architect\" Master Brief",
+    "date": "2025-11-23",
+    "origin": "Founder (Internal)",
+    "desc": "\"Operation Kinetic Architect\" Master Brief: The full operational plan pivoting \"Move with Coach\" to a \"Performance Architecture\" consultancy77.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-022_Operation_Kinetic_Architect_Brief.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-023",
+    "name": "Cross-Pollination Intel",
+    "date": "2025-11-26",
+    "origin": "KA-TES (Healthbar Node)",
+    "desc": "Cross-Pollination Intel: Validation of the \"Physical-to-Digital\" mechanism. Confirms that the \"Digital Gate\" eliminates \"Vapor Revenue\" in physical retail.",
+    "vault_link": "[L0_SIGNAL_VAULT]/S-023_Healthbar_Node_Transmission.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-024",
+    "name": "OD-2025-001",
+    "date": "2025-11-28",
+    "origin": "KA-Praetor",
+    "desc": "OD-2025-001: \"The Kinetic Shift.\" Mandate to fracture \"Time-for-Money\" by productizing IP into a dual-channel ecosystem (Digital Blueprint + Physical Lab).",
+    "vault_link": "[OPS_KINETIC]/[INTERNAL_HQ]/OD-2025-001.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "S-025",
+    "name": "OD-2025-002",
+    "date": "2025-11-28",
+    "origin": "KA-Praetor",
+    "desc": "OD-2025-002: \"The Bio-Architecture Pivot.\" Mandate to transition from \"Pilates Instructor\" to \"Human Performance Architect\" via B2B/HVO targets (Stephanie).",
+    "vault_link": "[OPS_KINETIC]/[INTERNAL_HQ]/OD-2025-002.pdf",
+    "layer": "L0-I",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  }
+]

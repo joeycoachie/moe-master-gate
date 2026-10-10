@@ -547,5 +547,331 @@
     "name": "The Physical Router Protocol",
     "classification": "ENTERPRISE_OS [INTERNAL]",
     "desc": "QR codes must encode a static subdomain router, never a raw dynamic Vercel endpoint."
+  },
+  {
+    "id": "D-010",
+    "name": "Unified Communications Doctrine (COMMS-D V1.0)",
+    "meta_type": "[L1-D]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[DOCTRINE] The axiomatic \"operational OS\" for all communication. Defines the 3-Layer Architecture (Internal, Translation, External).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-012",
+    "name": "Clarity vs. Momentum Protocol",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "desc": "[DOCTRINE] Codifies our core \"Clarity first, Momentum second\" operational model. We are \"Architects\" who sell \"Clarity\" (The Blueprint) first, not \"Freelancers\" who sell \"Momentum.\"",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-014",
+    "name": "The Triad Trinity Doctrine",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "desc": "[DOCTRINE] The \"Product Architecture.\" Redefines the M.O.E. offer into 3 pillars: Hardware (Body/Fuel), Software (Mindset/OS), and Enterprise (Business). 6",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-015",
+    "name": "The Genesis Protocol Manual",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "desc": "[PROJECT GENESIS] The \"Operational Sovereignty\" manual. Defines the \"Architect Frame\" for entering B2B partnerships. Covers Diagnosis, Omission, and Power Dynamics.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-016",
+    "name": "The Master Blueprint (EOS V3.0)",
+    "meta_type": "[L1-D]",
+    "classification": "OS_CORE",
+    "desc": "The single, axiomatic source of truth for the Enterprise Operating System. Combines the Brand Constitution, Unified Engagement Framework (UEF) V2.0, and Command Structure.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-017",
+    "name": "EX-COMM V2.0 (External Comms)",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "desc": "The 3-layer architecture for all external signals (Foundation, Process, Output). Mandates the \"Friction & Aspiration\" filter and \"Proof of Architecture.\"",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-018",
+    "name": "The Primacy Doctrine",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "desc": "Deconstruction of Top-of-Funnel communication. Dictates the biological necessity of the \"7-second / 3-line\" rule to bypass cognitive load.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "D-019",
+    "name": "The Dragon Signal",
+    "meta_type": "[L1-D]",
+    "classification": "PHILOSOPHY",
+    "desc": "The foundational philosophy of confronting chaos. Translates the \"Dragon\" metaphor into the \"Shepherd-to-Wolf\" communication arc.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-D021",
+    "name": "The M.O.E. Strategic Intelligence Archive",
+    "meta_type": "[L1-D]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[INTERNAL] The curated knowledge base for the Enterprise. Categorizes external literature, philosophy, and biological texts strictly into the SYS-, KIN-, and MET- triads.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-D026",
+    "name": "The Financial Ascension Architecture",
+    "meta_type": "[L1-D]",
+    "classification": "REVENUE_OS",
+    "node": "M.O.E. HQ",
+    "desc": "[INTERNAL] The 5 vectors of capital flow (Active, Leverage, Equity, Infinite, Global). Maps the transition from active labor to autonomous node ownership.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-003",
+    "name": "Armory Intake Protocol",
+    "meta_type": "[L1-P]",
+    "classification": "[ARCHIVED] ENTERPRISE_OS",
+    "desc": "[DEPRECATED] The original 3-stage intake pipeline. Absorbed and superseded by SYS-P053. [PLAYBOOK]The protocol for processing all raw IP (L0) through the 3-stage pipeline (Foundry, Classification, Armory).",
+    "status": "retired",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-004",
+    "name": "The S+ Rank Classification Filter",
+    "meta_type": "[L1-P]",
+    "classification": "[ARCHIVED] ENTERPRISE_OS",
+    "desc": "[DEPRECATED] The 4-question diagnostic filter. Absorbed and superseded by SYS-P053. [PLAYBOOK]The meta-protocol and diagnostic filter for classifying all IP into the L0, L1, L2, or L3 Armory vaults.",
+    "status": "retired",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-006",
+    "name": "Cognitive Forge Mandate",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[PLAYBOOK] Mandates that \"Forge Log\" analysis must be comprehensive, scanning all L1 protocols for all \"many-to-many\" relationships, not just the primary.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-007",
+    "name": "The Weekly Signal Cadence (Tactic)",
+    "meta_type": "[L1-P]",
+    "classification": "COMMUNICATION",
+    "desc": "[PLAYBOOK] [ARCHIVED] The 7-day tactical content calendar (Mon-Pillar, Tue-Newsletter, etc.) designed to execute P-012. [cite: 494-540]",
+    "status": "retired",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-029",
+    "name": "The Spearhead Intel Protocol (Operator Recon v2.0)",
+    "meta_type": "[L1-P]",
+    "classification": "STRATEGY",
+    "desc": "[PLAYBOOK] The master system for \"Operator Recon.\" Defines the 4 Core Signals (Archetype, Intent, Friction, Comms) and the FQX Extraction Protocol. 4",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-030",
+    "name": "The Spearhead Intel Workflow",
+    "meta_type": "[L1-P]",
+    "classification": "STRATEGY",
+    "desc": "[PLAYBOOK] The 3-phase execution cycle (Calibration, Extraction, Closure) that bridges the Manual (P-029) and the Tool (T-016) to ensure zero signal decay. 5",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-032",
+    "name": "Product Omission & Sales Signal Protocol",
+    "meta_type": "[L1-P]",
+    "classification": "CLIENT_OS",
+    "desc": "[PLAYBOOK] The 3-phase system (Crisis Pause, Activation, Compliance) for managing sales signals during client health crises. Enforces the \"Trust Preservation Rule.\" 3",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-034",
+    "name": "The Neural Handover Protocol (System Override)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[PLAYBOOK] A 6-phase system  for instantly installing project consciousness into a new AI operator. Ensures zero intelligence loss during transition.  Who the Agent is (Role, Mandate, Personality) booted. It installs the \"Character Class\".",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-035",
+    "name": "Command-Level Transfer Protocol (The Save File)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[PLAYBOOK] The \"Save File\" mechanism. A 5-point prompt structure (Mission State, Doctrine Delta, Voice Calibration) to transfer the dynamic state of an active session to a new node without context loss. 2",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-036",
+    "name": "The Unified Peer Recon System (UPRS)",
+    "meta_type": "[L1-P]",
+    "classification": "COMMUNICATION",
+    "desc": "[PLAYBOOK] The \"Ground War\" acquisition protocol. A 5-step system (Architect, Prepare, Transmit, Execute, Deconstruct) for converting \"Protagonist-Peers\" into allies. Links to T-026. 4",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-037",
+    "name": "The Hardware-to-Hardware Initiation Protocol",
+    "meta_type": "[L1-P]",
+    "classification": "CLIENT_OS",
+    "desc": "[PLAYBOOK] The \"Triad Initiation\" system. Mandates the \"Zero-Gap Rule\" ensuring every client completes the loop: Structural Scan (Pilates) -> Metabolic Audit (Fuel) -> Recovery Sync (Health Bar).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-039",
+    "name": "The Hybrid Gate Activation Protocol",
+    "meta_type": "[L1-P]",
+    "classification": "COMMUNICATION",
+    "desc": "[PLAYBOOK] The \"Chat-to-Client\" conversion script. Defines the 3-phase flow (Discovery, Gate, Handover) to move a casual DM into the T-027 diagnostic form. Enforces the \"Diagnostic Precedence Rule.\" 2",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-040",
+    "name": "The System Access Loop (Diagnostic Session)",
+    "meta_type": "[L1-P]",
+    "classification": "CLIENT_OS",
+    "desc": "[PLAYBOOK] The \"Master Session Script\" for the RM130 Diagnostic. Orchestrates the flow: Intake (T-027) -> Audit -> Payment -> Handover (T-029). 7",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-042",
+    "name": "The Service Debt Prevention Protocol (Liability Cap)",
+    "meta_type": "[L1-P]",
+    "classification": "CLIENT_OS",
+    "franchise_ready": true,
+    "desc": "[PLAYBOOK] [FRANCHISE] The \"Anti-Backlog\" defense. Establishes the \"Retainer Frame\" (Access > Hours) and the \"1-Credit Rule\" to prevent the accumulation of unpaid make-up sessions.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-043",
+    "name": "The \"Neutral Node\" Protocol (B2B Intel)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE",
+    "desc": "[PLAYBOOK] #PSYOP The \"Trojan Horse\" strategy for corporate entry. We deploy a 10-part \"Mindset Campaign\" (T-036) to staff. Executes the D-015 mandate.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "P-048",
+    "name": "Healthbar B2B Advisory Retainer",
+    "meta_type": "[L1-P]",
+    "classification": "REVENUE_OS",
+    "desc": "The specific execution playbook for installing Healthbar software into gyms/clinics. Establishes the RM 500 Tripwire, RM 5,000 Build Fee, and 15% Net Profit Royalty structure.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P049",
+    "name": "The Decoupled Architecture (UI/DB Bridge)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[INFRASTRUCTURE] The M.O.E. Group's modular data pipeline. Separates the Front-End (v0/Vercel) from the Back-End (Google Apps Script/Sheets) to create a zero-cost, high-velocity CRM funnel. Designed to be cloned for any sub-node (Healthbar, AOLOVE).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P051",
+    "name": "The City Centre Sprint (15-Day DMO)",
+    "meta_type": "[L1-P]",
+    "classification": "REVENUE_OS",
+    "desc": "[EXECUTION] A 15-day high-intensity retail volume push. Deploys the 10:1 Mathematics of Detachment, \"Liquid Trust,\" and Triaged closing buckets (Retail, High-Value Operator, Hustler).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P052",
+    "name": "The Master Intake Pipeline (v3.0)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[INTERNAL] The unified, lossless pipeline for codifying IP. Combines the Operator Handover, the Human/Admin Cognitive Gate, the 4-Question Classification Filter, and the Triad Taxonomy into a single non-negotiable sequence.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P053",
+    "name": "The Moe Goru Protocol (ERD Logic)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[INTERNAL] The unified data schema and predictive logic mapping for a 3-node decoupled application (Pantry OS, Predictive Grocery, Ghost Kitchen).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P054",
+    "name": "The Moe Goru Protocol (ERD Logic)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[INTERNAL] The unified data schema and predictive logic mapping for a 3-node decoupled application (Pantry OS, Predictive Grocery, Ghost Kitchen).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P055",
+    "name": "The 90-Day Ascent",
+    "meta_type": "[L1-P]",
+    "classification": "CLIENT_OS",
+    "desc": "[PLAYBOOK] Franchise transition shell for taking a business from Reactive Chaos to Systemic Autonomy. Deploys \"The Shield\" scripts to deflect scope creep and protect the Architect's boundaries.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P056",
+    "name": "The Negotiation Shield",
+    "meta_type": "[L1-P]",
+    "classification": "REVENUE_OS",
+    "desc": "[PLAYBOOK] Psychological architecture for transitioning from a \"Technician\" (hourly rate) to an \"Architect\" (Expected Value/Equity). Weaponizes Law 9 (Demonstration over Argument) and The Void to neutralize price objections.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "KIN-P015",
+    "name": "Hardware Procurement (The 3 Filters)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[INTERNAL] The operational checklist for purchasing studio props. Enforces Zero Friction, Practical Safety, and Multi-Gate Utility to prevent chaotic room transitions.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P057",
+    "name": "The Career Pivot DMO (Dual-Channel)",
+    "meta_type": "[L1-P]",
+    "classification": "REVENUE_OS",
+    "desc": "[PLAYBOOK] Fuses both the Aggressive Outbound (Reddit DMs) and Automated Inbound (RM 100 Meta Ads + Notion Blueprint) into a single pipeline for recruiting laid-off corporate talent into micro-node ownership.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P058",
+    "name": "The Studio Infiltration Protocol",
+    "meta_type": "[L1-P]",
+    "classification": "REVENUE_OS",
+    "desc": "[PLAYBOOK] B2B Checklist for approaching studio owners. Uses the Anchor & Bridge to pivot from kinetic movement to metabolic revenue, culminating in the physical drop of the Executive Dossiers.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P059",
+    "name": "The LTV Ascension Schedule",
+    "meta_type": "[L1-P]",
+    "classification": "STRATEGY_OS",
+    "desc": "[PLAYBOOK] Architecting studio timetables as a conversion funnel. Employs Proximity and Gated Exclusivity to systematically move clients from Control (L1) to Flow State (L3).",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P060",
+    "name": "The Universal Signal Pipeline (N8N-TELEGRAM)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[PLAYBOOK] Automated asymmetric surveillance protocol. Syncs high-fidelity data sources (API/Webhook) directly to Telegram using N8N logic filters.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P062",
+    "name": "The 90-Day Ascent (Franchise Shell)",
+    "meta_type": "[L1-P]",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[PLAYBOOK] The Master Shell for transitioning a [STUDIO/CLINIC] from \"Reactive Chaos\" to \"Systemic Autonomy.\" Includes the Founder's Shields for scope creep.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "SYS-P063",
+    "name": "JARVIS Modular Agentic Workflow",
+    "meta_type": "[L1-P] FROZEN",
+    "classification": "ENTERPRISE_OS",
+    "desc": "[PLAYBOOK] The frozen/paused architectural blueprint for automating signal intake, processing, and output. (Scheduled for Tech Sprint).",
+    "status": "frozen",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
   }
 ]

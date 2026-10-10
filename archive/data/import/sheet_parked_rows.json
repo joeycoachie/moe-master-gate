@@ -1,0 +1,57 @@
+[
+  {
+    "id": "D-012",
+    "name": "Founder's Lexicon M1: The Classics",
+    "desc": "[DOCTRINE] The foundational mental models for \"Tempo Control.\" Defines the S-Rank application of SWOT (TOWS), Porter's Five Forces, BCG Matrix, and MECE. 5",
+    "tab": "protocols",
+    "reason": "ID used twice in the sheet",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "node": ""
+  },
+  {
+    "id": "D-013",
+    "name": "Founder's Lexicon M2: Vanguard Strategic Engine",
+    "desc": "[DOCTRINE] The \"System Architect's OS.\" Mandates all strategic advice pass through 3 filters: First Principles (Input), Asymmetric Leverage (Process), and Discomfort Compass (Output). 6",
+    "tab": "protocols",
+    "reason": "ID already filed in the Archive as \"The Separation of Powers Doctrine\"",
+    "meta_type": "[L1-D]",
+    "classification": "STRATEGY",
+    "node": ""
+  },
+  {
+    "id": "SYS-022",
+    "name": "The Strategic Takeaway Protocol",
+    "desc": "[PLAYBOOK] Forged from Ops Sarfraz. The 3-step S-Rank system (Hold, Takeaway, Data Return) for closing C-Rank, non-responsive open loops. 4",
+    "tab": "protocols",
+    "reason": "ID breaks SYS-D020 pattern",
+    "meta_type": "[L1-P]",
+    "classification": "COMMUNICATION"
+  },
+  {
+    "id": "SYS-T069",
+    "name": "PROTOCL ATLAS - CLAUDE",
+    "tab": "tools",
+    "reason": "no description in the sheet"
+  },
+  {
+    "id": "SYS-T071",
+    "name": "PROTOCL ATLAS - CLAUDE",
+    "tab": "tools",
+    "reason": "no description in the sheet"
+  },
+  {
+    "id": null,
+    "name": "ARCHITECT GTM PLAYBOOK",
+    "link": "https://docs.google.com/document/d/1bKgWoC_i0K7gF9dSwoStOFzOtm_8kNt--n5hiR4yVSQ/edit?tab=t.0",
+    "tab": "signals",
+    "reason": "linked doc with no Signal ID"
+  },
+  {
+    "id": null,
+    "name": "ICT Execution Plan: Engine vs. Empire",
+    "link": "https://docs.google.com/document/d/1WXbEd6S8FVqGmD0Auqb6ezXfkgMvJzZXprmHFAGPV_g/edit?tab=t.0",
+    "tab": "signals",
+    "reason": "linked doc with no Signal ID"
+  }
+]
