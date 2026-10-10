@@ -1,0 +1,516 @@
+{
+  "version": 1,
+  "updated": "2026-10-05",
+  "source": "COMMS-D V1.0, EX-COMM V2.0, Plain Language Dossiers, Brand Bible v2.9, founder decisions 2026-10-05",
+  "entries": [
+    {
+      "id": "biomarkers",
+      "kind": "swap",
+      "term": "biomarkers",
+      "say": "health check results",
+      "match": [
+        "biomarkers",
+        "biomarker"
+      ],
+      "scope": "all",
+      "why": "Plain, and not a disease claim.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "biomechanical-diagnostics",
+      "kind": "swap",
+      "term": "Systemic Biomechanical Diagnostics",
+      "say": "quick body checks to stop pain",
+      "match": [
+        "biomechanical diagnostics",
+        "biomechanical"
+      ],
+      "scope": "all",
+      "why": "Plain Language Dossiers: jargon is a shield, plain words are a bridge.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "body-science-specialist",
+      "kind": "swap",
+      "term": "Body Science Specialist",
+      "say": "recovery for runners",
+      "match": [
+        "body science specialist"
+      ],
+      "scope": "recup",
+      "why": "Says what we do.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "calibrate",
+      "kind": "swap",
+      "term": "calibrate / calibration",
+      "say": "check / test",
+      "match": [
+        "calibrate",
+        "calibration",
+        "calibrated"
+      ],
+      "scope": "all",
+      "why": "Lab word. People say 'check'.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "circadian-cortisol-reset",
+      "kind": "swap",
+      "term": "Circadian Cortisol Reset",
+      "say": "fix your sleep and energy rhythm",
+      "match": [
+        "circadian cortisol reset",
+        "circadian",
+        "cortisol"
+      ],
+      "scope": "all",
+      "why": "Nobody says 'cortisol' about their own tiredness.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "cure-heal-treat",
+      "kind": "ban",
+      "term": "cure / heal / treat",
+      "say": "help / support",
+      "match": [
+        "cure",
+        "cures",
+        "heal",
+        "heals",
+        "healing",
+        "treat",
+        "treats",
+        "treatment"
+      ],
+      "scope": "all",
+      "why": "R5. We never promise to treat a condition. Legal risk under Malaysia's Medicines (Advertisement and Sale) Act.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "deployment",
+      "kind": "swap",
+      "term": "Deployment of Fuel Protocol & Products",
+      "say": "you get your plan and products",
+      "match": [
+        "deployment",
+        "deploy your",
+        "fuel protocol"
+      ],
+      "scope": "all",
+      "why": "Military words for us, plain words for them.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "detox",
+      "kind": "ban",
+      "term": "detox / cleanse / flush toxins",
+      "say": "reset (only with what it actually does)",
+      "match": [
+        "detox",
+        "cleanse",
+        "toxins"
+      ],
+      "scope": "all",
+      "why": "Unprovable claim.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "disease-words",
+      "kind": "ban",
+      "term": "disease names in claims (diabetes, hypertension, PCOS, fertility, thyroid, cancer)",
+      "say": "",
+      "match": [
+        "diabetes",
+        "hypertension",
+        "pcos",
+        "fertility",
+        "infertility",
+        "thyroid",
+        "cancer"
+      ],
+      "scope": "all",
+      "why": "R5. Allowed only inside the safety question, never as something we fix.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "executive-function",
+      "kind": "swap",
+      "term": "executive function / cognitive processing speed",
+      "say": "thinking clearly",
+      "match": [
+        "executive function",
+        "cognitive processing",
+        "cognitive load"
+      ],
+      "scope": "all",
+      "why": "Say the feeling.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "formoh-audit",
+      "kind": "swap",
+      "term": "FORMOH Audit / Digital Qualifier",
+      "say": "a few quick questions",
+      "match": [
+        "formoh audit",
+        "formoh",
+        "digital qualifier"
+      ],
+      "scope": "all",
+      "why": "Replaced by the Whale questions. Runners skip it (The Diagnostic covers them).",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "foundational-reset",
+      "kind": "swap",
+      "term": "Foundational Reset",
+      "say": "weeks 1–2",
+      "match": [
+        "foundational reset"
+      ],
+      "scope": "all",
+      "why": "Say when it happens and what it does.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "fuel-system-architecture",
+      "kind": "swap",
+      "term": "Fuel System Architecture",
+      "say": "weeks 3–13: lose belly fat, keep your muscle",
+      "match": [
+        "fuel system architecture"
+      ],
+      "scope": "all",
+      "why": "Say the result, not the system.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "gut-healing",
+      "kind": "swap",
+      "term": "gut healing",
+      "say": "settle your stomach",
+      "match": [
+        "gut healing",
+        "heal your gut",
+        "heals your gut"
+      ],
+      "scope": "all",
+      "why": "'Healing' is a medical claim (R5).",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "hardware-software",
+      "kind": "swap",
+      "term": "Hardware & Software",
+      "say": "your mind and body",
+      "match": [
+        "hardware & software",
+        "hardware and software"
+      ],
+      "scope": "all",
+      "why": "COMMS-D Translation Matrix.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "healthbar",
+      "kind": "swap",
+      "term": "HealthBar / Healthbar Node",
+      "say": "RECUP.STN HQ",
+      "match": [
+        "healthbar node",
+        "healthbar",
+        "health bar"
+      ],
+      "scope": "all",
+      "why": "Our own brand. Says nothing about the partner brand.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "herbalife",
+      "kind": "ban",
+      "term": "Herbalife (and product names: F1, F3, RS Pro, Niteworks, CR7)",
+      "say": "",
+      "match": [
+        "herbalife",
+        "formula 1",
+        "niteworks",
+        "rs pro",
+        "cr7 drive",
+        "f1",
+        "f3"
+      ],
+      "scope": "all",
+      "why": "Not named in public until we've tested reactions. Staff jug recipes are exempt.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "home-armory",
+      "kind": "swap",
+      "term": "Home Armory",
+      "say": "starter pack",
+      "match": [
+        "home armory",
+        "home armoury",
+        "armory",
+        "armoury"
+      ],
+      "scope": "all",
+      "why": "Plain name for the products they take home.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "internal-operating-system",
+      "kind": "swap",
+      "term": "Internal Operating System",
+      "say": "how you're built",
+      "match": [
+        "internal operating system",
+        "operating system"
+      ],
+      "scope": "all",
+      "why": "COMMS-D Translation Matrix.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "magic-number",
+      "kind": "swap",
+      "term": "Magic Number",
+      "say": "your daily protein number",
+      "match": [
+        "magic number"
+      ],
+      "scope": "all",
+      "why": "Say what the number is.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "metabolic-engine",
+      "kind": "swap",
+      "term": "your metabolic engine is leaking / decaying",
+      "say": "your body isn't recovering properly",
+      "match": [
+        "metabolic engine",
+        "decaying",
+        "decay"
+      ],
+      "scope": "recup",
+      "why": "Old RECUP hook. Clear problem, no scare word.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "metabolic-protocols",
+      "kind": "swap",
+      "term": "Metabolic Protocols / Structural Integrity",
+      "say": "drinks matched to your run",
+      "match": [
+        "metabolic protocols",
+        "metabolic protocol",
+        "structural integrity"
+      ],
+      "scope": "recup",
+      "why": "Customers buy a drink, not a protocol.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "operator-protagonist",
+      "kind": "ban",
+      "term": "Operator / Protagonist / Seeker / Sovereign (as labels for people)",
+      "say": "you",
+      "match": [
+        "operator",
+        "operators",
+        "protagonist",
+        "protagonists",
+        "seeker"
+      ],
+      "scope": "all",
+      "why": "Don't label the reader. Talk to them.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "optimization",
+      "kind": "swap",
+      "term": "optimization / optimize",
+      "say": "make it work better",
+      "match": [
+        "optimization",
+        "optimisation",
+        "optimize",
+        "optimise"
+      ],
+      "scope": "all",
+      "why": "Vague. Say what gets better.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "postprandial",
+      "kind": "swap",
+      "term": "postprandial somnolence / circadian trough",
+      "say": "feeling slow after lunch",
+      "match": [
+        "postprandial somnolence",
+        "postprandial",
+        "circadian trough"
+      ],
+      "scope": "all",
+      "why": "Say the feeling.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "protocol",
+      "kind": "swap",
+      "term": "protocol (meaning a drink or a plan)",
+      "say": "the drink / your plan / a simple rule",
+      "match": [
+        "protocol",
+        "protocols",
+        "framework"
+      ],
+      "scope": "all",
+      "why": "COMMS-D Translation Matrix: Framework or Protocol → a system, a playbook, a simple rule.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "proven",
+      "kind": "ban",
+      "term": "proven / proves / clinically proven",
+      "say": "one study found",
+      "match": [
+        "proven",
+        "proves",
+        "proving",
+        "clinically proven"
+      ],
+      "scope": "all",
+      "why": "R4. One trial supports a claim. It never proves it.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "s-rank",
+      "kind": "ban",
+      "term": "S-Rank / C-Rank / S+ Rank",
+      "say": "",
+      "match": [
+        "s-rank",
+        "c-rank",
+        "s+ rank",
+        "s+"
+      ],
+      "scope": "all",
+      "why": "Never in posts or captions. Allowed only as the badge name on the RECUP member card.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "scan-identify-calibrate",
+      "kind": "swap",
+      "term": "Scan. Identify the Leak. Calibrate your Repair.",
+      "say": "Check your body. Find the weak spot. Fix it.",
+      "match": [
+        "identify the leak",
+        "calibrate your repair"
+      ],
+      "scope": "recup",
+      "why": "Same rhythm, words a child gets.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "shake",
+      "kind": "swap",
+      "term": "shake / meal replacement",
+      "say": "measured meal",
+      "match": [
+        "shakes",
+        "shake",
+        "meal replacement",
+        "meal replacements"
+      ],
+      "scope": "all",
+      "why": "'Shake' gives away the partner brand. Not named in public until we test reactions.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "signal-vs-noise",
+      "kind": "swap",
+      "term": "Signal vs. Noise",
+      "say": "what matters and what doesn't",
+      "match": [
+        "signal vs. noise",
+        "signal vs noise"
+      ],
+      "scope": "all",
+      "why": "COMMS-D Translation Matrix.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "sovereign-health-protocol",
+      "kind": "swap",
+      "term": "The Sovereign Health Protocol",
+      "say": "RECUP 90",
+      "match": [
+        "sovereign health protocol",
+        "sovereign"
+      ],
+      "scope": "all",
+      "why": "Internal name only. The public name says the brand and the length.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "strategy-calibration-call",
+      "kind": "swap",
+      "term": "Strategy Calibration Call",
+      "say": "15-minute call",
+      "match": [
+        "strategy calibration call",
+        "calibration call",
+        "strategy call"
+      ],
+      "scope": "all",
+      "why": "Say how long and what it is.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "supplement",
+      "kind": "ban",
+      "term": "supplement (at the booth)",
+      "say": "the drink",
+      "match": [
+        "supplement",
+        "supplements"
+      ],
+      "scope": "recup",
+      "why": "Booth rule: 'the drink', never 'supplement'. Fine in the safety question about fish oil or garlic.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "visceral-fat-oxidation",
+      "kind": "swap",
+      "term": "visceral fat oxidation",
+      "say": "burn belly fat",
+      "match": [
+        "visceral fat oxidation",
+        "visceral fat",
+        "fat oxidation"
+      ],
+      "scope": "all",
+      "why": "Plain words for the same thing.",
+      "added": "2026-10-05"
+    },
+    {
+      "id": "wolf-shepherd",
+      "kind": "ban",
+      "term": "Wolf / Shepherd / Crucible / Pillar / Pulse",
+      "say": "",
+      "match": [
+        "wolf",
+        "shepherd",
+        "crucible",
+        "pillar & pulse"
+      ],
+      "scope": "all",
+      "why": "Internal doctrine words (Protocol Atlas P-013 Filter 0). Never in customer copy.",
+      "added": "2026-10-05"
+    }
+  ]
+}

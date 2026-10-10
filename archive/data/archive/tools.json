@@ -1,0 +1,258 @@
+[
+  {
+    "id": "KIN-T040",
+    "name": "The Hardware Dossier (Exec Spec)",
+    "classification": "COMM_OS [CLIENT FACING]",
+    "desc": "B2B dossier on Biomechanical Architecture and the “Skeleton & Skin” studio model."
+  },
+  {
+    "id": "MET-T042",
+    "name": "JOEYCOACHIE Fuel Dossier",
+    "classification": "COMM_OS [CLIENT FACING]",
+    "desc": "B2B dossier positioning Fuel as a system requirement, not a diet."
+  },
+  {
+    "id": "SYS-T041",
+    "name": "JOEYCOACHIE Software Dossier",
+    "classification": "COMM_OS [CLIENT FACING]",
+    "desc": "B2B dossier on Enterprise Systems Architecture and automated OS builds."
+  },
+  {
+    "id": "SYS-T045",
+    "name": "The v0 / AI Project Ledger",
+    "classification": "ENTERPRISE_OS [INTERNAL]",
+    "desc": "Maps v0.dev accounts to live web apps to bypass credit limits without losing context."
+  },
+  {
+    "id": "SYS-T046",
+    "name": "The Tactical Playbook Template",
+    "classification": "COMM_OS [INTERNAL]",
+    "desc": "Scalable psychological blueprint applicable to any local business."
+  },
+  {
+    "id": "SYS-T050",
+    "name": "The Corporate Audit Protocol",
+    "classification": "ENTERPRISE_OS [QA CHECKLIST]",
+    "desc": "Rigid evaluation tool for observing instructors — the V.A.E. sequence."
+  },
+  {
+    "id": "SYS-T052",
+    "name": "The Classification Filter v4.0",
+    "classification": "ENTERPRISE_OS [INTERNAL]",
+    "desc": "4-question diagnostic filter required for all new IP, enforcing the Triad Taxonomy."
+  },
+  {
+    "id": "SYS-T057",
+    "name": "Artifact A: Master Ecosystem QR",
+    "classification": "COMM_OS [ASSET]",
+    "desc": "QR bridging the physical B2B Architect Card to the digital M.O.E. Hub."
+  },
+  {
+    "id": "SYS-T058",
+    "name": "Movement OS UI Blueprint",
+    "classification": "ENTERPRISE_OS [STANDARDS]",
+    "desc": "“Quiet Good Taste” visual standard for Kinetic UI — dark mode, zero-emoji, 1px borders."
+  },
+  {
+    "id": "SYS-T060",
+    "name": "Architecting Frictionless Fitness",
+    "classification": "COMM_OS [FOUNDER_AUDIO]",
+    "desc": "21-minute brief on the high-level architecture of the MOE engine."
+  },
+  {
+    "id": "SYS-T061",
+    "name": "Biology as Business Bottleneck",
+    "classification": "COMM_OS [FOUNDER_AUDIO]",
+    "desc": "6-minute brief on identifying metabolic drag in high-performers."
+  },
+  {
+    "id": "SYS-T062",
+    "name": "Hustle vs. Performance",
+    "classification": "COMM_OS [FOUNDER_AUDIO]",
+    "desc": "27-minute brief on replacing manual burnout with architectural performance."
+  },
+  {
+    "id": "SYS-T064",
+    "name": "Base Camp Audit CTA",
+    "classification": "COMM_OS",
+    "desc": "CTA/diagnostic tool distilled from Friction & Aspiration — the low-friction first-step mechanism.",
+    "filed": "2026-10"
+  },
+  {
+    "id": "SYS-T065",
+    "name": "Transference Audit",
+    "classification": "COMM_OS",
+    "desc": "Self-contained 2-step mini-diagnostic; works as a DM script, lead magnet, or Story CTA.",
+    "filed": "2026-10"
+  },
+  {
+    "id": "SYS-T066",
+    "name": "Headline Set Template",
+    "classification": "COMM_OS",
+    "desc": "The “flawless-in-one-place, leaking-in-another” headline formula.",
+    "filed": "2026-10"
+  },
+  {
+    "id": "SYS-T067",
+    "name": "Opening Paragraph Pattern",
+    "classification": "COMM_OS",
+    "desc": "Acknowledge success → pivot to friction structural pattern.",
+    "filed": "2026-10"
+  },
+  {
+    "id": "T-001",
+    "name": "AOL_Lead_Tracker_Template",
+    "classification": "TRACKER",
+    "desc": "Re-usable lead/sales pipeline tracker, forged during Ops AOL."
+  },
+  {
+    "id": "T-002",
+    "name": "Sprint_Brief_Template",
+    "classification": "TEMPLATE",
+    "desc": "S-Rank template for issuing new operational sprints."
+  },
+  {
+    "id": "T-003",
+    "name": "SOW: Ops Healthbar v1.0",
+    "classification": "TEMPLATE",
+    "desc": "The foundational S-Rank Statement of Work template."
+  },
+  {
+    "id": "T-004",
+    "name": "Negotiation One Sheet Template",
+    "classification": "CANVAS",
+    "desc": "Pre-negotiation prep — Goal, Summary, Accusation Audit, Calibrated Questions, Noncash Offers."
+  },
+  {
+    "id": "T-005",
+    "name": "The Content Forge Blueprint",
+    "classification": "TEMPLATE",
+    "desc": "Unified template for content proposals, Commander's Intent through the Pre-Flight Check."
+  },
+  {
+    "id": "T-006",
+    "name": "Prompt Template: Air War v1.0",
+    "classification": "TEMPLATE",
+    "desc": "Executor-Ready S+ Rank prompt template for Graham (NLP Strategist)."
+  },
+  {
+    "id": "T-007",
+    "name": "Peer Recon One-Sheet Template v1.0",
+    "classification": "CANVAS",
+    "desc": "Mandatory pre-flight checklist for Peer Recon calls."
+  },
+  {
+    "id": "T-008",
+    "name": "Master Ledger Template",
+    "classification": "TRACKER",
+    "desc": "Command center template — Working Files, Crucible Assets, Client Facing, Internal HQ."
+  },
+  {
+    "id": "T-009",
+    "name": "Master Transmission Prompt: Strategy Canvas",
+    "classification": "TEMPLATE",
+    "desc": "Generates high-fidelity HTML5 Blue Ocean strategy canvases via AI."
+  },
+  {
+    "id": "T-010",
+    "name": "Master Vault Architecture Canvas v3.5",
+    "classification": "CANVAS",
+    "desc": "Visual reference map of the Enterprise Directory structure."
+  },
+  {
+    "id": "T-013",
+    "name": "Iron Skeleton (Universal Protocol Template)",
+    "classification": "TEMPLATE [L3-I]",
+    "desc": "The content-agnostic, structurally rigid template for any valid M.O.E. doctrine — Commander's Intent, Objectives, Procedures."
+  },
+  {
+    "id": "T-014",
+    "name": "Digital Gate Protocol",
+    "classification": "TEMPLATE [L3-P] [FRANCHISE]",
+    "desc": "Sanitized, white-label Digital Gate Framework for capturing customer data at the POS."
+  },
+  {
+    "id": "T-015",
+    "name": "Metabolic Profile Schema",
+    "classification": "DIAGNOSTIC [L3-P] [FRANCHISE]",
+    "desc": "Franchise-ready script for the Digital Gate — Identity, Diagnostic, Upsell Matrix. Companion to T-014."
+  },
+  {
+    "id": "T-016",
+    "name": "Spearhead Profile Template",
+    "classification": "DIAGNOSTIC [L3-I]",
+    "desc": "S-Rank one-sheet capturing Archetype, Strategic Intent, Friction."
+  },
+  {
+    "id": "T-019",
+    "name": "Universal BML Protocol Template",
+    "classification": "TEMPLATE [L3-I]",
+    "desc": "The Build-Measure-Learn variant of the Iron Skeleton."
+  },
+  {
+    "id": "T-022",
+    "name": "Content Cycle Protocol Template",
+    "classification": "TEMPLATE [L3-I]",
+    "desc": "The universal “Pillar & Pulse” strategy shell — Culture / System / Environment."
+  },
+  {
+    "id": "T-024",
+    "name": "Master SSOT Prompt Catalog",
+    "classification": "TRACKER [LIVE SYSTEM]",
+    "desc": "Central repository for high-level, structured prompts."
+  },
+  {
+    "id": "T-026",
+    "name": "UPRS Pre-Flight Checklist",
+    "classification": "CANVAS [L3-I]",
+    "desc": "Mandatory one-sheet required before executing P-036."
+  },
+  {
+    "id": "T-027",
+    "name": "The Architect's Review Diagnostic",
+    "classification": "DIAGNOSTIC [L3-P]",
+    "desc": "Universal diagnostic form covering Identity, Hardware, and Software layers."
+  },
+  {
+    "id": "T-028",
+    "name": "Content Brief: The “Hit Deep” Protocol",
+    "classification": "TEMPLATE [L3-I]",
+    "desc": "The S+ Rank content brief template engineered for the Hit Deep → Satisfying arc."
+  },
+  {
+    "id": "T-029",
+    "name": "The Architectural Brief (Post-Diagnostic)",
+    "classification": "TEMPLATE [L3-P]",
+    "desc": "The “Prescription Paper” sent 24h post-session."
+  },
+  {
+    "id": "T-031",
+    "name": "Tiered Ecosystem Pricing Strategy",
+    "classification": "TEMPLATE [FRANCHISE]",
+    "desc": "Universal 3-Tier pricing model — Tourist / Citizen / Architect."
+  },
+  {
+    "id": "T-032",
+    "name": "The Doctrine Forge Prompt",
+    "classification": "SCRIPT",
+    "desc": "The Crucible-to-Manual converter — turns raw notes into sanitized manual chapters."
+  },
+  {
+    "id": "T-033",
+    "name": "The Fresh Start Checklist",
+    "classification": "TEMPLATE [INTERNAL]",
+    "desc": "The Digital Purge checklist executing P-023."
+  },
+  {
+    "id": "T-035",
+    "name": "The Master Protocol Registry (The Lore Log)",
+    "classification": "TRACKER [INTERNAL]",
+    "desc": "Tracks the sequential public release of numbered Protocols."
+  },
+  {
+    "id": "T-039",
+    "name": "S+ Rank Operational Standard",
+    "classification": "BRIEFING [INTERNAL]",
+    "desc": "Foundational onboarding doc — standards for Mindset, Strategy, Execution, Communication."
+  }
+]

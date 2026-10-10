@@ -1,0 +1,28 @@
+{
+  "title": "Armory classification rules",
+  "purpose": "Every asset is filed once, with typed links. Links are stored in one direction only, on the asset that knows about them. The reverse direction is computed, never typed twice.",
+  "fields": {
+    "layer": "L0 signal · L1 doctrine or playbook · L3 tool. Suffix -I internal, -P product or client-facing.",
+    "status": "live · draft · frozen · retired",
+    "answers": "Plain questions a learner would actually ask that this asset answers. This is what the backend matches a goal against.",
+    "concepts": "Short kebab-case tags from a shared vocabulary. Reuse existing tags before you invent one.",
+    "components": "Parts that live inside this asset and do not get their own ID yet. Promote a part to its own ID only when it is reused outside its parent.",
+    "edges": "List of {rel, to, why}."
+  },
+  "relations": {
+    "requires": "Learn the target first or this won't make sense. The backend walks this backward to find gaps.",
+    "uses": "This asset applies or is built from the target.",
+    "feeds": "Output of this goes into the target next.",
+    "governs": "This asset's rules apply to the target. The target must comply.",
+    "supersedes": "This replaces the target, fully or partly (say which in why).",
+    "overlaps": "Similar job. Check both before using either. Candidate to merge.",
+    "conflicts": "The two pull in different directions. Founder decision needed.",
+    "proven_by": "The crucible where this was tested."
+  },
+  "gap_finder": "For a goal: match answers and concepts, then return (1) requires, walked back to the root, as learn-first, (2) uses as tools you will need, (3) feeds as what comes next, (4) incoming governs plus overlaps and conflicts as rules and blind spots the learner would not know to ask about.",
+  "anti_dumpster": [
+    "No new ID for something that is only a part of another asset.",
+    "No asset filed without at least one edge.",
+    "An overlaps or conflicts edge stays open until the founder resolves it."
+  ]
+}
