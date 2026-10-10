@@ -106,6 +106,7 @@ export default function Terminal() {
           <div className="flex items-center gap-3 flex-wrap justify-end">
             {architect ? (
               <>
+                <Link href="/ops/command" className="border border-[#a855f7] px-4 py-2 text-xs text-[#a855f7] hover:text-white transition-colors">COMMAND</Link>
                 <Link href="/ops/armory" className="border border-[#00e5ff]/60 px-4 py-2 text-xs text-[#00e5ff] hover:text-white hover:border-[#00e5ff] transition-colors">ARMORY</Link>
                 {/* Plain <a>: the Archive is a static page served by a route handler, so it needs a full page load. */}
                 {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}

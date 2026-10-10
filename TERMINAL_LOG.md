@@ -41,6 +41,7 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 ## 2. Cadence — every change, by date
 
 ### Oct 10
+- **Founder Command** at `/ops/command`, behind SYS.OP (COMMAND button on the Terminal): the roadmap (`hub/ROADMAP.md`) and the full change ledger, newest first. Readable on phone.
 - **Intelligence Archive online** at `/ops/archive`, behind SYS.OP, with an ARCHIVE button on the Terminal header after unlock. Works on phone. Serves only the two viewer pages and the JSON in `archive/data`.
 
 ### Oct 8

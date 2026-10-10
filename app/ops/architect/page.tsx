@@ -86,7 +86,7 @@ export default function OpsArchitectPage() {
       setCode('');
       // Sent here from the Armory (or another Architect-only page) — go back there.
       const next = new URLSearchParams(window.location.search).get('next');
-      if (next && ['/ops/armory', '/ops/archive'].some((base) => next === base || next.startsWith(`${base}/`))) {
+      if (next && ['/ops/armory', '/ops/archive', '/ops/command'].some((base) => next === base || next.startsWith(`${base}/`))) {
         window.location.href = next;
         return;
       }
