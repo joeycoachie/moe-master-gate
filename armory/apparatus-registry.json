@@ -1,0 +1,155 @@
+{
+  "version": "1.0-draft",
+  "source": "KA-Alex (KIN-T072) reply, 11 Oct 2026. Status: DRAFT until the founder approves SYS-D022 V2.1.",
+  "rule": "Keys are the PROTOCOL_DB options keys. An option may only sit as an alternative inside a station if same_actions is yes.",
+  "apparatus": {
+    "reformer": {
+      "label": "Reformer",
+      "sub_tools": [
+        "Long Box",
+        "Short Box",
+        "Pole"
+      ],
+      "settings": "Springs (e.g. 1 Red, 1 Blue), Footbar (High/Mid/Low), Gear (1-4), Headrest (Up/Down)",
+      "station_fit": [
+        "calibration",
+        "closed-chain",
+        "oblique sling",
+        "lever series"
+      ],
+      "ra_rule": "Forearm loops instead of rope grips; flat heels on the footbar (no MTP compression); no knee flexion past 90 degrees.",
+      "same_actions": true,
+      "status": "live"
+    },
+    "cadillac": {
+      "label": "Cadillac",
+      "sub_tools": [
+        "Push-Through Bar",
+        "Roll-Down Bar",
+        "Arm Springs",
+        "Leg Springs",
+        "Trapeze"
+      ],
+      "settings": "Springs (Light/Medium/Heavy), Attachment (Top-Sprung/Bottom-Sprung), Safety Chain (Engaged/Off)",
+      "station_fit": [
+        "calibration",
+        "release",
+        "open-chain stability",
+        "oblique sling"
+      ],
+      "ra_rule": "Padded forearm/wrist cuffs instead of bar grips; open-palm pushes on the PTB. Safety rule for everyone: never bottom-sprung PTB without the safety chain.",
+      "same_actions": true,
+      "status": "live"
+    },
+    "chair": {
+      "label": "Wunda Chair",
+      "sub_tools": [
+        "Split Pedal",
+        "Handles",
+        "Seat Pad"
+      ],
+      "settings": "Springs (e.g. 1 Heavy, 1 Light), Pedal (Locked/Split)",
+      "station_fit": [
+        "closed-chain",
+        "lever series",
+        "vertical load",
+        "oblique sling"
+      ],
+      "ra_rule": "Forearms on the seat cushion instead of hands on the pedal; no deep step-ups that load the patella.",
+      "same_actions": true,
+      "status": "live"
+    },
+    "barrel": {
+      "label": "Ladder Barrel",
+      "sub_tools": [
+        "Apex",
+        "Rungs",
+        "Base"
+      ],
+      "settings": "Apex-to-rung clearance",
+      "station_fit": [
+        "calibration",
+        "release",
+        "sagittal extension"
+      ],
+      "ra_rule": "No hanging grip variations; passive drapes and foot-anchored stabilisation only.",
+      "same_actions": true,
+      "status": "live"
+    },
+    "mat": {
+      "label": "Mat / Baseline",
+      "sub_tools": [
+        "Foam Roller",
+        "Yoga Block"
+      ],
+      "settings": "Bodyweight leverage, block configuration (Flat/Tall)",
+      "station_fit": [
+        "calibration",
+        "release",
+        "core isolation"
+      ],
+      "ra_rule": "No weight-bearing on extended wrists; forearm planks instead of high planks.",
+      "same_actions": true,
+      "status": "live",
+      "note": "Existing cards (KIN-P016 W1/W2, KIN-P019 W1) still use 'mat' for bands, sliders and dumbbells too. Valid until those cards are reissued."
+    },
+    "props_slider": {
+      "label": "Sliders",
+      "sub_tools": [],
+      "settings": "Friction load",
+      "station_fit": [
+        "crucible",
+        "closed-chain"
+      ],
+      "ra_rule": "Remove sliders; static holds instead (no joint shear).",
+      "same_actions": true,
+      "status": "proposed"
+    },
+    "props_band": {
+      "label": "Resistance Bands",
+      "sub_tools": [
+        "Mini-band",
+        "Long band"
+      ],
+      "settings": "Anchored/Unanchored, Tension (Light/Heavy)",
+      "station_fit": [
+        "anchor",
+        "oblique sling"
+      ],
+      "ra_rule": "Loop around forearms/wrists; zero finger gripping.",
+      "same_actions": true,
+      "status": "proposed"
+    },
+    "props_freeweight": {
+      "label": "Free Weights",
+      "sub_tools": [
+        "Dumbbells",
+        "Kettlebells"
+      ],
+      "settings": "Load (kg), rack position (Goblet, Suitcase, Overhead)",
+      "station_fit": [
+        "anchor",
+        "vertical load"
+      ],
+      "ra_rule": "Remove load; bodyweight isometric tension instead.",
+      "same_actions": true,
+      "status": "proposed"
+    },
+    "jumpboard": {
+      "label": "Jumpboard",
+      "sub_tools": [],
+      "settings": "Springs (Light for airtime, Heavy for deceleration)",
+      "station_fit": [
+        "crucible",
+        "plyometric"
+      ],
+      "ra_rule": "Strictly contraindicated during active joint flares.",
+      "same_actions": false,
+      "status": "proposed",
+      "note": "same_actions is no: a jumpboard series is its own station, never a swap-in alternative for another apparatus."
+    }
+  },
+  "decisions": {
+    "client_agnostic_arcs": "Proposed by KA-Alex: arcs carry generic pathology overrides (e.g. RA / GRIP OVERRIDE); the client profile maps a person to an override. Awaiting founder approval."
+  }
+}

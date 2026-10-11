@@ -142,6 +142,32 @@
 
     if (!S.selected.length) return;
 
+    // Client-specific overrides live in the client profile, never in the card (SYS-D022 V2.1).
+    var flagged = S.clients.filter(function (c) {
+      return S.selected.indexOf(c.id) !== -1 && ((c.conditions || '').trim() || (c.avoid || '').trim());
+    });
+    if (flagged.length) {
+      var box = el('div', '');
+      box.setAttribute('style', 'margin-top:10px;border:1px solid #1e3a8a;border-left:3px solid #3b82f6;background:#0a0f1c;padding:10px');
+      var needsRA = false;
+      flagged.forEach(function (c) {
+        var line = el('div', '');
+        line.setAttribute('style', 'font-size:12px;color:#ddd;line-height:1.5;margin-bottom:4px');
+        line.appendChild(el('strong', 'font-mono', c.full_name));
+        if ((c.conditions || '').trim()) line.appendChild(document.createTextNode(' · ' + c.conditions.trim()));
+        if ((c.avoid || '').trim()) line.appendChild(document.createTextNode(' · Avoid: ' + c.avoid.trim()));
+        box.appendChild(line);
+        if (/\bRA\b|rheumat/i.test(c.conditions || '')) needsRA = true;
+      });
+      if (needsRA && !document.body.classList.contains('ra-active') && typeof window.toggleRA === 'function') {
+        var ra = el('button', 'font-mono', 'TURN ON RA OVERRIDE');
+        ra.setAttribute('style', 'margin-top:6px;font-size:10px;letter-spacing:.1em;padding:6px 10px;cursor:pointer;border:1px solid #3b82f6;color:#fff;background:#1e3a8a');
+        ra.onclick = function () { window.toggleRA(); render(); };
+        box.appendChild(ra);
+      }
+      body.appendChild(box);
+    }
+
     // Stations, per phase
     PHASES.forEach(function (ph) {
       var phase = DB[ph];
