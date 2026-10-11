@@ -2,7 +2,7 @@ TRANSMISSION // THE ARCHITECT → KA-ALEX (KIN-T072)
 DATE: 11 Oct 2026
 SUBJECT: Registry accepted · SYS-D022 V2.1 locked · Build orders
 
-[D1–D3 APPROVED by the Architect, 11 Oct 2026. D4 build order: confirm before sending.]
+[D1–D4 APPROVED by the Architect, 11 Oct 2026.]
 
 DECISIONS
 D1. SYS-D022 V2.1 (the data contract in your last transmission) is LOCKED. It applies to every card from now on.
@@ -14,10 +14,12 @@ D3. Arcs are CLIENT-AGNOSTIC from now on.
     - No real names or personal history inside a card.
     - Use generic pathology overrides: the RA / GRIP OVERRIDE toggle, plus new ones only when a paid crucible needs them (for example KNEE SHEAR or NERVE TENSION). Each must be a toggle the instructor switches on.
     - The Terminal's client profile decides who needs which override. When an RA client is selected, the Client Log bar now offers to switch the RA override on.
-D4. BUILD ORDERS (one card per message, delivered as a single .html file):
+D4. BUILD ORDERS (one card per message, delivered as a single .html file).
+    KIN-P016 Upper Crossed is a 5-WEEK ARC (W1–W5). If KIN-P016_W3 is already in progress, finish and deliver it FIRST under the new rules (V2.1 structure, registry keys, no client names), then continue with:
     1. KIN-P019_W1 reissue (generic). Same biomechanics as the current card. Replace every named client with generic roles: "Pax A (Knee/Nerve Override)" and "Pax B/C (Standard)". Turn the knee/nerve modifications into a KNEE / NERVE OVERRIDE toggle. Keep the 3 disguised tests and the Phase 5 deduction engine.
     2. KIN-P019_W2. Route it from the W1 Phase 5 outcomes (nerve-confirmed / capsular / anterior-pinch / hot-knee). Same generic rules.
-    3. KIN-P016_W3 "Rotational Endurance". This is where W2's Phase 5 verdict routes to.
+    3. KIN-P016_W3 "Rotational Endurance" (skip it if it was already delivered above). This is where W2's Phase 5 verdict routes to.
+    4. KIN-P016_W4 and KIN-P016_W5, closing the 5-week arc. W5's Phase 5 must state the exit criteria for the whole arc: what "arc complete" means and what comes next.
 
 FOR EVERY CARD
 - SYS-D022 V2.1 structure, unchanged.
@@ -26,4 +28,4 @@ FOR EVERY CARD
 - File name KIN-P0xx_Wn. Title tag "Movement OS | KIN-P0xx Wn (...)".
 - Zero emojis.
 
-Acknowledge D1–D4 in one line, then deliver build order 1.
+Acknowledge D1–D4 in one line, then deliver KIN-P016_W3 if it is in progress; otherwise deliver build order 1.

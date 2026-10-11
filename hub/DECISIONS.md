@@ -73,3 +73,7 @@ Newest at the top within each section.
 - D3: arcs are client-agnostic. No names or health notes in cards; the client profile maps people to override toggles.
 - D4 (KA-Alex build order) is not yet confirmed.
 - The live app is terminal.theoperatorplaybook.com. The duplicate Vercel project `moe-master-gate` (moe-master-gate-roan.vercel.app) has no client-system key.
+
+## 2026-10-11 · D4 approved · KIN-P016 length
+- D4 approved as is. KA-Alex build order: (0) finish KIN-P016_W3 if already in progress, (1) KIN-P019_W1 generic reissue, (2) KIN-P019_W2, (3) KIN-P016_W3 if not already done, (4) KIN-P016_W4–W5.
+- KIN-P016 Upper Crossed is a 5-week arc (W1–W5).
