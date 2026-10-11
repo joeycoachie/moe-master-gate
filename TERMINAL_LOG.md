@@ -40,6 +40,16 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 
 ## 2. Cadence — every change, by date
 
+### Oct 11
+- **Client Arc System.** `/ops/clients` lists clients, each with an editable profile and a full timeline. Every Armory arc gets a **[ CLIENT LOG ]** bar, bottom-left, added when the page is served, so arc files are never edited. In the bar:
+  - pick who's in
+  - every station starts ticked; untick skips
+  - add a layering note per person
+  - the apparatus saves automatically
+  - capture Phase 5 per client
+
+  Health data lives in new tables `clients`, `arc_sessions` and `arc_session_entries`, with RLS on and no public access. It's read only through `/ops/api/*` with the SYS.OP cookie and the server-only `SUPABASE_SERVICE_ROLE_KEY`. Setup: run `client_arc_system_schema.sql`, then add the key on Vercel.
+
 ### Oct 10
 - **Founder Command** at `/ops/command`, behind SYS.OP (COMMAND button on the Terminal): the roadmap (`hub/ROADMAP.md`) and the full change ledger, newest first. Readable on phone.
 - **Intelligence Archive online** at `/ops/archive`, behind SYS.OP, with an ARCHIVE button on the Terminal header after unlock. Works on phone. Serves only the two viewer pages and the JSON in `archive/data`.

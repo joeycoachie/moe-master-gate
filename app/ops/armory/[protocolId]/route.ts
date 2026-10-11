@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { readFile } from 'fs/promises';
+import path from 'path';
 import { OPS_ARCHITECT_COOKIE_NAME, isValidOpsArchitectToken } from '@/lib/opsSession';
 import { findProtocol, readProtocolHtml } from '@/lib/armory';
 
@@ -21,7 +23,16 @@ export async function GET(request: Request, { params }: { params: Promise<{ prot
   }
 
   const html = await readProtocolHtml(protocol);
-  return new NextResponse(html.replace('</body>', `${RETURN_LINK}</body>`), {
+  // The Client Log bar (armory/client-bar.js) reads the arc's own PROTOCOL_DB, so it works
+  // on every SYS-D022 V2 arc without touching the arc file.
+  const clientBar = await readFile(path.join(process.cwd(), 'armory', 'client-bar.js'), 'utf8');
+  const injected =
+    RETURN_LINK +
+    `<script>window.__MOE_PROTOCOL_ID=${JSON.stringify(protocol.id)};</script>` +
+    `<script>${clientBar}</script>`;
+  const end = html.lastIndexOf('</body>');
+  const served = end === -1 ? html + injected : html.slice(0, end) + injected + html.slice(end);
+  return new NextResponse(served, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
       'Cache-Control': 'private, no-store',

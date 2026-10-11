@@ -20,7 +20,7 @@ export function proxy(request: NextRequest) {
 
   // The Armory, the Intelligence Archive and Founder Command are Architect-only: an Ops session alone isn't enough, and the way
   // in is the SYNC.OP gate on /ops/architect, not Danny's login.
-  const architectArea = ['/ops/armory', '/ops/archive', '/ops/command'].find(
+  const architectArea = ['/ops/armory', '/ops/archive', '/ops/command', '/ops/clients'].find(
     (base) => pathname === base || pathname.startsWith(`${base}/`),
   );
   if (architectArea) {
