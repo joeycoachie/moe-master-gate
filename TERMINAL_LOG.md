@@ -41,6 +41,7 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 ## 2. Cadence — every change, by date
 
 ### Oct 11
+- **KIN-P019 W1 reissued** (client-agnostic, SYS-D022 V2.1) by KA-Alex. `armory/check-card.js` now checks every card against the V2.1 contract before it goes live. The Client Log override button follows each card's own toggle (RA or KNEE / NERVE).
 - **Client Arc System.** `/ops/clients` lists clients, each with an editable profile and a full timeline. Every Armory arc gets a **[ CLIENT LOG ]** bar, bottom-left, added when the page is served, so arc files are never edited. In the bar:
   - pick who's in
   - every station starts ticked; untick skips

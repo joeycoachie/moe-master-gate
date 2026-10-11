@@ -40,11 +40,11 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     id: 'KIN-P019_W1',
     arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
     week: 1,
-    title: 'Disguised Knee/Nerve Diagnostic & Hip Engine',
+    title: 'Disguised Diagnostic & Hip Engine (generic reissue)',
     focus: 'Calm Sympathetic Nerve Guarding → Eliminate Anterior Knee Shear → Build Proximal Hip Strength',
-    doctrine: 'SYS-D022 V2.0',
-    source: 'Pasted in chat 2026-10-08',
-    addedOn: '2026-10-08',
+    doctrine: 'SYS-D022 V2.1',
+    source: 'KA-Alex reissue (client-agnostic), 11 Oct 2026; replaces the 8 Oct version',
+    addedOn: '2026-10-11',
   },
 ];
 

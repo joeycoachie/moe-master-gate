@@ -149,6 +149,12 @@
     if (flagged.length) {
       var box = el('div', '');
       box.setAttribute('style', 'margin-top:10px;border:1px solid #1e3a8a;border-left:3px solid #3b82f6;background:#0a0f1c;padding:10px');
+      // The card's own override toggle names its pathology (e.g. "RA OVERRIDE", "KNEE / NERVE OVERRIDE").
+      // Offer it when a selected client's conditions mention one of those words.
+      var raBtn = document.getElementById('raToggleBtn');
+      var overrideName = raBtn ? raBtn.textContent.replace(/\[.?\]/g, '').replace(/\bACTIVE\b/gi, '').replace(/\(.*?\)/g, '').trim() : 'RA OVERRIDE';
+      var overrideWords = overrideName.split(/[^A-Za-z]+/).filter(function (w) { return w.length >= 2 && !/^override$/i.test(w); });
+      var overrideRe = overrideWords.length ? new RegExp('\\b(' + overrideWords.join('|') + ')\\b', 'i') : /\bRA\b|rheumat/i;
       var needsRA = false;
       flagged.forEach(function (c) {
         var line = el('div', '');
@@ -157,10 +163,10 @@
         if ((c.conditions || '').trim()) line.appendChild(document.createTextNode(' · ' + c.conditions.trim()));
         if ((c.avoid || '').trim()) line.appendChild(document.createTextNode(' · Avoid: ' + c.avoid.trim()));
         box.appendChild(line);
-        if (/\bRA\b|rheumat/i.test(c.conditions || '')) needsRA = true;
+        if (overrideRe.test(c.conditions || '') || (/^RA$/i.test(overrideWords[0] || '') && /rheumat/i.test(c.conditions || ''))) needsRA = true;
       });
       if (needsRA && !document.body.classList.contains('ra-active') && typeof window.toggleRA === 'function') {
-        var ra = el('button', 'font-mono', 'TURN ON RA OVERRIDE');
+        var ra = el('button', 'font-mono', 'TURN ON ' + overrideName.toUpperCase());
         ra.setAttribute('style', 'margin-top:6px;font-size:10px;letter-spacing:.1em;padding:6px 10px;cursor:pointer;border:1px solid #3b82f6;color:#fff;background:#1e3a8a');
         ra.onclick = function () { window.toggleRA(); render(); };
         box.appendChild(ra);
