@@ -24,3 +24,7 @@ Deliver build order 2 (KIN-P019_W2) with the matrix restored. Then, in this orde
 ---
 UPDATE · KIN-P019_W2 received. It passes the full V2.1 check, matrix restored, and is live.
 One fix, from this card on: no client-specific sides or histories in the text. Anchor M3 (chair) says "protect left patella"; it should read "protect the patella". Laterality belongs in the client profile. Correct it in the KIN-P019_W1 resend (no need to resend W2 just for this).
+
+---
+UPDATE · KIN-P019_W1 v2 received. It passes the full V2.1 check: matrix restored, no names, no laterality. It was browser-tested (AUTO-FIT, presets, synced mode, all phases, override) and is live.
+NEXT: KIN-P016_W3. KIN-P016_W1/W2 reissue: see the founder's call on whether the Architect relabels them directly.

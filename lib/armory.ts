@@ -43,7 +43,7 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     title: 'Disguised Diagnostic & Hip Engine (generic reissue)',
     focus: 'Calm Sympathetic Nerve Guarding → Eliminate Anterior Knee Shear → Build Proximal Hip Strength',
     doctrine: 'SYS-D022 V2.1',
-    source: 'KA-Alex reissue (client-agnostic), 11 Oct 2026; replaces the 8 Oct version',
+    source: 'KA-Alex reissue v2 (client-agnostic, Hardware Matrix restored), 11 Oct 2026',
     addedOn: '2026-10-11',
   },
   {
