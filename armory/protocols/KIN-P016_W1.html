@@ -309,7 +309,7 @@
             onclick="toggleRA()"
             class="ra-toggle-btn w-full border border-[#333333] bg-[#111111] transition-colors py-2.5 text-xs font-mono font-semibold tracking-wider text-gray-400"
           >
-            [ ] RA OVERRIDE (MAE)
+            [ ] RA / GRIP OVERRIDE
           </button>
         </div>
       </div>
@@ -661,8 +661,7 @@
                 <div>
                   <span
                     class="text-xs font-mono font-bold text-blue-400 uppercase block"
-                    >Joint Alert: Wrist / Forearm Grip Fatigue (Mae
-                    Profile)</span
+                    >Joint Alert: Wrist / Forearm Grip Fatigue (RA Profile)</span
                   >
                   <span class="text-[11px] text-gray-400"
                     >Mandates forearm cuffs and RA Override for Week 2 Eccentric
@@ -681,7 +680,7 @@
                 id="auditNotes"
                 oninput="evaluateAuditLoop()"
                 rows="2"
-                placeholder="e.g., Daughter 1 cleared Long Stretch on 1R1B; Mae held strong on forearm straps..."
+                placeholder="e.g., Pax A cleared Long Stretch on 1R1B; Pax C held strong on forearm straps..."
                 class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono focus:border-[#00e5ff] outline-none"
               ></textarea>
             </div>
@@ -1326,9 +1325,9 @@
           } else {
             rotationHtml = `
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs font-mono">
-                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Upper Crossed):</span> R1 <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → R2 M2 → R3 M3</div>
-                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B (Sister):</span> R1 <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → R2 M3 → R3 M1</div>
-                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX C (Mae / RA):</span> R1 <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</strong> → R2 M1 → R3 M2</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Standard):</span> R1 <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → R2 M2 → R3 M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B (Standard):</span> R1 <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → R2 M3 → R3 M1</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX C (RA Override):</span> R1 <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</strong> → R2 M1 → R3 M2</div>
                         </div>`;
           }
 
@@ -1596,11 +1595,11 @@
         if (isRaActive) {
           document.body.classList.add("ra-active");
           btn.classList.add("active");
-          btn.innerText = "[X] RA OVERRIDE ACTIVE (MAE)";
+          btn.innerText = "[X] RA / GRIP OVERRIDE ACTIVE";
         } else {
           document.body.classList.remove("ra-active");
           btn.classList.remove("active");
-          btn.innerText = "[ ] RA OVERRIDE (MAE)";
+          btn.innerText = "[ ] RA / GRIP OVERRIDE";
         }
       }
 

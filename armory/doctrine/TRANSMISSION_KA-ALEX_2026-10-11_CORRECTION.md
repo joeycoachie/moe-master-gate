@@ -28,3 +28,7 @@ One fix, from this card on: no client-specific sides or histories in the text. A
 ---
 UPDATE · KIN-P019_W1 v2 received. It passes the full V2.1 check: matrix restored, no names, no laterality. It was browser-tested (AUTO-FIT, presets, synced mode, all phases, override) and is live.
 NEXT: KIN-P016_W3. KIN-P016_W1/W2 reissue: see the founder's call on whether the Architect relabels them directly.
+
+---
+UPDATE · KIN-P016_W1 and KIN-P016_W2: the Architect relabelled the client names directly (RA / GRIP OVERRIDE, PAX A/B Standard, PAX C RA Override). Biomechanics unchanged. REMOVED from your queue.
+YOUR QUEUE NOW: KIN-P016_W3 "Rotational Endurance", then W4, then W5 (W5's Phase 5 states the arc exit criteria). Every card: SYS-D022 V2.1, matrix included, generic Pax roles, override labelled "RA / GRIP OVERRIDE" unless the arc needs a different pathology.

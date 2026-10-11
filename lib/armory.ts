@@ -22,8 +22,8 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     week: 1,
     title: 'Calibration to Long Stretch',
     focus: 'Scapulothoracic Calibration → Oblique Sling Pull → Long Stretch Series',
-    doctrine: 'SYS-D022 V2.0',
-    source: 'https://github.com/joeycoachie/KIN-P016_W1_Upper-Crossed_Advanced-Kinetic-Load',
+    doctrine: 'SYS-D022 V2.1',
+    source: 'https://github.com/joeycoachie/KIN-P016_W1_Upper-Crossed_Advanced-Kinetic-Load (client names relabelled 11 Oct 2026)',
     addedOn: '2026-10-01',
   },
   {
@@ -32,8 +32,8 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     week: 2,
     title: '4s Eccentric Load & Tension',
     focus: '4s Eccentric Scapular Braking → Stable-Base Anterior/Posterior Slings → 5s Long Stretch',
-    doctrine: 'SYS-D022 V2.0',
-    source: 'movement_os_advanced_upper_crossed_w2.html',
+    doctrine: 'SYS-D022 V2.1',
+    source: 'movement_os_advanced_upper_crossed_w2.html (client names relabelled 11 Oct 2026)',
     addedOn: '2026-10-02',
   },
   {
