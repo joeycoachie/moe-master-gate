@@ -46,6 +46,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'KA-Alex reissue (client-agnostic), 11 Oct 2026; replaces the 8 Oct version',
     addedOn: '2026-10-11',
   },
+  {
+    id: 'KIN-P019_W2',
+    arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
+    week: 2,
+    title: 'Proximal Hip Armor & Zero Knee Shear',
+    focus: 'All load above the knee: glute medius and max, vertical shins, zero popliteal or patellar stress',
+    doctrine: 'SYS-D022 V2.1',
+    source: 'KA-Alex (KIN-T072), 11 Oct 2026',
+    addedOn: '2026-10-11',
+  },
 ];
 
 const PROTOCOL_ID_PATTERN = /^[A-Za-z0-9_-]+$/;

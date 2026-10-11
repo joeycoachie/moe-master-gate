@@ -38,3 +38,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-11 · M.O.E. Terminal · SYS-D022 V2.1 locked (D1–D3): data contract, apparatus registry v1.0 (4 new keys), client-agnostic arcs. Archive SYS-D022 entry updated to doc_version 2.1 (existing ID, flagged)
 - 2026-10-11 · M.O.E. Terminal · D4 approved; KA-Alex reply transmission finalised (KIN-P016 = 5-week arc; W3 in progress goes first)
 - 2026-10-11 · M.O.E. Terminal · KIN-P019_W1 replaced by KA-Alex's client-agnostic reissue (SYS-D022 V2.1; passes armory/check-card.js; Hardware Matrix missing, correction transmission drafted). Client Log override button now reads each card's own toggle (RA or KNEE / NERVE) and matches it to client conditions
+- 2026-10-11 · M.O.E. Terminal · KIN-P019_W2 (Proximal Hip Armor, KA-Alex) added to the Armory; passes armory/check-card.js including the Hardware Matrix. Minor note to Alex: 'left patella' laterality

@@ -20,3 +20,7 @@ Deliver build order 2 (KIN-P019_W2) with the matrix restored. Then, in this orde
 1. KIN-P019_W1 again, with the matrix restored.
 2. KIN-P016_W3.
 3. KIN-P016_W1 and KIN-P016_W2 reissued client-agnostic. Both still name "Mae" (RA OVERRIDE (MAE), "PAX C (Mae / RA)") and "Daughter". Replace them with generic Pax roles and the plain "RA / GRIP OVERRIDE" toggle. Biomechanics unchanged.
+
+---
+UPDATE · KIN-P019_W2 received. It passes the full V2.1 check, matrix restored, and is live.
+One fix, from this card on: no client-specific sides or histories in the text. Anchor M3 (chair) says "protect left patella"; it should read "protect the patella". Laterality belongs in the client profile. Correct it in the KIN-P019_W1 resend (no need to resend W2 just for this).

@@ -13,6 +13,7 @@ let r;
 try{ r=(new Function('document','window','setInterval','clearInterval','setTimeout',scripts+';return {DB:typeof PROTOCOL_DB!=="undefined"?PROTOCOL_DB:null,SEL:typeof stationSelections!=="undefined"?stationSelections:null,EQ:typeof EQUIP_LABELS!=="undefined"?EQUIP_LABELS:null,RA:typeof toggleRA==="function"}'))(document,{},()=>0,()=>0,()=>0); ok('script runs'); }
 catch(e){ bad('script error: '+e.message); console.log(out.join('\n')); process.exit(); }
 for (const [n,v] of [['PROTOCOL_DB',r.DB],['stationSelections',r.SEL],['EQUIP_LABELS',r.EQ]]) v?ok(n+' is top-level'):bad(n+' missing or not top-level');
+if(!r.DB||!r.SEL||!r.EQ){ console.log(out.join('\n')); process.exit(1); }
 if(/<script[^>]*type=["']module/.test(h)) bad('uses a module script');
 r.RA?ok('toggleRA() exists'):bad('toggleRA() missing');
 const PH=['primer','anchor','crucible','unwind'];
