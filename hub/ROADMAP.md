@@ -1,8 +1,10 @@
 # The Roadmap
 
-**Status: DRAFT v0.2 · 10 Oct 2026.** Founder answered questions 1, 2, 3, 5 and 6. Built only from our own doctrines, crucibles and ledger. It becomes v1.0 when the founder answers the open questions in section 8. Nothing here is a forecast. The numbers are there to show the size of the job.
+**Status: v1.0 · 11 Oct 2026.** Built only from our own doctrines, crucibles and ledger, and confirmed by the founder's answers (section 8). Nothing here is a forecast. The numbers show the size of the job. Change it only through the weekly ritual (P-010).
 
 ## 1. The end in mind
+
+**The Summit (D-004, founder, 11 Oct 2026):** *"The operating system behind every studio, clinic and recovery station that takes the body seriously."* We are a B2B infrastructure provider, not a coach or a self-help brand.
 
 **What we are building.** An Enterprise Operating System for Human Performance ("How Far We Have Come"), sold as the Triad (D-014):
 
@@ -24,13 +26,13 @@
 | 3 Armory arcs; SYS.OP gate; Archive online | RECUP.STN: new proof of concept, opened 3 Oct. Ops Healthbar's 25% profit share is **not** active |
 | Archive: 193 entries, **1** fully classified, 24 open gates | Operator's Playbook on Gumroad. Sales not yet reported here |
 | Shared hub across every product window | 4 private clients (Eleine; Mae, Pei, Zi) |
-| | Peak monthly income about **10k**. Floor needed: **3k a month** |
+| | Income: **RM9,000 this month** (peak about RM10k). Floor needed: **RM3,000 a month**. Optimum Fit's RM1,800 stops from November |
 
 **The constraint is selling, not building.** Use the Scale Faster method: find the box where the number drops most. Here it is distribution. Step 2 of our own 7-Year-Old Plan ("Build the Showroom") has not started, and no studio is in the pipeline that this file knows of.
 
 **Why the library ballooned.** The advisor prompt we used asks for "frameworks and mental models" in every answer. Our own OKR in "Consultant vs. Architect" is **IP Generation Velocity**: new protocols per quarter. Both reward *writing* frameworks, so we wrote 193 of them, many twice. The same document says an Architect's value is "tied to the proprietary IP **deployed** and the **outcome achieved**". The metric contradicts the thesis.
 
-**The fix (proposed, needs the founder's yes):** change the metric to **IP Deployment**. A protocol only counts once it has been used in a paid crucible: it carries a `proven_by` link in the Archive. No new framework enters without one, and each new one must name what it replaces or merges.
+**The fix (adopted by the founder, 11 Oct 2026):** change the metric to **IP Deployment**. A protocol only counts once it has been used in a paid crucible: it carries a `proven_by` link in the Archive. No new framework enters without one, and each new one must name what it replaces or merges.
 
 ## 3. Timeline: how we got here
 
@@ -89,8 +91,10 @@ The three pillars run the same loop. **Base Camp (D-002):** new resources go to 
 - **Weekly ritual:** P-010 v4.0. Find the one constraint, change one lever for two weeks, write down the lesson.
 - **One record:** every change goes into LEDGER, every decision into DECISIONS, every clash into DECISION_GATES. The Archive is the source of truth.
 - **One window per product.** Every agent reads this hub first.
-- **New-framework gate (proposed):** proven in a paid crucible, and it names what it replaces or merges. Otherwise it waits as a signal.
-- **Advisor prompt (proposed rewrite of the last ask):** keep the brutal honesty, and change "provide frameworks" to: "use our Archive first; tell me which existing protocol applies; propose a new one only if none fits, and say what it replaces."
+- **Rule A, IP Deployment (adopted 11 Oct):** a protocol only counts once it has been used in paid work (a `proven_by` link in the Archive). This replaces "IP Generation Velocity" as the metric.
+- **Rule B, the new-framework gate (adopted 11 Oct):** no new framework unless it was proven in paid work and names what it replaces or merges. Otherwise it waits as a signal (L0).
+- **Advisor prompt (adopted with Rule B).** Keep the original and replace its last part with:
+  > "Before you give me any framework, check my Intelligence Archive first and tell me which existing protocol applies by its ID. Only propose a new one if nothing fits, and when you do, say which protocol it replaces or merges and what paid work would prove it. Measure me on protocols deployed in paid work, not protocols written."
 
 ## 7. Positioning: the gap we fill, and the safety floor
 
@@ -116,7 +120,17 @@ The **moat** is the Triad on top (SYS-D023): the same client record also routes 
 | 90-Day Setup | Install, load the studio's classes, train instructors on the arcs | One fee, 50% before day 1 |
 | Studio Licence | Hosting, updates, new arcs, governance. **The system stops if this stops** | Monthly from day 1, minimum 12 months |
 
-The numbers are still open: what Optimum Fit paid for Phase 1 and what Tier 2 cost are the best starting point.
+**The numbers (from Optimum Fit's real prices).** Optimum Fit paid **RM1,800 a month for 5 months (May–Sep), about RM9,000 in total**, for the build. Tier 2 was **RM3,200 a month** for the system *plus* floor and people management. The mistake: Tier 2 bundled the software with heavy human work. So when they declined the human work, the software left with it. The fix is to split them, keeping the same total:
+
+| Part | What it includes | Price (recommended) |
+|---|---|---|
+| 90-Day Setup | Install, load classes, train instructors, first quality checks | **RM9,000** (what the build actually cost Optimum Fit), 50% before day 1 |
+| Studio Licence (**mandatory**) | Hosting, updates, Armory arcs, client tracking, Terminal stations | **RM1,200 / month**, 12-month minimum. The system stops if unpaid |
+| Floor Command (optional) | Bi-weekly floor calibrations, live class audits, monthly programming drops | **RM2,000 / month** (licence + this = RM3,200, the old Tier 2) |
+
+**Why this shape.** The licence alone is small enough that no studio cancels it to save money, and it pays you without your time. **3 studios on licence = RM3,600/month**, your whole floor with zero teaching hours. Floor Command is where your hours go, and it can be dropped without losing the client. Raise the setup price once BC3 has a case study.
+
+**Status, 11 Oct:** RM9,000 this month, three times the floor, so **the job rule does not apply now.** Recheck it every month in the weekly ritual.
 
 **The safety floor: a 9-to-5 is allowed (SYS-D025 Barbell).** Our risk doctrine says 85% safe anchor, 15% bold bets. The rule is simple: **if this month's income is under 3k, take a job.** It's the 85%, not a failure. Pick it with four tests:
 
@@ -136,18 +150,17 @@ The numbers are still open: what Optimum Fit paid for Phase 1 and what Tier 2 co
 
 **Wellness real estate and retreats.** It's a large, growing market, and it has the same floor gap. Retreats and wellness residences sell "programmes", run them with freelance instructors, and keep no record once the guest leaves. Our arcs + client record + RECUP.STN fuel answer exactly that. It's a **channel for BC4–BC5, not a pivot now**: the sales cycles are long, the buyers are developers who buy from operators they know, and we have no network there yet. The cheap test meanwhile is one Malaysian retreat or wellness resort running a short programme on our arcs, or the fourth job in the table above.
 
-## 8. Open questions for the founder (needed for v1.0)
+## 8. Founder answers
 
-**Answered 10 Oct:**
-1. Peak monthly income about 10k.
-2. Ops Healthbar's 25% is not active. RECUP.STN is a separate, new proof of concept. Both use Herbalife products.
-3. President's Team is still a goal; RECUP.STN is one more funnel toward it.
-5. Answered in section 7: where studios lose money, the dream buyer, who we refuse, why Optimum Fit left.
-6. Floor needed: 3k a month.
+| # | Question | Answer (10–11 Oct 2026) |
+|---|---|---|
+| 1 | Income | Peak about RM10k a month; **RM9,000 this month**. Floor needed: **RM3,000** |
+| 2 | Healthbar deal | The 25% profit share is not active. RECUP.STN is a separate, new proof of concept. Both use Herbalife |
+| 3 | Herbalife | President's Team is still the goal; RECUP.STN is one more funnel toward it |
+| 4 | 90-Day Setup price | Optimum Fit paid RM1,800/month for the build (May–Sep) and Tier 2 was RM3,200/month. New offer in section 7 |
+| 5 | Homework + why Optimum Fit left | Section 7 |
+| 6 | Capacity | Floor RM3,000 a month; no job needed while income stays above it |
+| 7 | Two rules | **Both adopted** (section 6) |
+| 8 | Summit | (b) "The operating system behind every studio, clinic and recovery station that takes the body seriously." |
 
-**Still open:**
-1. **This month's income**, not the peak, and the currency (RM?). This decides whether the 9-to-5 rule in section 7 applies now.
-2. **The offer numbers:** what Optimum Fit paid for the Phase 1 build, and what Tier 2 cost per month.
-3. **Yes or no to the two rules** in section 2: (a) a protocol counts only once it's used in paid work; (b) no new framework unless it was proven in paid work and names what it replaces.
-4. **The Summit sentence.** Pick or edit one: (a) "Anyone can run a world-class human performance business on the M.O.E. system, without me in the room." (b) "The operating system behind every studio, clinic and recovery station that takes the body seriously." (c) Your own words.
-5. **Team:** is KA-Alex a person or an AI role? Anyone else working with you?
+**Still open (does not block v1.0):** is KA-Alex a person or an AI role, and is anyone else working with you?

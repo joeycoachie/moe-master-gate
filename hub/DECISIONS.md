@@ -56,3 +56,10 @@ Newest at the top within each section.
 - Monthly money floor: 3k.
 - Why Optimum Fit left: they wanted the 90-day Phase 1 build to run permanently without paying the Tier 2 monthly management retainer.
 - Dream buyer: a high-agency studio owner who values systems, data and accountable execution. Refused: enterprise systems at freelance rates; "busy" as an excuse to avoid decisions; free hosting or management outside an active retainer.
+
+## 2026-10-11 · Roadmap v1.0
+- Income: RM9,000 this month (peak about RM10k); floor RM3,000. The 9-to-5 rule does not apply while income stays above the floor.
+- Rule A adopted: a protocol only counts once it has been used in paid work (`proven_by`). It replaces "IP Generation Velocity".
+- Rule B adopted: no new framework unless it was proven in paid work and names what it replaces or merges.
+- Summit (D-004): "The operating system behind every studio, clinic and recovery station that takes the body seriously."
+- Optimum Fit prices for the record: build RM1,800/month (May–Sep 2026), Tier 2 RM3,200/month. The new offer's numbers (RM9,000 setup, RM1,200 licence, RM2,000 Floor Command) are a recommendation until the founder confirms them.

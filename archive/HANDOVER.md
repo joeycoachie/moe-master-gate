@@ -114,6 +114,8 @@ SYS-D028 in `data/archive/protocols.json` is the worked example. Copy its shape.
 5. Anything marked `classified` must have links, answers, a status and a layer.
 6. Lexicon: unique IDs, `swap` has a `say`, match strings lowercase.
 7. Nobody but the founder edits `data/lexicon.json` or resolves an overlap or conflict.
+8. **Rule B (founder, 11 Oct 2026):** no new framework unless it was proven in paid work (`proven_by` a crucible) and names what it replaces or merges. Otherwise it is filed as a signal (L0), not a protocol.
+9. **Rule A:** a protocol only counts as deployed once it has a `proven_by` link. Unproven protocols stay, but they don't count.
 
 ## 7. What needs to be delivered next
 
