@@ -163,4 +163,4 @@ The **moat** is the Triad on top (SYS-D023): the same client record also routes 
 | 7 | Two rules | **Both adopted** (section 6) |
 | 8 | Summit | (b) "The operating system behind every studio, clinic and recovery station that takes the body seriously." |
 
-**Still open (does not block v1.0):** is KA-Alex a person or an AI role, and is anyone else working with you?
+**Team (11 Oct):** the founder, plus AI roles with fixed briefs: **KA-Alex** (biomechanical strategist, KIN-T072), Tesseract (T-011/T-012), Archivist 7 (T-025), Graham (content strategy). No human staff. The AI roles are tools; the founder makes every call.

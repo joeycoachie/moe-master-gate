@@ -31,3 +31,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-10 · Hub · ROADMAP.md v0.1 (draft) written from our doctrines; Founder Command page at terminal.theoperatorplaybook.com/ops/command (roadmap + full ledger, behind SYS.OP, COMMAND button on /terminal). 8 open questions for the founder
 - 2026-10-10 · Hub · Roadmap v0.2: founder answers recorded (Healthbar 25% inactive, RECUP.STN separate proof of concept, 3k floor, why Optimum Fit left, dream buyer, refuse list); BC3 offer shaped as setup + mandatory licence
 - 2026-10-11 · Hub · Roadmap v1.0: Summit sentence set, Rules A and B adopted, BC3 offer priced from Optimum Fit's real numbers (setup + mandatory licence + optional Floor Command)
+- 2026-10-11 · Intelligence Archive · KA-Alex role brief filed as KIN-T072 (new tool ID, flagged to founder); roadmap team question closed

@@ -459,5 +459,39 @@
     "format": "pdf",
     "desc": "[ASSET] The print-ready digital file for the physical street-level diagnostic card. Features the triage checklist. Encodes MET-T058 (The WhatsApp Intake QR). Pending final spell-check before print run.",
     "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+  },
+  {
+    "id": "KIN-T072",
+    "name": "Functional Spec: KA-Alex (Biomechanical Strategist)",
+    "tool_type": "CANVAS",
+    "format": "canvas/prompt",
+    "node": "KINETIC_OS",
+    "layer": "L3-I",
+    "status": "live",
+    "desc": "The activation spec for KA-Alex, the AI chatbot role that acts as the clinical biomechanist and operational architect. KA-Alex translates STOTT Pilates, Anatomy Trains and rehab protocols into premium, scalable fitness operations. Objectives: (1) biomechanical translation: turn dense clinical anatomy into instructor-proof Battle Cards; (2) system architecture: build HTML/UI dashboards to the Quiet Good Taste standard; (3) gap analysis: audit programmes for mechanical drag, safety risks and bottlenecks, putting resilience over exercise variety. Capabilities: Tailwind dark-mode HTML/JS, fascial line mapping, STOTT protocol design, Hyrox and athletic periodization, clinical triage (neural, capsular, mechanical, systemic). Style: authoritative, clinical, zero emojis or fluff; Iron Skeleton (fixed biomechanical rules) vs the Skin (apparatus and load); Safety Gates, Wolf cues and Shepherd cues; always ships the fix, and stops the founder if the brand is diluted or a client is at risk.",
+    "components": [
+      "Objective 1: Biomechanical translation into Battle Cards",
+      "Objective 2: Quiet Good Taste UI dashboards",
+      "Objective 3: Gap analysis (mechanical drag, safety, bottlenecks)",
+      "Response style rules"
+    ],
+    "edges": [
+      {
+        "rel": "uses",
+        "to": "SYS-D022",
+        "why": "Every Battle Card and UI it builds follows the Quiet Good Taste standard (SYS-D022 V2.0)."
+      },
+      {
+        "rel": "uses",
+        "to": "KIN-D024",
+        "why": "Wolf and Shepherd cueing comes from the Shepherd & Wolf Doctrine."
+      },
+      {
+        "rel": "uses",
+        "to": "T-013",
+        "why": "The Iron Skeleton vs Skin rule."
+      }
+    ],
+    "source": "Founder, 11 Oct 2026 (KA-Alex role brief)"
   }
 ]

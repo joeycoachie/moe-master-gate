@@ -63,3 +63,6 @@ Newest at the top within each section.
 - Rule B adopted: no new framework unless it was proven in paid work and names what it replaces or merges.
 - Summit (D-004): "The operating system behind every studio, clinic and recovery station that takes the body seriously."
 - Optimum Fit prices for the record: build RM1,800/month (May–Sep 2026), Tier 2 RM3,200/month. The new offer's numbers (RM9,000 setup, RM1,200 licence, RM2,000 Floor Command) are a recommendation until the founder confirms them.
+
+## 2026-10-11 · Team
+- KA-Alex is an AI chatbot role, not a person. Filed as KIN-T072 (Functional Spec), next to the Tesseract (T-011/T-012) and Archivist 7 (T-025) specs. No human staff.
