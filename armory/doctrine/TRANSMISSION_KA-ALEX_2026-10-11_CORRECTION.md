@@ -16,4 +16,7 @@ NOTE
 The override toggle can name its pathology (this card: KNEE / NERVE OVERRIDE). Keep it wired to toggleRA() and body.ra-active as now. The Terminal reads the button's label to match it to the client's profile.
 
 NEXT
-Deliver build order 2 (KIN-P019_W2) with the matrix restored. Then send KIN-P019_W1 again with the matrix restored. Then KIN-P016_W3.
+Deliver build order 2 (KIN-P019_W2) with the matrix restored. Then, in this order:
+1. KIN-P019_W1 again, with the matrix restored.
+2. KIN-P016_W3.
+3. KIN-P016_W1 and KIN-P016_W2 reissued client-agnostic. Both still name "Mae" (RA OVERRIDE (MAE), "PAX C (Mae / RA)") and "Daughter". Replace them with generic Pax roles and the plain "RA / GRIP OVERRIDE" toggle. Biomechanics unchanged.
