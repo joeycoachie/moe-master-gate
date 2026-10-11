@@ -41,3 +41,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-11 · M.O.E. Terminal · KIN-P019_W2 (Proximal Hip Armor, KA-Alex) added to the Armory; passes armory/check-card.js including the Hardware Matrix. Minor note to Alex: 'left patella' laterality
 - 2026-10-11 · M.O.E. Terminal · KIN-P019_W1 v2 (KA-Alex, Hardware Matrix restored) replaces v1; passes check-card.js and a headless browser run of the matrix, presets, phases and override
 - 2026-10-11 · M.O.E. Terminal · KIN-P016_W1 and W2 made client-agnostic by relabelling only (16 labels; movements byte-identical; check-card.js passes; Client Log RA match re-tested). Removed from KA-Alex's queue; next from Alex: KIN-P016_W3–W5
+- 2026-10-12 · M.O.E. Terminal · Breadth transmission to KA-Alex drafted: ARC_MAP, OVERRIDE_LIBRARY, INTAKE_ROUTING (indexes of existing work, Rule B); instructor gates deferred to BC4
