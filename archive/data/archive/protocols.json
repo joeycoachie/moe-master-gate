@@ -294,7 +294,15 @@
     "id": "SYS-D022",
     "name": "The “Quiet Good Taste” UI/UX Standard",
     "classification": "ENTERPRISE_OS [INTERNAL]",
-    "desc": "Visual hygiene doctrine — clinical, high-contrast aesthetic for all custom-coded digital assets."
+    "desc": "Visual hygiene doctrine — clinical, high-contrast aesthetic for all custom-coded digital assets. V2.0 (Oct 2026) adds the Master Battle Card Doctrine for clinical arcs; V2.1 (11 Oct 2026) adds the data contract, the apparatus registry and client-agnostic arcs.",
+    "doc_version": "2.1",
+    "components": [
+      "V2.0 Master Battle Card Doctrine: armory/doctrine/SYS-D022_V2.md",
+      "V2.1 Data contract (PROTOCOL_DB structure the Client Log bar reads)",
+      "V2.1 Apparatus registry: armory/apparatus-registry.json",
+      "V2.1 Client-agnostic arcs: overrides as toggles, people mapped in the client profile"
+    ],
+    "source": "armory/doctrine/SYS-D022_V2.md + armory/doctrine/SYS-D022_V2.1.md"
   },
   {
     "id": "SYS-D023",

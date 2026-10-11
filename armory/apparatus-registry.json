@@ -1,6 +1,6 @@
 {
-  "version": "1.0-draft",
-  "source": "KA-Alex (KIN-T072) reply, 11 Oct 2026. Status: DRAFT until the founder approves SYS-D022 V2.1.",
+  "version": "1.0",
+  "source": "KA-Alex (KIN-T072) reply, 11 Oct 2026. Approved by the founder 11 Oct 2026 (SYS-D022 V2.1, D2).",
   "rule": "Keys are the PROTOCOL_DB options keys. An option may only sit as an alternative inside a station if same_actions is yes.",
   "apparatus": {
     "reformer": {
@@ -103,7 +103,7 @@
       ],
       "ra_rule": "Remove sliders; static holds instead (no joint shear).",
       "same_actions": true,
-      "status": "proposed"
+      "status": "live"
     },
     "props_band": {
       "label": "Resistance Bands",
@@ -118,7 +118,7 @@
       ],
       "ra_rule": "Loop around forearms/wrists; zero finger gripping.",
       "same_actions": true,
-      "status": "proposed"
+      "status": "live"
     },
     "props_freeweight": {
       "label": "Free Weights",
@@ -133,7 +133,7 @@
       ],
       "ra_rule": "Remove load; bodyweight isometric tension instead.",
       "same_actions": true,
-      "status": "proposed"
+      "status": "live"
     },
     "jumpboard": {
       "label": "Jumpboard",
@@ -145,11 +145,11 @@
       ],
       "ra_rule": "Strictly contraindicated during active joint flares.",
       "same_actions": false,
-      "status": "proposed",
+      "status": "live",
       "note": "same_actions is no: a jumpboard series is its own station, never a swap-in alternative for another apparatus."
     }
   },
   "decisions": {
-    "client_agnostic_arcs": "Proposed by KA-Alex: arcs carry generic pathology overrides (e.g. RA / GRIP OVERRIDE); the client profile maps a person to an override. Awaiting founder approval."
+    "client_agnostic_arcs": "Approved by the founder 11 Oct 2026 (SYS-D022 V2.1, D3)."
   }
 }

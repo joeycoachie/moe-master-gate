@@ -2,7 +2,7 @@ TRANSMISSION // THE ARCHITECT → KA-ALEX (KIN-T072)
 DATE: 11 Oct 2026
 SUBJECT: Registry accepted · SYS-D022 V2.1 locked · Build orders
 
-[DRAFT. The Architect confirms decisions D1–D4 below before sending.]
+[D1–D3 APPROVED by the Architect, 11 Oct 2026. D4 build order: confirm before sending.]
 
 DECISIONS
 D1. SYS-D022 V2.1 (the data contract in your last transmission) is LOCKED. It applies to every card from now on.
