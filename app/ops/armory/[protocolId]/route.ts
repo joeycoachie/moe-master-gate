@@ -7,7 +7,7 @@ import { findProtocol, readProtocolHtml } from '@/lib/armory';
 
 // Small fixed link back to the Armory index, injected at serve time so the
 // protocol HTML in armory/protocols stays byte-identical to its source repo.
-const RETURN_LINK = `<a href="/ops/armory" style="position:fixed;right:16px;bottom:16px;z-index:50;font:500 10px 'JetBrains Mono',monospace;letter-spacing:.15em;color:#a855f7;background:#050505;border:1px solid #a855f7;padding:6px 10px;text-decoration:none">&larr; ARMORY</a>`;
+const RETURN_LINK = `<a href="/ops/armory" style="position:fixed;right:16px;bottom:72px;z-index:50;font:500 10px 'JetBrains Mono',monospace;letter-spacing:.15em;color:#a855f7;background:#050505;border:1px solid #a855f7;padding:6px 10px;text-decoration:none">&larr; ARMORY</a>`;
 
 export async function GET(request: Request, { params }: { params: Promise<{ protocolId: string }> }) {
   // Defense in depth: proxy.ts already gates /ops/armory, but never assume it ran.

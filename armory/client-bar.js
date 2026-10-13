@@ -53,8 +53,21 @@
   function markDirty() { S.dirty = true; setStatus('Unsaved changes', '#f59e0b'); }
 
   // ---------- Shell ----------
-  var toggle = el('button', 'font-mono', '[ CLIENT LOG ]');
-  toggle.setAttribute('style', "position:fixed;left:16px;bottom:16px;z-index:60;font:600 10px 'JetBrains Mono',monospace;letter-spacing:.15em;color:#00e5ff;background:#050505;border:1px solid #00e5ff;padding:8px 12px;cursor:pointer");
+  // Full-width dock along the bottom: client names are visible as soon as the page opens.
+  var DOCK_H = 56;
+  var pad = el('style', '');
+  pad.textContent = 'body{padding-bottom:' + DOCK_H + 'px;box-sizing:border-box}';
+  document.head.appendChild(pad);
+  var toggle = el('div', 'font-mono');
+  toggle.setAttribute('style', "position:fixed;left:0;right:0;bottom:0;height:" + DOCK_H + "px;z-index:60;display:flex;align-items:center;gap:10px;padding:0 12px;background:#05101a;border-top:1px solid #00e5ff;font-family:'JetBrains Mono',monospace;box-sizing:border-box");
+  var dockLabel = el('span', '', "WHO'S IN:");
+  dockLabel.setAttribute('style', 'font-size:9px;letter-spacing:.15em;color:#00e5ff;font-weight:700;white-space:nowrap;flex-shrink:0');
+  var dockChips = el('div', '');
+  dockChips.setAttribute('style', 'flex:1;display:flex;gap:6px;overflow-x:auto;white-space:nowrap;scrollbar-width:none');
+  var dockOpen = el('button', '', 'OPEN LOG ›');
+  dockOpen.setAttribute('style', 'flex-shrink:0;font:700 10px JetBrains Mono,monospace;letter-spacing:.15em;color:#000;background:#00e5ff;border:1px solid #00e5ff;padding:9px 12px;cursor:pointer');
+  // OPEN LOG first: some arc cards are wider than a phone screen, so the right edge can be off-screen.
+  toggle.appendChild(dockOpen); toggle.appendChild(dockLabel); toggle.appendChild(dockChips);
   var panel = el('aside', '');
   panel.setAttribute('style', "position:fixed;top:0;right:0;height:100%;width:100%;max-width:460px;z-index:70;background:#0a0a0a;border-left:1px solid #333;display:none;flex-direction:column;font-family:Inter,sans-serif;color:#fff");
   document.body.appendChild(toggle);
@@ -82,6 +95,33 @@
 
   function setStatus(text, color) { status.textContent = text; status.style.color = color || '#888'; }
 
+  function renderDock(message) {
+    dockChips.textContent = '';
+    if (message) {
+      var m = el('span', '', message);
+      m.setAttribute('style', 'font-size:11px;color:#f59e0b');
+      dockChips.appendChild(m);
+      return;
+    }
+    if (!S.clients.length) {
+      var none = el('span', '', 'No clients yet. Add them on the CLIENTS page.');
+      none.setAttribute('style', 'font-size:11px;color:#888');
+      dockChips.appendChild(none);
+    }
+    S.clients.forEach(function (c) {
+      var on = S.selected.indexOf(c.id) !== -1;
+      var b = el('button', '', c.full_name);
+      b.setAttribute('style', 'flex-shrink:0;font:600 11px JetBrains Mono,monospace;padding:8px 12px;cursor:pointer;border:1px solid ' + (on ? '#00e5ff' : '#333') + ';color:' + (on ? '#000' : '#ccc') + ';background:' + (on ? '#00e5ff' : '#050505'));
+      b.onclick = function () {
+        if (on) S.selected = S.selected.filter(function (x) { return x !== c.id; });
+        else S.selected.push(c.id);
+        markDirty(); renderDock(); if (S.open) render();
+      };
+      dockChips.appendChild(b);
+    });
+    dockOpen.textContent = S.selected.length ? 'OPEN LOG (' + S.selected.length + ') ›' : 'OPEN LOG ›';
+  }
+
   function label(text) {
     var l = el('div', 'font-mono', text);
     l.setAttribute('style', 'font-size:9px;letter-spacing:.2em;color:#666;text-transform:uppercase;margin:18px 0 8px');
@@ -94,6 +134,7 @@
 
   // ---------- Render ----------
   function render() {
+    renderDock();
     body.textContent = '';
 
     // Date + session picker
@@ -346,17 +387,14 @@
   }
 
   // ---------- Wire up ----------
-  var loaded = false;
-  toggle.onclick = function () {
+  // Load clients and today's sessions straight away so names show in the dock.
+  renderDock('Loading clients…');
+  loadClients().then(loadSessions).catch(function (e) { setStatus(e.message, '#ef4444'); renderDock(e.message); });
+  dockOpen.onclick = function () {
     S.open = true; panel.style.display = 'flex'; toggle.style.display = 'none';
-    if (!loaded) {
-      loaded = true;
-      loadClients().then(loadSessions).catch(function (e) { setStatus(e.message, '#ef4444'); render(); });
-    } else {
-      render(); // the apparatus may have changed on the page
-    }
+    render(); // the apparatus may have changed on the page
   };
-  closeBtn.onclick = function () { S.open = false; panel.style.display = 'none'; toggle.style.display = 'block'; };
+  closeBtn.onclick = function () { S.open = false; panel.style.display = 'none'; toggle.style.display = 'flex'; renderDock(); };
   saveBtn.onclick = save;
   window.addEventListener('beforeunload', function (e) {
     if (S.dirty) { e.preventDefault(); e.returnValue = ''; }
