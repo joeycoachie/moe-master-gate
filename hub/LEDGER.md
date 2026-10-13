@@ -43,3 +43,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-11 · M.O.E. Terminal · KIN-P016_W1 and W2 made client-agnostic by relabelling only (16 labels; movements byte-identical; check-card.js passes; Client Log RA match re-tested). Removed from KA-Alex's queue; next from Alex: KIN-P016_W3–W5
 - 2026-10-12 · M.O.E. Terminal · Breadth transmission to KA-Alex drafted: ARC_MAP, OVERRIDE_LIBRARY, INTAKE_ROUTING (indexes of existing work, Rule B); instructor gates deferred to BC4
 - 2026-10-13 · M.O.E. Terminal · Client Log is now a full-width bottom dock on every arc (client names visible on page load, tap who's in, OPEN LOG); ← ARMORY link moved above it
+- 2026-10-13 · M.O.E. Terminal · First live Client Log session saved (Eleine Wong, KIN-P016_W2, 10/12 stations, Phase 5 captured): BC3 8-week clock started, target ~8 Dec 2026
