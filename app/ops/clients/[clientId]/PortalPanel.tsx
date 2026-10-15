@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { TrendChart, streak, type Checkin } from '@/app/portal/visuals';
 
 type Portal = { portal_enabled: boolean; portal_code_set_at: string | null; fuel_unlocked: { key: string; dose: string }[]; recup_member_code: string | null };
 type CatalogItem = { key: string; title: string; group: string };
@@ -17,6 +18,8 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [checkins, setCheckins] = useState<Checkin[] | null>(null);
+  const [today, setToday] = useState('');
 
   const apply = (p: Portal) => {
     setPortal(p);
@@ -34,6 +37,8 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
         }
         apply(body.portal);
         setCatalog(body.catalog);
+        setCheckins(body.checkins ?? null);
+        setToday(body.today ?? '');
       })
       .catch(() => setError('Connection failed.'));
   }, [clientId]);
@@ -176,6 +181,22 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
             </div>
           ))}
         </div>
+      </div>
+
+      <div>
+        <div className="text-[10px] text-[#888] uppercase tracking-widest mb-2">Their daily check-ins (last 14 days)</div>
+        {checkins === null ? (
+          <p className="text-[11px] text-[#f59e0b]">Check-ins not set up yet: run client_checkins_schema.sql in Supabase.</p>
+        ) : checkins.length === 0 ? (
+          <p className="text-[11px] text-[#555]">No check-ins yet.</p>
+        ) : (
+          <div className="max-w-md">
+            <TrendChart checkins={checkins} today={today} />
+            <p className="text-[10px] text-[#666] mt-2">
+              {checkins.length} of 14 days · streak {streak(checkins, today)} · fuel taken {checkins.filter((c) => c.fuel_taken).length} days
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="flex items-end gap-3 flex-wrap">

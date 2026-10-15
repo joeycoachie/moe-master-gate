@@ -12,7 +12,7 @@ export const LANGS: { code: Lang; label: string; html: string }[] = [
 ];
 
 type Card = { title: string; text: string };
-type Offer = { name: string; price: string; terms: string; items: string[] };
+export type Offer = { name: string; price: string; terms: string; items: string[]; hook?: string };
 
 export type Copy = {
   nav: { cta: string; language: string };
@@ -21,7 +21,16 @@ export type Copy = {
   what: { title: string; cards: Card[] };
   proof: { title: string; text: string };
   how: { title: string; steps: Card[] };
-  offer: { title: string; note: string; cards: Offer[]; currency: string };
+  offer: {
+    title: string;
+    note: string;
+    currency: string;
+    picker: { title: string; rows: { q: string; a: string }[] };
+    startTitle: string;
+    cards: Offer[];
+    addTitle: string;
+    addons: Offer[];
+  };
   fit: { title: string; yesTitle: string; yes: string[]; noTitle: string; no: string[] };
   close: { title: string; text: string; cta: string };
 };
@@ -77,10 +86,16 @@ export const COPY: Record<Lang, Copy> = {
       title: 'The offer',
       note: 'The system runs while the licence is active. Setup and licence are always sold together.',
       currency: 'Prices in Malaysian ringgit.',
+      picker: { title: 'Choose in 10 seconds', rows: [{ q: 'Every studio', a: 'Setup + Licence' }, { q: 'Want us checking your floor every two weeks?', a: '+ Floor Command' }, { q: 'Clients already buy a drink after class?', a: '+ Recovery Bar' }] },
+      startTitle: 'Start here',
       cards: [
         { name: '90-Day Setup', price: 'RM 9,000', terms: 'One time. Half is paid before day 1.', items: ['System installed for your studio', 'Your classes loaded onto our programmes', 'Instructor training', 'First round of quality checks'] },
         { name: 'Studio Licence', price: 'RM 1,200 / month', terms: 'Required. 12-month minimum.', items: ['Hosting, updates and support', 'Every programme, plus new weeks as they release', 'Client records and the client portal', 'Owner view and instructor tools'] },
+      ],
+      addTitle: 'Add when ready',
+      addons: [
         { name: 'Floor Command', price: 'RM 2,000 / month', terms: 'Optional. Add or drop any month.', items: ['On-site floor checks every two weeks', 'Live class audits for each instructor', 'New programming every month'] },
+        { name: 'Recovery Bar', price: 'No extra fee', terms: 'Optional. You buy product through us and keep the margin on every drink.', hook: 'Your clients already buy a drink after class. Make it one that helps them recover.', items: ['A short recovery drink menu for after class', 'A recovery plan for each client, inside their portal', 'Daily check-ins clients tick from their phone', 'Staff training to run the bar'] },
       ],
     },
     fit: {
@@ -142,10 +157,16 @@ export const COPY: Record<Lang, Copy> = {
       title: '方案与价格',
       note: '系统在授权有效期间运行。安装与授权始终一起提供。',
       currency: '价格以马币计算。',
+      picker: { title: '10 秒做决定', rows: [{ q: '每间工作室', a: '安装 + 授权' }, { q: '希望我们每两周检查您的课堂？', a: '+ 现场指挥' }, { q: '学员下课后已经会买饮料？', a: '+ 恢复吧台' }] },
+      startTitle: '从这里开始',
       cards: [
         { name: '90 天安装', price: 'RM 9,000', terms: '一次性。开始前先付一半。', items: ['为您的工作室安装系统', '把您的课程载入我们的课程方案', '教练培训', '第一轮质量检查'] },
         { name: '工作室授权', price: 'RM 1,200 / 月', terms: '必选。至少 12 个月。', items: ['托管、更新与支持', '所有课程方案，以及陆续推出的新周次', '学员记录与学员专属入口', '老板视图与教练工具'] },
+      ],
+      addTitle: '准备好再加',
+      addons: [
         { name: '现场指挥', price: 'RM 2,000 / 月', terms: '可选。任何月份可加入或停止。', items: ['每两周一次现场课堂检查', '为每位教练进行真实课堂审核', '每月新的课程编排'] },
+        { name: '恢复吧台', price: '无额外费用', terms: '可选。通过我们采购产品，每一杯的利润归您。', hook: '您的学员下课后本来就会买一杯饮料。让这一杯帮助他们恢复。', items: ['课后恢复饮品菜单', '每位学员的恢复计划，显示在其专属入口', '学员每天用手机完成打卡', '培训员工运营吧台'] },
       ],
     },
     fit: {
@@ -207,10 +228,16 @@ export const COPY: Record<Lang, Copy> = {
       title: 'Tawaran',
       note: 'Sistem berjalan selagi lesen aktif. Pemasangan dan lesen sentiasa dijual bersama.',
       currency: 'Harga dalam ringgit Malaysia.',
+      picker: { title: 'Pilih dalam 10 saat', rows: [{ q: 'Setiap studio', a: 'Pemasangan + Lesen' }, { q: 'Mahu kami semak kelas anda setiap dua minggu?', a: '+ Floor Command' }, { q: 'Klien sudah membeli minuman selepas kelas?', a: '+ Recovery Bar' }] },
+      startTitle: 'Mula di sini',
       cards: [
         { name: 'Pemasangan 90 Hari', price: 'RM 9,000', terms: 'Sekali bayar. Separuh dibayar sebelum hari pertama.', items: ['Sistem dipasang untuk studio anda', 'Kelas anda dimasukkan ke dalam program kami', 'Latihan jurulatih', 'Pusingan pertama semakan kualiti'] },
         { name: 'Lesen Studio', price: 'RM 1,200 / bulan', terms: 'Wajib. Minimum 12 bulan.', items: ['Pengehosan, kemas kini dan sokongan', 'Semua program, serta minggu baharu apabila dikeluarkan', 'Rekod klien dan portal klien', 'Paparan pemilik dan alat jurulatih'] },
+      ],
+      addTitle: 'Tambah bila bersedia',
+      addons: [
         { name: 'Floor Command', price: 'RM 2,000 / bulan', terms: 'Pilihan. Tambah atau berhenti pada bila-bila bulan.', items: ['Semakan lantai di lokasi setiap dua minggu', 'Audit kelas sebenar untuk setiap jurulatih', 'Program baharu setiap bulan'] },
+        { name: 'Recovery Bar', price: 'Tiada yuran tambahan', terms: 'Pilihan. Anda membeli produk melalui kami dan menyimpan margin setiap minuman.', hook: 'Klien anda sudah membeli minuman selepas kelas. Jadikan ia minuman yang membantu pemulihan.', items: ['Menu minuman pemulihan ringkas selepas kelas', 'Pelan pemulihan setiap klien, dalam portal mereka', 'Daftar masuk harian yang klien tanda dari telefon', 'Latihan staf untuk mengendalikan bar'] },
       ],
     },
     fit: {
@@ -272,10 +299,16 @@ export const COPY: Record<Lang, Copy> = {
       title: 'L’offre',
       note: 'Le système fonctionne tant que la licence est active. L’installation et la licence sont toujours vendues ensemble.',
       currency: 'Prix en ringgit malaisiens.',
+      picker: { title: 'Choisissez en 10 secondes', rows: [{ q: 'Chaque studio', a: 'Installation + Licence' }, { q: 'Vous voulez qu’on contrôle vos cours toutes les deux semaines ?', a: '+ Floor Command' }, { q: 'Vos clients achètent déjà une boisson après le cours ?', a: '+ Bar de récupération' }] },
+      startTitle: 'Commencez ici',
       cards: [
         { name: 'Installation 90 jours', price: 'RM 9 000', terms: 'Paiement unique. La moitié est payée avant le premier jour.', items: ['Système installé pour votre studio', 'Vos cours chargés dans nos programmes', 'Formation des instructeurs', 'Premier cycle de contrôles qualité'] },
         { name: 'Licence Studio', price: 'RM 1 200 / mois', terms: 'Obligatoire. Engagement minimum de 12 mois.', items: ['Hébergement, mises à jour et assistance', 'Tous les programmes, et les nouvelles semaines à leur sortie', 'Dossiers clients et espace client', 'Vue propriétaire et outils instructeurs'] },
+      ],
+      addTitle: 'À ajouter quand vous êtes prêt',
+      addons: [
         { name: 'Floor Command', price: 'RM 2 000 / mois', terms: 'En option. À ajouter ou arrêter chaque mois.', items: ['Contrôles sur place toutes les deux semaines', 'Audits de cours en direct pour chaque instructeur', 'Nouvelle programmation chaque mois'] },
+        { name: 'Bar de récupération', price: 'Sans frais supplémentaires', terms: 'En option. Vous achetez les produits auprès de nous et gardez la marge sur chaque boisson.', hook: 'Vos clients achètent déjà une boisson après le cours. Faites-en une qui les aide à récupérer.', items: ['Une courte carte de boissons de récupération après le cours', 'Un plan de récupération pour chaque client, dans son espace', 'Un suivi quotidien que les clients cochent sur leur téléphone', 'Une formation du personnel pour tenir le bar'] },
       ],
     },
     fit: {

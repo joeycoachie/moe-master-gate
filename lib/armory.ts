@@ -61,7 +61,9 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
 // What a client sees in their portal: outcome language, never the clinical label.
 // An arc like KIN-P016 (Upper Crossed) is also a performance programme for clients
 // without the syndrome, so clients see the result they are building.
-export type ClientArc = { name: string; promise: string; weeks: Record<number, string> };
+// `totalWeeks` is the arc length when the founder has set it; `focus` lights up the body map.
+export type BodyZone = 'neck' | 'shoulders' | 'upperBack' | 'core' | 'hips' | 'knees';
+export type ClientArc = { name: string; promise: string; weeks: Record<number, string>; totalWeeks?: number; focus: BodyZone[] };
 
 export const CLIENT_ARCS: Record<string, ClientArc> = {
   'KIN-P016': {
@@ -72,6 +74,8 @@ export const CLIENT_ARCS: Record<string, ClientArc> = {
       2: 'Strength through slow, controlled lowering',
       3: 'Rotation and core connection',
     },
+    totalWeeks: 5,
+    focus: ['neck', 'shoulders', 'upperBack'],
   },
   'KIN-P019': {
     name: 'Strong Hips, Calm Knees',
@@ -80,6 +84,7 @@ export const CLIENT_ARCS: Record<string, ClientArc> = {
       1: 'Finding your baseline',
       2: 'Hip strength without knee strain',
     },
+    focus: ['hips', 'knees'],
   },
 };
 

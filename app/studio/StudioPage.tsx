@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { COPY, LANGS, contactHref, type Lang } from './copy';
+import { COPY, LANGS, contactHref, type Lang, type Offer } from './copy';
 
 const SANS = { fontFamily: 'var(--font-studio-sans), Inter, sans-serif' };
 const SERIF = { fontFamily: 'var(--font-studio-serif), "Playfair Display", serif' };
@@ -25,6 +25,38 @@ function Label({ children }: { children: React.ReactNode }) {
   return (
     <div style={MONO} className="text-[10px] tracking-[0.25em] uppercase text-[#00e5ff] mb-4">
       {children}
+    </div>
+  );
+}
+
+function OfferGroup({ title, offers, accent }: { title: string; offers: Offer[]; accent?: boolean }) {
+  return (
+    <div>
+      <Label>{title}</Label>
+      <div className="grid md:grid-cols-2 gap-4">
+        {offers.map((o, i) => (
+          <div key={i} className={`border p-6 flex flex-col ${accent ? 'border-[#00e5ff]/60 bg-[#05101a]' : 'border-[#333] bg-[#0a0a0a]'}`}>
+            <div style={MONO} className="text-[10px] tracking-[0.2em] uppercase text-[#00e5ff] mb-3">
+              {o.name}
+            </div>
+            <div style={SERIF} className="text-3xl">
+              {o.price}
+            </div>
+            <div style={MONO} className="text-[11px] text-[#888] mt-2 mb-5 leading-relaxed">
+              {o.terms}
+            </div>
+            {o.hook && <p className="text-sm text-white border-l-2 border-[#4CAF50] pl-3 mb-5 leading-relaxed">{o.hook}</p>}
+            <ul className="space-y-2 text-sm text-[#ccc] border-t border-[#222] pt-4">
+              {o.items.map((item, j) => (
+                <li key={j} className="flex gap-2">
+                  <span className="text-[#00e5ff]">·</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -191,29 +223,26 @@ export default function StudioPage() {
             {t.offer.title}
           </h2>
           <p className="text-sm text-[#888] mb-8 max-w-2xl">{t.offer.note}</p>
-          <div className="grid md:grid-cols-3 gap-4">
-            {t.offer.cards.map((o, i) => (
-              <div key={i} className={`border p-6 flex flex-col ${i === 1 ? 'border-[#00e5ff] bg-[#05101a]' : 'border-[#333] bg-[#0a0a0a]'}`}>
-                <div style={MONO} className="text-[10px] tracking-[0.2em] uppercase text-[#00e5ff] mb-3">
-                  {o.name}
-                </div>
-                <div style={SERIF} className="text-3xl">
-                  {o.price}
-                </div>
-                <div style={MONO} className="text-[11px] text-[#888] mt-2 mb-5">
-                  {o.terms}
-                </div>
-                <ul className="space-y-2 text-sm text-[#ccc] border-t border-[#222] pt-4">
-                  {o.items.map((item, j) => (
-                    <li key={j} className="flex gap-2">
-                      <span className="text-[#00e5ff]">·</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+
+          {/* One glance: what every studio takes, and the two add-ons with the reason to add them. */}
+          <div className="border border-[#333] bg-[#0a0a0a] mb-10">
+            <div style={MONO} className="text-[10px] tracking-[0.2em] uppercase text-[#888] px-5 py-3 border-b border-[#222]">
+              {t.offer.picker.title}
+            </div>
+            {t.offer.picker.rows.map((r, i) => (
+              <div key={i} className={`flex justify-between items-center gap-4 px-5 py-3 ${i ? 'border-t border-[#1a1a1a]' : ''}`}>
+                <span className="text-sm text-[#ccc]">{r.q}</span>
+                <span style={MONO} className={`text-[11px] tracking-wider whitespace-nowrap ${i ? 'text-[#00e5ff]' : 'text-white'}`}>
+                  {r.a}
+                </span>
               </div>
             ))}
           </div>
+
+          <OfferGroup title={t.offer.startTitle} offers={t.offer.cards} accent />
+          <div className="h-10" />
+          <OfferGroup title={t.offer.addTitle} offers={t.offer.addons} />
+
           <p style={MONO} className="text-[10px] text-[#555] mt-4 tracking-wider">
             {t.offer.currency}
           </p>

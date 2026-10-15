@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { BodyMap, Journey, Ring, TrendChart, resultTone, streak, type Checkin, type Zone } from './visuals';
 
 type Session = {
   date: string;
@@ -13,7 +14,109 @@ type Session = {
   felt: string[];
 };
 type Fuel = { key: string; title: string; group: string; tag: string; desc: string; benefits: string[]; usage: string; dose: string };
-type View = { firstName: string; arc: string | null; promise: string | null; sessions: Session[]; fuel: Fuel[]; recupLinked: boolean };
+type View = {
+  firstName: string;
+  arc: string | null;
+  promise: string | null;
+  focus: Zone[];
+  journey: { week: number; title: string; done: boolean }[];
+  sessions: Session[];
+  fuel: Fuel[];
+  recupLinked: boolean;
+  checkins: Checkin[] | null;
+  today: string;
+};
+
+const SCALES = [
+  { key: 'energy', label: 'Energy', low: 'Drained', high: 'Full of energy' },
+  { key: 'sleep', label: 'Sleep last night', low: 'Poor', high: 'Deep' },
+  { key: 'body', label: 'Your body', low: 'Stiff or sore', high: 'Moving freely' },
+] as const;
+type ScaleKey = (typeof SCALES)[number]['key'];
+
+// Today's check-in: three taps and a fuel tick. Saving again the same day updates it.
+function CheckinCard({ view, onSaved }: { view: View; onSaved: (c: Checkin[]) => void }) {
+  const todays = view.checkins?.find((c) => c.day === view.today);
+  const [vals, setVals] = useState<Record<ScaleKey, number | null>>({
+    energy: todays?.energy ?? null,
+    sleep: todays?.sleep ?? null,
+    body: todays?.body ?? null,
+  });
+  const [fuel, setFuel] = useState(todays?.fuel_taken ?? false);
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState(todays ? 'Saved for today. Change it any time.' : '');
+
+  const save = async () => {
+    setBusy(true);
+    setNote('');
+    try {
+      const res = await fetch('/portal/api/checkin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...vals, fuel_taken: fuel }),
+      });
+      const body = await res.json();
+      if (!res.ok) {
+        setNote(body.error || 'Could not save.');
+        return;
+      }
+      if (body.checkins) onSaved(body.checkins);
+      setNote('Saved for today.');
+    } catch {
+      setNote('Connection failed.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const ready = SCALES.some((s) => vals[s.key] != null) || fuel;
+
+  return (
+    <div className="border border-[#222] bg-[#0a0a0a] p-5 space-y-5">
+      {SCALES.map((s) => (
+        <div key={s.key}>
+          <div className="text-[11px] text-[#ccc] mb-2">{s.label}</div>
+          <div className="grid grid-cols-5 gap-1.5">
+            {[1, 2, 3, 4, 5].map((n) => {
+              const on = vals[s.key] === n;
+              return (
+                <button
+                  key={n}
+                  onClick={() => setVals((v) => ({ ...v, [s.key]: on ? null : n }))}
+                  className={`h-11 border text-sm transition-colors ${on ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : 'border-[#333] text-[#888] hover:border-[#00e5ff]/60'}`}
+                >
+                  {n}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex justify-between text-[9px] text-[#555] mt-1">
+            <span>{s.low}</span>
+            <span>{s.high}</span>
+          </div>
+        </div>
+      ))}
+      {view.fuel.length > 0 && (
+        <button
+          onClick={() => setFuel((f) => !f)}
+          className={`w-full h-12 border text-xs tracking-widest transition-colors ${fuel ? 'bg-[#4CAF50] border-[#4CAF50] text-black font-bold' : 'border-[#4CAF50]/50 text-[#4CAF50]'}`}
+        >
+          {fuel ? 'FUEL TAKEN TODAY' : 'TAP WHEN YOU TAKE YOUR FUEL'}
+        </button>
+      )}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={save}
+          disabled={busy || !ready}
+          className="border border-[#00e5ff] text-[#00e5ff] px-5 py-2 text-xs tracking-widest hover:bg-[#00e5ff] hover:text-black transition-colors disabled:opacity-40"
+        >
+          {busy ? 'SAVING…' : 'SAVE TODAY'}
+        </button>
+        {note && <span className="text-[11px] text-[#888]">{note}</span>}
+      </div>
+    </div>
+  );
+}
 
 function formatDate(iso: string) {
   const d = new Date(iso + 'T00:00:00');
@@ -126,15 +229,51 @@ export default function ClientPortalPage() {
 
         {state === 'ready' && view && (
           <div className="space-y-10">
+            {/* What you're building: programme, where it works on the body, and the numbers so far. */}
             <section className="border border-[#222] bg-[#0a0a0a] p-5 border-l-4 border-l-[#00e5ff]">
-              <div className="text-[10px] text-[#888] uppercase tracking-widest mb-1">Current programme</div>
-              <div className="text-lg font-bold">{view.arc ?? 'Being set by your coach'}</div>
-              {view.promise && <p className="text-xs text-[#ccc] font-sans leading-relaxed mt-2">{view.promise}</p>}
-              <div className="text-xs text-[#888] mt-2">
-                {view.sessions.length} session{view.sessions.length === 1 ? '' : 's'} on record
-                {view.fuel.length ? ` · ${view.fuel.length} fuel item${view.fuel.length === 1 ? '' : 's'} in your plan` : ''}
+              <div className="grid sm:grid-cols-[1fr_200px] gap-6 items-center">
+                <div>
+                  <div className="text-[10px] text-[#888] uppercase tracking-widest mb-1">Current programme</div>
+                  <div className="text-lg font-bold">{view.arc ?? 'Being set by your coach'}</div>
+                  {view.promise && <p className="text-xs text-[#ccc] font-sans leading-relaxed mt-2">{view.promise}</p>}
+                  <div className="grid grid-cols-3 gap-2 mt-5">
+                    {[
+                      { n: view.sessions.length, label: view.sessions.length === 1 ? 'session' : 'sessions' },
+                      { n: view.sessions.reduce((a, s) => a + s.done, 0), label: 'movements done' },
+                      { n: view.checkins ? streak(view.checkins, view.today) : 0, label: 'day check-in streak' },
+                    ].map((stat) => (
+                      <div key={stat.label} className="border border-[#222] p-3 text-center">
+                        <div className="text-2xl text-[#00e5ff]">{stat.n}</div>
+                        <div className="text-[9px] text-[#888] uppercase tracking-widest mt-1 leading-tight">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <BodyMap focus={view.focus} />
               </div>
             </section>
+
+            {view.journey.length > 0 && (
+              <section>
+                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Your path</h2>
+                <div className="border border-[#222] bg-[#0a0a0a] p-5">
+                  <Journey weeks={view.journey} />
+                </div>
+              </section>
+            )}
+
+            {view.checkins && (
+              <section>
+                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Today&apos;s check-in</h2>
+                <CheckinCard view={view} onSaved={(checkins) => setView((v) => (v ? { ...v, checkins } : v))} />
+                {view.checkins.length > 0 && (
+                  <div className="border border-[#222] bg-[#0a0a0a] p-5 mt-4">
+                    <div className="text-[10px] text-[#888] uppercase tracking-widest mb-3">Your last 14 days</div>
+                    <TrendChart checkins={view.checkins} today={view.today} />
+                  </div>
+                )}
+              </section>
+            )}
 
             <section>
               <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Your sessions</h2>
@@ -142,27 +281,35 @@ export default function ClientPortalPage() {
               <ol className="space-y-4">
                 {view.sessions.map((s, i) => (
                   <li key={i} className="border border-[#222] bg-[#0a0a0a] p-5">
-                    <div className="flex justify-between items-start gap-3 flex-wrap mb-3">
+                    <div className="flex justify-between items-center gap-4 mb-3">
                       <div>
                         <div className="text-[#00e5ff] text-sm">{formatDate(s.date)}</div>
                         <div className="text-xs text-[#ccc] mt-1">
-                          {s.arc}
-                          {s.week ? ` · Week ${s.week}` : ''}: {s.title}
+                          {s.week ? `Week ${s.week}: ` : ''}
+                          {s.title}
                         </div>
                       </div>
-                      <span className="text-[10px] text-[#888] border border-[#333] px-2 py-0.5 whitespace-nowrap">
-                        {s.done} of {s.total} movements
-                      </span>
+                      <Ring done={s.done} total={s.total} />
                     </div>
                     {s.gates.length > 0 && (
-                      <div className="border-t border-[#1a1a1a] pt-3 space-y-1">
-                        <div className="text-[9px] text-[#666] uppercase tracking-widest mb-1">End-of-session check</div>
-                        {s.gates.map((g, j) => (
-                          <p key={j} className="text-[11px] text-[#aaa]">
-                            <span className="text-[#666]">{g.name}:</span> {g.result}
+                      <div className="border-t border-[#1a1a1a] pt-3">
+                        <div className="text-[9px] text-[#666] uppercase tracking-widest mb-2">End-of-session check</div>
+                        <div className="space-y-2">
+                          {s.gates.map((g, j) => (
+                            <div key={j} className="flex flex-wrap items-center gap-2">
+                              <span className={`text-[9px] border px-1.5 py-0.5 tracking-widest uppercase ${resultTone(g.result)}`}>
+                                {/^(passed|cleared|pass\b)/i.test(g.result.trim()) ? 'Passed' : 'Noted'}
+                              </span>
+                              <span className="text-[11px] text-[#ccc]">{g.name}</span>
+                              <span className="text-[11px] text-[#666] w-full sm:w-auto">{g.result.replace(/^(passed|cleared)\s*/i, '')}</span>
+                            </div>
+                          ))}
+                        </div>
+                        {s.felt.length > 0 && (
+                          <p className="text-[11px] text-[#aaa] mt-3">
+                            <span className="text-[#666]">You felt:</span> {s.felt.join(' · ')}
                           </p>
-                        ))}
-                        {s.felt.length > 0 && <p className="text-[11px] text-[#aaa]"><span className="text-[#666]">You felt:</span> {s.felt.join(' · ')}</p>}
+                        )}
                       </div>
                     )}
                   </li>
@@ -170,32 +317,31 @@ export default function ClientPortalPage() {
               </ol>
             </section>
 
-            {view.fuel.length > 0 && (
-              <section>
-                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#4CAF50] pl-3 mb-4">Your fuel protocol</h2>
-                <div className="space-y-4">
-                  {view.fuel.map((f) => (
-                    <div key={f.key} className="border border-[#222] bg-[#0a0a0a] p-5">
-                      <div className="flex justify-between items-start gap-3 mb-2">
-                        <div className="text-base font-bold">{f.title}</div>
-                        {f.tag && <span className="text-[9px] text-[#4CAF50] border border-[#4CAF50]/40 px-2 py-0.5 tracking-widest">{f.tag}</span>}
-                      </div>
-                      <p className="text-xs text-[#ccc] font-sans leading-relaxed">{f.desc}</p>
-                      {f.benefits.length > 0 && (
-                        <ul className="mt-3 space-y-1">
-                          {f.benefits.map((b, j) => (
-                            <li key={j} className="text-[11px] text-[#aaa] font-sans">· {b}</li>
-                          ))}
-                        </ul>
-                      )}
-                      <p className="mt-3 text-[11px] text-white border-t border-[#1a1a1a] pt-3">
-                        <span className="text-[#666]">How to take it:</span> {f.dose || f.usage}
-                      </p>
+            <section>
+              <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#4CAF50] pl-3 mb-4">Your fuel plan</h2>
+              {!view.fuel.length && <p className="text-xs text-[#555]">Your coach will add your fuel plan here.</p>}
+              <div className="space-y-4">
+                {view.fuel.map((f) => (
+                  <div key={f.key} className="border border-[#222] bg-[#0a0a0a] p-5">
+                    <div className="flex justify-between items-start gap-3 mb-2">
+                      <div className="text-base font-bold">{f.title}</div>
+                      {f.tag && <span className="text-[9px] text-[#4CAF50] border border-[#4CAF50]/40 px-2 py-0.5 tracking-widest">{f.tag}</span>}
                     </div>
-                  ))}
-                </div>
-              </section>
-            )}
+                    <p className="text-xs text-[#ccc] font-sans leading-relaxed">{f.desc}</p>
+                    {f.benefits.length > 0 && (
+                      <ul className="mt-3 space-y-1">
+                        {f.benefits.map((b, j) => (
+                          <li key={j} className="text-[11px] text-[#aaa] font-sans">· {b}</li>
+                        ))}
+                      </ul>
+                    )}
+                    <p className="mt-3 text-[11px] text-white border-t border-[#1a1a1a] pt-3">
+                      <span className="text-[#666]">How to take it:</span> {f.dose || f.usage}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
         )}
       </div>

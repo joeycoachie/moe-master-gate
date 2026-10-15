@@ -3,6 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
 import { generatePortalCode, hashPortalCode } from '@/lib/clientSession';
 import fuelCatalog from '@/lib/fuelCatalog.json';
+import { recentCheckins, studioToday } from '@/lib/clientCheckins';
 
 // Architect controls for one client's portal: code, access, unlocked fuel, RECUP.STN link.
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -31,7 +32,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cli
     if (error) throw new Error(error.message);
     if (!data) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
     const catalog = Object.entries(PRODUCTS).map(([key, p]) => ({ key, title: p.title, group: p.group }));
-    return NextResponse.json({ portal: data, catalog });
+    return NextResponse.json({ portal: data, catalog, checkins: await recentCheckins(clientId), today: studioToday() });
   } catch (err) {
     return setupHint(err);
   }

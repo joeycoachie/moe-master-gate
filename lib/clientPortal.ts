@@ -49,10 +49,26 @@ export function buildClientView(
     .map((f) => ({ key: f.key, dose: f.dose ?? '', ...products[f.key] }));
 
   const current = client.current_arc ? clientArcFor(client.current_arc) : undefined;
+
+  // The programme as a path of weeks: which ones have at least one session on record.
+  const arcId = client.current_arc?.split('_')[0];
+  const weeksDone = new Set(
+    entries.filter((e) => e.protocol_id.split('_')[0] === arcId).map((e) => protocols.get(e.protocol_id)?.week).filter(Boolean),
+  );
+  const knownWeeks = current ? Object.keys(current.weeks).map(Number) : [];
+  const weekCount = current ? Math.max(current.totalWeeks ?? 0, ...knownWeeks, ...[...weeksDone].map(Number)) : 0;
+  const journey = Array.from({ length: weekCount }, (_, i) => ({
+    week: i + 1,
+    title: current?.weeks[i + 1] ?? '',
+    done: weeksDone.has(i + 1),
+  }));
+
   return {
     firstName: client.full_name.split(/\s+/)[0],
     arc: current?.name ?? null,
     promise: current?.promise ?? null,
+    focus: current?.focus ?? [],
+    journey,
     sessions,
     fuel,
     recupLinked: !!client.recup_member_code,

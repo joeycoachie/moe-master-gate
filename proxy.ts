@@ -14,6 +14,13 @@ const PUBLIC_OPS_PATHS = new Set(['/ops/login', '/ops/api/login', '/ops/architec
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // studio.theoperatorplaybook.com is the public sales page; its root shows /studio.
+  if (pathname === '/') {
+    return request.headers.get('host')?.startsWith('studio.')
+      ? NextResponse.rewrite(new URL('/studio', request.url))
+      : NextResponse.next();
+  }
+
   if (PUBLIC_OPS_PATHS.has(pathname)) {
     return NextResponse.next();
   }
@@ -42,5 +49,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/ops/:path*'],
+  matcher: ['/', '/ops/:path*'],
 };
