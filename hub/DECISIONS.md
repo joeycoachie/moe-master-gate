@@ -77,3 +77,8 @@ Newest at the top within each section.
 ## 2026-10-11 · D4 approved · KIN-P016 length
 - D4 approved as is. KA-Alex build order: (0) finish KIN-P016_W3 if already in progress, (1) KIN-P019_W1 generic reissue, (2) KIN-P019_W2, (3) KIN-P016_W3 if not already done, (4) KIN-P016_W4–W5.
 - KIN-P016 Upper Crossed is a 5-week arc (W1–W5).
+
+## 2026-10-16 · Client Portal
+- Clients get a personal code to the MOE-MASTER-GATE portal (Kinetic menu Pillar 3). Eleine Wong is the pilot.
+- In a client's own portal, products may be named (e.g. "Niteworks"), using the client-facing layer of the MET Product Academy (Sovereign Fuel OS). This settles gate G-24 for private client files only; public copy still follows SYS-D028.
+- The portal shows a client's sessions, end-of-session checks and unlocked fuel with their dose. It never shows instructor notes, conditions, history or routing verdicts.
