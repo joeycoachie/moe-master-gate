@@ -120,9 +120,9 @@ The **moat** is the Triad on top (SYS-D023): the same client record also routes 
 | 90-Day Setup | Install, load the studio's classes, train instructors on the arcs | One fee, 50% before day 1 |
 | Studio Licence | Hosting, updates, new arcs, governance. **The system stops if this stops** | Monthly from day 1, minimum 12 months |
 
-**The numbers (from Optimum Fit's real prices).** Optimum Fit paid **RM1,800 a month for 5 months (May–Sep), about RM9,000 in total**, for the build. Tier 2 was **RM3,200 a month** for the system *plus* floor and people management. The mistake: Tier 2 bundled the software with heavy human work. So when they declined the human work, the software left with it. The fix is to split them, keeping the same total:
+**The numbers (from Optimum Fit's real prices; confirmed 16 Oct 2026).** Optimum Fit paid **RM1,800 a month for 5 months (May–Sep), about RM9,000 in total**, for the build. Tier 2 was **RM3,200 a month** for the system *plus* floor and people management. The mistake: Tier 2 bundled the software with heavy human work. So when they declined the human work, the software left with it. The fix is to split them, keeping the same total:
 
-| Part | What it includes | Price (recommended) |
+| Part | What it includes | Price (confirmed by the founder, 16 Oct 2026) |
 |---|---|---|
 | 90-Day Setup | Install, load classes, train instructors, first quality checks | **RM9,000** (what the build actually cost Optimum Fit), 50% before day 1 |
 | Studio Licence (**mandatory**) | Hosting, updates, Armory arcs, client tracking, Terminal stations | **RM1,200 / month**, 12-month minimum. The system stops if unpaid |

@@ -82,3 +82,7 @@ Newest at the top within each section.
 - Clients get a personal code to the MOE-MASTER-GATE portal (Kinetic menu Pillar 3). Eleine Wong is the pilot.
 - In a client's own portal, products may be named (e.g. "Niteworks"), using the client-facing layer of the MET Product Academy (Sovereign Fuel OS). This settles gate G-24 for private client files only; public copy still follows SYS-D028.
 - The portal shows a client's sessions, end-of-session checks and unlocked fuel with their dose. It never shows instructor notes, conditions, history or routing verdicts.
+
+## 2026-10-16 · BC3 offer prices confirmed
+- Kinetic Studio OS: 90-Day Setup RM9,000 (50% upfront); Studio Licence RM1,200/month, mandatory, 12-month minimum, and the system stops if unpaid; Floor Command RM2,000/month, optional.
+- Client portal pilot is live: Eleine Wong has a code (issued 16 Oct). Programme shown as "The Shoulder Frame Programme".
