@@ -22,6 +22,17 @@ export default function Gate() {
       .single();
 
     if (dbError || !instructor) {
+      // Not an instructor alias: try it as a client's personal portal code (MOE-XXXXX-XXXXX).
+      const portal = await fetch('/portal/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code: accessCode }),
+      }).catch(() => null);
+      if (portal?.ok) {
+        setStatus('ROUTING');
+        router.push('/portal');
+        return;
+      }
       setError('INVALID CREDENTIALS. NODE LOCKED.');
       setStatus('IDLE');
       return;

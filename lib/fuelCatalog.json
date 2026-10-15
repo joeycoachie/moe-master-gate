@@ -1,0 +1,308 @@
+{
+  "source": "MET Product Academy (Sovereign Fuel OS) · client layer only",
+  "synced": "2026-10-15",
+  "products": {
+    "gem": {
+      "title": "Gem (Nutrition Operator)",
+      "group": "Operator Command",
+      "tag": "DATA-TO-DOCTRINE",
+      "desc": "Gem is the dedicated operator for the nutritional arm of the M.O.E. Group. Her sole function is the flawless tactical execution of the Data-to-Doctrine protocol: managing all nutritional client data, Herbalife product logistics, client check-ins and follow-up communications, under the strategic direction of Alex.",
+      "benefits": [
+        "Onboarding: Alex adds each Fuel Protocol candidate to the Client Dashboard and tags Gem",
+        "Data Management: every body scan is logged accurately in the Client Dashboard, and every client message is tracked",
+        "Logistics: Gem manages all Herbalife product orders so clients receive their tools on time",
+        "Communication: Gem runs the weekly check-in, gathers feedback and reports critical intelligence back to Alex"
+      ],
+      "usage": "Handoff Protocol: all nutritional client management is now routed through Gem. This frees Alex's bandwidth for high-level strategy and biomechanical architecture."
+    },
+    "anchor_shake": {
+      "title": "System Anchor Shake (Core Macros)",
+      "group": "Fuel Doctrine",
+      "tag": "BREAKFAST PROTOCOL",
+      "desc": "The standard M.O.E. morning shake: 3 spoons Formula 1 + 2 scoops Formula 3 + 1 scoop Active Fiber Complex. Ultra-low in calories, high in protein and fibre, leaving plenty of room for a whole-food lunch.",
+      "benefits": [
+        "~145 kcal | ~19-20g protein | ~15g slow-release carbs",
+        "~9g sugar (low-GI fructose from F1, about half an apple)",
+        "~8g fibre (3g from F1 + 5g from Active Fiber Complex) | ~1g fat",
+        "GI rating 15-23: a flat blood sugar response"
+      ],
+      "usage": "3 flat spoons F1 + 2 scoops F3 + 1 scoop Active Fiber Complex in 400ml cold water. Never use hot water."
+    },
+    "caffeine": {
+      "title": "Caffeine Half-Life Protocol",
+      "group": "Fuel Doctrine",
+      "tag": "CIRCADIAN DEFENCE",
+      "desc": "We do not interfere with your circadian rhythm. Caffeine has a half-life of roughly 5-6 hours, so timing decides whether it fuels your afternoon or steals your sleep.",
+      "benefits": [
+        "Sustained afternoon focus without a late-night crash",
+        "Protects deep sleep",
+        "One clear rule, easy to follow"
+      ],
+      "usage": "Nothing caffeinated after 4:00 PM. The 4:00 PM tea is your final caffeine of the day."
+    },
+    "lunch": {
+      "title": "Lunch Protocol (Lean Hardware Meal)",
+      "group": "Fuel Doctrine",
+      "tag": "MECHANICAL DIGESTION",
+      "desc": "M.O.E. does not advocate 100% liquid diets. Your midday meal is chewed: chewing triggers your digestive enzymes and gives you real, psychological fullness.",
+      "benefits": [
+        "Triggers natural digestion through chewing",
+        "Keeps you full through the afternoon",
+        "Avoids the heavy-meal afternoon slump"
+      ],
+      "usage": "1/2 to 1 cup complex carbs (rice, quinoa) + 1 cup fibrous greens + 1-2 palm-sized portions of lean protein (fish, chicken). No red meat (beef, lamb, pork) during Phase 1."
+    },
+    "biofilm": {
+      "title": "Visceral Biofilm Extrusion",
+      "group": "Clinical Anomalies",
+      "tag": "GUT PURGE EVENT",
+      "desc": "During a deep metabolic reset, the digestive system will begin to shed trapped cellular debris and toxic build-up. This is a powerful, positive indicator of systemic cleansing, signifying that the gut lining is being freed to initiate proper nutrient absorption.",
+      "benefits": [
+        "Restores nutrient absorption capacity",
+        "Eliminates chronic systemic drag",
+        "Resets the intestinal microbiome environment"
+      ],
+      "usage": "Continue current hydration and fiber protocols. Increase water intake by 1L immediately post-extrusion."
+    },
+    "logic_tofi": {
+      "title": "Visceral Fat Reduction (TOFI)",
+      "group": "Clinical Anomalies",
+      "tag": "HIDDEN OBESITY",
+      "desc": "Picture a sports car with a powerful engine and a clean body, but a choked air filter. From the outside it looks perfect; inside, it's struggling to breathe. That's TOFI: Thin Outside, Fat Inside. Your muscle and overall body fat can look great on the scan while fat quietly builds up around your liver and heart. In a lean person, this is rarely about eating too much. It's about stress and an overloaded liver telling your body to store fat in the wrong place.",
+      "benefits": [
+        "Stress mode: long work hours and short sleep keep cortisol, your stress hormone, switched on. Cortisol treats every day like an emergency and stockpiles energy around your liver and heart, like keeping survival supplies right next to the engine.",
+        "Hidden sugar: sweet drinks, fruit smoothies, alcohol and heavy late-night carbs go straight to your liver. Once its storage tank is full, the overflow is turned into fat around your organs, like a full sink spilling onto the floor.",
+        "Internal friction: the outside hardware looks great, but the inside filter (liver and gut) is running hot and stops responding well to insulin, so more energy gets parked as organ fat."
+      ],
+      "usage": "The fix isn't a heavy diet. You're already fit. It's a targeted reset: a low-GI shake breakfast that gives your liver a break every morning, no sweet drinks or heavy dinners late at night, better sleep, and the 4:00 PM tea as your last caffeine. A 15-minute scan maps your exact numbers."
+    },
+    "logic_ra": {
+      "title": "Rheumatoid Arthritis (RA)",
+      "group": "Clinical Anomalies",
+      "tag": "AUTOIMMUNE",
+      "desc": "A specialized protocol designed to support the body's natural response to systemic inflammation and joint friction. Focuses on gut-lining repair and essential fatty acid integration.",
+      "benefits": [
+        "Supports natural joint lubrication",
+        "Aids in calming the immune system via the gut microbiome",
+        "Provides high-grade marine lipids for cellular cooling"
+      ],
+      "usage": "Requires strict adherence to the Aloe Concentrate (for gut soothing) and Omega-3 Fish Oil (for lipid support). Avoid all processed sugars."
+    },
+    "logic_edema": {
+      "title": "Lymphatic & Edema Protocol",
+      "group": "Clinical Anomalies",
+      "tag": "CELLULAR HYDRATION",
+      "desc": "Designed for individuals prone to fluid retention or swelling. This protocol ensures proper lymphatic drainage while supplying structural proteins to the tissues.",
+      "benefits": [
+        "Prevents fluid trapping in inflamed tissues",
+        "Provides micro-dosed collagen for safe absorption",
+        "Encourages cellular hydration"
+      ],
+      "usage": "Must be paired with a minimum of 3 Liters of water daily. Structural supplements are introduced gradually."
+    },
+    "gate_hungry": {
+      "title": "Hunger & Cravings Management",
+      "group": "Clinical Anomalies",
+      "tag": "METABOLIC ADAPTATION",
+      "desc": "It is common to feel hungry during the initial phase of metabolic adaptation. This is not a sign of starvation; it is your body demanding specific micro and macro-nutrients to repair cellular damage.",
+      "benefits": [
+        "Identifies nutrient gaps vs. empty calorie cravings",
+        "Stabilizes blood sugar to prevent crashes",
+        "Ensures lean muscle preservation"
+      ],
+      "usage": "If hunger persists 60 minutes after a meal or shake, increase your water intake by 500ml. If physical hunger remains, your body requires an immediate amino acid upgrade."
+    },
+    "f1": {
+      "title": "Formula 1 (Precision Fuel)",
+      "group": "Core Architecture",
+      "tag": "MACRO FOUNDATION",
+      "desc": "A precision-engineered nutritional foundation. Provides a scientifically balanced profile of protein, carbohydrates, and essential micronutrients without the metabolic drag of heavy, processed meals.",
+      "benefits": [
+        "Low Glycemic Index (15-23) for sustained energy",
+        "Contains 13 essential vitamins and 10 minerals",
+        "Provides 8.7g of high-quality plant-based protein"
+      ],
+      "usage": "3 flat spoons in 400ml cold water. Never use hot water. Consume as your daily breakfast (the System Anchor Shake)."
+    },
+    "f3": {
+      "title": "Formula 3 (Structural Armor)",
+      "group": "Core Architecture",
+      "tag": "MUSCLE PRESERVATION",
+      "desc": "A pure, fat-free protein supplement combining soy and whey isolates. Designed to support lean muscle mass maintenance and enhance daily protein synthesis.",
+      "benefits": [
+        "Provides 5g of complete protein per serving",
+        "Helps maintain a healthy Basal Metabolic Rate (BMR)",
+        "Flavorless and mixes easily into any liquid"
+      ],
+      "usage": "2 scoops in your morning Formula 1 shake (the System Anchor Shake)."
+    },
+    "tea": {
+      "title": "Herbal Tea Concentrate (The Spark)",
+      "group": "Core Architecture",
+      "tag": "THERMOGENESIS",
+      "desc": "An uplifting blend of green tea, orange pekoe, and cardamom. Formulated to provide antioxidant support and a natural, sustained energy lift throughout the day.",
+      "benefits": [
+        "Rich in antioxidants and polyphenols",
+        "Provides a gentle, sustained energy boost",
+        "Only 6 kcal per serving"
+      ],
+      "usage": "Mix with warm water and sip slowly over 30 minutes. Your exact dose is set in your personal plan. Never after 4:00 PM."
+    },
+    "aloe": {
+      "title": "Herbal Aloe Concentrate (The Coolant)",
+      "group": "Core Architecture",
+      "tag": "INTESTINAL REPAIR",
+      "desc": "A refreshing beverage formulated from premium Aloe Barbadensis. Designed to soothe the digestive tract and support nutrient absorption.",
+      "benefits": [
+        "Soothes the stomach and digestive lining",
+        "Supports healthy digestion and regularity",
+        "Purified to remove laxative compounds"
+      ],
+      "usage": "Mix 3 caps in 300ml warm water. Drink on an empty stomach, before your tea or shake."
+    },
+    "fibre": {
+      "title": "Active Fiber Complex (The Plumbing)",
+      "group": "Core Architecture",
+      "tag": "DIGESTIVE TRANSIT",
+      "desc": "A blend of soluble and insoluble fibre, apple flavoured. It mixes straight into your morning shake to support healthy digestion and regularity.",
+      "benefits": [
+        "5g of soluble and insoluble fibre per scoop",
+        "Supports regular, healthy digestion",
+        "Helps you feel full for longer"
+      ],
+      "usage": "1 scoop in your morning shake. Must be paired with high water intake: hit your daily water target."
+    },
+    "omega": {
+      "title": "Herbalifeline Omega-3 (Resolvin Generator)",
+      "group": "Cellular & Vascular",
+      "tag": "INFLAMMATION CONTROL",
+      "desc": "High-grade marine lipids (Omega-3 fatty acids) to support the body's natural balance and healthy heart and joint function.",
+      "benefits": [
+        "High-grade marine Omega-3 lipids",
+        "Supports heart and joint health",
+        "Taken with meals for better absorption"
+      ],
+      "usage": "Take with your breakfast shake and with lunch, as set in your personal plan."
+    },
+    "immulift": {
+      "title": "ImmuLift (Biological Shield)",
+      "group": "Cellular & Vascular",
+      "tag": "IMMUNE CALIBRATION",
+      "desc": "A robust immune support system. Delivers clinical-grade antioxidants, minerals, and bioactive polysaccharides to fortify your body's natural defenses and resilience.",
+      "benefits": [
+        "Fortified with EpiCor®, Vitamin C, D3, Zinc, and Selenium",
+        "Supports daily mucosal immunity",
+        "Provides powerful antioxidant defense"
+      ],
+      "usage": "1 sachet a day in water."
+    },
+    "niteworks": {
+      "title": "Niteworks (Nitric Oxide)",
+      "group": "Cellular & Vascular",
+      "tag": "CARDIOVASCULAR",
+      "desc": "A nighttime supplement formulated with L-Arginine and L-Citrulline to support the body's natural production of Nitric Oxide (NO) while you sleep.",
+      "benefits": [
+        "Supports vascular health and blood flow",
+        "Contains Vitamins C and E for antioxidant protection",
+        "Aids in overnight recovery"
+      ],
+      "usage": "Mix in cold water and drink at night before bed. Your exact dose is set in your personal plan."
+    },
+    "celactivo": {
+      "title": "Celactivo (Cellular Ignition)",
+      "group": "Cellular & Vascular",
+      "tag": "METABOLIC CATALYST",
+      "desc": "A specialized supplement featuring Alpha Lipoic Acid and B-Vitamins to support normal metabolic processes and protect cells from oxidative stress.",
+      "benefits": [
+        "Provides Alpha Lipoic Acid for antioxidant defense",
+        "Supports energy metabolism via B-Vitamins",
+        "Added Aloe Vera for nutrient absorption"
+      ],
+      "usage": "Take 1 capsule, 2 times a day: with breakfast and with lunch. Never at dinner."
+    },
+    "garlic": {
+      "title": "Garlic Plus (Vascular Defense)",
+      "group": "Cellular & Vascular",
+      "tag": "CIRCULATION",
+      "desc": "A high-quality garlic supplement formulated to support healthy circulation. Enteric-coated to ensure optimal absorption in the intestines, not the stomach.",
+      "benefits": [
+        "Provides 600mg of Garlic Extract (Allicin)",
+        "Supports cardiovascular health",
+        "Enteric-coated to prevent garlic breath"
+      ],
+      "usage": "Take 1 tablet once daily with a meal."
+    },
+    "collagen": {
+      "title": "Collagen Plus (Tissue Elasticity)",
+      "group": "Structural & Baseline",
+      "tag": "EXTRACELLULAR MATRIX",
+      "desc": "A premium structural supplement delivering hydrolyzed marine collagen, combined with CoQ10 and Vitamin C to support healthy skin, hair, and connective tissues.",
+      "benefits": [
+        "Provides 5000mg of Fish Hydrolyzed Collagen",
+        "Vitamin C supports collagen synthesis",
+        "Contains CoQ10 for antioxidant protection"
+      ],
+      "usage": "Mix 2 spoons (10g) with water. Drink on an empty stomach. If you have active swelling, your plan starts you on a 1-scoop micro-dose."
+    },
+    "calcium": {
+      "title": "Calcium Plus (Bone Matrix)",
+      "group": "Structural & Baseline",
+      "tag": "SKELETAL INTEGRITY",
+      "desc": "A comprehensive mineral blend providing Calcium, Magnesium, and Vitamin D3 to support the maintenance of strong, healthy bones and teeth.",
+      "benefits": [
+        "Delivers 300mg Calcium per tablet",
+        "Vitamin D3 enhances calcium absorption",
+        "Includes Magnesium, Zinc, and Copper"
+      ],
+      "usage": "Take 1 tablet, 2 times a day: with breakfast and with lunch."
+    },
+    "multi": {
+      "title": "Multivitamin (Baseline)",
+      "group": "Structural & Baseline",
+      "tag": "MICRONUTRIENT",
+      "desc": "A comprehensive daily multi-vitamin and mineral complex designed to fill nutritional gaps and support overall vitality.",
+      "benefits": [
+        "Provides over 20 essential vitamins and minerals",
+        "Supports healthy bodily and metabolic function",
+        "Provides antioxidant protection"
+      ],
+      "usage": "Take 1 tablet, 2 times a day: with breakfast and with lunch."
+    },
+    "guarana": {
+      "title": "N-R-G Guarana (Alertness)",
+      "group": "Structural & Baseline",
+      "tag": "SUSTAINED COGNITION",
+      "desc": "An uplifting blend of guarana, orange pekoe, and green tea to help you stay energized and refreshed while focusing on daily tasks.",
+      "benefits": [
+        "Rich in antioxidants",
+        "Provides a gentle energy boost",
+        "Helps you stay sharp and active"
+      ],
+      "usage": "Mix 1/2 teaspoon with 180ml of hot or cold water. Take once daily, preferably after a meal. Never after 4:00 PM."
+    },
+    "rspro": {
+      "title": "H24 RS Pro (Muscle Recovery)",
+      "group": "H24 Sports Performance",
+      "tag": "KINETIC RECOVERY",
+      "desc": "A high-performance post-workout recovery shake. Delivers a blend of fast and slow-digesting proteins to support muscle repair after intense kinetic exertion.",
+      "benefits": [
+        "Whey and Casein protein blend",
+        "Includes BCAAs and L-Glutamine",
+        "Supports rapid muscle recovery"
+      ],
+      "usage": "Mix 2 scoops with 250ml water immediately post-workout (within 30 minutes)."
+    },
+    "cr7": {
+      "title": "H24 CR7 Drive (Electrolytes)",
+      "group": "H24 Sports Performance",
+      "tag": "HYDRATION",
+      "desc": "An advanced hypotonic hydration drink designed to maintain endurance and enhance water absorption during exercise.",
+      "benefits": [
+        "Replaces vital electrolytes lost via sweat",
+        "4-carb matrix for sustained energy",
+        "No artificial flavors or sweeteners"
+      ],
+      "usage": "Mix 1 scoop with 250ml water during exercise."
+    }
+  }
+}

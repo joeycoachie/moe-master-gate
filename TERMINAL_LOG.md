@@ -40,6 +40,13 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 
 ## 2. Cadence — every change, by date
 
+### Oct 16
+- **Client Portal (MOE-MASTER-GATE, Kinetic menu Pillar 3).**
+  - **Client side:** a client enters their personal code (MOE-XXXXX-XXXXX) at `/` or `/portal`, and sees their own file read-only: current programme, every session (movements done, end-of-session checks, what they felt) and unlocked fuel with their dose.
+  - **What they never see:** instructor notes, conditions, history or routing verdicts.
+  - **Founder side:** each client's CLIENTS page has a portal panel to issue or revoke the code, unlock fuel products (client-facing text pulled from the MET Product Academy) and link their RECUP.STN member code.
+  - **Setup:** run `client_portal_schema.sql`.
+
 ### Oct 11
 - **KIN-P019 W1 reissued** (client-agnostic, SYS-D022 V2.1) by KA-Alex. `armory/check-card.js` now checks every card against the V2.1 contract before it goes live. The Client Log override button follows each card's own toggle (RA or KNEE / NERVE).
 - **Client Arc System.** `/ops/clients` lists clients, each with an editable profile and a full timeline. Every Armory arc gets a **[ CLIENT LOG ]** bar, bottom-left, added when the page is served, so arc files are never edited. In the bar:

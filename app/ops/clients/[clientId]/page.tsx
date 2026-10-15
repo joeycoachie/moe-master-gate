@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import PortalPanel from './PortalPanel';
 
 type Client = {
   id: string;
@@ -170,6 +171,8 @@ export default function OpsClientPage() {
             </div>
           </section>
         )}
+
+        {client && <PortalPanel clientId={client.id} />}
 
         <h2 className="text-lg font-bold mb-1 border-b border-[#222] pb-2">Timeline · newest first</h2>
         <p className="text-[11px] text-[#666] mb-4">Every arc session this client was in, logged from the [ CLIENT LOG ] bar.</p>
