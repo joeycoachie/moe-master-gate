@@ -37,13 +37,13 @@ export function readClientSessionToken(token: string | undefined | null): string
   return Number(expires) >= Date.now() ? clientId : null;
 }
 
-// Codes look like MOE-7KQ2M-X9PDA: 10 characters from an alphabet without 0/O/1/I/L,
-// about 50 bits, so guessing is not practical. Only the hash is stored.
-const ALPHABET = '23456789ABCDEFGHJKMNPQRSTUVWXYZ';
-
-export function generatePortalCode(): string {
-  const pick = () => Array.from({ length: 5 }, () => ALPHABET[randomInt(ALPHABET.length)]).join('');
-  return `MOE-${pick()}-${pick()}`;
+// Codes look like ELEINE-482917: the client's first name plus 6 random digits. Easy to
+// type and remember; a million combinations per name, a slowed-down sign-in, and only a
+// hash stored. The founder can issue a new code (which kills the old one) at any time.
+export function generatePortalCode(fullName: string): string {
+  const first = (fullName.trim().split(/\s+/)[0] || 'CLIENT').toUpperCase().replace(/[^A-Z]/g, '').slice(0, 12) || 'CLIENT';
+  const digits = String(randomInt(0, 1_000_000)).padStart(6, '0');
+  return `${first}-${digits}`;
 }
 
 export function normalizePortalCode(input: string): string {

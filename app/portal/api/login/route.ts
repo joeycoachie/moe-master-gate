@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     await new Promise((r) => setTimeout(r, 600));
     return NextResponse.json({ error: 'Code not recognised.' }, { status: 401 });
   };
-  if (typeof body.code !== 'string' || normalizePortalCode(body.code).length !== 13) return fail();
+  if (typeof body.code !== 'string' || normalizePortalCode(body.code).length < 8 || normalizePortalCode(body.code).length > 24) return fail();
 
   try {
     const { data, error } = await getSupabaseAdmin()

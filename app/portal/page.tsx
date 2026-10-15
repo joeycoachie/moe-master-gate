@@ -13,7 +13,7 @@ type Session = {
   felt: string[];
 };
 type Fuel = { key: string; title: string; group: string; tag: string; desc: string; benefits: string[]; usage: string; dose: string };
-type View = { firstName: string; arc: string | null; sessions: Session[]; fuel: Fuel[]; recupLinked: boolean };
+type View = { firstName: string; arc: string | null; promise: string | null; sessions: Session[]; fuel: Fuel[]; recupLinked: boolean };
 
 function formatDate(iso: string) {
   const d = new Date(iso + 'T00:00:00');
@@ -106,7 +106,7 @@ export default function ClientPortalPage() {
             <input
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="MOE-XXXXX-XXXXX"
+              placeholder="e.g. ELEINE-482917"
               autoComplete="off"
               autoCapitalize="characters"
               autoFocus
@@ -129,6 +129,7 @@ export default function ClientPortalPage() {
             <section className="border border-[#222] bg-[#0a0a0a] p-5 border-l-4 border-l-[#00e5ff]">
               <div className="text-[10px] text-[#888] uppercase tracking-widest mb-1">Current programme</div>
               <div className="text-lg font-bold">{view.arc ?? 'Being set by your coach'}</div>
+              {view.promise && <p className="text-xs text-[#ccc] font-sans leading-relaxed mt-2">{view.promise}</p>}
               <div className="text-xs text-[#888] mt-2">
                 {view.sessions.length} session{view.sessions.length === 1 ? '' : 's'} on record
                 {view.fuel.length ? ` · ${view.fuel.length} fuel item${view.fuel.length === 1 ? '' : 's'} in your plan` : ''}

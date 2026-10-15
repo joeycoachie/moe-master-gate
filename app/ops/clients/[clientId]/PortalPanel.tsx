@@ -131,7 +131,7 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
         <div className="border border-[#00e5ff] bg-[#05101a] p-4">
           <div className="text-[10px] text-[#888] uppercase tracking-widest mb-1">Send this code to the client · shown once</div>
           <div className="text-xl tracking-[4px] text-white select-all">{newCode}</div>
-          <p className="text-[11px] text-[#888] mt-2">They open terminal.theoperatorplaybook.com/portal and enter it. Only a fingerprint of the code is stored; if it&apos;s lost, issue a new one.</p>
+          <p className="text-[11px] text-[#888] mt-2">They open terminal.theoperatorplaybook.com and type it into the access box. Only a fingerprint of the code is stored; if it&apos;s lost, issue a new one.</p>
         </div>
       )}
 

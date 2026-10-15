@@ -1,7 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import { CLIENT_COOKIE_NAME, readClientSessionToken } from '@/lib/clientSession';
-import { ARMORY_PROTOCOLS } from '@/lib/armory';
+import { ARMORY_PROTOCOLS, clientArcFor } from '@/lib/armory';
 import fuelCatalog from '@/lib/fuelCatalog.json';
 
 export async function currentClientId(): Promise<string | null> {
@@ -26,14 +26,18 @@ export function buildClientView(
       const stations = Object.values((e.stations ?? {}) as Record<string, Station>);
       const audit = (e.audit ?? null) as Audit | null;
       const p = protocols.get(e.protocol_id);
+      const ca = clientArcFor(e.protocol_id);
       return {
         date: e.session_date,
-        arc: p ? p.arc.replace(/^KIN-P\d+\s*[—-]\s*/, '') : e.protocol_id,
+        arc: ca?.name ?? 'Your programme',
         week: p?.week ?? null,
-        title: p?.title ?? e.protocol_id,
+        title: (p && ca?.weeks[p.week]) || (p ? `Week ${p.week}` : ''),
         done: stations.filter((s) => s.done).length,
         total: stations.length,
-        gates: (audit?.gates ?? []).map((g) => ({ name: (g.name ?? '').replace(/\s*\(P\d\)\s*$|\s*\(Phase \d+[^)]*\)\s*$/i, ''), result: g.label ?? '' })),
+        gates: (audit?.gates ?? []).map((g) => ({
+          name: (g.name ?? '').replace(/^(Gate|Test)\s*\d+\s*:\s*/i, '').replace(/\s*\((P\d|Phase \d+[^)]*)\)\s*$/i, ''),
+          result: g.label ?? '',
+        })),
         felt: (audit?.somatic ?? []).filter((s) => s.checked).map((s) => s.label ?? ''),
       };
     })
@@ -44,10 +48,11 @@ export function buildClientView(
     .filter((f) => f && products[f.key])
     .map((f) => ({ key: f.key, dose: f.dose ?? '', ...products[f.key] }));
 
-  const current = client.current_arc ? ARMORY_PROTOCOLS.find((p) => p.id.startsWith(client.current_arc + '_')) : undefined;
+  const current = client.current_arc ? clientArcFor(client.current_arc) : undefined;
   return {
     firstName: client.full_name.split(/\s+/)[0],
-    arc: current ? current.arc.replace(/^KIN-P\d+\s*[—-]\s*/, '') : null,
+    arc: current?.name ?? null,
+    promise: current?.promise ?? null,
     sessions,
     fuel,
     recupLinked: !!client.recup_member_code,

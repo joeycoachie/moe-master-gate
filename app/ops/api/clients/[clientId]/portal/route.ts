@@ -57,7 +57,10 @@ export async function POST(request: Request, { params }: { params: Promise<{ cli
       return NextResponse.json({ ok: true });
     }
     if (body.action !== 'generate') return NextResponse.json({ error: 'Unknown action.' }, { status: 400 });
-    const code = generatePortalCode();
+    const { data: who, error: whoError } = await db.from('clients').select('full_name').eq('id', clientId).maybeSingle();
+    if (whoError) throw new Error(whoError.message);
+    if (!who) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
+    const code = generatePortalCode(who.full_name);
     const { data, error } = await db
       .from('clients')
       .update({ portal_code_hash: hashPortalCode(code), portal_enabled: true, portal_code_set_at: new Date().toISOString() })

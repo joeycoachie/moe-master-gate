@@ -58,6 +58,35 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
   },
 ];
 
+// What a client sees in their portal: outcome language, never the clinical label.
+// An arc like KIN-P016 (Upper Crossed) is also a performance programme for clients
+// without the syndrome, so clients see the result they are building.
+export type ClientArc = { name: string; promise: string; weeks: Record<number, string> };
+
+export const CLIENT_ARCS: Record<string, ClientArc> = {
+  'KIN-P016': {
+    name: 'The Shoulder Frame Programme',
+    promise: 'Mobility, strength and control through your shoulders and upper back, so you stand taller, lift better and move freely overhead.',
+    weeks: {
+      1: 'Shoulder blade control and posture',
+      2: 'Strength through slow, controlled lowering',
+      3: 'Rotation and core connection',
+    },
+  },
+  'KIN-P019': {
+    name: 'Strong Hips, Calm Knees',
+    promise: 'Hip strength that protects your knees, so you can train and move without flare-ups.',
+    weeks: {
+      1: 'Finding your baseline',
+      2: 'Hip strength without knee strain',
+    },
+  },
+};
+
+export function clientArcFor(protocolOrArcId: string): ClientArc | undefined {
+  return CLIENT_ARCS[protocolOrArcId.split('_')[0]];
+}
+
 const PROTOCOL_ID_PATTERN = /^[A-Za-z0-9_-]+$/;
 
 export function findProtocol(id: string): ArmoryProtocol | undefined {
