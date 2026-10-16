@@ -1,6 +1,6 @@
 # REGISTRY · The Operator's Playbook
 
-Every product, where it lives, and what it runs on. **If you change any of these facts, update this file in the same session.**
+Every product, where it lives, and what it runs on. Every live link in one list: `LINKS.md` (also at Founder Command → LINKS). **If you change any of these facts, update this file in the same session.**
 
 Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel account)
 
@@ -10,7 +10,7 @@ Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel acco
 
 | Product | ID | Local folder (this Mac) | GitHub repo | Live at | Data | Claude window opened on |
 |---|---|---|---|---|---|---|
-| **M.O.E. Terminal** (instructor stations, Ops, Armory arcs) | — | `~/moe-master-gate` | joeycoachie/moe-master-gate | https://terminal.theoperatorplaybook.com (also instructor-callibration-terminal.vercel.app) | Supabase `wpdidthdbfoualvnklwq` (client health data: `clients`, `arc_sessions`, `arc_session_entries`, service key only) | `~/moe-master-gate` |
+| **M.O.E. Terminal** (instructor stations, Ops, Armory arcs) | — | `~/moe-master-gate` | joeycoachie/moe-master-gate | https://terminal.theoperatorplaybook.com (also instructor-callibration-terminal.vercel.app) | Supabase `wpdidthdbfoualvnklwq`, built by `database/01-12` (client health data: `clients`, `arc_sessions`, `arc_session_entries`, service key only) | `~/moe-master-gate` |
 | **RECUP.STN** (site, God Terminal, booth flow) | — | **missing from this Mac since 2026-10-10** (was `~/Downloads/recupstn-workspace/recup-station`); re-clone from GitHub | joeycoachie/recup-station- | https://joeycoachie.github.io/recup-station-/ (GitHub Pages) | Supabase `bjpekyumhgyssvmhwiyz` (table `runners`, staff in `recup_staff`) | `~/Downloads/recupstn-workspace` |
 | **M.O.E. Intelligence Archive** (+ SYS-D028 Plain Language Mandate) | — | `~/moe-master-gate/archive` | joeycoachie/moe-master-gate (folder `archive/`, history kept) | not hosted yet | JSON in repo: `data/archive/*.json`, `data/lexicon.json` | `~/moe-master-gate/archive` |
 | **Hyrox Engine** (Hybrid Race Engine) | SYS-HRX-001 | `~/Desktop/KIN-/-SYS-HRX-001_MASTER-NODE` | joeycoachie/-SYS-HRX-001_MASTER-NODE | https://sys-hrx-001-master-node.vercel.app | Browser only (localStorage), no shared DB | `~/Desktop/KIN - SYS-HRX-001 MASTER NODE` (old path, folder since renamed) |
@@ -25,6 +25,7 @@ Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel acco
 - Registrar: **Squarespace Domains** (expires 2027-07-14). DNS is edited by the founder in Squarespace → Domains → DNS → Custom records. Agents can't edit it.
 - `www` and root → **Gumroad store. Never repoint.** Never switch the nameservers to Vercel (that kills the store).
 - `terminal` → A `76.76.21.21` → Vercel project `instructor-callibration-terminal`. Live 2026-10-06.
+- `studio` → A `76.76.21.21` → same project; its root shows `/studio` (the B2B page). Added 2026-10-16.
 - **Adding a product subdomain:** an agent runs `vercel domains add <name>.theoperatorplaybook.com <vercel-project>`, then the founder adds a Custom record (Type `A`, Name `<name>`, IP `76.76.21.21`). HTTPS takes about 3 minutes.
 
 ## Founder-only access

@@ -7,4 +7,5 @@
 -- Opening delete to anon matches this table's existing convention: update is
 -- already open to anon, which can overwrite any row, so this adds no new class
 -- of exposure. The app layer still blocks instructors from removing 'booked' rows.
+drop policy if exists "Allow anon delete" on instructor_availability;
 create policy "Allow anon delete" on instructor_availability for delete to anon using (true);

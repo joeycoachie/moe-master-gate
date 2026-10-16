@@ -1,4 +1,4 @@
--- Incremental migration on top of programming_log_schema.sql:
+-- Incremental migration on top of 02_programming_log_schema.sql:
 --   1. Instructors can now edit their own logs (the app additionally guards this at the
 --      UI layer — editing is blocked once a log has vae_feedback attached, so a mentor's
 --      review can't be silently rewritten out from under them).

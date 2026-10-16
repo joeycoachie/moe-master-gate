@@ -1,5 +1,5 @@
--- Incremental migration on top of programming_log_schema.sql +
--- programming_log_edit_and_score_migration.sql:
+-- Incremental migration on top of 02_programming_log_schema.sql +
+-- 06_programming_log_edit_and_score_migration.sql:
 --   Lets an instructor duplicate a past log as a starting draft for a new session.
 --   duplicated_from_log_id is only ever set when the submitted content is byte-for-byte
 --   identical to the source log (checked client-side before insert) -- if the instructor

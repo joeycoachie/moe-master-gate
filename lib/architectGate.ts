@@ -25,7 +25,7 @@ export function adminError(err: unknown) {
   const missingTable = /relation .* does not exist|Could not find the table/i.test(message);
   return NextResponse.json(
     missingTable
-      ? { error: 'Client system not set up yet: run client_arc_system_schema.sql in Supabase.', setup: true }
+      ? { error: 'Client system not set up yet: run database/10_client_arc_system_schema.sql in Supabase.', setup: true }
       : { error: message },
     { status: missingTable ? 503 : 500 },
   );

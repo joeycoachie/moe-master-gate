@@ -186,7 +186,7 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
       <div>
         <div className="text-[10px] text-[#888] uppercase tracking-widest mb-2">Their daily check-ins (last 14 days)</div>
         {checkins === null ? (
-          <p className="text-[11px] text-[#f59e0b]">Check-ins not set up yet: run client_checkins_schema.sql in Supabase.</p>
+          <p className="text-[11px] text-[#f59e0b]">Check-ins not set up yet: run database/12_client_checkins_schema.sql in Supabase.</p>
         ) : checkins.length === 0 ? (
           <p className="text-[11px] text-[#555]">No check-ins yet.</p>
         ) : (

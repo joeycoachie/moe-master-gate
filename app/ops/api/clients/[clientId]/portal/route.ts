@@ -13,7 +13,7 @@ const PRODUCTS = (fuelCatalog as { products: Record<string, { title: string; gro
 function setupHint(err: unknown) {
   const message = err instanceof Error ? err.message : String(err);
   if (/portal_|fuel_unlocked|recup_member_code/.test(message) && /column|schema cache/i.test(message)) {
-    return NextResponse.json({ error: 'Client portal not set up yet: run client_portal_schema.sql in Supabase.', setup: true }, { status: 503 });
+    return NextResponse.json({ error: 'Client portal not set up yet: run database/11_client_portal_schema.sql in Supabase.', setup: true }, { status: 503 });
   }
   return adminError(err);
 }

@@ -12,7 +12,7 @@ export const metadata = {
 
 const HUB = path.join(process.cwd(), 'hub');
 
-// Founder Command: the roadmap plus the full change ledger, read straight from the hub
+// Founder Command: every live link, the roadmap and the full change ledger, read straight from the hub
 // files so this page never drifts from what every agent reads.
 export default async function OpsCommandPage() {
   const cookieStore = await cookies();
@@ -20,9 +20,10 @@ export default async function OpsCommandPage() {
     redirect('/ops/architect?next=/ops/command');
   }
 
-  const [roadmap, ledger] = await Promise.all([
+  const [roadmap, ledger, links] = await Promise.all([
     readFile(path.join(HUB, 'ROADMAP.md'), 'utf8'),
     readFile(path.join(HUB, 'LEDGER.md'), 'utf8'),
+    readFile(path.join(HUB, 'LINKS.md'), 'utf8'),
   ]);
 
   // Ledger lines look like "- 2026-10-09 · Product · what changed · ref". Newest first.
@@ -44,11 +45,14 @@ export default async function OpsCommandPage() {
             <h1 className="text-2xl font-bold mt-1">Founder Command</h1>
           </div>
           <nav className="flex gap-2 text-xs">
+            <a href="#links" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">LINKS</a>
             <a href="#roadmap" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">ROADMAP</a>
             <a href="#ledger" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">LEDGER</a>
             <a href="/terminal" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">TERMINAL</a>
           </nav>
         </header>
+
+        <section id="links" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(links) }} />
 
         <section id="roadmap" className="font-sans" dangerouslySetInnerHTML={{ __html: markdownToHtml(roadmap) }} />
 

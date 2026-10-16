@@ -1,5 +1,5 @@
 -- Client daily check-ins (client portal, 16 Oct 2026).
--- Run once in Supabase → SQL Editor, after client_portal_schema.sql.
+-- Run once in Supabase → SQL Editor, after 11_client_portal_schema.sql.
 -- One row per client per day: how they feel (1-5) and whether they took their fuel.
 -- Clients write their own row through the Terminal's /portal/api/checkin (signed cookie, service
 -- key). RLS stays on with no policies and anon/authenticated get no rights.

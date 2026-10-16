@@ -1,5 +1,5 @@
 -- Client Portal (Kinetic menu, Pillar 3 "MOE-MASTER-GATE"), 16 Oct 2026.
--- Run once in Supabase → SQL Editor, after client_arc_system_schema.sql.
+-- Run once in Supabase → SQL Editor, after 10_client_arc_system_schema.sql.
 -- Adds the portal fields to the existing clients table. No new tables, and no public access:
 -- RLS stays on and anon/authenticated keep zero rights. Only the server (service key) reads these.
 

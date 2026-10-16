@@ -1,7 +1,7 @@
 import 'server-only';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 
-// Daily check-ins a client taps in their portal (client_checkins_schema.sql).
+// Daily check-ins a client taps in their portal (database/12_client_checkins_schema.sql).
 export type Checkin = { day: string; energy: number | null; sleep: number | null; body: number | null; fuel_taken: boolean };
 
 export const CHECKIN_DAYS = 14;

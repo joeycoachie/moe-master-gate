@@ -106,12 +106,7 @@ Danny does **not** see the biweekly training planner or any link to the Architec
 
 ## 3. Open items
 
-**Supabase migrations — confirm each has been run in the SQL editor:**
-- [ ] `programming_log_architect_role_migration.sql`. Also set your own alias to `role = 'architect'`, or the Station 8 🔒 won't appear.
-- [ ] `programming_log_edit_and_score_migration.sql`. Needed for log edits + the Biomechanical Score column.
-- [ ] `programming_log_duplicate_migration.sql`
-- [ ] `instructor_availability_delete_policy_migration.sql`. Needed for Station 10 removals to actually delete.
-- [x] `movement_library_schema.sql` (confirmed run)
+**Supabase migrations:** all 12 are in the live database (checked 16 Oct 2026). They now live in `database/`, numbered in run order; see `database/README.md`.
 
 **Deploy:** push `main` so `/ops/architect` goes live.
 

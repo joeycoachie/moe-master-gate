@@ -1,5 +1,5 @@
 -- Adds a third instructors.role value, 'architect', alongside the existing
--- 'instructor' / 'admin' (see instructor_availability_schema.sql).
+-- 'instructor' / 'admin' (see 04_instructor_availability_schema.sql).
 --
 -- The Architect role gates a new read-only "Architect View" mode on Station 8
 -- (/terminal/programming-log) — a full, uncapped list of every instructor's
@@ -7,7 +7,7 @@
 -- controls. It is a normal instructor row with an elevated role, not a
 -- separate login system.
 --
--- The original check constraint from instructor_availability_schema.sql was
+-- The original check constraint from 04_instructor_availability_schema.sql was
 -- declared inline with no explicit name, so Postgres auto-named it
 -- "instructors_role_check" (the default <table>_<column>_check pattern). If
 -- this DROP fails because your instance named it something else, find the

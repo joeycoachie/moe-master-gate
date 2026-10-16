@@ -37,7 +37,7 @@ function auditCadence(classesSince: number): { label: string; className: string 
 
 // Same sequential green ramp as the Roster Export utilization heatmap, so a
 // operator reading both pages learns one visual language, not two.
-// Biomechanical Score ranges 2..30 (see programming_log_edit_and_score_migration.sql).
+// Biomechanical Score ranges 2..30 (see database/06_programming_log_edit_and_score_migration.sql).
 function scoreFill(score: number): string {
   const ratio = Math.max(0, Math.min(1, (score - 2) / 28));
   const opacity = 0.14 + ratio * 0.66;
