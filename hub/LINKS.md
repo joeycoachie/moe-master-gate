@@ -19,7 +19,7 @@ Last checked: 2026-10-16.
 
 | What | Link | How in |
 |---|---|---|
-| Client portal | [terminal.theoperatorplaybook.com](https://terminal.theoperatorplaybook.com) | type their code (e.g. ELEINE-…) in the access box. Direct: [/portal](https://terminal.theoperatorplaybook.com/portal) |
+| Client sign-in (send this one) | [terminal.theoperatorplaybook.com/portal](https://terminal.theoperatorplaybook.com/portal) | their personal code (NAME-123456). The code also works in the main gate's access box |
 
 ## Instructors (alias)
 

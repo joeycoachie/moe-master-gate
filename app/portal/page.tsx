@@ -118,6 +118,10 @@ function CheckinCard({ view, onSaved }: { view: View; onSaved: (c: Checkin[]) =>
   );
 }
 
+const SANS = { fontFamily: 'var(--font-portal-sans), Inter, sans-serif' };
+const SERIF = { fontFamily: 'var(--font-portal-serif), "Playfair Display", serif' };
+const MONO = { fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace' };
+
 function formatDate(iso: string) {
   const d = new Date(iso + 'T00:00:00');
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -187,43 +191,75 @@ export default function ClientPortalPage() {
   return (
     <main className="min-h-screen bg-[#030303] text-white font-mono flex flex-col">
       <div className="max-w-2xl mx-auto w-full flex-1 p-5 md:p-8">
-        <header className="border-b border-[#222] pb-5 mb-6 flex justify-between items-center gap-3">
-          <div>
-            <div className="text-[10px] text-[#00e5ff] tracking-[4px] uppercase">The M.O.E. Group · Client File</div>
-            <h1 className="text-2xl font-bold mt-1">{view ? `${view.firstName}'s Architecture` : 'MOE-MASTER-GATE'}</h1>
-          </div>
-          {state === 'ready' && (
-            <button onClick={signOut} className="border border-[#333] px-3 py-2 text-[10px] tracking-widest text-[#888] hover:text-white">
-              SIGN OUT
-            </button>
-          )}
-        </header>
+        {state !== 'signin' && (
+          <header className="border-b border-[#222] pb-5 mb-6 flex justify-between items-center gap-3">
+            <div>
+              <div className="text-[10px] text-[#00e5ff] tracking-[4px] uppercase">The M.O.E. Group · Client File</div>
+              <h1 className="text-2xl font-bold mt-1">{view ? `${view.firstName}'s Architecture` : 'Your file'}</h1>
+            </div>
+            {state === 'ready' && (
+              <button onClick={signOut} className="border border-[#333] px-3 py-2 text-[10px] tracking-widest text-[#888] hover:text-white">
+                SIGN OUT
+              </button>
+            )}
+          </header>
+        )}
 
         {state === 'loading' && <p className="text-xs text-[#555]">Loading your file…</p>}
 
         {state === 'error' && <div className="border border-[#ef4444]/40 bg-[#ef4444]/10 text-[#ef4444] text-xs p-4">{error}</div>}
 
         {state === 'signin' && (
-          <form onSubmit={signIn} className="min-h-[50vh] flex flex-col items-center justify-center text-center space-y-6">
-            <p className="text-xs text-[#888] max-w-sm">Enter the personal code your coach gave you to open your file.</p>
+          <form onSubmit={signIn} className="min-h-[80vh] flex flex-col justify-center max-w-sm mx-auto w-full py-8" style={SANS}>
+            <div className="text-[10px] text-[#00e5ff] tracking-[4px] uppercase mb-5" style={MONO}>
+              The M.O.E. Group · Private client file
+            </div>
+            <h1 className="text-4xl leading-tight" style={SERIF}>
+              Welcome back.
+            </h1>
+            <p className="text-sm text-[#aaa] leading-relaxed mt-3">
+              Your sessions, your progress and your fuel plan, in one place. Only you can open it.
+            </p>
+
+            <ul className="mt-6 space-y-2 text-[13px] text-[#ccc]">
+              {['Every session you have done', 'Your programme, week by week', 'Your fuel plan and daily check-in'].map((t) => (
+                <li key={t} className="flex items-center gap-3">
+                  <span className="w-1.5 h-1.5 bg-[#00e5ff] shrink-0" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+
+            <label htmlFor="portal-code" className="block text-[10px] text-[#888] uppercase tracking-widest mt-10 mb-2" style={MONO}>
+              Your personal code
+            </label>
             <input
+              id="portal-code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              placeholder="e.g. ELEINE-482917"
+              placeholder="NAME-123456"
               autoComplete="off"
               autoCapitalize="characters"
-              autoFocus
+              spellCheck={false}
               disabled={busy}
-              className="w-full max-w-xs bg-transparent border-b border-[#333] text-white text-lg py-3 text-center outline-none tracking-[3px] focus:border-[#00e5ff] disabled:opacity-50"
+              style={MONO}
+              className="w-full bg-[#0a0a0a] border border-[#333] text-white text-lg px-4 py-4 outline-none tracking-[3px] focus:border-[#00e5ff] disabled:opacity-50 placeholder:text-[#444]"
             />
+            {error && <p className="text-[12px] text-[#ef4444] mt-2">{error}</p>}
             <button
               type="submit"
               disabled={busy || !code.trim()}
-              className="border border-[#00e5ff] text-[#00e5ff] px-6 py-2 text-xs tracking-widest hover:bg-[#00e5ff] hover:text-black transition-colors disabled:opacity-40"
+              style={MONO}
+              className="w-full mt-4 bg-[#00e5ff] text-black py-4 text-xs font-bold tracking-[0.2em] uppercase hover:bg-white transition-colors disabled:opacity-40"
             >
-              {busy ? 'OPENING…' : 'OPEN MY FILE'}
+              {busy ? 'Opening…' : 'Open my file'}
             </button>
-            {error && <p className="text-[11px] text-[#ef4444]">{error}</p>}
+
+            <p className="text-[12px] text-[#666] mt-6 leading-relaxed">
+              No code, or lost it? Ask your coach for a new one.
+              <br />
+              Tip: add this page to your home screen to open it in one tap.
+            </p>
           </form>
         )}
 

@@ -9,6 +9,15 @@ type CatalogItem = { key: string; title: string; group: string };
 // Architect controls for one client's MOE-MASTER-GATE portal (Kinetic menu, Pillar 3):
 // access code, which fuel products show in their file (with their personal dose), and the
 // link to their RECUP.STN member code.
+export const PORTAL_URL = 'https://terminal.theoperatorplaybook.com/portal';
+
+// Ready-to-send text for WhatsApp: the first name comes from the code itself (FIRSTNAME-123456).
+function clientMessage(code: string) {
+  const first = code.split('-')[0];
+  const name = first.charAt(0) + first.slice(1).toLowerCase();
+  return `Hi ${name}, your private studio file is ready.\n\nOpen ${PORTAL_URL} and type your code: ${code}\n\nYou'll see your sessions, your programme week by week and your fuel plan. Tip: add the page to your home screen.`;
+}
+
 export default function PortalPanel({ clientId }: { clientId: string }) {
   const [portal, setPortal] = useState<Portal | null>(null);
   const [catalog, setCatalog] = useState<CatalogItem[]>([]);
@@ -136,7 +145,17 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
         <div className="border border-[#00e5ff] bg-[#05101a] p-4">
           <div className="text-[10px] text-[#888] uppercase tracking-widest mb-1">Send this code to the client · shown once</div>
           <div className="text-xl tracking-[4px] text-white select-all">{newCode}</div>
-          <p className="text-[11px] text-[#888] mt-2">They open terminal.theoperatorplaybook.com and type it into the access box. Only a fingerprint of the code is stored; if it&apos;s lost, issue a new one.</p>
+          <p className="text-[11px] text-[#888] mt-2">Only a fingerprint of the code is stored; if it&apos;s lost, issue a new one.</p>
+          <div className="mt-4 border-t border-[#1a3a4a] pt-3">
+            <div className="text-[10px] text-[#888] uppercase tracking-widest mb-1">Message to send them</div>
+            <p className="text-xs text-[#ccc] font-sans leading-relaxed whitespace-pre-line select-all">{clientMessage(newCode)}</p>
+            <button
+              onClick={() => navigator.clipboard?.writeText(clientMessage(newCode)).then(() => setNote('Message copied.'))}
+              className="mt-2 border border-[#00e5ff] text-[#00e5ff] px-3 py-1.5 text-[10px] tracking-widest hover:bg-[#00e5ff] hover:text-black"
+            >
+              COPY MESSAGE
+            </button>
+          </div>
         </div>
       )}
 
