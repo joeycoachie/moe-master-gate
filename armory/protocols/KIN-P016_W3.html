@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement OS | KIN-P016 W3 (Rotational Endurance)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff; 
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono, .clock-display { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
+        
+        .phase-content { display: none; }
+        .phase-content.active { display: block; animation: fadeIn 0.25s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ra-module { display: none; }
+        body.ra-active .ra-module { 
+            display: block; 
+            animation: fadeIn 0.25s ease-in;
+        }
+        .ra-toggle-btn.active {
+            background-color: #1e3a8a; 
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            background-color: #050505;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.25em;
+            height: 1.25em;
+            border: 1px solid #333333;
+            display: grid;
+            place-content: center;
+            border-radius: 0;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #00e5ff;
+            background-color: #00e5ff;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        input[type="checkbox"]:checked::before { transform: scale(1); }
+        input[type="checkbox"]:checked { border-color: #00e5ff; }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-linecap='square'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.65rem center;
+            background-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <aside class="w-full md:w-80 border-b md:border-b-0 md:border-r border-[#333333] bg-[#050505] p-6 flex flex-col overflow-y-auto shrink-0 z-20">
+        <div class="mb-6 border-b border-[#222222] pb-5">
+            <div class="flex items-center justify-between mb-2">
+                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2.1</p>
+                <span class="text-[10px] font-mono px-2 py-0.5 border border-[#333333] bg-[#111111] text-gray-300">60-75 MIN</span>
+            </div>
+            <h1 class="text-2xl text-white">KIN-P016_W3</h1>
+            <p class="text-xs text-gray-400 mt-1">Upper Crossed: Rotational Endurance & Spiral Line</p>
+        </div>
+
+        <div class="mb-6 border border-[#333333] bg-[#0a0a0a] p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Flow Clock</h3>
+                <span id="clockPhaseHint" class="text-[10px] font-mono text-[#00e5ff]">PHASE 1 TARGET: 0-15M</span>
+            </div>
+            <div id="timerDisplay" class="clock-display text-3xl text-white mb-4 text-center tracking-widest">00:00</div>
+            <div class="flex space-x-2">
+                <button id="startBtn" onclick="toggleTimer()" class="flex-1 border border-[#333333] bg-[#111111] hover:bg-[#222222] transition-colors py-2 text-xs font-mono font-semibold tracking-wider">START</button>
+                <button onclick="resetTimer()" class="flex-1 border border-[#333333] bg-[#050505] hover:bg-[#1a1a1a] transition-colors py-2 text-xs font-mono font-semibold tracking-wider text-gray-500">RESET</button>
+            </div>
+        </div>
+
+        <div class="mb-6 border border-[#333333] p-4 bg-[#0a0a0a] space-y-4">
+            <div class="flex justify-between items-center border-b border-[#222222] pb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Class Logistics</h3>
+                <button onclick="autoOptimizeEquipment()" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors" title="Automatically resolve equipment conflicts across stations">
+                    AUTO-FIT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Pax</label>
+                    <select id="paxCount" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="1">1 Pax (Solo)</option>
+                        <option value="2">2 Pax (Duet)</option>
+                        <option value="3" selected>3 Pax (Trio)</option>
+                        <option value="4">4 Pax (Quad)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Structure</label>
+                    <select id="flowFormat" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="circuit" selected>Circuit</option>
+                        <option value="sync">Synchronized</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <span class="block text-[9px] font-mono uppercase text-gray-500 mb-2">Studio Apparatus Available</span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">REFORMER</span>
+                        <input id="inv-reformer" type="number" min="0" max="8" value="2" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CADILLAC</span>
+                        <input id="inv-cadillac" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CHAIR</span>
+                        <input id="inv-chair" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">BARREL</span>
+                        <input id="inv-barrel" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-1 space-y-2">
+                <div class="flex gap-2">
+                    <button onclick="setGlobalPreset('apparatus')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">
+                        STUDIO PRESET
+                    </button>
+                    <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">
+                        MAT / PROPS
+                    </button>
+                </div>
+                <button id="raToggleBtn" onclick="toggleRA()" class="ra-toggle-btn w-full border border-[#333333] bg-[#111111] transition-colors py-2.5 text-xs font-mono font-semibold tracking-wider text-gray-400">
+                    [ ] RA / GRIP OVERRIDE
+                </button>
+            </div>
+        </div>
+
+        <nav class="flex-1 space-y-2.5" id="nav-menu">
+            <button onclick="switchPhase('primer')" id="nav-primer" class="nav-btn w-full text-left p-3.5 border border-[#00e5ff] bg-[#111111] transition-colors">
+                <span class="text-[10px] font-mono text-[#00e5ff] block mb-0.5">0:00 - 15:00 // PHASE 1</span>
+                <span class="font-semibold text-sm tracking-wide block">1. Primer (Rotary Cal)</span>
+                <span class="text-[11px] text-gray-400">Rib-Pelvis Dissociation & Twist</span>
+            </button>
+            <button onclick="switchPhase('anchor')" id="nav-anchor" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">15:00 - 35:00 // PHASE 2</span>
+                <span class="font-semibold text-sm tracking-wide block">2. Anchor (Spiral Pull)</span>
+                <span class="text-[11px] text-gray-400">Draw-a-Sword & Rotary Swan</span>
+            </button>
+            <button onclick="switchPhase('crucible')" id="nav-crucible" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">35:00 - 55:00 // PHASE 3</span>
+                <span class="font-semibold text-sm tracking-wide block">3. Crucible (Rotary Chain)</span>
+                <span class="text-[11px] text-gray-400">Oblique Elephant → Twist Plank</span>
+            </button>
+            <button onclick="switchPhase('unwind')" id="nav-unwind" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">55:00 - 65:00 // PHASE 4</span>
+                <span class="font-semibold text-sm tracking-wide block">4. Unwind (Spiral Reset)</span>
+                <span class="text-[11px] text-gray-400">Intercostal Flush & Loose-Packed</span>
+            </button>
+            <button onclick="switchPhase('audit')" id="nav-audit" class="nav-btn w-full text-left p-3.5 border border-[#3b82f6] bg-[#0a1224] hover:border-[#00e5ff] transition-colors">
+                <span class="text-[10px] font-mono text-[#3b82f6] font-bold block mb-0.5">POST-SESSION // PHASE 5</span>
+                <span class="font-semibold text-sm tracking-wide block">5. Gate Audit & Loop</span>
+                <span class="text-[11px] text-gray-300">Axial Rotation Clearance Check</span>
+            </button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 bg-[#050505] p-6 md:p-12 overflow-y-auto" id="content-area">
+        
+        <div class="mb-8 border border-[#333333] bg-[#0a0a0a] p-6 border-l-4 border-l-[#00e5ff]">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold block mb-1">Commander's Intent // Week 3 Biomechanical Focus</span>
+                    <h2 class="text-xl md:text-2xl text-white">Thoracic Axial Rotation → Spiral Line Slings → Closed-Chain Oblique Endurance</h2>
+                </div>
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="border border-[#333333] bg-[#111111] px-3 py-2 text-right">
+                        <span class="text-[9px] font-mono text-gray-500 uppercase block">Primary Target</span>
+                        <span class="text-xs font-mono text-white">Serratus / Rhomboids / Obliques</span>
+                    </div>
+                    <div class="border border-[#333333] bg-[#111111] px-3 py-2 text-right">
+                        <span class="text-[9px] font-mono text-gray-500 uppercase block">Endurance Mandate</span>
+                        <span class="text-xs font-mono text-[#00e5ff]">3s Peak Iso-Hold : 3s Eccentric</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-xs text-gray-300 mt-4 leading-relaxed">
+                <strong class="text-white font-mono uppercase">The Week 3 Architectural Rule:</strong> A rounded upper back is mechanically locked in flexion and cannot rotate. When asked to turn, the client compensates by twisting the lumbar spine or shearing the knees. Phase 1 calibrates pure <strong class="text-white">Thoracolumbar Dissociation</strong> (rotating T1–T12 while locking the pelvis with a Yoga Block squeeze). Phase 2 loads the <strong class="text-[#00e5ff]">Spiral Line</strong> from a stable base. Phase 3 ascends through the <strong class="text-white">Rotational Closed-Chain Series</strong>.
+            </p>
+        </div>
+
+        <div id="logisticsBanner" class="mb-8 border border-[#333333] bg-[#111111] p-5"></div>
+        <div id="dynamic-phase-view" class="phase-content active"></div>
+
+        <div id="audit-phase-view" class="phase-content">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] block mb-1">Phase 5 // Closing The Loop</span>
+                    <h2 class="text-4xl text-white">Post-Class Gate Audit & Body Feedback</h2>
+                    <p class="text-gray-400 uppercase tracking-widest text-xs mt-2">Verify Thoracic Axial Rotation & Spiral Sling Endurance Before Clearing for Week 4</p>
+                </div>
+                <button onclick="copyAuditReport()" id="copyAuditBtn" class="border border-[#00e5ff] bg-[#0a192f] hover:bg-[#00e5ff] hover:text-black text-[#00e5ff] transition-colors px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider">
+                    COPY TELEMETRY REPORT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">1. Technical Gate Verification</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 01: Pelvis-Locked Rotation (P1)</span>
+                                <select id="gate1-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                    <option value="pass">PASSED (Pure T1-T12 Rotation)</option>
+                                    <option value="hipshift">FAIL: Pelvis Twisted / Shifted</option>
+                                    <option value="shrug">FAIL: Upper Trap Shrug</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">Did the client rotate the ribcage around the vertical axis while keeping equal weight on both sit-bones?</p>
+                        </div>
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 02: Spiral Line Transfer (P2)</span>
+                                <select id="gate2-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                    <option value="pass">PASSED (3s Peak Rotary Lock)</option>
+                                    <option value="armpull">FAIL: Pulled w/ Bicep Only</option>
+                                    <option value="lumbar">FAIL: Lumbar Hyperextension</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">During Draw-a-Sword / Spiral Pull, did movement initiate from the oblique sling with glutes anchored?</p>
+                        </div>
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 03: Rotary Closed-Chain (P3)</span>
+                                <select id="gate3-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                    <option value="level3">CLEARED L3: Twist Plank Saw</option>
+                                    <option value="level2">CAPPED AT L2: Rotational Down-Stretch</option>
+                                    <option value="level1">CAPPED AT L1: Oblique Elephant</option>
+                                </select>
+                            </div>
+                            <p class="text-xs text-gray-400">Where did the supporting scapula wing or the lumbar spine sag during rotational loading?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">2. Somatic Body Interrogation</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-[#00e5ff]">
+                            <input type="checkbox" id="som-target" checked onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-[#00e5ff] uppercase block">Target Hit: Obliques, Mid-Back & Serratus</span>
+                                <span class="text-[11px] text-gray-400">Confirms successful recruitment of the Spiral Line.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500">
+                            <input type="checkbox" id="som-neck" onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">Alert: Neck / Levator Scapulae Tightness</span>
+                                <span class="text-[11px] text-gray-400">Client turned head aggressively instead of rotating ribcage.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500">
+                            <input type="checkbox" id="som-lumbar" onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">Alert: Lumbar Rotational Torque</span>
+                                <span class="text-[11px] text-gray-400">Pelvis twisted with shoulders; lost adductor/glute lock.</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-gray-500 mb-2">Field Notes</label>
+                        <textarea id="auditNotes" oninput="evaluateAuditLoop()" rows="3" class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono focus:border-[#00e5ff] outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]"></div>
+        </div>
+    </main>
+
+    <script>
+        const EQUIP_LABELS = {
+            reformer: 'Reformer',
+            cadillac: 'Cadillac',
+            chair: 'Wunda Chair',
+            barrel: 'Ladder Barrel',
+            mat: 'Mat (Roller/Block)',
+            props_slider: 'Sliders',
+            props_band: 'Bands',
+            props_freeweight: 'Free Weights',
+            jumpboard: 'Jumpboard'
+        };
+
+        const PROTOCOL_DB = {
+            primer: {
+                title: '1. The Primer (Rotary Calibration)',
+                subtitle: 'Pelvis-Locked Thoracic Rotation & Oblique Prep (15 Mins)',
+                clockHint: 'PHASE 1 TARGET: 0-15M',
+                wolfCue: 'A kyphotic upper back cannot rotate cleanly. M1 calibrates unilateral scapular glide. M2 locks the pelvis via a Yoga Block adductor squeeze so rotation is forced exclusively into T1–T12. M3 primes the contralateral oblique sling.',
+                shepherdCue: '"Squeeze the block so your hips stay set in concrete. Now wring out your ribcage from the bottom up like a wet towel."',
+                safetyGate: 'Allowing the opposite sit-bone to lift or twist with the shoulders (faking rotation through the lumbar spine).',
+                stations: {
+                    M1: {
+                        role: 'Unilateral & Reciprocal Scapular Glide',
+                        options: {
+                            reformer: { name: 'Supine Reciprocal Scapular Glides', setup: '1 Red, 1 Blue // Headrest Up', reps: '10 Reciprocal + 8 Uni [3s Hold]', exec: 'Supine, block between knees. Right fingertips to ceiling (protract), melt Left blade flat (retract). Switch smoothly.', ra: 'Thread loops onto forearms; rest calves on block/bar to offload knees/nerves.' },
+                            cadillac: { name: 'Supine Arm-Spring Reciprocal Saw', setup: '2 Light Arm Springs', reps: '10 Alternating [3s Hold]', exec: 'Supine. Protract one scapula to ceiling while retracting the opposite blade into the bed. Pull arm down to hip.', ra: 'Use padded wrist/forearm cuffs.' },
+                            chair: { name: 'Seated Single-Arm Pedal Glide', setup: '1 Heavy, 1 Light // Seated on Box', reps: '8 Reps / Side', exec: 'Sit tall on Box, block between knees. Hand on pedal. Depress scapula to press pedal 3 inches.', ra: 'Use open palm on pedal. Box seating unloads knees.' },
+                            mat: { name: 'Sidelying Rib-Roller Bow & Arrow', setup: 'Roller Between Knees + Block', reps: '10 Reps / Side', exec: 'Sidelying. Pull top elbow back across ribcage like drawing a bowstring, gliding scapula toward spine.', ra: 'Unweighted. Keep knees at loose 45° angle on roller.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Pelvis-Locked Thoracic Axial Rotation',
+                        options: {
+                            cadillac: { name: 'High-Box Seated Roll-Down Twist', setup: '2 Light Top Springs // Box + Block', reps: '8 Reps / Side [3s Hold]', exec: 'Sit tall on Box, block between knees. Rotate T1–T12 40° right (pulse 2x) while left sit-bone stays glued.', ra: 'Attach wrist cuffs to springs. Vertical shins give 0 knee stress.' },
+                            reformer: { name: 'Short-Box Seated Spine Twist', setup: '2 Red // Box + Block', reps: '8 Reps / Side [3s Hold]', exec: 'Sit tall on Box, flat feet (vertical shins), squeeze block. Hug arms over chest. Rotate ribcage right 3s.', ra: 'Keep knees bent 90° with flat heels on floor/platform.' },
+                            barrel: { name: 'Barrel Apex Seated Rotation', setup: 'Sit High on Apex + Block', reps: '8 Reps / Side', exec: 'Sit high, squeeze block. Hands support skull; rotate upper torso around vertical spine.', ra: 'Keep knee angle wide and relaxed on the rung.' },
+                            mat: { name: 'Block-Supported Spine Twist', setup: 'Sit on Blocks + Foam Roller Hug', reps: '8 Reps / Side', exec: 'Sit on stacked blocks. Hug roller across chest to lock scapulae down; rotate ribcage.', ra: 'Sitting high prevents sciatic traction.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Oblique Sling Prep (Closed-Chain)',
+                        options: {
+                            mat: { name: 'Dead Bug Cross-Body Block Iso-Press', setup: '1 Yoga Block + Mat', reps: '8 Reps / Side [4s Hold]', exec: 'Supine. Wedge block diagonally between Right forearm and Left thigh. Crush block for 4s while extending opposite arm/leg.', ra: 'Limit free leg extension to keep a soft 30° knee bend.' },
+                            reformer: { name: 'Cross-Body Single-Arm Press', setup: '1 Red // Forearm Loop + Block', reps: '10 Reps / Side', exec: 'Supine, block between knees. Depress right scapula and press strap across midline toward left hip resisting rotation.', ra: 'Rest calves passively on footbar.' },
+                            chair: { name: 'Standing Inclined Forearm Reach', setup: 'Forearms on Seat // Standing', reps: '8 Alternating', exec: 'Stand facing chair. Forearms on seat in inclined plank. Protract scapulae, slowly reach one arm forward 3s.', ra: 'Eliminates wrist extension and kneeling patellar pressure.' },
+                            cadillac: { name: 'Standing PTB Unilateral Press', setup: 'Top-Sprung Light PTB', reps: '8 Reps / Side', exec: 'Stand facing tower. Press PTB down 4 inches with one forearm while rotating sternum slightly to opposite side.', ra: 'Use forearm contact on bar with soft standing knees.' }
+                        }
+                    }
+                }
+            },
+            anchor: {
+                title: '2. The Anchor (Spiral Sling & Pull)',
+                subtitle: 'Glute-Anchored Rotational Pull & Stable-Base Draw-a-Sword (20 Mins)',
+                clockHint: 'PHASE 2 TARGET: 15-35M',
+                wolfCue: 'Load the Spiral Line under 3s isometric holds. M1 trains Glute-Anchored Thoracic Extension with rotation. M2 executes the classic "Draw-a-Sword" diagonal pull from a rock-solid base. M3 pairs Vertical-Shin loading with rotational reach.',
+                shepherdCue: '"Squeeze glutes first, slide the shoulder blade into your opposite back pocket, and draw the sword across your chest."',
+                safetyGate: 'Initiating rotational pulls with a bent wrist or shrugged upper trap, or twisting the lumbar spine.',
+                stations: {
+                    M1: {
+                        role: 'Glute-Anchored Thoracic Extension w/ Rotation',
+                        options: {
+                            reformer: { name: 'Long Box Pulling Straps (Look Over Shoulder)', setup: '1 Red // Long Box // Forearm Loops', reps: '8 Alternating [3s Hold]', exec: 'Prone. Press pubic bone into box, squeeze glutes. Pull straps to hips lifting sternum, rotate to look over shoulder.', ra: 'Thread loops onto forearms. Cue a soft 20° knee bend to slacken sciatic nerve.' },
+                            cadillac: { name: 'High-Seated PTB Thoracic Twist', setup: 'Top-Sprung Light PTB // High Box', reps: '8 Reps / Side [3s Hold]', exec: 'Sit tall on Box sideways to tower. Press PTB down with inside arm while extending/rotating upper back to ceiling.', ra: 'Open-palm or forearm bar contact on High Box.' },
+                            chair: { name: 'Prone / Standing Chair Swan Rotation', setup: '1 Heavy, 1 Light', reps: '8 Reps / Side', exec: 'Prone on chair seat. Lift into Swan, reach one arm back toward hip rotating sternum open for 3s.', ra: 'Substitute with Standing Banded Scapular Flight if prone loads knees.' },
+                            mat: { name: 'Prone Glute-Anchored Rotary Flight', setup: 'Roller Under Ankles + Mat', reps: '8 Alternating', exec: 'Prone, roller under ankles (20° knee bend). Squeeze glutes. Float sternum, rotate shoulder to ceiling for 3s.', ra: 'Roller under ankles is mandatory to prevent popliteal hyperextension.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Spiral Line Sling: Stable-Base Draw-a-Sword',
+                        options: {
+                            cadillac: { name: 'High-Box Seated Arm-Spring Draw-a-Sword', setup: '1 Med Arm Spring // High Box + Block', reps: '10 Reps / Side', exec: 'Sit tall on Box facing sideways, block between knees. Sweep arm diagonally up and open while rotating thoracic ribcage.', ra: 'Seated with padded cuff on forearm—100% Spiral Line with 0% knee/wrist load.' },
+                            props_band: { name: 'Split-Stance Banded Draw-a-Sword', setup: 'Low-Anchored Band', reps: '10 Reps / Side', exec: 'Split-stance. Loop band over wrist and sweep diagonally from opposite hip to open Y-position.', ra: 'Perform seated on box if split-stance irritates knees. Loop over forearm.' },
+                            reformer: { name: 'Short-Box Seated Contralateral Pull', setup: '1 Blue // Short Box + Block', reps: '10 Reps / Side', exec: 'Sit on Short Box facing risers, feet flat on floor. Thread strap onto outside forearm; sweep diagonally across chest.', ra: 'Seated on box with flat feet on floor (vertical shins).' },
+                            chair: { name: 'High-Chair Seated Diagonal Band Pull', setup: 'Chair as Seat + Anchored Band', reps: '10 Reps / Side', exec: 'Sit tall on padded chair seat. Loop anchored band around outside forearm and draw diagonally up and back.', ra: 'High seat keeps knee angle open.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Transverse/Coronal Base + Thoracic Halo',
+                        options: {
+                            chair: { name: 'Vertical-Shin Box Sit + Halo', setup: 'High Box + Mini-Band', reps: '8 Slow Reps / Side', exec: 'Stand at High Box with mini-band above knees. Shins 100% vertical. Hinge hips back 30° to touch box, drive up into a thoracic halo sweep.', ra: 'Vertical-shin sit-to-stand gives 0/10 anterior knee shear.' },
+                            reformer: { name: 'Sidelying Above-Knee Strap Circles', setup: '1 Blue // Loop ABOVE Knee', reps: '8 Circles / Side', exec: 'Sidelying. Thread loop ABOVE top knee. Draw slow femoral circles keeping pelvis still.', ra: 'Strap ABOVE knee builds 360° hip stability with zero joint compression.' },
+                            barrel: { name: 'Wall-Supported Vertical Sit Twist', setup: 'Wall/Barrel Frame + Block', reps: '6 x 10s Holds', exec: 'Back against wall, feet forward (vertical shins). Shallow 30° sit. Rotate ribcage holding block.', ra: 'Shallow 30° isometric hold relieves anterior knee pain.' },
+                            props_band: { name: 'Supine Banded Bridge w/ Contralateral Reach', setup: 'Mini-Band Above Knees', reps: '10 Reps [3s Top Hold]', exec: 'Supine, flat heels stepped forward. Bridge hips 4 inches, reach arm diagonally across ceiling to rotate upper back.', ra: 'Protects knees while pairing glute drive with rotation.' }
+                        }
+                    }
+                }
+            },
+            crucible: {
+                title: '3. The Crucible (Rotary Closed-Chain)',
+                subtitle: 'Unified Ascending Progression: Oblique Elephant → Rotary Down-Stretch → Twist Plank (20 Mins)',
+                clockHint: 'PHASE 3 TARGET: 35-55M',
+                wolfCue: 'Take closed-chain progression and add transverse rotational demand. Ascend from Oblique Elephant to Down-Stretch to Twist Plank.',
+                shepherdCue: '"Wrap your supporting armpit forward like a shield. Rotate from your waist—never let your hips sag."',
+                safetyGate: 'Winging the supporting scapula during single-arm rotational reaches or lumbar sagging in planks.',
+                stations: {
+                    M1: {
+                        role: 'Level 1: Oblique Elephant / Forearm Scoop',
+                        options: {
+                            reformer: { name: 'Oblique Elephant (Rotated Heels)', setup: '2 Red Springs', reps: '8 Reps / Side', exec: 'Hands on footbar, heels on carriage. Rotate heels 30° right to isolate left obliques as you scoop carriage in.', ra: 'Substitute with Standing Forearm-on-Box Oblique Glide to protect wrists/knees.' },
+                            chair: { name: 'Standing Forearm-on-Seat Scoop', setup: 'Forearms on Padded Seat', reps: '8 Reps / Side', exec: 'Stand on floor with forearms resting on chair seat. Perform 3s isometric oblique pelvic scoops.', ra: 'Keep feet on solid floor and forearms on seat.' },
+                            cadillac: { name: 'Standing PTB Oblique Press & Scoop', setup: 'Top-Sprung PTB + Block Between Thighs', reps: '10 Reps / Side', exec: 'Stand facing tower, soft knees. Rest forearms on PTB, rotate torso 25°, press bar down 5 inches.', ra: 'S-Rank safe for wrists and knees.' },
+                            props_slider: { name: 'Wall Forearm Roller Oblique Saw', setup: 'Roller Against Wall', reps: '8 Reps / Side', exec: 'Stand facing wall, forearms on roller at chest height. Roll up 4 inches while rotating ribcage slightly.', ra: 'Standing execution protects joints 100%.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Level 2: Rotational Down-Stretch & Lateral Armor',
+                        options: {
+                            reformer: { name: 'Kneeling Down-Stretch w/ Reach', setup: '1 Red, 1 Blue', reps: '8 Reps / Side', exec: 'Kneeling Down-Stretch. Press out and reach one arm to ceiling in thoracic rotation.', ra: 'Substitute with Sidelying Above-Knee Strap Press to keep knees off carriage.' },
+                            chair: { name: 'Standing Hip-Hike on Block', setup: '4-Inch Yoga Block by Wall', reps: '8 Reps / Side [3s Hold]', exec: 'Stand with one foot on block (knee soft 10°). Lower free hip 2 inches, fire Glute Medius to hike level.', ra: 'Builds single-leg walking stability without bending the knee joint.' },
+                            cadillac: { name: 'Sidelying Above-Knee Leg-Spring Press', setup: '1 Light Leg Spring // Loop Above Knee', reps: '10 Reps / Side', exec: 'Sidelying, loop ABOVE top knee. Press femur down and externally rotate from deep hip socket.', ra: 'Zero force crosses the knee joint.' },
+                            props_band: { name: 'Banded Clamshell + Thoracic Open-Book', setup: 'Mini-Band Above Knees', reps: '10 Reps / Side', exec: 'Sidelying. Open top knee (Clamshell) and hold isometrically while sweeping top arm into Thoracic Open-Book rotation.', ra: 'Combines thoracic opening with lateral hip strength safely.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Level 3: Rotational Plank Mastery',
+                        options: {
+                            reformer: { name: 'Control Front / Twist Prep', setup: '1 Red, 1 Blue', reps: '6 Flows / Side', exec: 'Control Front plank on Reformer with alternating rotational hip/rib control.', ra: 'Substitute with Standing Forearm Box Plank Saw to protect wrists.' },
+                            mat: { name: 'Forearm Side-Plank Rotation', setup: 'Mat', reps: '8 Rotations / Side', exec: 'Forearm plank, rotate to Side-Plank reaching arm to ceiling, thread under ribs.', ra: 'Substitute with Prone Y-T-W sweeps with ankles bolstered on a foam roller (20° knee bend).' },
+                            chair: { name: 'Forearm-on-Chair Side Plank Thread', setup: 'Forearm on Seat // Feet Wide on Floor', reps: '8 Reps / Side', exec: 'Inclined forearm side-plank on chair seat. Thread top arm under ribs and open chest.', ra: 'Elevated forearm side-plank is gentle on wrists while firing lateral core.' },
+                            cadillac: { name: 'Standing High-Cuff Rhomboid Endurance', setup: '2 Light Arm Springs // Forearm Cuffs', reps: '8 Reps [5s Hold]', exec: 'Stand facing tower. Pull forearm cuffs back into wide "W", rotate torso, hold 5s.', ra: 'Pure postural endurance with zero joint compression.' }
+                        }
+                    }
+                }
+            },
+            unwind: {
+                title: '4. The Unwind (Spiral Reset)',
+                subtitle: 'Intercostal Flush & Loose-Packed Knee Decompression (10 Mins)',
+                clockHint: 'PHASE 4 TARGET: 55-65M',
+                wolfCue: 'Decompress intercostals and thoracolumbar fascia while placing knees in their 30-45° loose-packed resting position so synovial pressure and nerve tension drop to zero.',
+                shepherdCue: '"Let the bolster hold the weight of your knees. Breathe wide into your side ribs."',
+                safetyGate: 'Forcing straight-leg hamstring stretches that re-trigger sciatic tension or tucking knees past 60°.',
+                stations: {
+                    M1: {
+                        role: 'Spiral Line & Intercostal Decompression',
+                        options: {
+                            barrel: { name: 'Barrel Lateral Drape', setup: 'Lateral over Apex', reps: '90s (4s In : 6s Out)', exec: 'Passive lateral side-drape over barrel apex to open intercostals.', ra: 'Substitute with Supine Calves-on-Barrel Reset (knees at 45°) to drain synovial fluid.' },
+                            reformer: { name: 'Supine Carriage Cactus Drape', setup: 'Roller Under Knees', reps: '90s Passive', exec: 'Supine with thick roller under knees (30° loose-pack). Arms wide in "T".', ra: 'S-Rank parasympathetic reset.' },
+                            cadillac: { name: 'Supine Bolstered-Knee Chest Release', setup: 'Bolster Under Knees', reps: '90s Hold', exec: 'Supine with knees supported at 35° over bolster. Arms rest wide.', ra: 'Zero joint or nerve tension.' },
+                            mat: { name: 'Vertical Roller Cactus Drape', setup: 'Vertical Roller + Blocks Under Knees', reps: '90s (4s In : 6s Out)', exec: 'Lie lengthwise on roller. Knees softly bent at 45° over blocks. Arms melt into cactus.', ra: 'Combines passive thoracic extension with knee offloading.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Soft-Knee Psoas Decompression',
+                        options: {
+                            reformer: { name: 'Eve’s Lunge w/ Twist', setup: '1 Red', reps: '60s / Side', exec: 'Eve’s Lunge with thoracic rotation toward front leg.', ra: 'Substitute with Supine Sacral-Block Psoas Release (roller under heel, 25° soft knee).' },
+                            mat: { name: 'Sacral-Block Psoas Release (Soft Knee)', setup: 'Block Under Sacrum + Roller', reps: '60s / Side', exec: 'Block under sacrum. Extend one leg forward with heel on roller (25° micro-bend).', ra: 'Soft knee bend prevents sciatic traction while opening hip.' },
+                            cadillac: { name: 'Supine Bed-Edge Passive Iliopsoas', setup: 'Sacrum Near Edge', reps: '60s / Side', exec: 'Supine, let one thigh drop 10° off side edge with relaxed knee.', ra: 'Zero patellar contact.' },
+                            chair: { name: 'Standing Posterior Tilt Opener', setup: 'Hands on Chair Frame', reps: '45s / Side', exec: 'Short staggered stance. Tuck tailbone, squeeze back glute, reach arm across.', ra: 'Pain-free standing decompression.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Thoracic Open-Book Flush',
+                        options: {
+                            mat: { name: 'Sidelying Open-Book (45° Stack)', setup: 'Roller Between Knees', reps: '60s / Side', exec: 'Sidelying. Knees loosely bent at 45° clamping roller. Sweep top arm open.', ra: 'Loose 45° angle prevents posterior knee capsule pinching.' },
+                            cadillac: { name: 'Cadillac Open-Book w/ Bolster', setup: 'Bolster Between Knees', reps: '60s / Side', exec: 'Sidelying with thick bolster between 45° knees. Sweep arm open.', ra: 'S-Rank safe for joint flare-ups.' },
+                            reformer: { name: 'Supine Micro-Range Rib Sway', setup: 'Feet Wide on Bar', reps: '60s Slow Breath', exec: 'Supine, heels wide on footbar (knees 45°). Sway knees 3 inches right/left.', ra: 'Gentle vagal down-regulation.' },
+                            barrel: { name: 'Seated Cervical & Scalene Release', setup: 'Sit High on Apex', reps: '60s / Side', exec: 'Sit tall, knees wide and relaxed. Tilt ear to shoulder with slow exhales.', ra: 'Turns off overactive neck muscles.' }
+                        }
+                    }
+                }
+            }
+        };
+
+        const stationSelections = {
+            primer:   { M1: 'reformer', M2: 'cadillac', M3: 'mat' },
+            anchor:   { M1: 'reformer', M2: 'cadillac', M3: 'chair' },
+            crucible: { M1: 'reformer', M2: 'chair',    M3: 'mat' },
+            unwind:   { M1: 'barrel',   M2: 'reformer', M3: 'cadillac' }
+        };
+
+        let currentPhase = 'primer';
+        let isRaActive = false;
+
+        function getInventory() {
+            return {
+                reformer: parseInt(document.getElementById('inv-reformer').value || 0, 10),
+                cadillac: parseInt(document.getElementById('inv-cadillac').value || 0, 10),
+                chair: parseInt(document.getElementById('inv-chair').value || 0, 10),
+                barrel: parseInt(document.getElementById('inv-barrel').value || 0, 10)
+            };
+        }
+
+        function setSelectStationEquip(phaseId, stKey, val) {
+            stationSelections[phaseId][stKey] = val;
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function setGlobalPreset(mode) {
+            Object.keys(stationSelections).forEach(phaseKey => {
+                ['M1', 'M2', 'M3'].forEach(stKey => {
+                    const availOpts = Object.keys(PROTOCOL_DB[phaseKey].stations[stKey].options);
+                    if (mode === 'mat') {
+                        const matOpt = availOpts.find(o => ['mat', 'props_slider', 'props_band', 'props_freeweight'].includes(o));
+                        stationSelections[phaseKey][stKey] = matOpt || availOpts[0];
+                    } else {
+                        const studioOpt = availOpts.find(o => ['reformer', 'cadillac', 'chair', 'barrel'].includes(o));
+                        stationSelections[phaseKey][stKey] = studioOpt || availOpts[0];
+                    }
+                });
+            });
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function autoOptimizeEquipment() {
+            const inv = getInventory();
+            const format = document.getElementById('flowFormat').value;
+            if (currentPhase === 'audit') return;
+
+            const usedCounts = { reformer: 0, cadillac: 0, chair: 0, barrel: 0 };
+            ['M1', 'M2', 'M3'].forEach(stKey => {
+                const opts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options);
+                let chosen = stationSelections[currentPhase][stKey];
+
+                if (format === 'circuit') {
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(chosen) && (inv[chosen] - usedCounts[chosen] < 1)) {
+                        chosen = opts.find(o => !['reformer', 'cadillac', 'chair', 'barrel'].includes(o) || (inv[o] - usedCounts[o]) >= 1) || opts[0];
+                    }
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(chosen)) usedCounts[chosen]++;
+                } else {
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(chosen) && inv[chosen] === 0) {
+                        chosen = opts.find(o => !['reformer', 'cadillac', 'chair', 'barrel'].includes(o) || inv[o] > 0) || opts[0];
+                    }
+                }
+                stationSelections[currentPhase][stKey] = chosen;
+            });
+
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function updateLogistics() {
+            const pax = parseInt(document.getElementById('paxCount').value, 10);
+            const format = document.getElementById('flowFormat').value;
+            const inv = getInventory();
+            const banner = document.getElementById('logisticsBanner');
+
+            if (currentPhase === 'audit') { banner.style.display = 'none'; return; }
+            banner.style.display = 'block';
+
+            const phaseSel = stationSelections[currentPhase];
+            const eqM1 = phaseSel.M1;
+            const eqM2 = phaseSel.M2;
+            const eqM3 = phaseSel.M3;
+
+            if (format === 'circuit') {
+                const demand = { reformer: 0, cadillac: 0, chair: 0, barrel: 0 };
+                [eqM1, eqM2, eqM3].slice(0, Math.min(pax, 3)).forEach(eq => {
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(eq)) demand[eq]++;
+                });
+
+                const conflicts = [];
+                Object.keys(demand).forEach(eq => {
+                    if (demand[eq] > inv[eq]) conflicts.push(`${EQUIP_LABELS[eq]} (Need ${demand[eq]}, Have ${inv[eq]})`);
+                });
+
+                const hasConflict = conflicts.length > 0;
+                const statusColor = hasConflict ? 'border-amber-500 bg-[#181005]' : 'border-[#333333] bg-[#111111]';
+                const badgeHtml = hasConflict
+                    ? `<span class="px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 border border-amber-500 text-amber-400 uppercase font-bold">BOTTLENECK: ${conflicts.join(', ')} — CLICK AUTO-FIT</span>`
+                    : `<span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 border border-emerald-500 text-emerald-400 uppercase font-bold">ZERO HARDWARE CONFLICT // READY</span>`;
+
+                let rotationHtml = '';
+                if (pax === 1) {
+                    rotationHtml = `<p class="text-xs font-mono text-gray-300 mt-3">SOLO FLOW: Client executes <span class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</span> → <span class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</span> → <span class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</span>.</p>`;
+                } else if (pax === 2) {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Standard):</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong></div>
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">PAX B (RA/Grip Override):</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong></div>
+                        </div>`;
+                } else {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Standard):</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong></div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B (Standard):</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong></div>
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">PAX C (RA/Grip Override):</span> Starts at <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</strong></div>
+                        </div>`;
+                }
+
+                banner.className = `mb-8 border p-5 ${statusColor}`;
+                banner.innerHTML = `<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3"><span class="text-[10px] font-mono uppercase tracking-widest text-gray-400">Circuit Mode // ${pax} Pax</span>${badgeHtml}</div>${rotationHtml}`;
+            } else {
+                const buildSplitText = (stKey, primaryEq) => {
+                    if (!['reformer', 'cadillac', 'chair', 'barrel'].includes(primaryEq)) return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    const availPrimary = inv[primaryEq];
+                    if (availPrimary >= pax) return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    
+                    const altOpts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options).filter(o => o !== primaryEq && (!['reformer', 'cadillac', 'chair', 'barrel'].includes(o) || inv[o] > 0));
+                    const fallbackEq = altOpts[0] || 'mat';
+                    const onPrimary = Math.max(0, availPrimary);
+                    const onFallback = pax - onPrimary;
+                    return `<span class="text-amber-300">${onPrimary} Pax on ${EQUIP_LABELS[primaryEq]} + ${onFallback} Pax on ${EQUIP_LABELS[fallbackEq]}</span>`;
+                };
+
+                banner.className = 'mb-8 border border-[#333333] bg-[#111111] p-5';
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Synchronized Flow Mode // Smart Allocation</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M1:</strong> ${buildSplitText('M1', eqM1)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M2:</strong> ${buildSplitText('M2', eqM2)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M3:</strong> ${buildSplitText('M3', eqM3)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function toggleRA() {
+            const btn = document.getElementById('raToggleBtn');
+            isRaActive = !isRaActive;
+            if (isRaActive) {
+                document.body.classList.add('ra-active');
+                btn.classList.add('active');
+                btn.innerText = '[X] RA / GRIP OVERRIDE ACTIVE';
+            } else {
+                document.body.classList.remove('ra-active');
+                btn.classList.remove('active');
+                btn.innerText = '[ ] RA / GRIP OVERRIDE';
+            }
+        }
+
+        function renderCurrentPhase() {
+            if (currentPhase === 'audit') {
+                document.getElementById('dynamic-phase-view').classList.remove('active');
+                document.getElementById('audit-phase-view').classList.add('active');
+                evaluateAuditLoop();
+                return;
+            }
+
+            document.getElementById('audit-phase-view').classList.remove('active');
+            const view = document.getElementById('dynamic-phase-view');
+            view.classList.add('active');
+
+            const data = PROTOCOL_DB[currentPhase];
+            document.getElementById('clockPhaseHint').innerText = data.clockHint;
+
+            const cards = ['M1', 'M2', 'M3'].map(stKey => {
+                const stObj = data.stations[stKey];
+                const selectedEquip = stationSelections[currentPhase][stKey] || Object.keys(stObj.options)[0];
+                const activeMove = stObj.options[selectedEquip];
+
+                const dropdown = Object.keys(stObj.options).map(eqKey => {
+                    const sel = eqKey === selectedEquip ? 'selected' : '';
+                    return `<option value="${eqKey}" ${sel}>${EQUIP_LABELS[eqKey]} — ${stObj.options[eqKey].name}</option>`;
+                }).join('');
+
+                return `
+                    <div class="border border-[#333333] bg-[#0a0a0a] p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#222222]">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 bg-[#111111] border border-[#00e5ff] text-[#00e5ff] font-mono text-xs font-bold">${stKey}</span>
+                                    <span class="text-xs font-mono uppercase tracking-wider text-gray-300 font-semibold">${stObj.role}</span>
+                                </div>
+                                <span class="text-xs font-mono text-white bg-[#111111] border border-[#333333] px-3 py-1">${activeMove.reps}</span>
+                            </div>
+                            <div class="mb-4">
+                                <select onchange="setSelectStationEquip('${currentPhase}', '${stKey}', this.value)" class="w-full bg-[#111111] border border-[#333333] hover:border-[#00e5ff] text-xs font-mono text-[#00e5ff] px-3 py-2 pr-8 appearance-none outline-none transition-colors cursor-pointer">
+                                    ${dropdown}
+                                </select>
+                            </div>
+                            <div class="flex items-start gap-4 mb-4">
+                                <input type="checkbox" class="mt-1 shrink-0">
+                                <div>
+                                    <h4 class="text-lg text-white font-serif mb-1">${activeMove.name}</h4>
+                                    <p class="text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-2">${activeMove.setup}</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">${activeMove.exec}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ra-module border border-[#1e3a8a] bg-[#0a0f1c] p-4 mt-4 border-l-4 border-l-[#3b82f6]">
+                            <span class="text-[10px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">OVERRIDE (${stKey})</span>
+                            <p class="text-xs text-gray-200 leading-relaxed">${activeMove.ra}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            view.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl text-white mb-2">${data.title}</h2>
+                        <p class="text-gray-400 uppercase tracking-widest text-xs font-mono">${data.subtitle}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6 mb-8">${cards}</div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-[#111111] border border-[#333333] p-6">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold mb-2">The Wolf Cue</h3>
+                        <p class="text-sm text-gray-200 leading-relaxed">${data.wolfCue}</p>
+                    </div>
+                    <div class="bg-[#111111] border border-[#333333] p-6">
+                        <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-400 font-bold mb-2">The Shepherd Cue</h3>
+                        <p class="text-sm text-gray-300 font-serif italic leading-relaxed">${data.shepherdCue}</p>
+                    </div>
+                    <div class="border border-red-900/60 bg-[#110505] p-6 border-l-4 border-l-red-500">
+                        <h3 class="text-red-500 font-mono font-bold uppercase tracking-widest text-[10px] mb-2">Safety Gate</h3>
+                        <p class="text-sm text-red-200 leading-relaxed">${data.safetyGate}</p>
+                    </div>
+                </div>
+            `;
+            updateLogistics();
+        }
+
+        function evaluateAuditLoop() {
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+            
+            const hitTarget = document.getElementById('som-target').checked;
+            const neckComp = document.getElementById('som-neck').checked;
+            const lumbarComp = document.getElementById('som-lumbar').checked;
+
+            const deductions = [];
+            let badge = 'CLEAR FOR W4 (POSTERIOR INTEGRATION)';
+            let color = 'text-[#00e5ff] border-[#00e5ff]';
+
+            if (g1 !== 'pass' || neckComp) {
+                badge = 'HOLD AT W3 // RE-CALIBRATE DISSOCIATION';
+                color = 'text-amber-400 border-amber-400';
+                deductions.push('• [GATE 01 / CERVICAL ALERT]: Client lifted opposite sit-bone or compensated with neck during Spine Twist. Enforce High-Seated elevation on blocks with adductor squeeze.');
+            }
+            if (g2 !== 'pass' || lumbarComp) {
+                if (lumbarComp) { badge = 'MODIFY W4 // LOCK PELVIC ANCHOR'; color = 'text-red-400 border-red-500'; }
+                deductions.push('• [GATE 02 / SPIRAL LINE]: Pulled primarily with arm or hyperextended L4-L5. Cue "Squeeze glutes first, depress scapula second, rotate ribcage third."');
+            }
+            if (g3 !== 'level3') {
+                deductions.push(`• [GATE 03 / ROTATIONAL CEILING]: Reached stability limit at ${g3.toUpperCase()}. Keep client at Oblique Elephant and Forearm Thread-the-Needle until supporting serratus holds flat.`);
+            }
+
+            if (hitTarget && g1 === 'pass' && g2 === 'pass' && g3 === 'level3' && deductions.length === 0) {
+                deductions.push('• [ALL GATES PASSED]: Mastered pelvis-locked thoracic rotation, Spiral Line endurance, and closed-chain oblique stability. Advance to W4.');
+            }
+
+            document.getElementById('auditVerdictBox').innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b border-[#1e3a5f] pb-4">
+                    <div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Automated Diagnostic Routing</span>
+                        <h3 class="text-2xl text-white">Post-Session Prescription</h3>
+                    </div>
+                    <span class="px-3 py-1 border font-mono text-xs font-bold uppercase ${color}">${badge}</span>
+                </div>
+                <div class="space-y-2 text-sm text-gray-200 font-mono leading-relaxed">${deductions.map(d=>`<p>${d}</p>`).join('')}</div>
+            `;
+        }
+
+        function copyAuditReport() {
+            const temp = document.createElement('textarea');
+            temp.value = document.getElementById('auditVerdictBox').innerText;
+            document.body.appendChild(temp);
+            temp.select(); document.execCommand('copy');
+            document.body.removeChild(temp);
+            const btn = document.getElementById('copyAuditBtn');
+            btn.innerText = 'COPIED'; setTimeout(() => btn.innerText = 'COPY TELEMETRY REPORT', 2000);
+        }
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('border-[#00e5ff]', 'bg-[#111111]'));
+            document.getElementById('nav-' + phaseId).classList.add('border-[#00e5ff]', 'bg-[#111111]');
+            renderCurrentPhase();
+        }
+
+        let timerInterval; let seconds = 0; let isRunning = false;
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            if (isRunning) { clearInterval(timerInterval); btn.innerText = 'RESUME'; }
+            else { timerInterval = setInterval(() => {
+                seconds++;
+                document.getElementById('timerDisplay').innerText = Math.floor(seconds/60).toString().padStart(2,'0') + ':' + (seconds%60).toString().padStart(2,'0');
+            }, 1000); btn.innerText = 'PAUSE'; }
+            isRunning = !isRunning;
+        }
+        function resetTimer() { clearInterval(timerInterval); seconds = 0; isRunning = false; document.getElementById('timerDisplay').innerText = '00:00'; document.getElementById('startBtn').innerText = 'START'; }
+
+        window.onload = () => { renderCurrentPhase(); updateLogistics(); };
+    </script>
+</body>
+</html>

@@ -157,7 +157,7 @@
                     <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">MAT/PROPS</button>
                 </div>
                 <button id="raToggleBtn" onclick="toggleRA()" class="ra-toggle-btn w-full border border-[#333333] bg-[#111111] transition-colors py-2.5 text-xs font-mono font-semibold tracking-wider text-gray-400">
-                    [ ] PATHOLOGY OVERRIDE
+                    [ ] RA / GRIP OVERRIDE
                 </button>
             </div>
         </div>
@@ -226,10 +226,28 @@
                     <div class="space-y-4">
                         <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
                             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 01: Flow Transition</span>
-                                <select id="gate1-status" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 01: Global Mobility (P1)</span>
+                                <select id="gate1-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                    <option value="pass">PASSED (Fluid spinal articulation)</option>
+                                    <option value="fail">FAIL: Rigid blocking or breath holding</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 02: Heavy Extension (P2)</span>
+                                <select id="gate2-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                    <option value="pass">PASSED (Glute locked during Swan/Pulls)</option>
+                                    <option value="fail">FAIL: Lumbar dumping under heavy load</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 03: Flow State Transition (P3)</span>
+                                <select id="gate3-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
                                     <option value="pass">PASSED (Seamless transitions, no resting)</option>
-                                    <option value="fail">FAIL: Clunky transitions, loss of breath</option>
+                                    <option value="fail">FAIL: Clunky transitions, loss of balance</option>
                                 </select>
                             </div>
                         </div>
@@ -240,23 +258,27 @@
                     <h3 class="text-xl text-white border-b border-[#222222] pb-3">2. Somatic Body Interrogation</h3>
                     <div class="space-y-3">
                         <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-[#00e5ff]">
-                            <input type="checkbox" id="som-target" checked>
+                            <input type="checkbox" id="som-target" checked onchange="evaluateAuditLoop()">
                             <div>
                                 <span class="text-xs font-mono font-bold text-[#00e5ff] uppercase block">Target Hit: Total Body Synergy</span>
                                 <span class="text-[11px] text-gray-400">Client reports feeling "tall, open, and connected."</span>
                             </div>
                         </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500">
+                            <input type="checkbox" id="som-fatigue" onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">Alert: Extreme Fatigue / Breath Holding</span>
+                                <span class="text-[11px] text-gray-400">Flow state broke down due to cardiovascular tax.</span>
+                            </div>
+                        </label>
                     </div>
                     <div>
                         <label class="block text-[10px] font-mono uppercase text-gray-500 mb-2">Field Notes</label>
-                        <textarea id="auditNotes" rows="3" class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono outline-none"></textarea>
+                        <textarea id="auditNotes" oninput="evaluateAuditLoop()" rows="3" class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono outline-none"></textarea>
                     </div>
                 </div>
             </div>
-            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]">
-                <h3 class="text-2xl text-white mb-2">Arc Complete</h3>
-                <p class="text-sm text-gray-200 font-mono">Client has mastered the Upper Crossed Arc. Ready for new systemic programming.</p>
-            </div>
+            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]"></div>
         </div>
     </main>
 
@@ -400,16 +422,26 @@
 
         const stationSelections = {
             primer:   { M1: 'reformer', M2: 'barrel', M3: 'chair' },
-            anchor:   { M1: 'reformer', M2: 'chair', M3: 'barrel' },
+            anchor:   { M1: 'reformer', M2: 'chair', M3: 'mat' },
             crucible: { M1: 'reformer', M2: 'cadillac', M3: 'chair' },
             unwind:   { M1: 'cadillac', M2: 'reformer', M3: 'mat' }
         };
 
         let currentPhase = 'primer';
 
+        function getInventory() {
+            return {
+                reformer: parseInt(document.getElementById('inv-reformer').value || 0, 10),
+                cadillac: parseInt(document.getElementById('inv-cadillac').value || 0, 10),
+                chair: parseInt(document.getElementById('inv-chair').value || 0, 10),
+                barrel: parseInt(document.getElementById('inv-barrel').value || 0, 10)
+            };
+        }
+
         function setSelectStationEquip(phaseId, stKey, val) {
             stationSelections[phaseId][stKey] = val;
             renderCurrentPhase();
+            updateLogistics();
         }
 
         function setGlobalPreset(mode) {
@@ -426,25 +458,126 @@
                 });
             });
             renderCurrentPhase();
+            updateLogistics();
         }
 
         function autoOptimizeEquipment() {
-            setGlobalPreset('apparatus');
+            const inv = getInventory();
+            const format = document.getElementById('flowFormat').value;
+            if (currentPhase === 'audit') return;
+
+            const usedCounts = { reformer: 0, cadillac: 0, chair: 0, barrel: 0 };
+            ['M1', 'M2', 'M3'].forEach(stKey => {
+                const opts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options);
+                let chosen = stationSelections[currentPhase][stKey];
+
+                if (format === 'circuit') {
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(chosen) && (inv[chosen] - usedCounts[chosen] < 1)) {
+                        chosen = opts.find(o => !['reformer', 'cadillac', 'chair', 'barrel'].includes(o) || (inv[o] - usedCounts[o]) >= 1) || opts[0];
+                    }
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(chosen)) usedCounts[chosen]++;
+                } else {
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(chosen) && inv[chosen] === 0) {
+                        chosen = opts.find(o => !['reformer', 'cadillac', 'chair', 'barrel'].includes(o) || inv[o] > 0) || opts[0];
+                    }
+                }
+                stationSelections[currentPhase][stKey] = chosen;
+            });
+
+            renderCurrentPhase();
+            updateLogistics();
         }
 
-        function updateLogistics() {}
+        function updateLogistics() {
+            const pax = parseInt(document.getElementById('paxCount').value, 10);
+            const format = document.getElementById('flowFormat').value;
+            const inv = getInventory();
+            const banner = document.getElementById('logisticsBanner');
+
+            if (currentPhase === 'audit') { banner.style.display = 'none'; return; }
+            banner.style.display = 'block';
+
+            const phaseSel = stationSelections[currentPhase];
+            const eqM1 = phaseSel.M1;
+            const eqM2 = phaseSel.M2;
+            const eqM3 = phaseSel.M3;
+
+            if (format === 'circuit') {
+                const demand = { reformer: 0, cadillac: 0, chair: 0, barrel: 0 };
+                [eqM1, eqM2, eqM3].slice(0, Math.min(pax, 3)).forEach(eq => {
+                    if (['reformer', 'cadillac', 'chair', 'barrel'].includes(eq)) demand[eq]++;
+                });
+
+                const conflicts = [];
+                Object.keys(demand).forEach(eq => {
+                    if (demand[eq] > inv[eq]) conflicts.push(`${EQUIP_LABELS[eq]} (Need ${demand[eq]}, Have ${inv[eq]})`);
+                });
+
+                const hasConflict = conflicts.length > 0;
+                const statusColor = hasConflict ? 'border-amber-500 bg-[#181005]' : 'border-[#333333] bg-[#111111]';
+                const badgeHtml = hasConflict
+                    ? `<span class="px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 border border-amber-500 text-amber-400 uppercase font-bold">BOTTLENECK: ${conflicts.join(', ')} — CLICK AUTO-FIT</span>`
+                    : `<span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 border border-emerald-500 text-emerald-400 uppercase font-bold">ZERO HARDWARE CONFLICT // READY</span>`;
+
+                let rotationHtml = '';
+                if (pax === 1) {
+                    rotationHtml = `<p class="text-xs font-mono text-gray-300 mt-3">SOLO FLOW: Client executes <span class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1] || eqM1})</span> → <span class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2] || eqM2})</span> → <span class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3] || eqM3})</span>.</p>`;
+                } else if (pax === 2) {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Standard):</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1] || eqM1})</strong></div>
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">PAX B (RA/Grip Override):</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2] || eqM2})</strong></div>
+                        </div>`;
+                } else {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX A (Standard):</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1] || eqM1})</strong></div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-500">PAX B (Standard):</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2] || eqM2})</strong></div>
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">PAX C (RA/Grip Override):</span> Starts at <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3] || eqM3})</strong></div>
+                        </div>`;
+                }
+
+                banner.className = `mb-8 border p-5 ${statusColor}`;
+                banner.innerHTML = `<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3"><span class="text-[10px] font-mono uppercase tracking-widest text-gray-400">Circuit Mode // ${pax} Pax</span>${badgeHtml}</div>${rotationHtml}`;
+            } else {
+                const buildSplitText = (stKey, primaryEq) => {
+                    if (!['reformer', 'cadillac', 'chair', 'barrel'].includes(primaryEq)) return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq] || primaryEq}</span>`;
+                    const availPrimary = inv[primaryEq];
+                    if (availPrimary >= pax) return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    
+                    const altOpts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options).filter(o => o !== primaryEq && (!['reformer', 'cadillac', 'chair', 'barrel'].includes(o) || inv[o] > 0));
+                    const fallbackEq = altOpts[0] || 'mat';
+                    const onPrimary = Math.max(0, availPrimary);
+                    const onFallback = pax - onPrimary;
+                    return `<span class="text-amber-300">${onPrimary} Pax on ${EQUIP_LABELS[primaryEq]} + ${onFallback} Pax on ${EQUIP_LABELS[fallbackEq] || fallbackEq}</span>`;
+                };
+
+                banner.className = 'mb-8 border border-[#333333] bg-[#111111] p-5';
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Synchronized Flow Mode // Smart Allocation</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M1:</strong> ${buildSplitText('M1', eqM1)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M2:</strong> ${buildSplitText('M2', eqM2)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M3:</strong> ${buildSplitText('M3', eqM3)}</div>
+                    </div>
+                `;
+            }
+        }
 
         function toggleRA() {
             document.body.classList.toggle('ra-active');
             const btn = document.getElementById('raToggleBtn');
             btn.classList.toggle('active');
-            btn.innerText = document.body.classList.contains('ra-active') ? '[X] PATHOLOGY OVERRIDE ACTIVE' : '[ ] PATHOLOGY OVERRIDE';
+            btn.innerText = document.body.classList.contains('ra-active') ? '[X] RA / GRIP OVERRIDE ACTIVE' : '[ ] RA / GRIP OVERRIDE';
         }
 
         function renderCurrentPhase() {
             if (currentPhase === 'audit') {
                 document.getElementById('dynamic-phase-view').classList.remove('active');
                 document.getElementById('audit-phase-view').classList.add('active');
+                evaluateAuditLoop();
                 return;
             }
 
@@ -507,11 +640,53 @@
                     <div class="border border-red-900/60 bg-[#110505] p-6 border-l-4 border-l-red-500"><h3 class="text-red-500 font-mono font-bold uppercase text-[10px] mb-2">Safety Gate</h3><p class="text-sm text-red-200">${data.safetyGate}</p></div>
                 </div>
             `;
+            updateLogistics();
+        }
+
+        function evaluateAuditLoop() {
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+            
+            const hitTarget = document.getElementById('som-target').checked;
+            const fatigue = document.getElementById('som-fatigue').checked;
+
+            const deductions = [];
+            let badge = 'ARC COMPLETE // GRADUATE TO NEW PROGRAMMING';
+            let color = 'text-[#00e5ff] border-[#00e5ff]';
+
+            if (g1 !== 'pass') {
+                badge = 'HOLD AT W5 // RE-CALIBRATE MOBILITY';
+                color = 'text-amber-400 border-amber-400';
+                deductions.push('• [GATE 01 / GLOBAL MOBILITY]: Client exhibited rigid blocking. Revert to isolated articulation flows.');
+            }
+            if (g2 !== 'pass') {
+                deductions.push('• [GATE 02 / HEAVY EXTENSION]: Lumbar dumping detected. Re-establish glute anchor before loading the upper thoracic.');
+            }
+            if (g3 !== 'pass' || fatigue) {
+                if (fatigue) { badge = 'MODIFY MASTERY // BUILD ENDURANCE'; color = 'text-amber-400 border-amber-400'; }
+                deductions.push('• [GATE 03 / FLOW STATE]: Client lost breath control or balance during transitions. Keep programming at W5 but add 15s rests between stations.');
+            }
+
+            if (hitTarget && g1 === 'pass' && g2 === 'pass' && g3 === 'pass' && !fatigue) {
+                deductions.push('• [ALL GATES PASSED]: Client has mastered the Upper Crossed Arc. They possess full kinetic chain flow state. Cleared to exit protocol.');
+            }
+
+            document.getElementById('auditVerdictBox').innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b border-[#1e3a5f] pb-4">
+                    <div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Automated Diagnostic Routing</span>
+                        <h3 class="text-2xl text-white">Post-Session Prescription</h3>
+                    </div>
+                    <span class="px-3 py-1 border font-mono text-xs font-bold uppercase ${color}">${badge}</span>
+                </div>
+                <div class="space-y-2 text-sm text-gray-200 font-mono leading-relaxed">${deductions.map(d=>`<p>${d}</p>`).join('')}</div>
+            `;
         }
 
         function copyAuditReport() {
             const temp = document.createElement('textarea');
-            temp.value = "Movement OS | W5 Audit Logged.";
+            temp.value = "Movement OS | W5 Audit Logged.\n" + document.getElementById('auditVerdictBox').innerText;
             document.body.appendChild(temp); temp.select(); document.execCommand('copy'); document.body.removeChild(temp);
             const btn = document.getElementById('copyAuditBtn'); btn.innerText = 'COPIED'; setTimeout(() => btn.innerText = 'COPY TELEMETRY REPORT', 2000);
         }
