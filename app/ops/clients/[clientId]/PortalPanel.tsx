@@ -201,7 +201,7 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
 
       <div className="flex items-end gap-3 flex-wrap">
         <div>
-          <label className="block text-[10px] text-[#888] uppercase tracking-widest mb-1">RECUP.STN member code</label>
+          <label className="block text-[10px] text-[#888] uppercase tracking-widest mb-1">RECUP.STN code · only if they are a member</label>
           <input value={recup} onChange={(e) => setRecup(e.target.value)} placeholder="RS-XXXX" className={field} />
         </div>
         <button onClick={saveFuel} disabled={busy} className="border border-[#00e5ff] text-[#00e5ff] px-4 py-2 text-[10px] tracking-widest hover:bg-[#00e5ff] hover:text-black disabled:opacity-40">

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement OS | KIN-P016 W5 (Mastery & Flow)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff; 
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono, .clock-display { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
+        
+        .phase-content { display: none; }
+        .phase-content.active { display: block; animation: fadeIn 0.25s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ra-module { display: none; }
+        body.ra-active .ra-module { 
+            display: block; 
+            animation: fadeIn 0.25s ease-in;
+        }
+        .ra-toggle-btn.active {
+            background-color: #1e3a8a; 
+            border-color: #3b82f6;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"] {
+            appearance: none;
+            background-color: #050505;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.25em;
+            height: 1.25em;
+            border: 1px solid #333333;
+            display: grid;
+            place-content: center;
+            border-radius: 0;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        input[type="checkbox"]::before {
+            content: "";
+            width: 0.65em;
+            height: 0.65em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #00e5ff;
+            background-color: #00e5ff;
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        input[type="checkbox"]:checked::before { transform: scale(1); }
+        input[type="checkbox"]:checked { border-color: #00e5ff; }
+
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-linecap='square'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.65rem center;
+            background-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <aside class="w-full md:w-80 border-b md:border-b-0 md:border-r border-[#333333] bg-[#050505] p-6 flex flex-col overflow-y-auto shrink-0 z-20">
+        <div class="mb-6 border-b border-[#222222] pb-5">
+            <div class="flex items-center justify-between mb-2">
+                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2.1</p>
+                <span class="text-[10px] font-mono px-2 py-0.5 border border-[#333333] bg-[#111111] text-gray-300">60-75 MIN</span>
+            </div>
+            <h1 class="text-2xl text-white">KIN-P016_W5</h1>
+            <p class="text-xs text-gray-400 mt-1">Upper Crossed: Mastery & Full-Chain Flow</p>
+        </div>
+
+        <div class="mb-6 border border-[#333333] bg-[#0a0a0a] p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Flow Clock</h3>
+                <span id="clockPhaseHint" class="text-[10px] font-mono text-[#00e5ff]">PHASE 1 TARGET: 0-15M</span>
+            </div>
+            <div id="timerDisplay" class="clock-display text-3xl text-white mb-4 text-center tracking-widest">00:00</div>
+            <div class="flex space-x-2">
+                <button id="startBtn" onclick="toggleTimer()" class="flex-1 border border-[#333333] bg-[#111111] hover:bg-[#222222] transition-colors py-2 text-xs font-mono font-semibold tracking-wider">START</button>
+                <button onclick="resetTimer()" class="flex-1 border border-[#333333] bg-[#050505] hover:bg-[#1a1a1a] transition-colors py-2 text-xs font-mono font-semibold tracking-wider text-gray-500">RESET</button>
+            </div>
+        </div>
+
+        <div class="mb-6 border border-[#333333] p-4 bg-[#0a0a0a] space-y-4">
+            <div class="flex justify-between items-center border-b border-[#222222] pb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Class Logistics</h3>
+                <button onclick="autoOptimizeEquipment()" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors" title="Automatically resolve equipment conflicts">
+                    AUTO-FIT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Pax</label>
+                    <select id="paxCount" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="1">1 Pax</option>
+                        <option value="2">2 Pax (Duet)</option>
+                        <option value="3" selected>3 Pax (Trio)</option>
+                        <option value="4">4 Pax (Quad)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Structure</label>
+                    <select id="flowFormat" onchange="updateLogistics()" class="w-full bg-[#111111] border border-[#333333] text-xs font-mono text-white px-2 py-1.5 appearance-none focus:border-[#00e5ff] outline-none">
+                        <option value="circuit" selected>Circuit</option>
+                        <option value="sync">Synchronized</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <span class="block text-[9px] font-mono uppercase text-gray-500 mb-2">Studio Apparatus Available</span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">REF</span>
+                        <input id="inv-reformer" type="number" min="0" max="8" value="2" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CAD</span>
+                        <input id="inv-cadillac" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CHR</span>
+                        <input id="inv-chair" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">BRL</span>
+                        <input id="inv-barrel" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5 focus:border-[#00e5ff] outline-none">
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-1 space-y-2">
+                <div class="flex gap-2">
+                    <button onclick="setGlobalPreset('apparatus')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">STUDIO</button>
+                    <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">MAT/PROPS</button>
+                </div>
+                <button id="raToggleBtn" onclick="toggleRA()" class="ra-toggle-btn w-full border border-[#333333] bg-[#111111] transition-colors py-2.5 text-xs font-mono font-semibold tracking-wider text-gray-400">
+                    [ ] PATHOLOGY OVERRIDE
+                </button>
+            </div>
+        </div>
+
+        <nav class="flex-1 space-y-2.5" id="nav-menu">
+            <button onclick="switchPhase('primer')" id="nav-primer" class="nav-btn w-full text-left p-3.5 border border-[#00e5ff] bg-[#111111] transition-colors">
+                <span class="text-[10px] font-mono text-[#00e5ff] block mb-0.5">0:00 - 15:00 // PHASE 1</span>
+                <span class="font-semibold text-sm tracking-wide block">1. Primer (Mobilization)</span>
+                <span class="text-[11px] text-gray-400">Global Fascial Integration</span>
+            </button>
+            <button onclick="switchPhase('anchor')" id="nav-anchor" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">15:00 - 35:00 // PHASE 2</span>
+                <span class="font-semibold text-sm tracking-wide block">2. Anchor (Peak Load)</span>
+                <span class="text-[11px] text-gray-400">Compound Extensions & Pulls</span>
+            </button>
+            <button onclick="switchPhase('crucible')" id="nav-crucible" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">35:00 - 55:00 // PHASE 3</span>
+                <span class="font-semibold text-sm tracking-wide block">3. Crucible (Flow State)</span>
+                <span class="text-[11px] text-gray-400">Seamless Transitions & Balance</span>
+            </button>
+            <button onclick="switchPhase('unwind')" id="nav-unwind" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">55:00 - 65:00 // PHASE 4</span>
+                <span class="font-semibold text-sm tracking-wide block">4. Unwind (Decompression)</span>
+                <span class="text-[11px] text-gray-400">Passive Traction & Reset</span>
+            </button>
+            <button onclick="switchPhase('audit')" id="nav-audit" class="nav-btn w-full text-left p-3.5 border border-[#3b82f6] bg-[#0a1224] hover:border-[#00e5ff] transition-colors">
+                <span class="text-[10px] font-mono text-[#3b82f6] font-bold block mb-0.5">POST-SESSION // PHASE 5</span>
+                <span class="font-semibold text-sm tracking-wide block">5. Final Audit</span>
+                <span class="text-[11px] text-gray-300">Mastery Assessment</span>
+            </button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 bg-[#050505] p-6 md:p-12 overflow-y-auto" id="content-area">
+        
+        <div class="mb-8 border border-[#333333] bg-[#0a0a0a] p-6 border-l-4 border-l-[#00e5ff]">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold block mb-1">Commander's Intent // Week 5 Focus</span>
+                    <h2 class="text-xl md:text-2xl text-white">Full Kinetic Chain Mastery & Flow State Transition</h2>
+                </div>
+            </div>
+            <p class="text-xs text-gray-300 mt-4 leading-relaxed">
+                <strong class="text-white font-mono uppercase">The Week 5 Architectural Rule:</strong> This is the culmination of the Upper Crossed arc. We move from isolated calibrations into complex, multi-planar flow. The focus is on seamless transitions (The Dance) while maintaining the "Iron Skeleton" (Core Anchor). If the client breaks form, they do not graduate.
+            </p>
+        </div>
+
+        <div id="logisticsBanner" class="mb-8 border border-[#333333] bg-[#111111] p-5"></div>
+        <div id="dynamic-phase-view" class="phase-content active"></div>
+
+        <!-- PHASE 5 -->
+        <div id="audit-phase-view" class="phase-content">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] block mb-1">Phase 5 // Closing The Loop</span>
+                    <h2 class="text-4xl text-white">Final Mastery Audit</h2>
+                </div>
+                <button onclick="copyAuditReport()" id="copyAuditBtn" class="border border-[#00e5ff] bg-[#0a192f] hover:bg-[#00e5ff] hover:text-black text-[#00e5ff] transition-colors px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider">
+                    COPY TELEMETRY REPORT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">1. Technical Gate Verification</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 01: Flow Transition</span>
+                                <select id="gate1-status" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none">
+                                    <option value="pass">PASSED (Seamless transitions, no resting)</option>
+                                    <option value="fail">FAIL: Clunky transitions, loss of breath</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">2. Somatic Body Interrogation</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-[#00e5ff]">
+                            <input type="checkbox" id="som-target" checked>
+                            <div>
+                                <span class="text-xs font-mono font-bold text-[#00e5ff] uppercase block">Target Hit: Total Body Synergy</span>
+                                <span class="text-[11px] text-gray-400">Client reports feeling "tall, open, and connected."</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-gray-500 mb-2">Field Notes</label>
+                        <textarea id="auditNotes" rows="3" class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono outline-none"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]">
+                <h3 class="text-2xl text-white mb-2">Arc Complete</h3>
+                <p class="text-sm text-gray-200 font-mono">Client has mastered the Upper Crossed Arc. Ready for new systemic programming.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const EQUIP_LABELS = { reformer: 'Reformer', cadillac: 'Cadillac', chair: 'Wunda Chair', barrel: 'Ladder Barrel', mat: 'Mat / Blocks', props_slider: 'Sliders', props_band: 'Bands', props_freeweight: 'Free Weights', jumpboard: 'Jumpboard' };
+
+        const PROTOCOL_DB = {
+            primer: {
+                title: '1. The Primer (Global Mobility)',
+                subtitle: 'Full Body Sweep & Connect (15 Mins)',
+                clockHint: '0-15M',
+                wolfCue: 'We are waking up the entire fascial web. No isolated movements today. Everything connects the upper and lower extremities.',
+                shepherdCue: '"Move like a conductor leading an orchestra. Broad, sweeping, continuous strokes."',
+                safetyGate: 'Holding breath during deep stretches. Breath must fuel the movement.',
+                stations: {
+                    M1: {
+                        role: 'Spinal Articulation Flow',
+                        options: {
+                            mat: { name: 'Rolling Like a Ball to Teaser', setup: 'Mat', reps: '8 Flows', exec: 'Roll back, balance at top, extend legs into Teaser V-Sit. Hold 2s, repeat.', ra: 'Half-roll backs (feet down).' },
+                            reformer: { name: 'Short Spine Massage', setup: '2 Red', reps: '8 Reps', exec: 'Fluid articulation into inversion. Melt the spine down bone by bone.', ra: 'Supine pelvic lifts (bridging) without inversion.' },
+                            cadillac: { name: 'Tower / Monkey', setup: 'PTB Bottom Sprung (Chain!)', reps: '8 Reps', exec: 'Feet on bar, push up to stretch hamstrings, articulate spine off mat.', ra: 'Use top-sprung PTB for seated stretches.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Lateral Line Sweep',
+                        options: {
+                            barrel: { name: 'Ballet Stretch (Side) to Lateral Arc', setup: 'Stand facing barrel', reps: '5 Flows / Side', exec: 'Leg on barrel. Side bend over leg, sweep arm around, arch over the barrel.', ra: 'Keep foot lower on rung.' },
+                            reformer: { name: 'Mermaid to Swan', setup: '1 Red', reps: '5 Flows / Side', exec: 'Z-sit. Side bend, rotate hands to bar, press out into thoracic extension.', ra: 'Sit on box to ease knees.' },
+                            mat: { name: 'Kneeling Side Kick to Thread Needle', setup: 'Mat', reps: '8 Flows / Side', exec: 'Kneeling side plank. Kick leg forward/back, transition to thread the needle.', ra: 'Forearm side plank.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Core Ignition',
+                        options: {
+                            chair: { name: 'Double Leg Pump', setup: '2 Heavy', reps: '15 Reps', exec: 'Sit tall. Pump both pedals continuously with power and rhythm.', ra: 'Ensure feet are flat.' },
+                            props_band: { name: 'Standing Banded Crunch', setup: 'Band high', reps: '15 Reps', exec: 'Pull band down, engaging rectus abdominis while standing.', ra: 'Safe.' },
+                            reformer: { name: 'Hundred (Advanced)', setup: '2 Red', reps: '100 Pumps', exec: 'Legs lowered to 45°. Vigorous arm pumps.', ra: 'Legs in tabletop.' }
+                        }
+                    }
+                }
+            },
+            anchor: {
+                title: '2. The Anchor (Peak Load)',
+                subtitle: 'Compound Extensions & Heavy Pulls (20 Mins)',
+                clockHint: '15-35M',
+                wolfCue: 'This is the heaviest load of the cycle. The posterior chain must fire at maximum capacity to lock the posture upright.',
+                shepherdCue: '"Bend the steel. You are stronger than the springs today."',
+                safetyGate: 'Sacrificing form for weight. If the back arches sharply, drop the resistance.',
+                stations: {
+                    M1: {
+                        role: 'Max Posterior Sling',
+                        options: {
+                            reformer: { name: 'Long Box Backstroke', setup: '1 Red 1 Blue', reps: '8 Flows', exec: 'Supine on box. Complex arm/leg choreography challenging the core.', ra: 'Keep legs higher.' },
+                            cadillac: { name: 'Spread Eagle', setup: 'Trapeze', reps: '8 Reps', exec: 'Hang from fuzzy straps, press hips out into deep extension.', ra: 'Supine bridge on mat.' },
+                            props_freeweight: { name: 'Renegade Rows', setup: '2 DBs', reps: '10 Reps / Side', exec: 'High plank. Row heavy DB to hip.', ra: 'Kneeling rows.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Heavy Leg/Hip Engine',
+                        options: {
+                            chair: { name: 'Mountain Climber (Fast)', setup: '1 Heavy', reps: '60 Seconds', exec: 'Hands on seat. Rapid alternating pedal pumps.', ra: 'Slower tempo.' },
+                            reformer: { name: 'Standing Splits (Heavy)', setup: '1 Red 1 Blue', reps: '10 Reps', exec: 'Abduction against heavy resistance.', ra: 'Lighten spring.' },
+                            mat: { name: 'Pistol Squat Prep', setup: 'Box for target', reps: '8 Reps / Side', exec: 'Single leg squat to box.', ra: 'Assisted split squats.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Global Extension',
+                        options: {
+                            barrel: { name: 'Swan Dive', setup: 'Hips on Apex', reps: '8 Reps', exec: 'Full extension, rocking forward and back over the barrel.', ra: 'Prone flight (static).' },
+                            cadillac: { name: 'Flying Eagle', setup: 'PTB Top Sprung', reps: '8 Reps', exec: 'Prone. Push bar out and lift into massive extension.', ra: 'Limit ROM.' },
+                            mat: { name: 'Swimming', setup: 'Prone', reps: '30s Flutter', exec: 'Opposite arm/leg flutter fast.', ra: 'Slower, controlled lifts.' }
+                        }
+                    }
+                }
+            },
+            crucible: {
+                title: '3. Crucible (The Dance)',
+                subtitle: 'Seamless Flow State (20 Mins)',
+                clockHint: '35-55M',
+                wolfCue: 'No stopping. The transitions are part of the exercise. Cardiovascular stamina meets biomechanical precision.',
+                shepherdCue: '"Choreography. Move from one shape to the next without thinking. Let the body take over."',
+                safetyGate: 'Losing balance or dropping weight abruptly due to fatigue.',
+                stations: {
+                    M1: {
+                        role: 'Flow Series A',
+                        options: {
+                            reformer: { name: 'Short Box Advanced Flow', setup: '2 Red', reps: '1 Continuous', exec: 'Round -> Flat -> Twist -> Tree -> Teaser without resting.', ra: 'Take 5s rest between moves.' },
+                            mat: { name: 'The Advanced Mat 5', setup: 'Mat', reps: '1 Continuous', exec: 'Single Leg -> Double Leg -> Scissors -> Lower/Lift -> Criss Cross.', ra: 'Head down.' },
+                            chair: { name: 'Pike to Swan Flow', setup: '1 Heavy', reps: '8 Flows', exec: 'Hands on pedal. Pike up, lower pedal, extend to Swan.', ra: 'Omit Swan.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Flow Series B',
+                        options: {
+                            cadillac: { name: 'Hanging Pull-Ups', setup: 'Trapeze Bar', reps: 'Max Reps', exec: 'Grip top bar, pull body up.', ra: 'Supported rows.' },
+                            props_slider: { name: 'Slider Burpee to Plank Jack', setup: '2 Sliders', reps: '10 Flows', exec: 'Tuck in, stand, out to plank, lateral jack.', ra: 'Step out instead of sliding.' },
+                            reformer: { name: 'Control Balance', setup: '1 Red', reps: '8 Reps', exec: 'Supine inversion, one leg free. Balance on shoulders.', ra: 'Omit.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Peak Balance',
+                        options: {
+                            chair: { name: 'Standing Balance Control', setup: '1 Light', reps: '30s Hold', exec: 'Stand on seat. One foot pressing pedal down. Balance.', ra: 'Hold wall.' },
+                            barrel: { name: 'Side Sit-Ups', setup: 'Hips on apex', reps: '10 Reps', exec: 'Lateral flexion against gravity.', ra: 'Limit ROM.' },
+                            mat: { name: 'Boomerang', setup: 'Mat', reps: '5 Reps', exec: 'Roll back, cross legs, roll up to Teaser, stretch forward.', ra: 'Rolling like a ball.' }
+                        }
+                    }
+                }
+            },
+            unwind: {
+                title: '4. Unwind (Total Decompression)',
+                subtitle: 'Passive Traction (10 Mins)',
+                clockHint: '55-65M',
+                wolfCue: 'The work is done. Allow gravity and the hardware to pull the joints apart safely, restoring fluid to the discs.',
+                shepherdCue: '"Melt into the machine. Let it hold you."',
+                safetyGate: 'Guarding/tensing muscles during stretches.',
+                stations: {
+                    M1: {
+                        role: 'Spinal Traction',
+                        options: {
+                            cadillac: { name: 'Inverted Trapeze Hang', setup: 'Trapeze', reps: '2 Mins', exec: 'Hang upside down completely passive.', ra: 'Supine supported bridge.' },
+                            barrel: { name: 'Full Drape', setup: 'Over Apex', reps: '2 Mins', exec: 'Hang backward over the barrel, arms to floor.', ra: 'Safe.' },
+                            mat: { name: 'Supported Fish Pose', setup: 'Blocks under back', reps: '2 Mins', exec: 'Passive thoracic extension over blocks.', ra: 'Safe.' }
+                        }
+                    },
+                    M2: {
+                        role: 'Neural Glide',
+                        options: {
+                            reformer: { name: 'Passive Leg Springs', setup: '1 Light', reps: '90s', exec: 'Supine. Let springs pull legs.', ra: 'Safe.' }
+                        }
+                    },
+                    M3: {
+                        role: 'Breath Reset',
+                        options: {
+                            mat: { name: 'Corpse Pose (Savasana)', setup: 'Mat', reps: '2 Mins', exec: 'Total relaxation. Box breathing.', ra: 'Safe.' }
+                        }
+                    }
+                }
+            }
+        };
+
+        const stationSelections = {
+            primer:   { M1: 'reformer', M2: 'barrel', M3: 'chair' },
+            anchor:   { M1: 'reformer', M2: 'chair', M3: 'barrel' },
+            crucible: { M1: 'reformer', M2: 'cadillac', M3: 'chair' },
+            unwind:   { M1: 'cadillac', M2: 'reformer', M3: 'mat' }
+        };
+
+        let currentPhase = 'primer';
+
+        function setSelectStationEquip(phaseId, stKey, val) {
+            stationSelections[phaseId][stKey] = val;
+            renderCurrentPhase();
+        }
+
+        function setGlobalPreset(mode) {
+            Object.keys(stationSelections).forEach(phaseKey => {
+                ['M1', 'M2', 'M3'].forEach(stKey => {
+                    const availOpts = Object.keys(PROTOCOL_DB[phaseKey].stations[stKey].options);
+                    if (mode === 'mat') {
+                        const matOpt = availOpts.find(o => ['mat', 'props_slider', 'props_band', 'props_freeweight'].includes(o));
+                        stationSelections[phaseKey][stKey] = matOpt || availOpts[0];
+                    } else {
+                        const studioOpt = availOpts.find(o => ['reformer', 'cadillac', 'chair', 'barrel'].includes(o));
+                        stationSelections[phaseKey][stKey] = studioOpt || availOpts[0];
+                    }
+                });
+            });
+            renderCurrentPhase();
+        }
+
+        function autoOptimizeEquipment() {
+            setGlobalPreset('apparatus');
+        }
+
+        function updateLogistics() {}
+
+        function toggleRA() {
+            document.body.classList.toggle('ra-active');
+            const btn = document.getElementById('raToggleBtn');
+            btn.classList.toggle('active');
+            btn.innerText = document.body.classList.contains('ra-active') ? '[X] PATHOLOGY OVERRIDE ACTIVE' : '[ ] PATHOLOGY OVERRIDE';
+        }
+
+        function renderCurrentPhase() {
+            if (currentPhase === 'audit') {
+                document.getElementById('dynamic-phase-view').classList.remove('active');
+                document.getElementById('audit-phase-view').classList.add('active');
+                return;
+            }
+
+            document.getElementById('audit-phase-view').classList.remove('active');
+            const view = document.getElementById('dynamic-phase-view');
+            view.classList.add('active');
+
+            const data = PROTOCOL_DB[currentPhase];
+            document.getElementById('clockPhaseHint').innerText = data.clockHint;
+
+            const cards = ['M1', 'M2', 'M3'].map(stKey => {
+                const stObj = data.stations[stKey];
+                const selectedEquip = stationSelections[currentPhase][stKey] || Object.keys(stObj.options)[0];
+                const activeMove = stObj.options[selectedEquip];
+                const dropdown = Object.keys(stObj.options).map(eqKey => `<option value="${eqKey}" ${eqKey === selectedEquip ? 'selected' : ''}>${EQUIP_LABELS[eqKey] || eqKey}</option>`).join('');
+
+                return `
+                    <div class="border border-[#333333] bg-[#0a0a0a] p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#222222]">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 bg-[#111111] border border-[#00e5ff] text-[#00e5ff] font-mono text-xs font-bold">${stKey}</span>
+                                    <span class="text-xs font-mono uppercase tracking-wider text-gray-300 font-semibold">${stObj.role}</span>
+                                </div>
+                                <span class="text-xs font-mono text-white bg-[#111111] border border-[#333333] px-3 py-1">${activeMove.reps}</span>
+                            </div>
+                            <div class="mb-4">
+                                <select onchange="setSelectStationEquip('${currentPhase}', '${stKey}', this.value)" class="w-full bg-[#111111] border border-[#333333] hover:border-[#00e5ff] text-xs font-mono text-[#00e5ff] px-3 py-2 outline-none cursor-pointer">
+                                    ${dropdown}
+                                </select>
+                            </div>
+                            <div class="flex items-start gap-4 mb-4">
+                                <input type="checkbox" class="mt-1 shrink-0">
+                                <div>
+                                    <h4 class="text-lg text-white font-serif mb-1">${activeMove.name}</h4>
+                                    <p class="text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-2">${activeMove.setup}</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">${activeMove.exec}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ra-module border border-[#1e3a8a] bg-[#0a0f1c] p-4 mt-4 border-l-4 border-l-[#3b82f6]">
+                            <span class="text-[10px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">OVERRIDE MOD</span>
+                            <p class="text-xs text-gray-200 leading-relaxed">${activeMove.ra}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            view.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl text-white mb-2">${data.title}</h2>
+                        <p class="text-gray-400 uppercase tracking-widest text-xs font-mono">${data.subtitle}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6 mb-8">${cards}</div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-[#111111] border border-[#333333] p-6"><h3 class="text-[10px] font-mono uppercase text-[#00e5ff] font-bold mb-2">The Wolf Cue</h3><p class="text-sm text-gray-200">${data.wolfCue}</p></div>
+                    <div class="bg-[#111111] border border-[#333333] p-6"><h3 class="text-[10px] font-mono uppercase text-gray-400 font-bold mb-2">The Shepherd Cue</h3><p class="text-sm text-gray-300 font-serif italic">${data.shepherdCue}</p></div>
+                    <div class="border border-red-900/60 bg-[#110505] p-6 border-l-4 border-l-red-500"><h3 class="text-red-500 font-mono font-bold uppercase text-[10px] mb-2">Safety Gate</h3><p class="text-sm text-red-200">${data.safetyGate}</p></div>
+                </div>
+            `;
+        }
+
+        function copyAuditReport() {
+            const temp = document.createElement('textarea');
+            temp.value = "Movement OS | W5 Audit Logged.";
+            document.body.appendChild(temp); temp.select(); document.execCommand('copy'); document.body.removeChild(temp);
+            const btn = document.getElementById('copyAuditBtn'); btn.innerText = 'COPIED'; setTimeout(() => btn.innerText = 'COPY TELEMETRY REPORT', 2000);
+        }
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('border-[#00e5ff]', 'bg-[#111111]'));
+            document.getElementById('nav-' + phaseId).classList.add('border-[#00e5ff]', 'bg-[#111111]');
+            renderCurrentPhase();
+        }
+
+        let timerInterval; let seconds = 0; let isRunning = false;
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            if (isRunning) { clearInterval(timerInterval); btn.innerText = 'RESUME'; }
+            else { timerInterval = setInterval(() => { seconds++; document.getElementById('timerDisplay').innerText = Math.floor(seconds/60).toString().padStart(2,'0') + ':' + (seconds%60).toString().padStart(2,'0'); }, 1000); btn.innerText = 'PAUSE'; }
+            isRunning = !isRunning;
+        }
+        function resetTimer() { clearInterval(timerInterval); seconds = 0; isRunning = false; document.getElementById('timerDisplay').innerText = '00:00'; document.getElementById('startBtn').innerText = 'START'; }
+
+        window.onload = () => { renderCurrentPhase(); };
+    </script>
+</body>
+</html>

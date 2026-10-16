@@ -35,4 +35,10 @@ const som=[...h.matchAll(/id="(som-[a-z0-9-]+)"/g)].map(m=>m[1]); som.length?ok(
 const names=(h.match(/\b(Mae|Eleine|Pei|Zi Suen|daughters?|Joey's)\b/gi)||[]); names.length?bad('client names in card: '+[...new Set(names)].join(', ')):ok('no client names');
 /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u.test(h)?bad('contains emojis'):ok('no emojis');
 for (const f of ['inv-reformer','autoOptimizeEquipment','setGlobalPreset']) h.includes(f)?ok('V2.0 hardware matrix: '+f):warn('V2.0 hardware matrix missing: '+f);
+// Working engines, not just their names (KA-Alex sometimes ships stubs: 16 Oct, P016 W4/W5).
+const body=(fn)=>{const i=scripts.search(new RegExp('function\\s+'+fn+'\\s*\\('));if(i<0)return null;const rest=scripts.slice(i+8);const j=rest.search(/\n\s*(async\s+)?function\s|\n\s*window\.onload/);return (j<0?rest:rest.slice(0,j)).replace(/\s+/g,'');};
+const ul=body('updateLogistics'); ul&&ul.length>200&&ul.includes('logisticsBanner')?ok('hardware matrix engine: updateLogistics() works'):bad('hardware matrix engine stubbed: updateLogistics() is empty or missing');
+const ao=body('autoOptimizeEquipment'); ao&&ao.includes('getInventory')?ok('AUTO-FIT reads the inventory'):bad('AUTO-FIT stubbed: autoOptimizeEquipment() ignores the inventory');
+const ev=body('evaluateAuditLoop'); ev&&ev.includes('auditVerdictBox')?ok('Phase 5 verdict logic: evaluateAuditLoop()'):bad('Phase 5 verdict logic missing: no evaluateAuditLoop() writing #auditVerdictBox');
 console.log(out.join('\n'));
+process.exitCode=out.some(l=>l.startsWith('FAIL'))?1:0;
