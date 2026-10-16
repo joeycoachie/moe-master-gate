@@ -63,7 +63,7 @@ export function buildClientView(
     // Pairings: only products in the client catalog that aren't already in their plan.
     pairs: (FUEL_QA[f.key]?.pairs ?? [])
       .filter((p) => products[p.key] && !unlocked.has(p.key))
-      .map((p) => ({ key: p.key, title: products[p.key].title, why: p.why })),
+      .map((p) => ({ key: p.key, title: products[p.key].title.split(' (')[0], why: p.why })),
   }));
 
   const current = client.current_arc ? clientArcFor(client.current_arc) : undefined;
