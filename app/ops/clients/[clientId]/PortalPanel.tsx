@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { TrendChart, streak, type Checkin } from '@/app/portal/visuals';
+import { RecoveryPanel, TrendChart, streak, type Checkin } from '@/app/portal/visuals';
+import { fmt, summarize } from '@/lib/recovery';
 
 type Portal = { portal_enabled: boolean; portal_code_set_at: string | null; fuel_unlocked: { key: string; dose: string }[]; recup_member_code: string | null };
 type CatalogItem = { key: string; title: string; group: string };
@@ -18,7 +19,19 @@ function clientMessage(code: string) {
   return `Hi ${name}, your private studio file is ready.\n\nOpen ${PORTAL_URL} and type your code: ${code}\n\nYou'll see your sessions, your programme week by week and your fuel plan. Tip: add the page to your home screen.`;
 }
 
-export default function PortalPanel({ clientId }: { clientId: string }) {
+// One line a client can approve as a testimonial: only once the result is in and the
+// discomfort drop is one people can feel (2+ points and 30%+ on the 0-10 scale).
+function testimonialLine(first: string, focus: string, checkins: Checkin[], today: string) {
+  const r = summarize(checkins, today);
+  const body = r.measures.find((m) => m.key === 'body');
+  if (!r.ready || !body?.feelable) return '';
+  const sleep = r.measures.find((m) => m.key === 'sleep');
+  const area = (focus || 'Body').toLowerCase();
+  const sleepPart = sleep?.change != null && sleep.change > 0 ? ` Sleep ${fmt(sleep.before)} to ${fmt(sleep.now)} out of 10.` : '';
+  return `${first}: ${area} discomfort from ${fmt(body.before)} to ${fmt(body.now)} out of 10 in ${Math.min(r.day, 999)} days (down ${Math.round(-(body.pct ?? 0))}%).${sleepPart}`;
+}
+
+export default function PortalPanel({ clientId, clientFirstName }: { clientId: string; clientFirstName: string }) {
   const [portal, setPortal] = useState<Portal | null>(null);
   const [catalog, setCatalog] = useState<CatalogItem[]>([]);
   const [fuel, setFuel] = useState<Record<string, string>>({});
@@ -29,6 +42,8 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
   const [busy, setBusy] = useState(false);
   const [checkins, setCheckins] = useState<Checkin[] | null>(null);
   const [today, setToday] = useState('');
+  const [focus, setFocus] = useState('');
+  const [requests, setRequests] = useState<{ item_key: string; created_at: string }[] | null>(null);
 
   const apply = (p: Portal) => {
     setPortal(p);
@@ -48,6 +63,8 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
         setCatalog(body.catalog);
         setCheckins(body.checkins ?? null);
         setToday(body.today ?? '');
+        setFocus(body.trackingFocus ?? '');
+        setRequests(body.requests ?? null);
       })
       .catch(() => setError('Connection failed.'));
   }, [clientId]);
@@ -94,6 +111,8 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
     const body = await call('PATCH', {
       fuel_unlocked: Object.entries(fuel).map(([key, dose]) => ({ key, dose })),
       recup_member_code: recup.trim() || null,
+      // Sent only when set, so saving fuel still works before database/13 is run.
+      ...(focus.trim() ? { tracking_focus: focus.trim() } : {}),
     });
     if (body?.portal) {
       apply(body.portal);
@@ -203,28 +222,53 @@ export default function PortalPanel({ clientId }: { clientId: string }) {
       </div>
 
       <div>
-        <div className="text-[10px] text-[#888] uppercase tracking-widest mb-2">Their daily check-ins (last 14 days)</div>
+        <div className="text-[10px] text-[#888] uppercase tracking-widest mb-2">Recovery Window · their daily check-ins</div>
         {checkins === null ? (
           <p className="text-[11px] text-[#f59e0b]">Check-ins not set up yet: run database/12_client_checkins_schema.sql in Supabase.</p>
-        ) : checkins.length === 0 ? (
-          <p className="text-[11px] text-[#555]">No check-ins yet.</p>
         ) : (
-          <div className="max-w-md">
-            <TrendChart checkins={checkins} today={today} />
-            <p className="text-[10px] text-[#666] mt-2">
-              {checkins.length} of 14 days · streak {streak(checkins, today)} · fuel taken {checkins.filter((c) => c.fuel_taken).length} days
-            </p>
+          <div className="max-w-md space-y-4">
+            <RecoveryPanel summary={summarize(checkins, today)} focus={focus || null} />
+            {checkins.length > 0 && <TrendChart checkins={checkins} today={today} />}
+            {checkins.length > 0 && (
+              <p className="text-[10px] text-[#666]">
+                {checkins.length} check-ins · streak {streak(checkins, today)} · fuel taken {checkins.filter((c) => c.fuel_taken).length} days
+              </p>
+            )}
+            {testimonialLine(clientFirstName, focus, checkins, today) && (
+              <div className="border border-[#4CAF50]/40 bg-[#4CAF50]/5 p-3">
+                <div className="text-[10px] text-[#4CAF50] uppercase tracking-widest mb-1">Quotable result · ask their permission first</div>
+                <p className="text-xs text-white font-sans select-all">{testimonialLine(clientFirstName, focus, checkins, today)}</p>
+              </div>
+            )}
           </div>
         )}
       </div>
 
+      {requests && requests.length > 0 && (
+        <div>
+          <div className="text-[10px] text-[#888] uppercase tracking-widest mb-2">They asked about</div>
+          <ul className="space-y-1">
+            {requests.map((r) => (
+              <li key={r.item_key} className="text-xs text-[#ccc]">
+                <span className="text-[#4CAF50]">●</span> {catalog.find((c) => c.key === r.item_key)?.title ?? r.item_key}
+                <span className="text-[#555]"> · {new Date(r.created_at).toLocaleDateString('en-GB')}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="flex items-end gap-3 flex-wrap">
+        <div>
+          <label className="block text-[10px] text-[#888] uppercase tracking-widest mb-1">Focus area they track</label>
+          <input value={focus} onChange={(e) => setFocus(e.target.value)} placeholder="e.g. Right wrist" className={field} />
+        </div>
         <div>
           <label className="block text-[10px] text-[#888] uppercase tracking-widest mb-1">RECUP.STN code · only if they are a member</label>
           <input value={recup} onChange={(e) => setRecup(e.target.value)} placeholder="RS-XXXX" className={field} />
         </div>
         <button onClick={saveFuel} disabled={busy} className="border border-[#00e5ff] text-[#00e5ff] px-4 py-2 text-[10px] tracking-widest hover:bg-[#00e5ff] hover:text-black disabled:opacity-40">
-          {busy ? 'SAVING…' : 'SAVE FUEL & LINK'}
+          {busy ? 'SAVING…' : 'SAVE'}
         </button>
         {note && <span className="text-[11px] text-[#888]">{note}</span>}
       </div>

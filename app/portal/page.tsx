@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BodyMap, Journey, Ring, TrendChart, resultTone, streak, type Checkin, type Zone } from './visuals';
+import { BodyMap, Journey, RecoveryPanel, Ring, TrendChart, resultTone, streak, type Checkin, type Zone } from './visuals';
+import { summarize } from '@/lib/recovery';
 
 type Session = {
   date: string;
+  extra: boolean;
+  moves: string[];
   arc: string;
   week: number | null;
   title: string;
@@ -13,7 +16,71 @@ type Session = {
   gates: { name: string; result: string }[];
   felt: string[];
 };
-type Fuel = { key: string; title: string; group: string; tag: string; desc: string; benefits: string[]; usage: string; dose: string };
+type Fuel = {
+  key: string;
+  title: string;
+  group: string;
+  tag: string;
+  desc: string;
+  benefits: string[];
+  usage: string;
+  dose: string;
+  qa: { q: string; a: string }[];
+  pairs: { key: string; title: string; why: string }[];
+};
+
+// Tap-to-open questions under a product, then what pairs with it. "I'm interested" tells the coach.
+function FuelExtras({ fuel }: { fuel: Fuel }) {
+  const [sent, setSent] = useState<Record<string, string>>({});
+  const interested = async (key: string) => {
+    setSent((s) => ({ ...s, [key]: 'Sending…' }));
+    try {
+      const res = await fetch('/portal/api/interest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ key }),
+      });
+      const body = await res.json();
+      setSent((s) => ({ ...s, [key]: res.ok ? 'Sent. Your coach will bring it up.' : body.error || 'Could not send.' }));
+    } catch {
+      setSent((s) => ({ ...s, [key]: 'Connection failed.' }));
+    }
+  };
+  if (!fuel.qa.length && !fuel.pairs.length) return null;
+  return (
+    <div className="mt-4 border-t border-[#1a1a1a] pt-3 space-y-2">
+      {fuel.qa.map((item) => (
+        <details key={item.q} className="group border border-[#1a1a1a] bg-[#070707]">
+          <summary className="cursor-pointer list-none flex justify-between items-center px-3 py-2.5 text-xs text-white">
+            {item.q}
+            <span className="text-[#00e5ff] text-sm group-open:rotate-45 transition-transform">+</span>
+          </summary>
+          <p className="px-3 pb-3 text-xs text-[#bbb] font-sans leading-relaxed">{item.a}</p>
+        </details>
+      ))}
+      {fuel.pairs.length > 0 && (
+        <div className="pt-3">
+          <div className="text-[9px] text-[#666] uppercase tracking-widest mb-2">Goes well with</div>
+          <div className="space-y-2">
+            {fuel.pairs.map((p) => (
+              <div key={p.key} className="border border-[#4CAF50]/30 bg-[#4CAF50]/5 p-3">
+                <div className="text-xs text-white font-bold">{p.title}</div>
+                <p className="text-[11px] text-[#aaa] font-sans leading-relaxed mt-1">{p.why}</p>
+                {sent[p.key] ? (
+                  <p className="text-[11px] text-[#4CAF50] mt-2">{sent[p.key]}</p>
+                ) : (
+                  <button onClick={() => interested(p.key)} className="mt-2 border border-[#4CAF50] text-[#4CAF50] px-3 py-1.5 text-[10px] tracking-widest hover:bg-[#4CAF50] hover:text-black transition-colors">
+                    I&apos;M INTERESTED
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 type View = {
   firstName: string;
   arc: string | null;
@@ -24,15 +91,19 @@ type View = {
   fuel: Fuel[];
   recupLinked: boolean;
   checkins: Checkin[] | null;
+  trackingFocus: string | null;
   today: string;
 };
 
-const SCALES = [
-  { key: 'energy', label: 'Energy', low: 'Drained', high: 'Full of energy' },
-  { key: 'sleep', label: 'Sleep last night', low: 'Poor', high: 'Deep' },
-  { key: 'body', label: 'Your body', low: 'Stiff or sore', high: 'Moving freely' },
-] as const;
-type ScaleKey = (typeof SCALES)[number]['key'];
+// 0-10 scales (database/13): discomfort is the standard pain score, sleep the single-item
+// sleep quality scale. The first question names the client's own focus area when one is set.
+const scalesFor = (focus: string | null) =>
+  [
+    { key: 'body', label: focus ? `${focus}: any discomfort today?` : 'Any discomfort in your body today?', low: '0 None', high: '10 Worst' },
+    { key: 'sleep', label: 'How well did you sleep?', low: '0 Very poorly', high: '10 Very well' },
+    { key: 'energy', label: 'Your energy today', low: '0 Exhausted', high: '10 Full of energy' },
+  ] as const;
+type ScaleKey = 'body' | 'sleep' | 'energy';
 
 // Today's check-in: three taps and a fuel tick. Saving again the same day updates it.
 function CheckinCard({ view, onSaved }: { view: View; onSaved: (c: Checkin[]) => void }) {
@@ -69,21 +140,22 @@ function CheckinCard({ view, onSaved }: { view: View; onSaved: (c: Checkin[]) =>
     }
   };
 
-  const ready = SCALES.some((s) => vals[s.key] != null) || fuel;
+  const scales = scalesFor(view.trackingFocus);
+  const ready = scales.some((s) => vals[s.key] != null) || fuel;
 
   return (
     <div className="border border-[#222] bg-[#0a0a0a] p-5 space-y-5">
-      {SCALES.map((s) => (
+      {scales.map((s) => (
         <div key={s.key}>
           <div className="text-[11px] text-[#ccc] mb-2">{s.label}</div>
-          <div className="grid grid-cols-5 gap-1.5">
-            {[1, 2, 3, 4, 5].map((n) => {
+          <div className="grid grid-cols-11 gap-1">
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => {
               const on = vals[s.key] === n;
               return (
                 <button
                   key={n}
                   onClick={() => setVals((v) => ({ ...v, [s.key]: on ? null : n }))}
-                  className={`h-11 border text-sm transition-colors ${on ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : 'border-[#333] text-[#888] hover:border-[#00e5ff]/60'}`}
+                  className={`h-10 border text-xs transition-colors ${on ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : 'border-[#333] text-[#888] hover:border-[#00e5ff]/60'}`}
                 >
                   {n}
                 </button>
@@ -302,12 +374,15 @@ export default function ClientPortalPage() {
               <section>
                 <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Today&apos;s check-in</h2>
                 <CheckinCard view={view} onSaved={(checkins) => setView((v) => (v ? { ...v, checkins } : v))} />
-                {view.checkins.length > 0 && (
-                  <div className="border border-[#222] bg-[#0a0a0a] p-5 mt-4">
-                    <div className="text-[10px] text-[#888] uppercase tracking-widest mb-3">Your last 14 days</div>
-                    <TrendChart checkins={view.checkins} today={view.today} />
-                  </div>
-                )}
+                <div className="border border-[#222] bg-[#0a0a0a] p-5 mt-4">
+                  <RecoveryPanel summary={summarize(view.checkins, view.today)} focus={view.trackingFocus} />
+                  {view.checkins.length > 0 && (
+                    <div className="mt-5 pt-4 border-t border-[#1a1a1a]">
+                      <div className="text-[10px] text-[#888] uppercase tracking-widest mb-3">Your last 28 days</div>
+                      <TrendChart checkins={view.checkins} today={view.today} sessionDays={view.sessions.map((x) => x.date)} />
+                    </div>
+                  )}
+                </div>
               </section>
             )}
 
@@ -321,9 +396,17 @@ export default function ClientPortalPage() {
                       <div>
                         <div className="text-[#00e5ff] text-sm">{formatDate(s.date)}</div>
                         <div className="text-xs text-[#ccc] mt-1">
+                          {s.extra && <span className="text-[9px] text-[#a78bfa] border border-[#a78bfa]/40 px-1.5 py-0.5 mr-2 tracking-widest uppercase">Extra</span>}
                           {s.week ? `Week ${s.week}: ` : ''}
                           {s.title}
                         </div>
+                        {s.moves.length > 0 && (
+                          <ul className="mt-2 space-y-0.5">
+                            {s.moves.map((m, j) => (
+                              <li key={j} className="text-[11px] text-[#aaa] font-sans">· {m}</li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                       <Ring done={s.done} total={s.total} />
                     </div>
@@ -374,6 +457,7 @@ export default function ClientPortalPage() {
                     <p className="mt-3 text-[11px] text-white border-t border-[#1a1a1a] pt-3">
                       <span className="text-[#666]">How to take it:</span> {f.dose || f.usage}
                     </p>
+                    <FuelExtras fuel={f} />
                   </div>
                 ))}
               </div>

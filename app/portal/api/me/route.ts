@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { buildClientView, currentClientId } from '@/lib/clientPortal';
-import { recentCheckins, studioToday } from '@/lib/clientCheckins';
+import { allCheckins, studioToday, trackingFocus } from '@/lib/clientCheckins';
 
 // The signed-in client's own file only. The client id comes from the signed cookie,
 // never from the request, so one client can't read another's.
@@ -21,15 +21,15 @@ export async function GET() {
     }
     const { data: entries, error: entryError } = await db
       .from('arc_session_entries')
-      .select('stations, audit, arc_sessions(session_date, protocol_id)')
+      .select('stations, audit, arc_sessions(session_date, protocol_id, note)')
       .eq('client_id', clientId);
     if (entryError) throw new Error(entryError.message);
     const flat = (entries ?? []).flatMap((e) => {
-      const s = e.arc_sessions as unknown as { session_date: string; protocol_id: string } | null;
-      return s ? [{ stations: e.stations, audit: e.audit, session_date: s.session_date, protocol_id: s.protocol_id }] : [];
+      const s = e.arc_sessions as unknown as { session_date: string; protocol_id: string; note: string | null } | null;
+      return s ? [{ stations: e.stations, audit: e.audit, session_date: s.session_date, protocol_id: s.protocol_id, note: s.note }] : [];
     });
-    const checkins = await recentCheckins(clientId);
-    return NextResponse.json({ ...buildClientView(client, flat), checkins, today: studioToday() }, { headers: { 'Cache-Control': 'private, no-store' } });
+    const [checkins, focus] = await Promise.all([allCheckins(clientId), trackingFocus(clientId)]);
+    return NextResponse.json({ ...buildClientView(client, flat), checkins, trackingFocus: focus, today: studioToday() }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch {
     return NextResponse.json({ error: 'Your file is unavailable right now.' }, { status: 503 });
   }

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PortalPanel from './PortalPanel';
+import ExtraSessionForm from './ExtraSessionForm';
 
 type Client = {
   id: string;
@@ -28,6 +29,7 @@ type TimelineItem = {
   protocol_id: string;
   session_date: string;
   flow_format: string | null;
+  session_note: string;
   with: string[];
   stations: Record<string, StationLog>;
   audit: Audit | null;
@@ -172,10 +174,20 @@ export default function OpsClientPage() {
           </section>
         )}
 
-        {client && <PortalPanel clientId={client.id} />}
+        {client && <PortalPanel clientId={client.id} clientFirstName={client.full_name.split(/\s+/)[0]} />}
 
         <h2 className="text-lg font-bold mb-1 border-b border-[#222] pb-2">Timeline · newest first</h2>
-        <p className="text-[11px] text-[#666] mb-4">Every arc session this client was in, logged from the [ CLIENT LOG ] bar.</p>
+        <p className="text-[11px] text-[#666] mb-4">Every arc session this client was in, logged from the [ CLIENT LOG ] bar, plus extra sessions.</p>
+        {client && (
+          <ExtraSessionForm
+            clientId={client.id}
+            onSaved={() =>
+              fetch(`/ops/api/clients/${clientId}`)
+                .then((r) => r.json())
+                .then((b) => b.timeline && setTimeline(b.timeline))
+            }
+          />
+        )}
         {client && !timeline.length && <p className="text-xs text-[#555]">No sessions logged yet.</p>}
 
         <ol className="space-y-4">
@@ -190,7 +202,7 @@ export default function OpsClientPage() {
                 <div className="flex justify-between items-center flex-wrap gap-2 mb-3">
                   <div>
                     <span className="text-[#00e5ff] text-sm">{t.session_date}</span>
-                    <span className="text-[#888] text-xs"> · {t.protocol_id}</span>
+                    <span className="text-[#888] text-xs"> · {t.protocol_id === 'EXTRA' ? `Extra session: ${t.session_note}` : t.protocol_id}</span>
                     {t.with.length > 0 && <span className="text-[#555] text-xs"> · with {t.with.join(', ')}</span>}
                   </div>
                   <span className="text-[10px] text-[#888] border border-[#333] px-2 py-0.5">{done}/{keys.length} stations</span>

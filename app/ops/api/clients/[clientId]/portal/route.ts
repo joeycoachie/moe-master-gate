@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
 import { generatePortalCode, hashPortalCode } from '@/lib/clientSession';
 import fuelCatalog from '@/lib/fuelCatalog.json';
-import { recentCheckins, studioToday } from '@/lib/clientCheckins';
+import { allCheckins, clientRequests, studioToday, trackingFocus } from '@/lib/clientCheckins';
 
 // Architect controls for one client's portal: code, access, unlocked fuel, RECUP.STN link.
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -12,6 +12,9 @@ const PRODUCTS = (fuelCatalog as { products: Record<string, { title: string; gro
 
 function setupHint(err: unknown) {
   const message = err instanceof Error ? err.message : String(err);
+  if (/tracking_focus/.test(message) && /column|schema cache/i.test(message)) {
+    return NextResponse.json({ error: 'Recovery focus not set up yet: run database/13_recovery_measures.sql in Supabase.', setup: true }, { status: 503 });
+  }
   if (/portal_|fuel_unlocked|recup_member_code/.test(message) && /column|schema cache/i.test(message)) {
     return NextResponse.json({ error: 'Client portal not set up yet: run database/11_client_portal_schema.sql in Supabase.', setup: true }, { status: 503 });
   }
@@ -32,7 +35,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cli
     if (error) throw new Error(error.message);
     if (!data) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
     const catalog = Object.entries(PRODUCTS).map(([key, p]) => ({ key, title: p.title, group: p.group }));
-    return NextResponse.json({ portal: data, catalog, checkins: await recentCheckins(clientId), today: studioToday() });
+    return NextResponse.json({ portal: data, catalog, checkins: await allCheckins(clientId), trackingFocus: await trackingFocus(clientId), requests: await clientRequests(clientId), today: studioToday() });
   } catch (err) {
     return setupHint(err);
   }
@@ -76,7 +79,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ cli
   }
 }
 
-// { fuel_unlocked: [{ key, dose }], recup_member_code }
+// { fuel_unlocked: [{ key, dose }], recup_member_code, tracking_focus }
 export async function PATCH(request: Request, { params }: { params: Promise<{ clientId: string }> }) {
   if (!(await isArchitect())) return unauthorized();
   const clientId = await readParams(params);
@@ -108,12 +111,17 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ cl
     if (code && !/^RS-[A-Z0-9]{3,12}$/.test(code)) return NextResponse.json({ error: 'Member code should look like RS-XXXX.' }, { status: 400 });
     update.recup_member_code = code || null;
   }
+  if ('tracking_focus' in body) {
+    const v = body.tracking_focus;
+    if (v !== null && typeof v !== 'string') return NextResponse.json({ error: 'Invalid focus area.' }, { status: 400 });
+    update.tracking_focus = typeof v === 'string' && v.trim() ? v.trim().slice(0, 40) : null;
+  }
   if (!Object.keys(update).length) return NextResponse.json({ error: 'Nothing to update.' }, { status: 400 });
   try {
     const { data, error } = await getSupabaseAdmin().from('clients').update(update).eq('id', clientId).select(PORTAL_FIELDS).maybeSingle();
     if (error) throw new Error(error.message);
     if (!data) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
-    return NextResponse.json({ portal: data });
+    return NextResponse.json({ portal: data, trackingFocus: await trackingFocus(clientId) });
   } catch (err) {
     return setupHint(err);
   }

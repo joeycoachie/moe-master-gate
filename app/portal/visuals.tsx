@@ -6,7 +6,8 @@ import { useState } from 'react';
 // Plain SVG, no chart library: the portal must stay fast on a phone.
 
 export type Zone = 'neck' | 'shoulders' | 'upperBack' | 'core' | 'hips' | 'knees';
-export type Checkin = { day: string; energy: number | null; sleep: number | null; body: number | null; fuel_taken: boolean };
+import { fmt, type Checkin, type RecoverySummary, WINDOW_DAYS } from '@/lib/recovery';
+export type { Checkin };
 
 const CYAN = '#00e5ff';
 const VIOLET = '#a78bfa';
@@ -181,7 +182,7 @@ export function Ring({ done, total, size = 56 }: { done: number; total: number; 
 const SERIES = [
   { key: 'energy', label: 'Energy', color: CYAN },
   { key: 'sleep', label: 'Sleep', color: VIOLET },
-  { key: 'body', label: 'Body', color: GREEN },
+  { key: 'body', label: 'Discomfort (lower is better)', color: '#f59e0b' },
 ] as const;
 
 function lastDays(today: string, n: number): string[] {
@@ -209,19 +210,30 @@ export function streak(checkins: Checkin[], today: string): number {
 }
 
 // 14 days of check-ins: three lines on a 1-5 scale and a fuel dot per day.
-export function TrendChart({ checkins, today, days = 14 }: { checkins: Checkin[]; today: string; days?: number }) {
+export function TrendChart({
+  checkins,
+  today,
+  days = WINDOW_DAYS,
+  sessionDays = [],
+}: {
+  checkins: Checkin[];
+  today: string;
+  days?: number;
+  sessionDays?: string[];
+}) {
   const cols = lastDays(today, days);
   const byDay = new Map(checkins.map((c) => [c.day, c]));
   const W = 280;
   const H = 110;
   const pad = { l: 14, r: 6, t: 8, b: 30 };
   const x = (i: number) => pad.l + (i * (W - pad.l - pad.r)) / (cols.length - 1);
-  const y = (v: number) => pad.t + ((5 - v) * (H - pad.t - pad.b)) / 4;
+  const y = (v: number) => pad.t + ((10 - v) * (H - pad.t - pad.b)) / 10;
+  const sessions = new Set(sessionDays);
 
   return (
     <div>
       <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-auto" role="img" aria-label="Your last 14 days">
-        {[1, 3, 5].map((v) => (
+        {[0, 5, 10].map((v) => (
           <g key={v}>
             <line x1={pad.l} x2={W - pad.r} y1={y(v)} y2={y(v)} stroke="#1c1c1c" strokeWidth="1" />
             <text x="2" y={y(v) + 3} fontSize="7" fill="#555" fontFamily="monospace">
@@ -256,6 +268,12 @@ export function TrendChart({ checkins, today, days = 14 }: { checkins: Checkin[]
           const c = byDay.get(d);
           return (
             <g key={d}>
+              {sessions.has(d) && (
+                <>
+                  <line x1={x(i)} x2={x(i)} y1={pad.t} y2={H - pad.b} stroke={CYAN} strokeWidth="1" opacity="0.25" />
+                  <rect x={x(i) - 2.5} y={pad.t - 6} width="5" height="5" fill={CYAN} />
+                </>
+              )}
               <circle
                 cx={x(i)}
                 cy={H - 18}
@@ -291,7 +309,80 @@ export function TrendChart({ checkins, today, days = 14 }: { checkins: Checkin[]
           <span className="w-2 h-2 rounded-full inline-block" style={{ background: GREEN }} />
           Fuel taken
         </span>
+        {sessionDays.length > 0 && (
+          <span className="flex items-center gap-1.5">
+            <span className="w-2 h-2 inline-block" style={{ background: CYAN }} />
+            Session day
+          </span>
+        )}
       </div>
+    </div>
+  );
+}
+
+// The Recovery Window: day N of 28, what unlocks next, then before-and-now for each measure.
+export function RecoveryPanel({ summary, focus }: { summary: RecoverySummary; focus: string | null }) {
+  const label = { body: `${focus || 'Body'} discomfort`, sleep: 'Sleep quality', energy: 'Energy' } as const;
+  const better = (key: 'body' | 'sleep' | 'energy', change: number | null) => change != null && (key === 'body' ? change < 0 : change > 0);
+  if (!summary.count) {
+    return (
+      <p className="text-xs text-[#888] leading-relaxed">
+        Your {WINDOW_DAYS}-day Recovery Window starts with your first check-in. Your first 3 set your starting point.
+      </p>
+    );
+  }
+  const day = Math.min(summary.day, WINDOW_DAYS);
+  return (
+    <div>
+      <div className="flex justify-between items-end gap-3">
+        <div>
+          <div className="text-[10px] text-[#888] uppercase tracking-widest">Recovery Window</div>
+          <div className="text-sm text-white mt-1">
+            Day {day} of {WINDOW_DAYS}
+            {summary.day > WINDOW_DAYS ? ' · window complete' : ''}
+          </div>
+        </div>
+        {summary.ready && summary.nowScore != null && (
+          <div className="text-right">
+            <div className="text-[10px] text-[#888] uppercase tracking-widest">Recovery score</div>
+            <div className="text-3xl text-[#00e5ff] leading-none mt-1">{summary.nowScore}</div>
+            {summary.baselineScore != null && (
+              <div className={`text-[11px] mt-1 ${summary.nowScore >= summary.baselineScore ? 'text-[#4CAF50]' : 'text-[#f59e0b]'}`}>
+                {summary.nowScore >= summary.baselineScore ? '+' : ''}
+                {summary.nowScore - summary.baselineScore} since you started
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+      <div className="h-1.5 bg-[#1a1a1a] mt-3">
+        <div className="h-full bg-[#00e5ff]" style={{ width: `${(day / WINDOW_DAYS) * 100}%` }} />
+      </div>
+
+      {!summary.ready ? (
+        <p className="text-xs text-[#ccc] mt-4">
+          {summary.toUnlock > 0
+            ? `${summary.toUnlock} more check-in${summary.toUnlock === 1 ? '' : 's'} to unlock your first result.`
+            : 'Keep checking in this week to unlock your first result.'}
+        </p>
+      ) : (
+        <div className="mt-4 space-y-2">
+          {summary.measures
+            .filter((m) => m.before != null && m.now != null)
+            .map((m) => (
+              <div key={m.key} className="flex justify-between items-center gap-3 border-b border-[#1a1a1a] pb-2">
+                <span className="text-xs text-[#ccc]">{label[m.key]}</span>
+                <span className="text-xs whitespace-nowrap">
+                  <span className="text-[#888]">{fmt(m.before)}</span>
+                  <span className="text-[#555]"> → </span>
+                  <span className={better(m.key, m.change) ? 'text-[#4CAF50]' : 'text-white'}>{fmt(m.now)}</span>
+                  {m.feelable && <span className="ml-2 text-[9px] text-[#4CAF50] border border-[#4CAF50]/40 px-1.5 py-0.5 uppercase tracking-widest">You can feel this</span>}
+                </span>
+              </div>
+            ))}
+          <p className="text-[10px] text-[#666]">Starting point: your first 3 check-ins. Now: your last 7 days. All scores out of 10.</p>
+        </div>
+      )}
     </div>
   );
 }
