@@ -1,5 +1,7 @@
 # M.O.E. Armory
 
+**What it is, in one line:** everything we learned the hard way, ready to use again. Pick a situation in "Use a template", copy the fill-in skeleton, paste it into any agent with the Brain Pack.
+
 The Intelligence Archive (every doctrine, playbook, tool and crucible, linked to each other) and SYS-D028, the Plain Language Mandate. All data is plain JSON in `data/`.
 
 ```
@@ -25,6 +27,9 @@ data/
   lexicon.json             SYS-D028 swap and ban list
   proposals.json           lexicon changes waiting for the founder
   audits.json              weekly after-action log
+docs/<ID>.md               full text of an entry (from the founder's PDFs)
+skeletons/<key>.md         fill-in templates (front matter: key, id, title, use_when, status, source, replaces)
+BRAIN.md                   generated pack for every agent: npm run brain (also builds data/skeletons.json)
 index.html                 Archive viewer
 mandate.html               SYS-D028 page
 scripts/                   validate, gaps, gate

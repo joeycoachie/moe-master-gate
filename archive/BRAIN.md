@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-10-17 · 62e3bf8
+# M.O.E. Brain Pack · 2026-10-17 · 2d37569
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -317,10 +317,29 @@ Newest at the top within each section.
 - G-24 · SYS-D028 · SYS-D023
 - G-25 · Phase Action Protocol (outreach console)
 - G-26 · Three ID and version clashes in files received 17 Oct
+- G-27 · T-032: sort the 9 prompts (keep, merge or veto)
 
 ---
 
-## 5. The Archive index (194 entries)
+## 5. Ready-to-use templates (skeletons)
+
+The founder copies these from the Archive (Use a template). Status "proposed" waits for the founder's yes.
+
+- **Run a client's 90 days (light)** (P-017, ready): A lower-price 90-day engagement: set up the system, no weekly lessons or custom playbooks.
+- **Run a client's 90 days (full)** (P-018, ready): A business client has signed a 90-day engagement with weekly lessons and custom playbooks.
+- **Crucible Investigator** (T-032, proposed): Something went wrong with a client, a deal, a hire or yourself, and you want the real lesson and the fix.
+- **Turn a failure into content** (D-007, ready): After a hard week: turn the lesson into one short post and one longer piece.
+- **Confidential Friction Report (for a boss)** (P-036, ready): You have collected anonymous answers from a team and need to hand the owner a clear report.
+- **Project index page (Master Ledger)** (T-008, ready): Starting any new project or client: one page that points to everything.
+- **Turn a 1-to-1 service into a product** (P-027, ready): A service eats your time and you want a small product that sells it for you.
+- **Short post: comfort, cause, one fix** (P-002-B, ready): Writing a Reel script or short text post about a problem your audience keeps hitting.
+- **One-page plan after a studio call** (T-029, proposed): You have just listened to a studio owner (the Listen step) and need to send the Plan.
+- **Trial Reel caption** (SYS-P050, ready): Posting a Trial Reel to test a new content format.
+- **War Room (stress-test an idea)** (T-032, ready): Before you commit money, time or your name to an idea, pitch or partnership.
+
+---
+
+## 6. The Archive index (194 entries)
 
 ### Signals (25)
 

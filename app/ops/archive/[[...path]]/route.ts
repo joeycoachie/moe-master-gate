@@ -63,6 +63,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ path
     });
   }
 
+  if (rel === 'BRAIN.md') {
+    const md = await readFile(path.join(ARCHIVE_ROOT, 'BRAIN.md'), 'utf8');
+    return new NextResponse(md, { headers: { 'Content-Type': 'text/plain; charset=utf-8', ...PRIVATE_HEADERS } });
+  }
+
   if (DOC_PATH.test(rel)) {
     try {
       const md = await readFile(path.join(ARCHIVE_ROOT, rel), 'utf8');

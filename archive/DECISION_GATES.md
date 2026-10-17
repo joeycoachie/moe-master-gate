@@ -257,8 +257,8 @@ Two fixes needed whichever you pick:
 
 Full text of 7 documents is now in `docs/`. Three disagree with the Archive:
 
-- **"P020_The Crucible as Curriculum.pdf"**: in the Archive this is **D-007**. P-020 is "The M.O.E. High-Signal Funnel v1.0". Filed as `docs/D-007.md`.
-- **T-032**: the Archive row is "The Doctrine Forge Prompt". The PDF is a pack of 9 prompts (Genesis Reboot, Iron Alchemy, War Room, P-036, Tripwire Engine, Silk & Steel, SYS-D022 UI, Trial Rail, Graham Refinery). Filed as `docs/T-032.md`.
+- **"P020_The Crucible as Curriculum.pdf"**: in the Archive this is **D-007**. P-020 is "The M.O.E. High-Signal Funnel v1.0". Filed as `docs/D-007.md`. *Founder confirmed 17 Oct: P-020 is the High-Signal Funnel.*
+- **T-032**: sorted prompt by prompt in G-27. The Archive row is "The Doctrine Forge Prompt". The PDF is a pack of 9 prompts (Genesis Reboot, Iron Alchemy, War Room, P-036, Tripwire Engine, Silk & Steel, SYS-D022 UI, Trial Rail, Graham Refinery). Filed as `docs/T-032.md`.
 - **Master Blueprint v1.2**: the Archive has D-016 at EOS V3.0. v1.2 names the Google Sheet as source of truth and Base Camp 1 as 100 email subscribers; both are superseded. Filed as `docs/D-016_v1.2.md`, history only.
 
 1. Accept as filed: D-007 keeps its ID; rename the T-032 row to "Master System Prompt pack (9 prompts)"; v1.2 stays history
@@ -266,6 +266,29 @@ Full text of 7 documents is now in `docs/`. Three disagree with the Archive:
 3. Send me the v3.0 Master Blueprint so D-016 gets its full text too
 
 **Recommended:** 1 and 3. Also: the T-032 prompts tell agents to talk in "Crucible", "Iron Skeleton" and S-Rank terms. That is fine inside, never in customer copy (SYS-D028). BRAIN.md says so to every agent.
+
+### G-27 · T-032: sort the 9 prompts (keep, merge or veto)
+
+T-032 is one PDF holding 9 different prompts. Each is now judged on one question: does it do a job nothing else does? Ready versions are in the Archive's "Use a template" dropdown (`skeletons/`).
+
+| # | Prompt | Job | Verdict (recommended) | Template |
+|---|---|---|---|---|
+| 1 | Genesis Reboot | Wake any AI up with our identity | **Veto.** BRAIN.md does this, built from the Archive, never stale. Its tone rule (talk in Crucible / Iron Skeleton terms) breaks SYS-D028 | none |
+| 2 | Iron Alchemy | Raw failure → manual chapter | **Merge** with #9 into the Crucible Investigator | crucible-investigator (proposed) |
+| 3 | War Room | Stress-test an idea: seller, killer, verdict | **Keep** | war-room |
+| 4 | P-036 Friction Report | Anonymous staff replies → report for the boss | **Keep**, with one fix: no invented percentages | friction-report |
+| 5 | Tripwire Engine | Audit notes → 1-page plan | **Merge into T-029** (same job). Rewritten as the Plan step for studios, BC3 prices in | studio-plan (proposed) |
+| 6 | Silk & Steel | Short post: comfort, cause, one fix | **Keep**, in plain words (the original asks for clinical language in public posts) | short-post |
+| 7 | SYS-D022 UI rule | How our screens look | **Move** to SYS-D022 (a design rule, not a prompt) | none |
+| 8 | Trial Rail captions (2 versions) | Caption for a test Reel | **Keep one** (SYS-P050). The "I architect operating systems" line fails SYS-D028; it's now a blank to fill | trial-reel |
+| 9 | Graham Refinery | Raw failure → manual chapter | **Merge** with #2 | crucible-investigator (proposed) |
+
+The Crucible Investigator is the agent you asked for: it digs into a failure from first principles, red-teams your own view, and only proposes a new item after checking the Archive (Rules A and B). It replaces #2 and #9, so it is not a new framework.
+
+1. As recommended (T-032 becomes the 7-template pack; Genesis Reboot vetoed; UI rule moved)
+2. Tell me which rows to change
+
+**Recommended:** 1. Then highlight the kept rows in the sheet as moved.
 
 ## Settled
 

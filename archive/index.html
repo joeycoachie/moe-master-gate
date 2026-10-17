@@ -24,6 +24,28 @@
   .note { font-size: 11.5px; color: var(--ink-dim); border: 1px dashed var(--line); border-radius: 6px; padding: 10px 12px; line-height: 1.5; }
   code { font-family: "JetBrains Mono", monospace; font-size: 0.95em; }
 
+  .wrap > * { min-width: 0; }
+  .deploy { min-width: 0; max-width: 100%; border: 1px solid var(--accent); border-radius: 8px; padding: 14px; background: var(--surface); display: flex; flex-direction: column; gap: 10px; }
+  .deploy-label { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+  .deploy select { width: 100%; }
+  .skel-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 12px; align-items: flex-start; }
+  .skel-head > div { min-width: 0; flex: 1 1 220px; }
+  #skelPanel { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  #skelPanel[hidden] { display: none; }
+  .skel-title { font-weight: 700; font-size: 16px; }
+  .skel-when { font-size: 12.5px; color: var(--ink-dim); margin-top: 3px; line-height: 1.5; }
+  .skel-status { font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .skel-status.ready { color: var(--ok); border: 1px solid var(--ok); }
+  .skel-status.proposed { color: var(--warn); border: 1px solid var(--warn); }
+  .skel-body { max-width: 100%; overflow-wrap: anywhere; white-space: pre-wrap; word-wrap: break-word; font-family: "JetBrains Mono", monospace; font-size: 12px; line-height: 1.6; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px; max-height: 420px; overflow: auto; margin: 0; }
+  .skel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .skel-actions button, .use-tpl { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: .06em; padding: 9px 12px; border-radius: 6px; border: 0; background: var(--accent); color: var(--accent-ink); cursor: pointer; }
+  .skel-actions button.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink-dim); }
+  .use-tpl { margin-top: 10px; padding: 6px 10px; font-size: 10px; }
+  .skel-source { font-size: 11px; color: var(--ink-dim); }
+  .howto { font-size: 12.5px; color: var(--ink-dim); }
+  .howto summary { cursor: pointer; color: var(--ink); }
+  .howto li { margin: 6px 0; line-height: 1.5; }
   .tabs { display: flex; gap: 2px; background: var(--line); border-radius: 8px; padding: 2px; width: fit-content; max-width: 100%; overflow-x: auto; }
   .tab { font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 6px; background: transparent; color: var(--ink-dim); cursor: pointer; border: none; white-space: nowrap; }
   .tab.active { background: var(--surface); color: var(--ink); }
@@ -97,9 +119,28 @@
 <div class="wrap">
   <div>
     <h1>Intelligence Archive</h1>
-    <div class="sub">Browsable reference for the M.O.E. Group's real Armory (SYS-D020 taxonomy): Doctrines &amp; Playbooks, Tools, and Crucibles. Each classified entry shows how it connects to the rest: what to learn first, what it uses, what comes next, what it rules over, and where it overlaps or conflicts. Search by a question too, such as “what can't I say”.</div>
+    <div class="sub"><b style="color:var(--ink)">Everything we learned the hard way, ready to use again.</b> Pick a situation, copy the template, fill the blanks, and paste it into any agent with the Brain Pack. Or search the library below to see how every doctrine, playbook, tool and crucible connects.</div>
   </div>
   <div class="note">Scope note: roughly 50 Doctrines/Playbooks, 40 Tools and all 9 Crucibles are seeded. The relationship map (Forge Log) has started: entries that list links have been fully classified, and links pointing back are worked out automatically. Classification rules live in <code>data/schema.json</code>. Data lives in <code>data/</code> as plain JSON in this repo and deploys as a static site (P-047). See <a href="mandate.html" style="color:var(--accent)">SYS-D028 Plain Language Mandate</a>.</div>
+
+  <div class="deploy">
+    <label for="skelSelect" class="deploy-label">Use a template</label>
+    <select id="skelSelect" class="search"><option value="">What do you need to do?</option></select>
+    <div id="skelPanel" class="skel" hidden>
+      <div class="skel-head"><div><div id="skelTitle" class="skel-title"></div><div id="skelWhen" class="skel-when"></div></div><span id="skelStatus" class="skel-status"></span></div>
+      <pre id="skelBody" class="skel-body"></pre>
+      <div class="skel-actions"><button type="button" id="skelCopy">COPY TEMPLATE</button><button type="button" id="skelCopyBrain">COPY WITH BRAIN PACK</button><button type="button" id="skelOpen" class="ghost">OPEN IN LIBRARY</button></div>
+      <div id="skelSource" class="skel-source"></div>
+    </div>
+  </div>
+  <details class="howto"><summary>How the library works</summary>
+    <ul>
+      <li><b>Tabs</b> are kinds of knowledge. Doctrines &amp; Playbooks: the rules and the step-by-step. Tools: templates and prompts. Crucibles: real failures and what they taught us. Signals: outside ideas worth keeping.</li>
+      <li><b>Chips</b> are the business area. SYS: the business. KIN: movement. MET: nutrition. Legacy: older items kept for history.</li>
+      <li><b>Search</b> takes a question too, such as "what can't I say".</li>
+      <li><b>Use this template</b> appears on any entry that has a ready-to-use version.</li>
+    </ul>
+  </details>
 
   <div class="tabs" id="tabs"></div>
   <div class="toolbar">
@@ -277,6 +318,18 @@
         relBlock(r);
       host.appendChild(card);
     });
+    host.querySelectorAll(".entry").forEach(function (card, i) {
+      var r = list[i];
+      if (!r || !SKEL_BY_ID[r.id]) return;
+      SKEL_BY_ID[r.id].forEach(function (k) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "use-tpl";
+        b.textContent = "USE THIS TEMPLATE · " + k.title;
+        b.addEventListener("click", function () { showSkeleton(k.key); });
+        card.appendChild(b);
+      });
+    });
     host.querySelectorAll("[data-go]").forEach(function (b) {
       b.addEventListener("click", function () { goTo(b.getAttribute("data-go")); });
     });
@@ -291,6 +344,62 @@
     document.getElementById("searchBox").value = id;
     renderAll();
     window.scrollTo({ top: document.getElementById("tabs").offsetTop - 12, behavior: "smooth" });
+  }
+
+  var SKELS = [];
+  var SKEL_BY_ID = {};
+  function showSkeleton(key) {
+    var k = SKELS.filter(function (x) { return x.key === key; })[0];
+    var panel = document.getElementById("skelPanel");
+    if (!k) { panel.hidden = true; return; }
+    document.getElementById("skelSelect").value = key;
+    document.getElementById("skelTitle").textContent = k.title + " · " + k.id;
+    document.getElementById("skelWhen").textContent = "Use when: " + k.use_when;
+    var st = document.getElementById("skelStatus");
+    st.textContent = k.status === "ready" ? "ready" : "proposed · needs your yes";
+    st.className = "skel-status " + k.status;
+    document.getElementById("skelBody").textContent = k.body;
+    document.getElementById("skelSource").textContent = "Built from: " + (k.source || k.id) + (k.replaces && k.replaces !== "nothing" ? " · Replaces: " + k.replaces : "");
+    panel.hidden = false;
+    panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  async function copyText(text, btn, label) {
+    try { await navigator.clipboard.writeText(text); btn.textContent = "COPIED"; }
+    catch (e) { btn.textContent = "SELECT AND COPY"; }
+    setTimeout(function () { btn.textContent = label; }, 2200);
+  }
+  async function loadSkeletons() {
+    try {
+      var r = await fetch("data/skeletons.json", { cache: "no-store" });
+      if (!r.ok) return;
+      SKELS = await r.json();
+    } catch (e) { return; }
+    SKELS.forEach(function (k) { (SKEL_BY_ID[k.id] = SKEL_BY_ID[k.id] || []).push(k); });
+    var sel = document.getElementById("skelSelect");
+    SKELS.slice().sort(function (a, b) { return (a.status === "ready" ? 0 : 1) - (b.status === "ready" ? 0 : 1) || a.title.localeCompare(b.title); })
+      .forEach(function (k) {
+        var o = document.createElement("option");
+        o.value = k.key;
+        o.textContent = k.title + (k.status === "ready" ? "" : " (proposed)");
+        sel.appendChild(o);
+      });
+    sel.addEventListener("change", function () { showSkeleton(sel.value); });
+    document.getElementById("skelCopy").addEventListener("click", function (e) {
+      copyText(document.getElementById("skelBody").textContent, e.target, "COPY TEMPLATE");
+    });
+    document.getElementById("skelCopyBrain").addEventListener("click", async function (e) {
+      var brain = "";
+      try { var b = await fetch("BRAIN.md", { cache: "no-store" }); if (b.ok) brain = await b.text(); } catch (err) {}
+      copyText((brain ? brain + "\n\n---\n\nTASK\n\n" : "") + document.getElementById("skelBody").textContent, e.target, "COPY WITH BRAIN PACK");
+    });
+    document.getElementById("skelOpen").addEventListener("click", function () {
+      var k = SKELS.filter(function (x) { return x.key === document.getElementById("skelSelect").value; })[0];
+      if (k) goTo(k.id);
+    });
+    renderResults();
+    // Deep link: /ops/archive/?tpl=war-room opens that template.
+    var tpl = new URLSearchParams(location.search).get("tpl");
+    if (tpl) showSkeleton(tpl);
   }
 
   function renderAll() { renderTabs(); renderChips(); renderResults(); }
@@ -313,7 +422,7 @@
     renderAll();
   }
 
-  boot();
+  boot().then(loadSkeletons);
 })();
 </script>
 

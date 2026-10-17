@@ -1,0 +1,112 @@
+[
+  {
+    "key": "client-90-days-light",
+    "id": "P-017",
+    "title": "Run a client's 90 days (light)",
+    "use_when": "A lower-price 90-day engagement: set up the system, no weekly lessons or custom playbooks.",
+    "status": "ready",
+    "source": "P-017 The 90-Day \"Air & Ground War\" Protocol (Tripwire OS)",
+    "replaces": "nothing",
+    "body": "CLIENT: [name] · START: [date] · 90-DAY GOAL: [one number] · PRICE: [RM]\n\nNOT INCLUDED (say this in the proposal): weekly lesson sessions, custom playbooks.\nThey get: channel audit, content plan, lead-to-client steps, final report.\n\nBRAND (trust)\n[ ] Weeks 1-2: audit their channels: [link]\n[ ] Weeks 1-2: fix the profile and first impression\n[ ] Weeks 3-4: content plan with real proof (before/after, client stories with permission)\n[ ] Weeks 5-12: weekly posts from material the owner gives us\n[ ] Weeks 5-12: cross-promote from my accounts where it fits\n\nCOMMUNITY (local leads)\n[ ] Partner list: nearby businesses for a shared voucher or event\n[ ] One QR code or form that captures every local lead into the tracker\n\nCONVERSION (no leaks)\n[ ] Weeks 1-2: one tracker for all leads and sales\n[ ] Weeks 3-4: lead-to-client steps written down\n[ ] Weeks 5-12: pipeline worked toward the goal, tracker updated weekly\n\nFRIDAY REPORT: numbers from all three (engagement, leads, conversion %) + what we did this week."
+  },
+  {
+    "key": "client-90-days",
+    "id": "P-018",
+    "title": "Run a client's 90 days (full)",
+    "use_when": "A business client has signed a 90-day engagement with weekly lessons and custom playbooks.",
+    "status": "ready",
+    "source": "P-018 The 90-Day Ascent Protocol (Client OS)",
+    "replaces": "nothing",
+    "body": "CLIENT: [name] · START: [date] · 90-DAY GOAL: [one number, e.g. revenue, leads, retention]\nOWNER ON OUR SIDE: [name]\n\nPHASE 1 · STABILISE (weeks 1-2)\n[ ] Agree the Friday report with the client (what we send, when)\n[ ] One tracker for all their data (leads, sales, clients): [link]\n[ ] Audit their channels: what works, what leaks: [link to report]\n[ ] Fix the first impression (profile, bio, booking path)\n\nPHASE 2 · BUILD (weeks 3-4)\n[ ] Content plan: 2-3 core topics + weekly short posts\n[ ] First 2-week content calendar\n[ ] Simple lead-to-client steps written down (who replies, how fast, what they say)\n[ ] Client signs off the 90-day plan\n\nPHASE 3 · RUN (weeks 5-12)\n[ ] Weekly content live\n[ ] Pipeline worked toward the goal, tracker updated weekly\n[ ] Weekly lesson: one thing that went wrong, run through the Crucible Investigator\n[ ] Turn each big lesson into a written playbook for the client\n[ ] Friday report: numbers, the lesson, the new playbook\n[ ] Day 90: final after-action report against the goal\n\nFRIDAY REPORT (every week)\n1. Numbers: [leads] [conversion %] [revenue]\n2. The lesson this week: [one paragraph]\n3. New playbook added: [name]"
+  },
+  {
+    "key": "crucible-investigator",
+    "id": "T-032",
+    "title": "Crucible Investigator",
+    "use_when": "Something went wrong with a client, a deal, a hire or yourself, and you want the real lesson and the fix.",
+    "status": "proposed",
+    "source": "T-032 (Iron Alchemy + Graham Refinery), P-018 extraction questions, T-032 War Room check",
+    "replaces": "the separate Iron Alchemy and Graham Refinery prompts",
+    "body": "Act as a first-principles investigator for The M.O.E. Group. Use the Brain Pack as the source of\ntruth. Your job is to find what actually happened, not to make me feel better.\n\nRAW CRUCIBLE (my notes, messy is fine):\n[What happened, in my own words. Who was involved (use roles, not names). What I said and did.\nWhat it cost: money, time, trust or energy.]\n\nSTEP 1 · EXTRACT (answer each in 1-3 sentences)\n1. The moment of maximum friction: the exact second it went wrong.\n2. The conventional wisdom I followed that failed me.\n3. The blind spot: what I could not see in the moment.\n4. The doctrine at play: which Archive ID this touches (use only IDs in the Brain Pack).\n\nSTEP 2 · FIRST PRINCIPLES\n- Is my explanation true, or just how it is usually explained?\n- Strip it to the mechanism: what did the other person want, fear and control?\n- Name the power dynamic in one line (who held leverage, and why).\n\nSTEP 3 · RED TEAM\n- Argue the strongest case that I was wrong, not them.\n- What would a high-value operator have done differently in the first 10 seconds?\n\nSTEP 4 · THE FIX\n- The counter-move: name it in 2-4 plain words.\n- The script: the exact line to say next time.\n- Trigger → Action → Outcome, one line each.\n\nSTEP 5 · FILE IT\n- Does an existing Archive entry already cover this? Name it. If yes, propose an update, not a new item.\n- Only if nothing covers it: propose a new item, say what it replaces (Rule B), and wait for my yes.\n- One public lesson (no names, plain words, SYS-D028) I could post as a story."
+  },
+  {
+    "key": "failure-to-content",
+    "id": "D-007",
+    "title": "Turn a failure into content",
+    "use_when": "After a hard week: turn the lesson into one short post and one longer piece.",
+    "status": "ready",
+    "source": "D-007 The Crucible as Curriculum",
+    "replaces": "nothing",
+    "body": "1 · EXTRACT: run the Crucible Investigator on what happened. Keep its public lesson.\n\n2 · FORGE: the named fix (from the Investigator's Step 4) becomes the long piece.\n\n3 · SHARE (plain words, SYS-D028, no names)\n- Short post or Reel: the moment it went wrong, told honestly. End with a question.\n- Long piece (newsletter): the fix, step by step, and how you would use it.\n\nCHECK BEFORE POSTING\n[ ] Would the person involved recognise themselves? If yes, change details.\n[ ] Every number has a source.\n[ ] It sounds like me talking, not a manual."
+  },
+  {
+    "key": "friction-report",
+    "id": "P-036",
+    "title": "Confidential Friction Report (for a boss)",
+    "use_when": "You have collected anonymous answers from a team and need to hand the owner a clear report.",
+    "status": "ready",
+    "source": "T-032 page 6 (P-036 Project Genesis Architect)",
+    "replaces": "nothing",
+    "body": "Act as a neutral advisor writing for the owner of [COMPANY / STUDIO].\n\nINPUT (anonymous team replies, pasted as is):\n[Paste replies here. Remove names before pasting.]\n\nTHE OWNER'S HUNCH (what they suspected before we asked):\n[e.g. \"classes start late\", \"instructors teach differently\"]\n\nRULES\n1. Anchor: start by saying whether the data confirms or challenges the owner's hunch.\n2. Privacy: say the replies are grouped so no one can be identified. Never quote anything traceable.\n3. Reframe: turn each complaint into a system failure, not a person failing.\n4. Numbers only if they come from the replies (count how many people said it). Never invent a percentage.\n\nOUTPUT\n1. Summary: the heat map in 3 lines (what is hot, warm, fine).\n2. Top 3 friction points: each with how many people raised it and what it costs the business.\n3. What to do next: 3 steps for the owner, smallest first."
+  },
+  {
+    "key": "project-index",
+    "id": "T-008",
+    "title": "Project index page (Master Ledger)",
+    "use_when": "Starting any new project or client: one page that points to everything.",
+    "status": "ready",
+    "source": "T-008 Master Ledger template",
+    "replaces": "nothing",
+    "body": "[PROJECT NAME] · Status: [planning / active] · Phase: [1 stabilise / 2 build / 3 run]\n\n1 · WORKING FILES (if it is not here, it is not happening)\n- Timeline: [link] · owner [name]\n- Actions and decisions log: [link] · owner [name]\n- Friday report: [link] · owner [founder]\n\n2 · THE RULES (internal)\n- Mission in one sentence: [ ]\n- Two truths that drive the plan: [ ] [ ]\n- When we change course: \"If [X] fails, we do [Y].\"\n\n3 · WHAT THE CLIENT SEES\n- The plan: [name] · the bet: [ ] · the number we must hit: [ ]\n- Deliverables: [asset A: what it does] [asset B: what it does]\n\n4 · HOW WE WORK\n- Brand basics: colours [ ] [ ], font [ ]\n- Outreach routine: who we target, the opening line\n- The offer stack: [item 1] [item 2] [the closer]"
+  },
+  {
+    "key": "service-to-product",
+    "id": "P-027",
+    "title": "Turn a 1-to-1 service into a product",
+    "use_when": "A service eats your time and you want a small product that sells it for you.",
+    "status": "ready",
+    "source": "P-027 The Crucible-to-Asset Pipeline",
+    "replaces": "nothing",
+    "body": "THE SERVICE NOW: [what you do 1-to-1, price, hours per client]\n\n1 · CHECK IT IS WORTH IT (yes to any = continue)\n[ ] I over-deliver without being paid for it\n[ ] Clients want contradictory things from it\n[ ] It only happens when I push it\n\n2 · REDESIGN\n- Remove: [e.g. scheduling, high price]\n- Reduce: [e.g. full personalisation]\n- Raise: [e.g. clarity, the client doing it alone]\n- Create: [e.g. a guide or short programme anyone can follow]\n\n3 · BUILD THE SMALL PRODUCT\n- The problem in their words: [one line]\n- The 3-5 step fix that gives a quick win: [steps]\n- The next step to the main offer: [e.g. book a 15-minute call]\n\n4 · TEST AND FILE\n[ ] Give it to [number] people as a gift\n[ ] Collect what they say and how many take the next step\n[ ] File it in the Archive under its ID; update, do not duplicate"
+  },
+  {
+    "key": "short-post",
+    "id": "P-002-B",
+    "title": "Short post: comfort, cause, one fix",
+    "use_when": "Writing a Reel script or short text post about a problem your audience keeps hitting.",
+    "status": "ready",
+    "source": "T-032 Silk & Steel generator (P-002-B)",
+    "replaces": "nothing",
+    "body": "Write a short post in plain words (SYS-D028: no jargon, sentences of 20 words or fewer,\nno \"!\" or \";\", numbers need a source, no health claims).\n\nWHO IT IS FOR: [e.g. studio owners who keep losing clients after 3 months]\nTHE PROBLEM THEY KEEP HITTING: [one line]\nA REAL MOMENT FROM MY WEEK (no names): [one line]\n\nTHREE PARTS\n1. Comfort (1-2 sentences): it is not their fault and not a lack of effort.\n2. Cause (2-3 sentences): the simple reason the system breaks. Plain words, no clinical terms.\n3. One fix (1 sentence): one thing they can do today.\nEnd with one ask: [e.g. send me the word PLAN]."
+  },
+  {
+    "key": "studio-plan",
+    "id": "T-029",
+    "title": "One-page plan after a studio call",
+    "use_when": "You have just listened to a studio owner (the Listen step) and need to send the Plan.",
+    "status": "proposed",
+    "source": "T-032 Tripwire Engine (1-Page Vulnerability Blueprint), aligned to T-029 Architectural Brief",
+    "replaces": "the Tripwire Engine prompt (same job as T-029)",
+    "body": "Act as the M.O.E. advisor writing a one-page plan for a studio owner. Plain words only (SYS-D028):\nthe owner must understand every line without asking.\n\nMY NOTES FROM THE CALL (messy is fine):\n[What they said hurts. How they track clients now. What their instructors do differently.\nWhat they want in 90 days. Their exact words where possible.]\n\nTHE PAGE\n1. What you told me (2-3 lines, their own words back to them).\n2. Where it leaks: the main place time, money or clients are lost. Use their numbers only.\n   If they gave none, say what we would measure in week 1.\n3. Why it happens: the system cause, not the people.\n4. The 90-day plan: Days 1-30, 31-60, 61-90, one line each. Name what gets set up,\n   do not explain how (that is the Setup).\n5. The offer: 90-Day Setup RM 9,000 (half before day 1) + Studio Licence RM 1,200/month.\n   Add-ons only if the call showed a need: Floor Command RM 2,000/month, Recovery Bar (no fee).\n6. One next step with a date: \"Reply YES and we start on [date].\""
+  },
+  {
+    "key": "trial-reel",
+    "id": "SYS-P050",
+    "title": "Trial Reel caption",
+    "use_when": "Posting a Trial Reel to test a new content format.",
+    "status": "ready",
+    "source": "T-032 Trial Rail generator (SYS-P050 version; the older SYS-P004 version is retired)",
+    "replaces": "the SYS-P004 caption version",
+    "body": "Trial Reel: [TOPIC]\n\nI'm Joey. [ONE PLAIN LINE ABOUT WHAT YOU DO, e.g. I help studios and busy people build habits that hold up.]\nThis is a Trial Reel, a live test of a new format. Short, plain and true.\n\nToday: [TOPIC]\n[1-2 plain sentences: the lesson.]\n\nWe build in public here.\n[ONE QUESTION for the comments]\n\nFollow along, and drop your answer below.\n\n#TrialReel #JoeyCoachie #[TAG]"
+  },
+  {
+    "key": "war-room",
+    "id": "T-032",
+    "title": "War Room (stress-test an idea)",
+    "use_when": "Before you commit money, time or your name to an idea, pitch or partnership.",
+    "status": "ready",
+    "source": "T-032 War Room Simulator",
+    "replaces": "nothing",
+    "body": "Act as three people debating one decision. Use the Brain Pack for context.\n\nTHE IDEA:\n[The idea, pitch or partnership in 2-3 sentences. Who it is for. What it costs us.]\n\n1. BLUE (the seller): the best case. Why this could work, who wins, what it unlocks.\n2. RED (the killer): the worst case. List concrete failure points under Legal, Money,\n   Operations and People. Assume people are busy and lazy.\n3. THE VERDICT (the architect): do not average the two. Keep the Blue upside and armour it\n   against every Red threat. End with:\n   - Go / Change / Kill, in one word\n   - the 3 changes that make it safe\n   - the first action, who does it, by when\n   - the one number that tells us in 30 days if it is working"
+  }
+]

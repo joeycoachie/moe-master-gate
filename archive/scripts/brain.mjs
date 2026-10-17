@@ -20,6 +20,22 @@ const lexicon = loadLexicon();
 const docs = fs.existsSync(path.join(ROOT, 'docs'))
   ? fs.readdirSync(path.join(ROOT, 'docs')).filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, '')).sort()
   : [];
+// Skeletons: stripped, fill-in versions of Archive items that can be used straight away.
+// archive/skeletons/<key>.md (front matter + body) → data/skeletons.json for the Archive's dropdown.
+const SKEL_DIR = path.join(ROOT, 'skeletons');
+const skeletons = fs.existsSync(SKEL_DIR)
+  ? fs.readdirSync(SKEL_DIR).filter((f) => f.endsWith('.md')).sort().map((f) => {
+      const raw = read(path.join(SKEL_DIR, f));
+      const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+      if (!m) throw new Error(`skeletons/${f}: missing front matter`);
+      const meta = Object.fromEntries(m[1].split('\n').map((l) => [l.slice(0, l.indexOf(':')).trim(), l.slice(l.indexOf(':') + 1).trim()]));
+      for (const k of ['key', 'id', 'title', 'use_when', 'status']) if (!meta[k]) throw new Error(`skeletons/${f}: missing ${k}`);
+      if (!entries.some((e) => e.id === meta.id)) throw new Error(`skeletons/${f}: ${meta.id} is not in the Archive`);
+      return { ...meta, body: m[2].trim() };
+    })
+  : [];
+fs.writeFileSync(path.join(ROOT, 'data', 'skeletons.json'), JSON.stringify(skeletons, null, 2) + '\n');
+
 const gates = [...read(path.join(ROOT, 'DECISION_GATES.md')).split('## Settled')[0].matchAll(/^### (G-\d+ · .+)$/gm)].map((m) => m[1]);
 
 const oneLine = (s, n = 160) => {
@@ -84,10 +100,18 @@ ${gates.map((g) => `- ${g}`).join('\n') || '- none'}
 
 ---
 
-## 5. The Archive index (${entries.length} entries)
+## 5. Ready-to-use templates (skeletons)
+
+The founder copies these from the Archive (Use a template). Status "proposed" waits for the founder's yes.
+
+${skeletons.map((k) => `- **${k.title}** (${k.id}, ${k.status}): ${k.use_when}`).join('\n')}
+
+---
+
+## 6. The Archive index (${entries.length} entries)
 
 ${index}
 `;
 
 fs.writeFileSync(path.join(ROOT, 'BRAIN.md'), out);
-console.log(`BRAIN.md · ${today} · ${commit} · ${entries.length} entries · ${docs.length} full docs · ${out.length} chars`);
+console.log(`BRAIN.md · ${today} · ${commit} · ${entries.length} entries · ${docs.length} full docs · ${skeletons.length} skeletons · ${out.length} chars`);
