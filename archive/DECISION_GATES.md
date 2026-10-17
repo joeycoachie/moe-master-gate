@@ -237,6 +237,22 @@ SYS-D023 links M.O.E. to Herbalife; SYS-D028 bars naming the partner brand in pu
 
 **Recommended:** Internal yes, public no until tested.
 
+## New items waiting to be filed
+
+### G-25 · Phase Action Protocol (outreach console)
+
+Received 17 Oct 2026: `inbox/phase-action-protocol.html`, a gamified 4-phase checklist (Targeting & Infiltration → Diagnostic → Blueprint → Handover). It only chains items already in the Archive: P-015, SYS-P058, T-027, T-029, P-011, T-044. Its job is SYS-P058's job (approach studio owners, end in a signed deal).
+
+1. Fold it into SYS-P058 as its execution checklist (no new ID; SYS-P058 v2)
+2. File it as a new Tool (T-045) that replaces nothing
+3. Keep it as a personal console only, not in the Archive
+
+**Recommended:** 1. Rule B: no new framework when an existing one does the job.
+
+Two fixes needed whichever you pick:
+- Phase 4 sells a "fractional retainer" (placeholder RM 3,500/month). The BC3 offer is the 90-Day Setup RM 9,000 + Studio Licence RM 1,200/month (+ Floor Command RM 2,000, + Recovery Bar). The Handover should sell that.
+- The Axiomatic Hook fails SYS-D028 (jargon: "architect internal operating systems", "biomechanical", "X-Ray"; one 23-word sentence). Plain version: `hub/OUTREACH_PLAIN.md`.
+
 ## Settled
 
 _None yet._
