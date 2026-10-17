@@ -120,6 +120,25 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
     }
   };
 
+  const reset = async (what: 'fuel' | 'checkins' | 'requests', question: string) => {
+    if (!window.confirm(question)) return;
+    setBusy(true);
+    setNote('');
+    try {
+      const res = await fetch(`/ops/api/clients/${clientId}/portal?what=${what}`, { method: 'DELETE' });
+      const body = await res.json();
+      if (!res.ok) {
+        setNote(body.error || 'Reset failed.');
+        return;
+      }
+      setCheckins(body.checkins ?? null);
+      setRequests(body.requests ?? null);
+      setNote('Reset done.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const groups = catalog.reduce<Record<string, CatalogItem[]>>((acc, item) => {
     (acc[item.group || 'Other'] ??= []).push(item);
     return acc;
@@ -243,6 +262,15 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
           </div>
         )}
       </div>
+
+      {checkins !== null && (
+        <div className="flex flex-wrap items-center gap-2 text-[10px] tracking-widest">
+          <span className="text-[#666] uppercase">Reset:</span>
+          <button onClick={() => reset('fuel', 'Clear every "fuel taken" tick? Check-in scores stay.')} disabled={busy} className="border border-[#333] text-[#888] px-2 py-1 hover:text-[#f59e0b] hover:border-[#f59e0b] disabled:opacity-40">FUEL TICKS</button>
+          <button onClick={() => reset('checkins', 'Delete every check-in? Their Recovery Window starts again from zero.')} disabled={busy} className="border border-[#333] text-[#888] px-2 py-1 hover:text-[#ef4444] hover:border-[#ef4444] disabled:opacity-40">ALL CHECK-INS</button>
+          <button onClick={() => reset('requests', 'Clear their "I\'m interested" list?')} disabled={busy} className="border border-[#333] text-[#888] px-2 py-1 hover:text-[#f59e0b] hover:border-[#f59e0b] disabled:opacity-40">INTEREST LIST</button>
+        </div>
+      )}
 
       {requests && requests.length > 0 && (
         <div>

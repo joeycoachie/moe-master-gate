@@ -27,3 +27,11 @@ export const FUEL_QA: Record<string, FuelQa> = {
     ],
   },
 };
+
+// Products in the catalog made by the partner brand. Shown with its name in the client's own
+// portal only (private; founder allowed naming products there, 16 Oct 2026). Never on public pages.
+export const PARTNER_BRAND = 'Herbalife';
+export const PARTNER_PRODUCTS = new Set([
+  'f1', 'f3', 'tea', 'aloe', 'fibre', 'omega', 'immulift', 'niteworks', 'celactivo', 'garlic',
+  'collagen', 'calcium', 'multi', 'guarana', 'rspro', 'cr7', 'anchor_shake',
+]);

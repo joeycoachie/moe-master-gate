@@ -26,7 +26,8 @@ type Fuel = {
   usage: string;
   dose: string;
   qa: { q: string; a: string }[];
-  pairs: { key: string; title: string; why: string }[];
+  pairs: { key: string; title: string; brand: string; why: string }[];
+  brand: string;
 };
 
 // Tap-to-open questions under a product, then what pairs with it. "I'm interested" tells the coach.
@@ -65,6 +66,7 @@ function FuelExtras({ fuel }: { fuel: Fuel }) {
             {fuel.pairs.map((p) => (
               <div key={p.key} className="border border-[#4CAF50]/30 bg-[#4CAF50]/5 p-3">
                 <div className="text-xs text-white font-bold">{p.title}</div>
+                {p.brand && <div className="text-[9px] text-[#4CAF50] tracking-widest uppercase mt-0.5">by {p.brand}</div>}
                 <p className="text-[11px] text-[#aaa] font-sans leading-relaxed mt-1">{p.why}</p>
                 {sent[p.key] ? (
                   <p className="text-[11px] text-[#4CAF50] mt-2">{sent[p.key]}</p>
@@ -443,7 +445,10 @@ export default function ClientPortalPage() {
                 {view.fuel.map((f) => (
                   <div key={f.key} className="border border-[#222] bg-[#0a0a0a] p-5">
                     <div className="flex justify-between items-start gap-3 mb-2">
-                      <div className="text-base font-bold">{f.title}</div>
+                      <div>
+                        <div className="text-base font-bold">{f.title}</div>
+                        {f.brand && <div className="text-[9px] text-[#4CAF50] tracking-widest uppercase mt-0.5">by {f.brand}</div>}
+                      </div>
                       {f.tag && <span className="text-[9px] text-[#4CAF50] border border-[#4CAF50]/40 px-2 py-0.5 tracking-widest">{f.tag}</span>}
                     </div>
                     <p className="text-xs text-[#ccc] font-sans leading-relaxed">{f.desc}</p>

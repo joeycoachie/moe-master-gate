@@ -126,3 +126,35 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ cl
     return setupHint(err);
   }
 }
+
+// Reset what a client has logged in their portal, e.g. test taps before they really start.
+// ?what=fuel     clears the "fuel taken" ticks (check-in scores stay)
+// ?what=checkins deletes every daily check-in (restarts the Recovery Window)
+// ?what=requests clears the "I'm interested" list
+export async function DELETE(request: Request, { params }: { params: Promise<{ clientId: string }> }) {
+  if (!(await isArchitect())) return unauthorized();
+  const clientId = await readParams(params);
+  if (!clientId) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
+  const what = new URL(request.url).searchParams.get('what');
+  try {
+    const db = getSupabaseAdmin();
+    if (what === 'fuel') {
+      const { error } = await db.from('client_checkins').update({ fuel_taken: false }).eq('client_id', clientId);
+      if (error) throw new Error(error.message);
+      // A day with nothing left on it is just noise in the chart.
+      const { error: e2 } = await db.from('client_checkins').delete().eq('client_id', clientId).is('energy', null).is('sleep', null).is('body', null);
+      if (e2) throw new Error(e2.message);
+    } else if (what === 'checkins') {
+      const { error } = await db.from('client_checkins').delete().eq('client_id', clientId);
+      if (error) throw new Error(error.message);
+    } else if (what === 'requests') {
+      const { error } = await db.from('client_requests').delete().eq('client_id', clientId);
+      if (error) throw new Error(error.message);
+    } else {
+      return NextResponse.json({ error: 'Unknown reset.' }, { status: 400 });
+    }
+    return NextResponse.json({ ok: true, checkins: await allCheckins(clientId), requests: await clientRequests(clientId) });
+  } catch (err) {
+    return adminError(err);
+  }
+}

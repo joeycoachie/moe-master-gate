@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { CLIENT_COOKIE_NAME, readClientSessionToken } from '@/lib/clientSession';
 import { ARMORY_PROTOCOLS, clientArcFor } from '@/lib/armory';
 import fuelCatalog from '@/lib/fuelCatalog.json';
-import { FUEL_QA } from '@/lib/fuelQa';
+import { FUEL_QA, PARTNER_BRAND, PARTNER_PRODUCTS } from '@/lib/fuelQa';
 
 // protocol_id for a session logged outside any arc (see /ops/api/clients/[clientId]/extra-session).
 export const EXTRA_SESSION_ID = 'EXTRA';
@@ -59,11 +59,12 @@ export function buildClientView(
   const unlocked = new Set(fuel.map((f) => f.key));
   const fuelWithQa = fuel.map((f) => ({
     ...f,
+    brand: PARTNER_PRODUCTS.has(f.key) ? PARTNER_BRAND : '',
     qa: FUEL_QA[f.key]?.qa ?? [],
     // Pairings: only products in the client catalog that aren't already in their plan.
     pairs: (FUEL_QA[f.key]?.pairs ?? [])
       .filter((p) => products[p.key] && !unlocked.has(p.key))
-      .map((p) => ({ key: p.key, title: products[p.key].title.split(' (')[0], why: p.why })),
+      .map((p) => ({ key: p.key, title: products[p.key].title.split(' (')[0], brand: PARTNER_PRODUCTS.has(p.key) ? PARTNER_BRAND : '', why: p.why })),
   }));
 
   const current = client.current_arc ? clientArcFor(client.current_arc) : undefined;
