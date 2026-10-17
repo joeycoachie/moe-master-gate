@@ -1,6 +1,8 @@
 # REGISTRY · The Operator's Playbook
 
-Every product, where it lives, and what it runs on. Every live link in one list: `LINKS.md` (also at Founder Command → LINKS). **If you change any of these facts, update this file in the same session.**
+Every product, where it lives, and what it runs on. Every live link in one list: `LINKS.md` (also at Founder Command → LINKS).
+
+**One brain for every agent.** Before any strategy, content, protocol or client-facing work, read `~/moe-master-gate/archive/BRAIN.md`: the Archive index, roadmap, settled decisions, open gates and the plain-language word list in one file. Agents outside this Mac (KA-Alex on Gemini, ChatGPT, claude.ai chats) get the same file: the founder copies it from terminal.theoperatorplaybook.com/ops/archive/brain. After changing `archive/data/`, `archive/docs/`, `hub/ROADMAP.md` or `hub/DECISIONS.md`, rebuild it with `node archive/scripts/brain.mjs` and commit BRAIN.md in the same commit. **If you change any of these facts, update this file in the same session.**
 
 Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel account)
 

@@ -5,7 +5,7 @@ const nextConfig = {
   outputFileTracingIncludes: {
     '/ops/armory/[protocolId]': ['./armory/protocols/**/*', './armory/client-bar.js'],
     '/ops/command': ['./hub/ROADMAP.md', './hub/LEDGER.md', './hub/LINKS.md'],
-    '/ops/archive/[[...path]]': ['./archive/*.html', './archive/data/**/*.json'],
+    '/ops/archive/[[...path]]': ['./archive/*.html', './archive/data/**/*.json', './archive/BRAIN.md', './archive/docs/*.md'],
   },
 };
 

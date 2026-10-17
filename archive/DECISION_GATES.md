@@ -253,6 +253,20 @@ Two fixes needed whichever you pick:
 - Phase 4 sells a "fractional retainer" (placeholder RM 3,500/month). The BC3 offer is the 90-Day Setup RM 9,000 + Studio Licence RM 1,200/month (+ Floor Command RM 2,000, + Recovery Bar). The Handover should sell that.
 - The Axiomatic Hook fails SYS-D028 (jargon: "architect internal operating systems", "biomechanical", "X-Ray"; one 23-word sentence). Plain version: `hub/OUTREACH_PLAIN.md`.
 
+### G-26 · Three ID and version clashes in files received 17 Oct
+
+Full text of 7 documents is now in `docs/`. Three disagree with the Archive:
+
+- **"P020_The Crucible as Curriculum.pdf"**: in the Archive this is **D-007**. P-020 is "The M.O.E. High-Signal Funnel v1.0". Filed as `docs/D-007.md`.
+- **T-032**: the Archive row is "The Doctrine Forge Prompt". The PDF is a pack of 9 prompts (Genesis Reboot, Iron Alchemy, War Room, P-036, Tripwire Engine, Silk & Steel, SYS-D022 UI, Trial Rail, Graham Refinery). Filed as `docs/T-032.md`.
+- **Master Blueprint v1.2**: the Archive has D-016 at EOS V3.0. v1.2 names the Google Sheet as source of truth and Base Camp 1 as 100 email subscribers; both are superseded. Filed as `docs/D-016_v1.2.md`, history only.
+
+1. Accept as filed: D-007 keeps its ID; rename the T-032 row to "Master System Prompt pack (9 prompts)"; v1.2 stays history
+2. Give the 9-prompt pack its own new Tool ID and keep T-032 as the Doctrine Forge Prompt
+3. Send me the v3.0 Master Blueprint so D-016 gets its full text too
+
+**Recommended:** 1 and 3. Also: the T-032 prompts tell agents to talk in "Crucible", "Iron Skeleton" and S-Rank terms. That is fine inside, never in customer copy (SYS-D028). BRAIN.md says so to every agent.
+
 ## Settled
 
 _None yet._

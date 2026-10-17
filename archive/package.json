@@ -10,6 +10,7 @@
     "validate": "node scripts/validate.mjs",
     "gaps": "node scripts/gaps.mjs",
     "gate": "node scripts/gate.mjs",
-    "drift": "node scripts/drift.mjs"
+    "drift": "node scripts/drift.mjs",
+    "brain": "node scripts/brain.mjs"
   }
 }

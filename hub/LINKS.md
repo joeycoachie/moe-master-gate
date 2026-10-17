@@ -43,6 +43,7 @@ Last checked: 2026-10-16.
 | Armory (all arcs) | [/ops/armory](https://terminal.theoperatorplaybook.com/ops/armory) |
 | Clients (files, portal codes, fuel) | [/ops/clients](https://terminal.theoperatorplaybook.com/ops/clients) |
 | Intelligence Archive | [/ops/archive](https://terminal.theoperatorplaybook.com/ops/archive) |
+| Brain Pack (paste into any agent) | [/ops/archive/brain](https://terminal.theoperatorplaybook.com/ops/archive/brain) |
 | CRM Terminal | [moe-operator-terminal.web.app](https://moe-operator-terminal.web.app) |
 
 ## Back office (accounts)
