@@ -190,13 +190,11 @@
     if (flagged.length) {
       var box = el('div', '');
       box.setAttribute('style', 'margin-top:10px;border:1px solid #1e3a8a;border-left:3px solid #3b82f6;background:#0a0f1c;padding:10px');
-      // The card's own override toggle names its pathology (e.g. "RA OVERRIDE", "KNEE / NERVE OVERRIDE").
-      // Offer it when a selected client's conditions mention one of those words.
-      var raBtn = document.getElementById('raToggleBtn');
-      var overrideName = raBtn ? raBtn.textContent.replace(/\[.?\]/g, '').replace(/\bACTIVE\b/gi, '').replace(/\(.*?\)/g, '').trim() : 'RA OVERRIDE';
-      var overrideWords = overrideName.split(/[^A-Za-z]+/).filter(function (w) { return w.length >= 2 && !/^override$/i.test(w); });
-      var overrideRe = overrideWords.length ? new RegExp('\\b(' + overrideWords.join('|') + ')\\b', 'i') : /\bRA\b|rheumat/i;
-      var needsRA = false;
+      // The card's own override toggles name their pathology (SYS-D022 V2.2 override library):
+      // "RA OVERRIDE", "NERVE / KNEE SHEAR", "ACUTE CLAVICLE / PEC FLUSH" ... Offer each one when a
+      // selected client's conditions mention one of its words.
+      var overrides = cardOverrides();
+      var wanted = {};
       flagged.forEach(function (c) {
         var line = el('div', '');
         line.setAttribute('style', 'font-size:12px;color:#ddd;line-height:1.5;margin-bottom:4px');
@@ -204,14 +202,18 @@
         if ((c.conditions || '').trim()) line.appendChild(document.createTextNode(' · ' + c.conditions.trim()));
         if ((c.avoid || '').trim()) line.appendChild(document.createTextNode(' · Avoid: ' + c.avoid.trim()));
         box.appendChild(line);
-        if (overrideRe.test(c.conditions || '') || (/^RA$/i.test(overrideWords[0] || '') && /rheumat/i.test(c.conditions || ''))) needsRA = true;
+        overrides.forEach(function (o) {
+          if (o.re.test(c.conditions || '') || (o.key === 'ra' && /rheumat/i.test(c.conditions || ''))) wanted[o.key] = o;
+        });
       });
-      if (needsRA && !document.body.classList.contains('ra-active') && typeof window.toggleRA === 'function') {
-        var ra = el('button', 'font-mono', 'TURN ON ' + overrideName.toUpperCase());
-        ra.setAttribute('style', 'margin-top:6px;font-size:10px;letter-spacing:.1em;padding:6px 10px;cursor:pointer;border:1px solid #3b82f6;color:#fff;background:#1e3a8a');
-        ra.onclick = function () { window.toggleRA(); render(); };
-        box.appendChild(ra);
-      }
+      Object.keys(wanted).forEach(function (k) {
+        var o = wanted[k];
+        if (o.active()) return;
+        var b = el('button', 'font-mono', 'TURN ON ' + o.name.toUpperCase());
+        b.setAttribute('style', 'margin:6px 6px 0 0;font-size:10px;letter-spacing:.1em;padding:6px 10px;cursor:pointer;border:1px solid #3b82f6;color:#fff;background:#1e3a8a');
+        b.onclick = function () { o.turnOn(); render(); };
+        box.appendChild(b);
+      });
       body.appendChild(box);
     }
 
@@ -281,6 +283,29 @@
   }
 
   // Reads the arc's own Phase 5 form: gate selects, body-check boxes, notes and verdict.
+  // Every override toggle on the card: <button id="<key>ToggleBtn">. V2.1 cards have only raToggleBtn + toggleRA().
+  var OVERRIDE_STOP = /^(override|acute|flush|fix|tension|shear|active|protocol)$/i;
+  function cardOverrides() {
+    var list = [];
+    document.querySelectorAll('[id$="ToggleBtn"]').forEach(function (btn) {
+      var key = btn.id.replace(/ToggleBtn$/, '');
+      if (!/^[a-z]+$/.test(key)) return;
+      var name = btn.textContent.replace(/\[.?\]/g, '').replace(/\bACTIVE\b/gi, '').replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim();
+      var words = name.split(/[^A-Za-z]+/).filter(function (w) { return w.length >= 2 && !OVERRIDE_STOP.test(w); });
+      list.push({
+        key: key,
+        name: name || key,
+        re: words.length ? new RegExp('\\b(' + words.join('|') + ')\\b', 'i') : /^$/,
+        active: function () { return document.body.classList.contains(key + '-active'); },
+        turnOn: function () {
+          if (typeof window.toggleOverride === 'function') window.toggleOverride(key);
+          else if (key === 'ra' && typeof window.toggleRA === 'function') window.toggleRA();
+        },
+      });
+    });
+    return list;
+  }
+
   function captureAudit() {
     var gates = [];
     document.querySelectorAll('select[id^="gate"]').forEach(function (sel) {
@@ -302,6 +327,7 @@
       somatic: somatic,
       notes: notes ? notes.value : '',
       verdict: verdict ? verdict.innerText.trim().slice(0, 4000) : '',
+      overrides: cardOverrides().filter(function (o) { return o.active(); }).map(function (o) { return o.name; }),
       captured_at: new Date().toISOString(),
     };
   }

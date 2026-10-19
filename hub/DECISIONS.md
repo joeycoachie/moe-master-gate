@@ -86,3 +86,7 @@ Newest at the top within each section.
 ## 2026-10-16 · BC3 offer prices confirmed
 - Kinetic Studio OS: 90-Day Setup RM9,000 (50% upfront); Studio Licence RM1,200/month, mandatory, 12-month minimum, and the system stops if unpaid; Floor Command RM2,000/month, optional.
 - Client portal pilot is live: Eleine Wong has a code (issued 16 Oct). Programme shown as "The Shoulder Frame Programme".
+
+## 2026-10-19 · SYS-D022 V2.2 · Triage Doctrine and override library
+- Founder approved V2.2 ("approve V2.2 + install"). Phases 2–3 (Anchor, Crucible) are the immutable arc; Phases 1 and 4 (Primer, Unwind) are fluid triage. A card may carry several named overrides (`ra`, `clavicle`, `arch`); it replaces V2.1's single override. Doctrine: armory/doctrine/SYS-D022_V2.2.md.
+- KIN-P019_W2 is now KA-Alex's Advanced Hip Armor & Triage card (19 Oct); it replaces the 11 Oct issue.

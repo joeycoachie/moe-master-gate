@@ -1,4 +1,4 @@
-// SYS-D022 V2.1 contract check for a Battle Card. Run before adding a card to the Armory:
+// SYS-D022 V2.2 contract check for a Battle Card. Run before adding a card to the Armory:
 //   node armory/check-card.js <card.html> armory/apparatus-registry.json
 // FAIL lines must be fixed by KA-Alex; WARN lines are flagged to the founder.
 const fs=require('fs');
@@ -10,12 +10,19 @@ const scripts=[...h.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]).join
 const el={classList:{add(){},remove(){},replace(){},contains(){return false}},style:{},value:'',innerText:'',innerHTML:'',checked:false,appendChild(){},removeChild(){},select(){}};
 const document={getElementById:()=>el,querySelectorAll:()=>[],body:el,createElement:()=>el,execCommand(){}};
 let r;
-try{ r=(new Function('document','window','setInterval','clearInterval','setTimeout',scripts+';return {DB:typeof PROTOCOL_DB!=="undefined"?PROTOCOL_DB:null,SEL:typeof stationSelections!=="undefined"?stationSelections:null,EQ:typeof EQUIP_LABELS!=="undefined"?EQUIP_LABELS:null,RA:typeof toggleRA==="function"}'))(document,{},()=>0,()=>0,()=>0); ok('script runs'); }
+try{ r=(new Function('document','window','setInterval','clearInterval','setTimeout',scripts+';return {DB:typeof PROTOCOL_DB!=="undefined"?PROTOCOL_DB:null,SEL:typeof stationSelections!=="undefined"?stationSelections:null,EQ:typeof EQUIP_LABELS!=="undefined"?EQUIP_LABELS:null,RA:typeof toggleRA==="function",OV:typeof toggleOverride==="function"}'))(document,{},()=>0,()=>0,()=>0); ok('script runs'); }
 catch(e){ bad('script error: '+e.message); console.log(out.join('\n')); process.exit(); }
 for (const [n,v] of [['PROTOCOL_DB',r.DB],['stationSelections',r.SEL],['EQUIP_LABELS',r.EQ]]) v?ok(n+' is top-level'):bad(n+' missing or not top-level');
 if(!r.DB||!r.SEL||!r.EQ){ console.log(out.join('\n')); process.exit(1); }
 if(/<script[^>]*type=["']module/.test(h)) bad('uses a module script');
 r.RA?ok('toggleRA() exists'):bad('toggleRA() missing');
+// V2.2 override library: a card may declare named overrides as <button id="<key>ToggleBtn" onclick="toggleOverride('<key>')">.
+// 'ra' is always the first; each declared key may add one field of the same name to every option.
+const OVR=[...new Set([...h.matchAll(/id="([a-z]+)ToggleBtn"/g)].map(m=>m[1]))].filter(k=>k!=='ra');
+if(OVR.length){
+ r.OV?ok('V2.2 overrides declared: ra, '+OVR.join(', ')):bad('overrides '+OVR.join(', ')+' declared but toggleOverride() missing');
+ for(const k of OVR){ h.includes("toggleOverride('"+k+"')")?0:bad('#'+k+'ToggleBtn does not call toggleOverride(\''+k+'\')'); h.includes(k+'-module')?0:bad('override "'+k+'" has no .'+k+'-module to show its cue'); }
+}
 const PH=['primer','anchor','crucible','unwind'];
 JSON.stringify(Object.keys(r.DB))===JSON.stringify(PH)?ok('phase keys in order'):bad('phase keys: '+Object.keys(r.DB));
 for(const ph of PH){const p=r.DB[ph]; if(!p) continue;
@@ -25,7 +32,8 @@ for(const ph of PH){const p=r.DB[ph]; if(!p) continue;
   for(const [k,v] of Object.entries(o.options||{})){
    if(!keys.includes(k)) bad(`${ph}.${s} uses apparatus "${k}" not in the registry`);
    if(reg.apparatus[k]&&reg.apparatus[k].same_actions===false&&Object.keys(o.options).length>1) bad(`${ph}.${s}: "${k}" is same_actions=no but sits beside other options`);
-   const f=Object.keys(v).sort().join(','); if(f!=='exec,name,ra,reps,setup') bad(`${ph}.${s}.${k} fields = ${f}`);
+   const fk=Object.keys(v); const miss=['exec','name','ra','reps','setup'].filter(x=>!fk.includes(x)); const extra=fk.filter(x=>!['exec','name','ra','reps','setup',...OVR].includes(x));
+   if(miss.length||extra.length) bad(`${ph}.${s}.${k} fields = ${fk.sort().join(',')}`);
    if(!r.EQ||!r.EQ[k]) bad(`EQUIP_LABELS has no label for "${k}"`);
   }
   const sel=r.SEL&&r.SEL[ph]&&r.SEL[ph][s]; if(!sel||!(o.options||{})[sel]) bad(`stationSelections.${ph}.${s} = "${sel}" is not one of its options`);
