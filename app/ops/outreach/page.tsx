@@ -4,19 +4,28 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import {
+  CHANNELS,
+  CHANNEL_LABEL,
+  ROADS,
+  ROAD_INFO,
   STAGES,
-  STAGE_LABEL,
   buildPhases,
+  defaultChannel,
   fillMessage,
-  sendLinks,
+  formatFor,
   funnel,
+  openLink,
+  roadOf,
+  stageLabel,
   dueMoves,
   nextMove,
   plainCheck,
   reached,
   sendStreak,
   variantScores,
+  type Channel,
   type OutreachEvent,
+  type Road,
   type Stage,
   type Target,
   type Variant,
@@ -35,6 +44,19 @@ export default function OutreachConsolePage() {
   const [toast, setToast] = useState('');
   const [openId, setOpenId] = useState<string | null>(null);
   const [filter, setFilter] = useState<'open' | 'all'>('open');
+  const [road, setRoadState] = useState<Road>(() => {
+    try {
+      return typeof window !== 'undefined' && localStorage.getItem('outreach:road') === 'fuel' ? 'fuel' : 'kinetic';
+    } catch {
+      return 'kinetic';
+    }
+  });
+  const setRoad = (r: Road) => {
+    setRoadState(r);
+    try {
+      localStorage.setItem('outreach:road', r);
+    } catch {}
+  };
 
   const flash = (msg: string) => {
     setToast(msg);
@@ -79,8 +101,9 @@ export default function OutreachConsolePage() {
     return true;
   };
 
-  const phases = useMemo(() => buildPhases(targets, variants, events), [targets, variants, events]);
-  const f = funnel(targets);
+  const phases = useMemo(() => buildPhases(targets, variants, events, road), [targets, variants, events, road]);
+  const roadTargets = targets.filter((t) => roadOf(t) === road);
+  const roadVariants = variants.filter((v) => roadOf(v) === road);
   const allSteps = phases.flatMap((p) => p.steps);
   const doneSteps = allSteps.filter((s) => s.done).length;
   const cleared = phases.filter((p) => p.steps.every((s) => s.done));
@@ -88,9 +111,9 @@ export default function OutreachConsolePage() {
   const streak = sendStreak(events);
   const due = dueMoves(targets, events);
   const overdue = due.map((x) => x.t);
-  const scores = variantScores(variants, targets);
+  const scores = variantScores(roadVariants, roadTargets);
   const lessons = events.filter((e) => e.kind === 'lesson');
-  const shown = targets.filter((t) => filter === 'all' || (t.stage !== 'signed' && t.stage !== 'no'));
+  const shown = roadTargets.filter((t) => filter === 'all' || (t.stage !== 'signed' && t.stage !== 'no'));
 
   const sendReport = async () => {
     const res = await fetch('/ops/api/outreach/report?force=1');
@@ -105,9 +128,9 @@ export default function OutreachConsolePage() {
       <div className="max-w-4xl mx-auto w-full flex-1">
         <header className="border-b border-[#222] pb-5 mb-6 flex justify-between items-center flex-wrap gap-3">
           <div>
-            <div className="text-[10px] text-[#a855f7] tracking-[4px] uppercase">ARCHITECT — SYS.OP · BC3</div>
+            <div className="text-[10px] text-[#a855f7] tracking-[4px] uppercase">ARCHITECT — SYS.OP · BC3 · PHASE ACTION PROTOCOL</div>
             <h1 className="text-2xl font-bold mt-1">Outreach Console</h1>
-            <p className="text-xs text-[#888] font-sans mt-1">One signed 90-Day Setup closes BC3. The only number fully in your hands: messages sent.</p>
+            <p className="text-xs text-[#888] font-sans mt-1">Two roads, one method. Fuel opens the door, Kinetic signs the studio. The only number fully in your hands: messages sent.</p>
           </div>
           <nav className="flex gap-2 text-xs">
             <button onClick={sendReport} className="border border-[#a855f7] px-3 py-2 text-[#a855f7] hover:text-white">SEND REPORT NOW</button>
@@ -137,20 +160,39 @@ export default function OutreachConsolePage() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-4 text-center">
-                {[
-                  ['Found', f.found],
-                  ['Sent', f.messaged],
-                  ['Replied', f.replied],
-                  ['Calls', f.calls],
-                  ['Plans', f.plans],
-                  ['Signed', f.signed],
-                ].map(([l, n]) => (
-                  <div key={l} className="border border-[#222] py-2">
-                    <div className="text-lg font-bold">{n}</div>
-                    <div className="text-[10px] text-[#666] uppercase tracking-widest">{l}</div>
-                  </div>
-                ))}
+              <div className="grid sm:grid-cols-2 gap-2 mt-4">
+                {ROADS.map((r) => {
+                  const g = funnel(targets.filter((t) => roadOf(t) === r));
+                  const on = r === road;
+                  return (
+                    <button
+                      key={r}
+                      onClick={() => setRoad(r)}
+                      className={`border p-2 text-left ${on ? '' : 'border-[#222] opacity-70 hover:opacity-100'}`}
+                      style={on ? { borderColor: ROAD_INFO[r].colour } : undefined}
+                    >
+                      <div className="flex text-[10px] tracking-widest uppercase mb-2">
+                        <span style={{ color: ROAD_INFO[r].colour }}>{ROAD_INFO[r].name}</span>
+                        <span className="ml-auto text-[#555]">{on ? 'SHOWING' : 'TAP TO SHOW'}</span>
+                      </div>
+                      <div className="grid grid-cols-6 gap-1 text-center">
+                        {[
+                          ['Found', g.found],
+                          ['Sent', g.messaged],
+                          ['Replied', g.replied],
+                          ['Talks', g.calls],
+                          ['Plans', g.plans],
+                          [r === 'fuel' ? 'Pop-ups' : 'Signed', g.signed],
+                        ].map(([l, n]) => (
+                          <div key={l}>
+                            <div className="text-base font-bold">{n}</div>
+                            <div className="text-[9px] text-[#666] uppercase">{l}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
               {overdue.length > 0 && (
                 <p className="text-xs text-[#ffb454] mt-3 font-sans">Due today: {due.map((x) => `${x.t.studio} (${x.move.label.toLowerCase()})`).join(' · ')}</p>
@@ -159,7 +201,9 @@ export default function OutreachConsolePage() {
 
             {/* Phases, auto-ticked */}
             <section className="mb-8">
-              <h2 className="text-sm text-[#888] tracking-widest mb-3">THE FOUR PHASES · ticked from your data</h2>
+              <h2 className="text-sm tracking-widest mb-3" style={{ color: ROAD_INFO[road].colour }}>
+                THE FOUR PHASES · {ROAD_INFO[road].name.toUpperCase()} · ticked from your data
+              </h2>
               <div className="space-y-3">
                 {phases.map((p) => {
                   const done = p.steps.every((s) => s.done);
@@ -194,7 +238,7 @@ export default function OutreachConsolePage() {
             {/* Studio list */}
             <section className="mb-8">
               <div className="flex items-center gap-3 mb-3 flex-wrap">
-                <h2 className="text-sm text-[#888] tracking-widest">STUDIOS</h2>
+                <h2 className="text-sm text-[#888] tracking-widest">STUDIOS · <span style={{ color: ROAD_INFO[road].colour }}>{ROAD_INFO[road].name}</span></h2>
                 <div className="ml-auto flex gap-1 text-[11px]">
                   {(['open', 'all'] as const).map((k) => (
                     <button key={k} onClick={() => setFilter(k)} className={`border px-2 py-1 ${filter === k ? 'border-[#00e5ff] text-[#00e5ff]' : 'border-[#333] text-[#666]'}`}>
@@ -203,7 +247,7 @@ export default function OutreachConsolePage() {
                   ))}
                 </div>
               </div>
-              <AddStudio variants={variants.filter((v) => v.status !== 'retired')} onAdd={(row) => act({ action: 'add_target', ...row }, 'Studio added')} />
+              <AddStudio variants={roadVariants.filter((v) => v.status !== 'retired')} onAdd={(row) => act({ action: 'add_target', road, ...row }, 'Studio added')} />
               <div className="space-y-2 mt-3">
                 {shown.map((t) => (
                   <StudioCard
@@ -213,18 +257,25 @@ export default function OutreachConsolePage() {
                     open={openId === t.id}
                     overdue={overdue.includes(t)}
                     move={nextMove(t, events)}
+                    hasKineticTwin={targets.some((k) => roadOf(k) === 'kinetic' && k.studio === t.studio)}
                     onToggle={() => setOpenId(openId === t.id ? null : t.id)}
                     act={act}
                     flash={flash}
                   />
                 ))}
-                {!shown.length && <p className="text-xs text-[#555] font-sans">No studios in play. Add the first 10 that fit: results-minded, still on WhatsApp and spreadsheets.</p>}
+                {!shown.length && (
+                  <p className="text-xs text-[#555] font-sans">
+                    {road === 'fuel'
+                      ? 'No studios on the Fuel road yet. Open a studio card and tap FUEL to move it here, or add one.'
+                      : 'No studios in play. Add the first 10 that fit: results-minded, still on WhatsApp and spreadsheets.'}
+                  </p>
+                )}
               </div>
             </section>
 
             {/* Message tests */}
             <section className="mb-8">
-              <h2 className="text-sm text-[#888] tracking-widest mb-1">MESSAGE TESTS · mini batches</h2>
+              <h2 className="text-sm text-[#888] tracking-widest mb-1">MESSAGE TESTS · {ROAD_INFO[road].name}</h2>
               <p className="text-xs text-[#666] font-sans mb-3">Send each message to 5 studios. After 5 sends the reply rate counts. Change one thing at a time, keep the winner, write down why.</p>
               <div className="space-y-2">
                 {scores.map(({ variant: v, sent, replied, calls, rate, enough }) => (
@@ -237,6 +288,7 @@ export default function OutreachConsolePage() {
                         {!enough && <span className="text-[#555]"> (need 5)</span>}
                       </span>
                     </div>
+                    {v.use_when && <p className="text-[11px] font-sans text-[#ffb454] mt-2">Use when: {v.use_when}</p>}
                     <p className="text-sm font-sans text-[#ccc] mt-2 whitespace-pre-wrap">{v.body}</p>
                     <div className="flex gap-2 mt-2 text-[11px]">
                       {(['testing', 'winner', 'retired'] as const).map((s) => (
@@ -248,7 +300,7 @@ export default function OutreachConsolePage() {
                   </div>
                 ))}
               </div>
-              <AddVariant onAdd={(row) => act({ action: 'add_variant', ...row }, 'Message added')} nextCode={`V${variants.length + 1}`} />
+              <AddVariant onAdd={(row) => act({ action: 'add_variant', road, ...row }, 'Message added')} nextCode={`V${variants.length + 1}`} />
             </section>
 
             {/* Lessons */}
@@ -330,11 +382,34 @@ function AddStudio({ variants, onAdd }: { variants: Variant[]; onAdd: (row: Reco
   );
 }
 
+// Clipboard with a fallback: some phones block navigator.clipboard, so try the old way too.
+async function copyText(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {}
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  ta.setSelectionRange(0, text.length);
+  let ok = false;
+  try {
+    ok = document.execCommand('copy');
+  } catch {}
+  ta.remove();
+  return ok;
+}
+
 function StudioCard({
-  t, variants, open, overdue, move, onToggle, act, flash,
+  t, variants, open, overdue, move, hasKineticTwin, onToggle, act, flash,
 }: {
   t: Target;
   move: ReturnType<typeof nextMove>;
+  hasKineticTwin: boolean;
   variants: Variant[];
   open: boolean;
   overdue: boolean;
@@ -342,17 +417,22 @@ function StudioCard({
   act: (p: Record<string, unknown>, done?: string) => Promise<boolean>;
   flash: (m: string) => void;
 }) {
+  const road = roadOf(t);
   const v = variants.find((x) => x.id === t.variant_id);
   const [draft, setDraft] = useState({ friction: t.friction, next_step: t.next_step, next_date: t.next_date ?? '', fit_note: t.fit_note, contact: t.contact });
   const idx = t.stage === 'no' ? -1 : STAGES.indexOf(t.stage);
   const next = idx >= 0 && idx < STAGES.length - 1 ? STAGES[idx + 1] : null;
 
   const message = v ? fillMessage(v.body, t) : '';
-  const links: ReturnType<typeof sendLinks> = v ? sendLinks(t.contact, message) : { mailto: undefined, wa: undefined };
+  const [picked, setPicked] = useState<Channel | null>(null);
+  const channel = picked ?? defaultChannel(t.contact, v?.body ?? '');
+  const packaged = formatFor(channel, message);
+  const link = v ? openLink(channel, t.contact, message) : undefined;
+
   const copy = async () => {
     if (!v) return flash('Pick a message for this studio first');
-    await navigator.clipboard.writeText(message);
-    flash(`${v.code} copied for ${t.studio}`);
+    const text = channel === 'email' && packaged.subject ? `Subject: ${packaged.subject}\n\n${packaged.text}` : packaged.text;
+    flash((await copyText(text)) ? `Copied for ${CHANNEL_LABEL[channel]}` : 'Copy blocked. Press and hold the message, then Select All');
   };
 
   return (
@@ -361,29 +441,93 @@ function StudioCard({
         <span className="font-bold font-sans">{t.studio}</span>
         <span className="text-[11px] text-[#666] font-sans">{[t.owner_name, t.area, t.batch].filter(Boolean).join(' · ')}</span>
         <span className="ml-auto text-[11px] flex gap-2 items-center">
-          {v && <span className="text-[#00e5ff]">{v.code}</span>}
+          {v && <span style={{ color: ROAD_INFO[road].colour }}>{v.code}</span>}
           {move && move.key !== 'wait' && (
             <span className={overdue ? 'text-[#ffb454]' : 'text-[#555]'}>{overdue ? move.label.toUpperCase() : `${move.label} in ${move.inDays}d`}</span>
           )}
-          <span className={t.stage === 'signed' ? 'text-[#33e6a0]' : t.stage === 'no' ? 'text-[#555]' : 'text-white'}>{STAGE_LABEL[t.stage]}</span>
+          <span className={t.stage === 'signed' ? 'text-[#33e6a0]' : t.stage === 'no' ? 'text-[#555]' : 'text-white'}>{stageLabel(road, t.stage)}</span>
         </span>
       </button>
       {open && (
         <div className="border-t border-[#1a1a1a] p-3 space-y-3 font-sans">
+          {/* Road */}
+          <div className="flex items-center gap-2 text-[10px] font-mono">
+            <span className="text-[#555]">ROAD</span>
+            {(['kinetic', 'fuel'] as const).map((r) => (
+              <button
+                key={r}
+                onClick={() => r !== road && act({ action: 'update_target', id: t.id, road: r, variant_id: '' }, `${t.studio} moved to ${ROAD_INFO[r].name}`)}
+                className={`border px-2 py-1 ${r === road ? '' : 'border-[#333] text-[#666]'}`}
+                style={r === road ? { borderColor: ROAD_INFO[r].colour, color: ROAD_INFO[r].colour } : undefined}
+              >
+                {r.toUpperCase()}
+              </button>
+            ))}
+          </div>
+
           {/* Stage track */}
           <div className="flex flex-wrap gap-1 text-[10px] font-mono">
             {STAGES.map((s) => (
-              <span key={s} className={`px-2 py-1 border ${reached(t, s) ? 'border-[#33e6a0]/60 text-[#33e6a0]' : 'border-[#222] text-[#444]'}`}>{STAGE_LABEL[s]}</span>
+              <span key={s} className={`px-2 py-1 border ${reached(t, s) ? 'border-[#33e6a0]/60 text-[#33e6a0]' : 'border-[#222] text-[#444]'}`}>{stageLabel(road, s)}</span>
             ))}
           </div>
-          {v && <p className="text-sm text-[#ccc] whitespace-pre-wrap border-l-2 border-[#00e5ff]/40 pl-3">{message}</p>}
+
+          <select
+            className={input}
+            value={t.variant_id ?? ''}
+            onChange={(e) => act({ action: 'update_target', id: t.id, variant_id: e.target.value }, 'Message changed')}
+          >
+            <option value="">Message to send…</option>
+            {variants.filter((x) => roadOf(x) === road && (x.status !== 'retired' || x.id === t.variant_id)).map((x) => (
+              <option key={x.id} value={x.id}>{x.code} · {x.angle}</option>
+            ))}
+          </select>
+
+          {v && (
+            <>
+              {v.use_when && <p className="text-[11px] text-[#ffb454]">Use when: {v.use_when}</p>}
+              {/* Same words, packaged for the channel */}
+              <div className="flex flex-wrap gap-1 text-[10px] font-mono">
+                <span className="text-[#555] self-center mr-1">SEND BY</span>
+                {CHANNELS.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setPicked(c)}
+                    className={`border px-2 py-1 ${c === channel ? 'border-white text-white' : 'border-[#333] text-[#666]'}`}
+                  >
+                    {CHANNEL_LABEL[c].toUpperCase()}
+                  </button>
+                ))}
+              </div>
+              {channel === 'email' && packaged.subject && <p className="text-xs text-[#888]">Subject: <span className="text-[#ccc]">{packaged.subject}</span></p>}
+              <textarea
+                readOnly
+                rows={Math.min(10, packaged.text.split('\n').length + 1)}
+                onFocus={(e) => e.currentTarget.select()}
+                className={`${input} text-[#ccc] border-l-2`}
+                style={{ borderLeftColor: ROAD_INFO[road].colour }}
+                value={packaged.text}
+              />
+              <p className="text-[10px] text-[#555]">Before you send: a 7-year-old gets it (G1) · it starts with their problem (G2) · one small ask (G3)</p>
+            </>
+          )}
+
           <div className="flex flex-wrap gap-2 text-xs font-mono">
-            <button onClick={copy} className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2">COPY MESSAGE</button>
-            {links.mailto && <a href={links.mailto} className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2">EMAIL</a>}
-            {links.wa && <a href={links.wa} target="_blank" rel="noreferrer" className="border border-[#33e6a0] text-[#33e6a0] px-3 py-2">WHATSAPP</a>}
+            <button onClick={copy} className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2">COPY</button>
+            {link && (
+              <a
+                href={link}
+                target={channel === 'email' ? undefined : '_blank'}
+                rel="noreferrer"
+                onClick={() => channel === 'instagram' && copyText(packaged.text)}
+                className="border border-[#33e6a0] text-[#33e6a0] px-3 py-2"
+              >
+                {channel === 'instagram' ? 'COPY + OPEN INSTAGRAM' : `OPEN ${CHANNEL_LABEL[channel].toUpperCase()}`}
+              </a>
+            )}
             {next && (
-              <button onClick={() => act({ action: 'set_stage', id: t.id, stage: next }, `${t.studio}: ${STAGE_LABEL[next]}`)} className="border border-[#33e6a0] text-[#33e6a0] px-3 py-2">
-                MARK {STAGE_LABEL[next].toUpperCase()}
+              <button onClick={() => act({ action: 'set_stage', id: t.id, stage: next }, `${t.studio}: ${stageLabel(road, next)}`)} className="border border-[#33e6a0] text-[#33e6a0] px-3 py-2">
+                MARK {stageLabel(road, next).toUpperCase()}
               </button>
             )}
             {move && move.key !== 'wait' && (
@@ -394,23 +538,27 @@ function StudioCard({
                 LOG: {move.label.toUpperCase()}{move.due ? '' : ` (due in ${move.inDays} working days)`}
               </button>
             )}
+            {road === 'fuel' && t.stage === 'signed' && !hasKineticTwin && (
+              <button
+                onClick={() =>
+                  act(
+                    { action: 'add_target', road: 'kinetic', stage: 'replied', studio: t.studio, owner_name: t.owner_name, area: t.area, contact: t.contact, fit_note: t.fit_note, batch: t.batch, friction: t.friction },
+                    `${t.studio} is now on the Kinetic road`,
+                  )
+                }
+                className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2"
+              >
+                OPEN KINETIC ROAD
+              </button>
+            )}
             {t.stage !== 'no' && t.stage !== 'signed' && (
               <button onClick={() => act({ action: 'set_stage', id: t.id, stage: 'no' as Stage }, 'Marked not now')} className="border border-[#333] text-[#666] px-3 py-2">NOT NOW</button>
             )}
           </div>
-          <select
-            className={input}
-            value={t.variant_id ?? ''}
-            onChange={(e) => act({ action: 'update_target', id: t.id, variant_id: e.target.value }, 'Message changed')}
-          >
-            <option value="">Message to send…</option>
-            {variants.filter((x) => x.status !== 'retired' || x.id === t.variant_id).map((x) => (
-              <option key={x.id} value={x.id}>{x.code} · {x.angle}</option>
-            ))}
-          </select>
-          <input className={input} placeholder="Contact" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} />
+
+          <input className={input} placeholder="Contact: email · WhatsApp +60… · IG @handle" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} />
           <input className={input} placeholder="Detail from their page (fills {detail})" value={draft.fit_note} onChange={(e) => setDraft({ ...draft, fit_note: e.target.value })} />
-          <textarea className={input} rows={3} placeholder="Their problem, in their words (from the call)" value={draft.friction} onChange={(e) => setDraft({ ...draft, friction: e.target.value })} />
+          <textarea className={input} rows={3} placeholder={road === 'fuel' ? 'What their members need, in their words' : 'Their problem, in their words (from the call)'} value={draft.friction} onChange={(e) => setDraft({ ...draft, friction: e.target.value })} />
           <div className="grid sm:grid-cols-[1fr_auto] gap-2">
             <input className={input} placeholder="Next step" value={draft.next_step} onChange={(e) => setDraft({ ...draft, next_step: e.target.value })} />
             <input className={input} type="date" value={draft.next_date} onChange={(e) => setDraft({ ...draft, next_date: e.target.value })} />
@@ -431,20 +579,21 @@ function StudioCard({
 }
 
 function AddVariant({ onAdd, nextCode }: { onAdd: (row: Record<string, string>) => Promise<boolean>; nextCode: string }) {
-  const [row, setRow] = useState({ code: '', body: '', angle: '' });
+  const [row, setRow] = useState({ code: '', body: '', angle: '', use_when: '' });
   const check = row.body ? plainCheck(row.body) : null;
   return (
     <form
       className="border border-dashed border-[#333] p-3 mt-3 space-y-2"
       onSubmit={async (e) => {
         e.preventDefault();
-        if (await onAdd({ ...row, code: row.code || nextCode })) setRow({ code: '', body: '', angle: '' });
+        if (await onAdd({ ...row, code: row.code || nextCode })) setRow({ code: '', body: '', angle: '', use_when: '' });
       }}
     >
       <div className="grid grid-cols-[80px_1fr] gap-2">
         <input className={input} placeholder={nextCode} value={row.code} onChange={(e) => setRow({ ...row, code: e.target.value })} />
         <input className={input} placeholder="What this one tests (one change only)" value={row.angle} onChange={(e) => setRow({ ...row, angle: e.target.value })} />
       </div>
+      <input className={input} placeholder="Use when: who it's for and where they are (cold first touch / warm after a visit / …)" value={row.use_when} onChange={(e) => setRow({ ...row, use_when: e.target.value })} />
       <textarea className={input} rows={4} placeholder="New message. Use {studio}, {name}, {detail}. First line 'Subject: …' for email. 3 lines, one ask." value={row.body} onChange={(e) => setRow({ ...row, body: e.target.value })} />
       {check && (
         <p className={`text-[11px] font-sans ${check.pass ? 'text-[#33e6a0]' : check.banned ? 'text-[#ff5c72]' : 'text-[#ffb454]'}`}>

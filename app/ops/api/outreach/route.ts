@@ -15,8 +15,16 @@ function outreachError(err: unknown) {
       { status: 503 },
     );
   }
+  if (/column .*(road|use_when).* does not exist|Could not find the '(road|use_when)' column/i.test(message)) {
+    return NextResponse.json(
+      { error: 'Two roads not switched on yet: run database/16_outreach_two_roads.sql in Supabase.', setup: true },
+      { status: 503 },
+    );
+  }
   return adminError(err);
 }
+
+const road = (v: unknown) => (v === 'fuel' || v === 'kinetic' ? v : undefined);
 
 const str = (v: unknown) => (typeof v === 'string' ? v.trim() : '');
 
@@ -55,6 +63,14 @@ export async function POST(request: Request) {
         if (!studio) return NextResponse.json({ error: 'Studio name is required.' }, { status: 400 });
         const row: Record<string, unknown> = { studio, variant_id: str(b.variant_id) || null };
         for (const k of TEXT_FIELDS) if (k !== 'studio') row[k] = str(b[k]);
+        if (road(b.road)) row.road = road(b.road);
+        // A studio can start part-way along (e.g. it already said yes on the Fuel road).
+        const start = str(b.stage) as Stage;
+        if (STAGES.includes(start as (typeof STAGES)[number]) && start !== 'found') {
+          row.stage = start;
+          row.stage_at = Object.fromEntries(STAGES.slice(1, STAGES.indexOf(start as (typeof STAGES)[number]) + 1).map((s) => [s, now]));
+          row.last_touch_at = now;
+        }
         const { error } = await db().from('outreach_targets').insert(row);
         if (error) throw new Error(error.message);
         break;
@@ -63,6 +79,7 @@ export async function POST(request: Request) {
         const patch: Record<string, unknown> = { updated_at: now };
         for (const k of TEXT_FIELDS) if (typeof b[k] === 'string') patch[k] = str(b[k]);
         if ('variant_id' in b) patch.variant_id = str(b.variant_id) || null;
+        if (road(b.road)) patch.road = road(b.road);
         if ('next_date' in b) patch.next_date = str(b.next_date) || null;
         const { error } = await db().from('outreach_targets').update(patch).eq('id', id);
         if (error) throw new Error(error.message);
@@ -111,7 +128,10 @@ export async function POST(request: Request) {
         if (!code || !body) return NextResponse.json({ error: 'Code and message are required.' }, { status: 400 });
         const check = plainCheck(body);
         if (check.banned) return NextResponse.json({ error: `Plain-language check: ${check.issues.join(' · ')}` }, { status: 400 });
-        const { error } = await db().from('outreach_variants').insert({ code, body, angle: str(b.angle) });
+        const row: Record<string, unknown> = { code, body, angle: str(b.angle) };
+        if (road(b.road)) row.road = road(b.road);
+        if (str(b.use_when)) row.use_when = str(b.use_when);
+        const { error } = await db().from('outreach_variants').insert(row);
         if (error) throw new Error(error.code === '23505' ? `${code} already exists.` : error.message);
         break;
       }

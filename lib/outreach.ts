@@ -7,6 +7,27 @@ import lexicon from '@/archive/data/lexicon.json';
 export const STAGES = ['found', 'messaged', 'replied', 'call_booked', 'call_held', 'plan_sent', 'signed'] as const;
 export type Stage = (typeof STAGES)[number] | 'no';
 
+// Two roads, one skeleton (gate G-25): the same five steps, a different offer at the end.
+//   kinetic: Kinetic Studio OS. Ends in a signed 90-Day Setup (BC3 exit gate).
+//   fuel:    RECUP.STN recovery pop-up. The small first yes. Ends in a pop-up held, then opens the kinetic road.
+export type Road = 'kinetic' | 'fuel';
+export const ROADS: Road[] = ['kinetic', 'fuel'];
+export const ROAD_INFO: Record<Road, { name: string; offer: string; colour: string }> = {
+  kinetic: { name: 'Kinetic · Studio OS', offer: '90-Day Setup + Studio Licence', colour: '#00e5ff' },
+  fuel: { name: 'Fuel · RECUP pop-up', offer: 'One-day recovery pop-up', colour: '#ffb454' },
+};
+export const roadOf = (x: { road?: Road | null }): Road => (x.road === 'fuel' ? 'fuel' : 'kinetic');
+
+const FUEL_STAGE_LABEL: Partial<Record<Stage, string>> = {
+  call_booked: 'Chat booked',
+  call_held: 'Chat held',
+  plan_sent: 'Pop-up plan sent',
+  signed: 'Pop-up held',
+};
+export function stageLabel(road: Road, stage: Stage) {
+  return (road === 'fuel' && FUEL_STAGE_LABEL[stage]) || STAGE_LABEL[stage];
+}
+
 export const STAGE_LABEL: Record<Stage, string> = {
   found: 'Found',
   messaged: 'Messaged',
@@ -23,6 +44,8 @@ export type Variant = {
   code: string;
   body: string;
   angle: string;
+  use_when?: string;
+  road?: Road;
   status: 'testing' | 'winner' | 'retired';
   created_at: string;
 };
@@ -36,6 +59,7 @@ export type Target = {
   fit_note: string;
   batch: string;
   variant_id: string | null;
+  road?: Road;
   stage: Stage;
   stage_at: Partial<Record<Stage, string>>;
   friction: string;
@@ -73,26 +97,57 @@ export function fillMessage(body: string, t: Pick<Target, 'studio' | 'owner_name
     .replaceAll('{detail}', t.fit_note || '[ADD ONE DETAIL FROM THEIR PAGE]');
 }
 
-// One-tap send links from the contact field ("embassy@x.com · WhatsApp +60 16-247 6683").
-// A first line "Subject: …" becomes the email subject.
-export function sendLinks(contact: string, message: string) {
-  const email = contact.match(/[\w.+-]+@[\w-]+\.[\w.]+/)?.[0];
-  // Only a number marked "WhatsApp" gets the button: a landline would open a dead chat.
-  const phone = contact.match(/whatsapp[^+\d]*(\+?\d[\d\s-]{7,}\d)/i)?.[1];
+// One message, packaged per channel. Write it once; the channel decides the wrapping.
+//   email:     first line "Subject: …" becomes the subject.
+//   whatsapp / instagram: no subject line, no sign-off, short.
+//   person:    the same words as a talking script (for the call or the visit).
+export type Channel = 'email' | 'whatsapp' | 'instagram' | 'person';
+export const CHANNELS: Channel[] = ['email', 'whatsapp', 'instagram', 'person'];
+export const CHANNEL_LABEL: Record<Channel, string> = { email: 'Email', whatsapp: 'WhatsApp', instagram: 'Instagram', person: 'Call / visit' };
+
+export function formatFor(channel: Channel, message: string) {
   const [first, ...rest] = message.split('\n');
   const hasSubject = /^subject:/i.test(first);
-  const subject = hasSubject ? first.replace(/^subject:\s*/i, '') : '';
-  const body = (hasSubject ? rest.join('\n') : message).trim();
-  let wa: string | undefined;
-  if (phone) {
-    let digits = phone.replace(/\D/g, '');
-    if (digits.startsWith('0')) digits = `6${digits}`; // Malaysian local number → 60…
-    wa = `https://wa.me/${digits}?text=${encodeURIComponent(body)}`;
+  const subject = hasSubject ? first.replace(/^subject:\s*/i, '').trim() : '';
+  let text = (hasSubject ? rest.join('\n') : message).trim();
+  if (channel !== 'email') {
+    text = text
+      .replace(/\n+(thanks|cheers|best|regards)[^\n]*\n+joey\s*$/i, '') // chat needs no sign-off
+      .replace(/\n{2,}/g, '\n\n')
+      .trim();
   }
-  return {
-    mailto: email ? `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` : undefined,
-    wa,
-  };
+  if (channel === 'person') text = text.replace(/^hi[^\n,]*,?\s*/i, '').trim();
+  return { subject, text };
+}
+
+// Where each channel opens, read from the contact field ("embassy@x.com · WhatsApp +60 16-247 6683 · IG @x").
+export function contactFor(channel: Channel, contact: string) {
+  if (channel === 'email') return contact.match(/[\w.+-]+@[\w-]+\.[\w.]+/)?.[0];
+  // Only a number marked "WhatsApp" counts: a landline would open a dead chat.
+  if (channel === 'whatsapp') return contact.match(/whatsapp[^+\d]*(\+?\d[\d\s-]{7,}\d)/i)?.[1];
+  if (channel === 'instagram') return contact.match(/(?:^|[\s(])@([\w.]+)/)?.[1];
+  return undefined;
+}
+
+export function openLink(channel: Channel, contact: string, message: string) {
+  const to = contactFor(channel, contact);
+  if (!to) return undefined;
+  const { subject, text } = formatFor(channel, message);
+  if (channel === 'email') return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+  if (channel === 'whatsapp') {
+    let digits = to.replace(/\D/g, '');
+    if (digits.startsWith('0')) digits = `6${digits}`; // Malaysian local number → 60…
+    return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+  }
+  if (channel === 'instagram') return `https://ig.me/m/${to}`; // Instagram can't prefill: copy first, then paste
+  return undefined;
+}
+
+// The best first channel for a studio: whatever their contact field offers, chat before email.
+export function defaultChannel(contact: string, message: string): Channel {
+  if (/^subject:/i.test(message) && contactFor('email', contact)) return 'email';
+  for (const c of ['whatsapp', 'instagram', 'email'] as const) if (contactFor(c, contact)) return c;
+  return 'person';
 }
 
 // Working days (Mon–Fri, Malaysia time) between two moments.
@@ -198,7 +253,12 @@ function firstAt(targets: Target[], stage: Stage) {
   return hits[0];
 }
 
-export function buildPhases(targets: Target[], variants: Variant[], events: OutreachEvent[]): Phase[] {
+export function buildPhases(allTargets: Target[], allVariants: Variant[], allEvents: OutreachEvent[], road: Road = 'kinetic'): Phase[] {
+  const targets = allTargets.filter((t) => roadOf(t) === road);
+  const ids = new Set(targets.map((t) => t.id));
+  const variants = allVariants.filter((v) => roadOf(v) === road);
+  const vids = new Set(variants.map((v) => v.id));
+  const events = allEvents.filter((e) => (e.target_id ? ids.has(e.target_id) : !e.variant_id || vids.has(e.variant_id)));
   const f = funnel(targets);
   const live = variants.filter((v) => v.status !== 'retired');
   const cleanMsg = live.find((v) => plainCheck(v.body).pass);
@@ -210,6 +270,47 @@ export function buildPhases(targets: Target[], variants: Variant[], events: Outr
   const firstPlan = firstAt(targets, 'plan_sent');
   const firstSign = firstAt(targets, 'signed');
   const lessons = events.filter((e) => e.kind === 'lesson').length;
+
+  if (road === 'fuel') {
+    const bridged = targets.find((t) => reached(t, 'signed') && allTargets.some((k) => roadOf(k) === 'kinetic' && k.studio === t.studio));
+    return [
+      {
+        id: 1, rank: 'E', title: 'Find & say hello', plain: 'Pick studios whose members train hard. Lead with what is happening now (the haze). One small ask: a one-day pop-up.',
+        refs: 'SYS-P058 (movement → fuel bridge) · P-015 · Primacy Doctrine (3-line rule)',
+        steps: [
+          { label: 'RECUP.STN page live (what they can look up)', done: true, proof: 'Live on GitHub Pages', href: 'https://joeycoachie.github.io/recup-station-/' },
+          { label: 'A first message that passes the plain-language check', done: Boolean(cleanMsg), proof: cleanMsg ? `${cleanMsg.code} passes SYS-D028 · ${live.length} message(s) in test` : 'Add a Fuel message below' },
+          { label: '10 studios on the list', done: f.found >= 10, proof: `${f.found} / 10 on the list` },
+          { label: 'Every studio on the list has been messaged', done: f.found > 0 && unsent === 0, proof: f.found ? `${f.messaged} messaged · ${unsent} waiting` : 'List is empty' },
+          { label: `Nobody left hanging (follow-up, call, visit: ${WAIT_WORKING_DAYS} working days apart)`, done: (followupsSent > 0 || f.replied > 0) && overdue.length === 0, proof: overdue.length ? `${overdue.length} due now: ${overdue.slice(0, 3).map((t) => t.studio).join(', ')}` : `${followupsSent} follow-up(s) sent · ${f.replied} replied` },
+        ],
+      },
+      {
+        id: 2, rank: 'C', title: 'Listen', plain: 'Ask what their members need after training and what the venue allows. Don’t steer every answer to a drink.',
+        refs: 'UEF Track 1 · T-027 Architect’s Review Diagnostic · P-041',
+        steps: [
+          { label: 'A chat booked (or a visit)', done: Boolean(firstCall), proof: firstCall ? `${firstCall.studio} · ${fmtDate(firstCall.stage_at.call_booked)}` : `${f.replied} replied so far` },
+          { label: 'Chat held, what their members need written in their words', done: Boolean(heard), proof: heard ? `${heard.studio}: “${heard.friction.slice(0, 60)}${heard.friction.length > 60 ? '…' : ''}”` : 'Write what they said under the studio' },
+          { label: 'One lesson written from what we heard', done: lessons > 0, proof: `${lessons} lesson(s) logged` },
+        ],
+      },
+      {
+        id: 3, rank: 'B', title: 'Plan', plain: 'Send a one-page pop-up plan: date, space, who does what, and what we will count.',
+        refs: 'D-009 Clarity vs. Momentum · T-029 Architectural Brief',
+        steps: [
+          { label: 'Pop-up plan sent', done: Boolean(firstPlan), proof: firstPlan ? `${firstPlan.studio} · ${fmtDate(firstPlan.stage_at.plan_sent)}` : 'None yet' },
+        ],
+      },
+      {
+        id: 4, rank: 'S+', title: 'Start', plain: 'Run the pop-up, share the numbers with the owner, then open the studio conversation on the Kinetic road.',
+        refs: 'SYS-D023 Triad · /studio Recovery Bar add-on',
+        steps: [
+          { label: 'Pop-up held', done: Boolean(firstSign), proof: firstSign ? `${firstSign.studio} · ${fmtDate(firstSign.stage_at.signed)}` : 'None yet' },
+          { label: 'Studio conversation opened (moved onto the Kinetic road)', done: Boolean(bridged), proof: bridged ? `${bridged.studio} is on the Kinetic road` : 'After a pop-up, tap OPEN KINETIC ROAD on that studio' },
+        ],
+      },
+    ];
+  }
 
   return [
     {
@@ -268,7 +369,6 @@ export function sendStreak(events: OutreachEvent[], now = new Date()) {
 
 // The phone report. Daily: today's to-dos. Fridays (Malaysia): the week in numbers too.
 export function buildReport(targets: Target[], variants: Variant[], events: OutreachEvent[], now = new Date()) {
-  const f = funnel(targets);
   const due = dueMoves(targets, events, now.getTime());
   const unsent = targets.filter((t) => t.stage === 'found');
   const dueToday = targets.filter((t) => t.next_date && t.next_date <= new Date(now.getTime() + 8 * 3_600_000).toISOString().slice(0, 10) && t.stage !== 'signed' && t.stage !== 'no');
@@ -281,7 +381,10 @@ export function buildReport(targets: Target[], variants: Variant[], events: Outr
   const lines: string[] = [];
   if (isFriday) {
     lines.push(`This week: ${wk('messaged')} sent · ${thisWeek.filter((e) => e.kind === 'followup').length} follow-ups · ${thisWeek.filter((e) => e.kind === 'call').length} cold calls · ${thisWeek.filter((e) => e.kind === 'visit').length} visits · ${wk('replied')} replies · ${wk('call_held')} calls · ${wk('plan_sent')} plans · ${wk('signed')} signed`);
-    lines.push(`All time: ${f.found} found → ${f.messaged} sent → ${f.replied} replied → ${f.calls} calls → ${f.plans} plans → ${f.signed} signed`);
+    for (const r of ROADS) {
+      const g = funnel(targets.filter((t) => roadOf(t) === r));
+      if (g.found) lines.push(`${ROAD_INFO[r].name}: ${g.found} found → ${g.messaged} sent → ${g.replied} replied → ${g.calls} talks → ${g.plans} plans → ${g.signed} ${r === 'fuel' ? 'pop-ups' : 'signed'}`);
+    }
     lines.push(best ? `Best message: ${best.variant.code} (${best.replied}/${best.sent} replied)` : 'No message has 5 sends yet, too early to pick a winner');
   }
   for (const k of ['followup', 'call', 'visit'] as const) {
