@@ -273,7 +273,7 @@ export default function Terminal() {
             { id: 'KIN-T002', title: 'Master Plumb Line Audit (Influencer UI)', color: 'border-l-[#3b82f6]' },
             { id: 'SYS-T001', title: 'Postural Audit Server Engine (GAS Backend)', color: 'border-l-[#22d3ee]' },
             { id: 'KIN-P016', title: 'Upper Crossed / Rounded Shoulder Arc', color: 'border-l-[#eab308]', link: '/ops/armory' },
-            { id: 'KIN-P018', title: 'The 20-Week Hyrox KL Periodization Plan', color: 'border-l-[#eab308]' },
+            { id: 'KIN-P018', title: 'The 20-Week Hyrox KL Periodization Plan', color: 'border-l-[#eab308]', link: 'https://sys-hrx-001-master-node.vercel.app' },
             { id: 'KIN-D005', title: 'Fascial Biomechanics & Anatomy Trains', color: 'border-l-[#a855f7]' },
             { id: 'MET-P002', title: 'RA/Inflammatory Defense Protocol', color: 'border-l-[#ff9800]' },
             { id: 'MET-P003', title: 'Hyrox Glycogen Fueling Architecture', color: 'border-l-[#ff9800]' },
