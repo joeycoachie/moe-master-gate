@@ -65,3 +65,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-19 · Hyrox Engine · Session 29.1 set to 4 continuous rounds (<15s transitions, 90s rest); MOD in the SYS-LOG now edits in place (no data lost if abandoned) and keeps Session Card numbers; CLAUDE.md points at moe-master-gate/hub · 183ac5c, 27ed646
 - 2026-10-19 · Hyrox Engine · Session Cards retitled: 29.1 'Back to loading, spine locked', 37.2 'Rower's down, arms can't hang a load' · b8b0491
 - 2026-10-19 · M.O.E. Terminal · KIN-P018 card on /terminal now opens the Hyrox Engine (SYS.OP only) · 7d812bd
+- 2026-10-19 · Product Academy · Midday Kinetic Fuel (training day) module added: lunch 2.5h before, Tea + Guarana 30 min before (before 4 PM), CR7 during, RS Pro within 30 min after; plain client timeline + copy-ready client message · moe_product_academy 6471236
