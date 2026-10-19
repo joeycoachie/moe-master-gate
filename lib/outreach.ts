@@ -64,8 +64,35 @@ export function reached(t: Target, stage: Stage) {
   return Boolean(t.stage_at[stage]) || t.stage === stage;
 }
 
-export function fillMessage(body: string, t: Pick<Target, 'studio' | 'owner_name'>) {
-  return body.replaceAll('{studio}', t.studio || 'your studio').replaceAll('{name}', t.owner_name || 'there');
+// {detail} is the one real thing we noticed about them (the studio's "detail" field, stored as fit_note).
+// Left as a visible blank when missing, so nothing generic goes out by accident.
+export function fillMessage(body: string, t: Pick<Target, 'studio' | 'owner_name' | 'fit_note'>) {
+  return body
+    .replaceAll('{studio}', t.studio || 'your studio')
+    .replaceAll('{name}', t.owner_name || 'there')
+    .replaceAll('{detail}', t.fit_note || '[ADD ONE DETAIL FROM THEIR PAGE]');
+}
+
+// One-tap send links from the contact field ("embassy@x.com · WhatsApp +60 16-247 6683").
+// A first line "Subject: …" becomes the email subject.
+export function sendLinks(contact: string, message: string) {
+  const email = contact.match(/[\w.+-]+@[\w-]+\.[\w.]+/)?.[0];
+  // Only a number marked "WhatsApp" gets the button: a landline would open a dead chat.
+  const phone = contact.match(/whatsapp[^+\d]*(\+?\d[\d\s-]{7,}\d)/i)?.[1];
+  const [first, ...rest] = message.split('\n');
+  const hasSubject = /^subject:/i.test(first);
+  const subject = hasSubject ? first.replace(/^subject:\s*/i, '') : '';
+  const body = (hasSubject ? rest.join('\n') : message).trim();
+  let wa: string | undefined;
+  if (phone) {
+    let digits = phone.replace(/\D/g, '');
+    if (digits.startsWith('0')) digits = `6${digits}`; // Malaysian local number → 60…
+    wa = `https://wa.me/${digits}?text=${encodeURIComponent(body)}`;
+  }
+  return {
+    mailto: email ? `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}` : undefined,
+    wa,
+  };
 }
 
 // Messaged, no reply yet, and nobody has touched it for FOLLOW_UP_AFTER_DAYS.

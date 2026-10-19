@@ -8,6 +8,7 @@ import {
   STAGE_LABEL,
   buildPhases,
   fillMessage,
+  sendLinks,
   funnel,
   overdueFollowUps,
   plainCheck,
@@ -310,7 +311,7 @@ function AddStudio({ variants, onAdd }: { variants: Variant[]; onAdd: (row: Reco
       <input className={input} placeholder="Owner's first name" value={row.owner_name} onChange={set('owner_name')} />
       <input className={input} placeholder="Area / postcode" value={row.area} onChange={set('area')} />
       <input className={input} placeholder="Instagram @ or email or WhatsApp" value={row.contact} onChange={set('contact')} />
-      <input className={`${input} sm:col-span-2`} placeholder="Why they fit (results-minded, runs on WhatsApp…)" value={row.fit_note} onChange={set('fit_note')} />
+      <input className={`${input} sm:col-span-2`} placeholder="One detail from their page (fills {detail}): you run PT alongside group classes" value={row.fit_note} onChange={set('fit_note')} />
       <input className={input} placeholder="Batch, e.g. B1 · 20 Oct" value={row.batch} onChange={set('batch')} />
       <select className={input} value={row.variant_id} onChange={set('variant_id')}>
         <option value="">Message to send…</option>
@@ -342,9 +343,11 @@ function StudioCard({
   const idx = t.stage === 'no' ? -1 : STAGES.indexOf(t.stage);
   const next = idx >= 0 && idx < STAGES.length - 1 ? STAGES[idx + 1] : null;
 
+  const message = v ? fillMessage(v.body, t) : '';
+  const links: ReturnType<typeof sendLinks> = v ? sendLinks(t.contact, message) : { mailto: undefined, wa: undefined };
   const copy = async () => {
     if (!v) return flash('Pick a message for this studio first');
-    await navigator.clipboard.writeText(fillMessage(v.body, t));
+    await navigator.clipboard.writeText(message);
     flash(`${v.code} copied for ${t.studio}`);
   };
 
@@ -367,8 +370,11 @@ function StudioCard({
               <span key={s} className={`px-2 py-1 border ${reached(t, s) ? 'border-[#33e6a0]/60 text-[#33e6a0]' : 'border-[#222] text-[#444]'}`}>{STAGE_LABEL[s]}</span>
             ))}
           </div>
+          {v && <p className="text-sm text-[#ccc] whitespace-pre-wrap border-l-2 border-[#00e5ff]/40 pl-3">{message}</p>}
           <div className="flex flex-wrap gap-2 text-xs font-mono">
             <button onClick={copy} className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2">COPY MESSAGE</button>
+            {links.mailto && <a href={links.mailto} className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2">EMAIL</a>}
+            {links.wa && <a href={links.wa} target="_blank" rel="noreferrer" className="border border-[#33e6a0] text-[#33e6a0] px-3 py-2">WHATSAPP</a>}
             {next && (
               <button onClick={() => act({ action: 'set_stage', id: t.id, stage: next }, `${t.studio}: ${STAGE_LABEL[next]}`)} className="border border-[#33e6a0] text-[#33e6a0] px-3 py-2">
                 MARK {STAGE_LABEL[next].toUpperCase()}
@@ -394,7 +400,7 @@ function StudioCard({
             ))}
           </select>
           <input className={input} placeholder="Contact" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} />
-          <input className={input} placeholder="Why they fit" value={draft.fit_note} onChange={(e) => setDraft({ ...draft, fit_note: e.target.value })} />
+          <input className={input} placeholder="Detail from their page (fills {detail})" value={draft.fit_note} onChange={(e) => setDraft({ ...draft, fit_note: e.target.value })} />
           <textarea className={input} rows={3} placeholder="Their problem, in their words (from the call)" value={draft.friction} onChange={(e) => setDraft({ ...draft, friction: e.target.value })} />
           <div className="grid sm:grid-cols-[1fr_auto] gap-2">
             <input className={input} placeholder="Next step" value={draft.next_step} onChange={(e) => setDraft({ ...draft, next_step: e.target.value })} />
@@ -430,7 +436,7 @@ function AddVariant({ onAdd, nextCode }: { onAdd: (row: Record<string, string>) 
         <input className={input} placeholder={nextCode} value={row.code} onChange={(e) => setRow({ ...row, code: e.target.value })} />
         <input className={input} placeholder="What this one tests (one change only)" value={row.angle} onChange={(e) => setRow({ ...row, angle: e.target.value })} />
       </div>
-      <textarea className={input} rows={4} placeholder="New message. Use {studio} and {name}. 3 lines, one ask." value={row.body} onChange={(e) => setRow({ ...row, body: e.target.value })} />
+      <textarea className={input} rows={4} placeholder="New message. Use {studio}, {name}, {detail}. First line 'Subject: …' for email. 3 lines, one ask." value={row.body} onChange={(e) => setRow({ ...row, body: e.target.value })} />
       {check && (
         <p className={`text-[11px] font-sans ${check.pass ? 'text-[#33e6a0]' : check.banned ? 'text-[#ff5c72]' : 'text-[#ffb454]'}`}>
           {check.pass ? 'Plain-language check: words pass.' : `Plain-language check: ${check.issues.join(' · ')}`}

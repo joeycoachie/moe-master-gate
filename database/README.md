@@ -24,5 +24,6 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 12 | client_checkins_schema | client daily check-ins | in use |
 | 13 | recovery_measures | 0-10 check-ins, Recovery Window | see LEDGER 17 Oct |
 | 14 | outreach_console | Outreach Console: studios, message tests (V1, V2 seeded), proof-of-work log | **to run** (19 Oct) |
+| 15 | outreach_batch_b1 | Messages V3 (email) and V4 (WhatsApp/IG) + first 6 KL studios. Real data: skip for a demo copy | **to run after 14** |
 
-New SQL goes here as `15_<name>.sql`, with a row in this table.
+New SQL goes here as `16_<name>.sql`, with a row in this table.
