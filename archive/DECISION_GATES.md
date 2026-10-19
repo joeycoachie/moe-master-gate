@@ -253,6 +253,8 @@ Two fixes needed whichever you pick:
 - Phase 4 sells a "fractional retainer" (placeholder RM 3,500/month). The BC3 offer is the 90-Day Setup RM 9,000 + Studio Licence RM 1,200/month (+ Floor Command RM 2,000, + Recovery Bar). The Handover should sell that.
 - The Axiomatic Hook fails SYS-D028 (jargon: "architect internal operating systems", "biomechanical", "X-Ray"; one 23-word sentence). Plain version: `hub/OUTREACH_PLAIN.md`.
 
+**19 Oct 2026:** both fixes applied in the live version, the Outreach Console at /ops/outreach (SYS.OP). It runs on data, not hand ticks, so it works under any of the three options. This gate now only decides the Archive ID.
+
 ### G-26 · Three ID and version clashes in files received 17 Oct
 
 Full text of 7 documents is now in `docs/`. Three disagree with the Archive:

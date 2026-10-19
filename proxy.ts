@@ -7,9 +7,10 @@ import {
   isValidOpsArchitectToken,
 } from '@/lib/opsSession';
 
+// /ops/api/outreach/report checks its own key (Vercel Cron's CRON_SECRET or the SYS.OP cookie).
 // /ops/architect gates itself with the Architect code (which also grants an Ops
 // session), so it must stay reachable without Danny's Ops passcode.
-const PUBLIC_OPS_PATHS = new Set(['/ops/login', '/ops/api/login', '/ops/architect', '/ops/api/sync']);
+const PUBLIC_OPS_PATHS = new Set(['/ops/login', '/ops/api/login', '/ops/architect', '/ops/api/sync', '/ops/api/outreach/report']);
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -27,7 +28,7 @@ export function proxy(request: NextRequest) {
 
   // The Armory, the Intelligence Archive and Founder Command are Architect-only: an Ops session alone isn't enough, and the way
   // in is the SYNC.OP gate on /ops/architect, not Danny's login.
-  const architectArea = ['/ops/armory', '/ops/archive', '/ops/command', '/ops/clients'].find(
+  const architectArea = ['/ops/armory', '/ops/archive', '/ops/command', '/ops/clients', '/ops/outreach'].find(
     (base) => pathname === base || pathname.startsWith(`${base}/`),
   );
   if (architectArea) {

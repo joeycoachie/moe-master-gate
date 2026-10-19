@@ -22,5 +22,7 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 10 | client_arc_system_schema | client files, arc sessions, per-client ticks | in use |
 | 11 | client_portal_schema | portal codes, unlocked fuel, RECUP.STN link | in use |
 | 12 | client_checkins_schema | client daily check-ins | in use |
+| 13 | recovery_measures | 0-10 check-ins, Recovery Window | see LEDGER 17 Oct |
+| 14 | outreach_console | Outreach Console: studios, message tests (V1, V2 seeded), proof-of-work log | **to run** (19 Oct) |
 
-New SQL goes here as `13_<name>.sql`, with a row in this table.
+New SQL goes here as `15_<name>.sql`, with a row in this table.

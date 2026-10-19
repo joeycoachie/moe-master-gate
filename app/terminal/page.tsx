@@ -107,6 +107,7 @@ export default function Terminal() {
             {architect ? (
               <>
                 <Link href="/ops/command" className="border border-[#a855f7] px-4 py-2 text-xs text-[#a855f7] hover:text-white transition-colors">COMMAND</Link>
+                <Link href="/ops/outreach" className="border border-[#ffb454]/70 px-4 py-2 text-xs text-[#ffb454] hover:text-white transition-colors">OUTREACH</Link>
                 <Link href="/ops/armory" className="border border-[#00e5ff]/60 px-4 py-2 text-xs text-[#00e5ff] hover:text-white hover:border-[#00e5ff] transition-colors">ARMORY</Link>
                 <Link href="/ops/clients" className="border border-[#00e5ff]/60 px-4 py-2 text-xs text-[#00e5ff] hover:text-white hover:border-[#00e5ff] transition-colors">CLIENTS</Link>
                 {/* Plain <a>: the Archive is a static page served by a route handler, so it needs a full page load. */}

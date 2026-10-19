@@ -40,6 +40,7 @@ Last checked: 2026-10-16.
 |---|---|
 | SYS.OP gate | [/ops/architect](https://terminal.theoperatorplaybook.com/ops/architect) (or the [SYS.OP] button on /terminal) |
 | Founder Command (roadmap, ledger, these links) | [/ops/command](https://terminal.theoperatorplaybook.com/ops/command) |
+| Outreach Console (studio list, message tests, auto-ticked phases) | [/ops/outreach](https://terminal.theoperatorplaybook.com/ops/outreach) (OUTREACH button on /terminal) |
 | Armory (all arcs) | [/ops/armory](https://terminal.theoperatorplaybook.com/ops/armory) |
 | Clients (files, portal codes, fuel) | [/ops/clients](https://terminal.theoperatorplaybook.com/ops/clients) |
 | Intelligence Archive | [/ops/archive](https://terminal.theoperatorplaybook.com/ops/archive) |
