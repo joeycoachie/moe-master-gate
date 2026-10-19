@@ -43,7 +43,7 @@ create table if not exists public.outreach_events (
   id uuid primary key default gen_random_uuid(),
   target_id uuid references public.outreach_targets (id) on delete cascade,
   variant_id uuid references public.outreach_variants (id) on delete set null,
-  kind text not null check (kind in ('stage', 'followup', 'note', 'lesson')),
+  kind text not null check (kind in ('stage', 'followup', 'call', 'visit', 'note', 'lesson')),
   stage text,
   body text not null default '',
   created_at timestamptz not null default now()

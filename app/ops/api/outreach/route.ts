@@ -86,7 +86,10 @@ export async function POST(request: Request) {
         await db().from('outreach_events').insert({ target_id: id, variant_id: t.variant_id, kind: 'stage', stage, body: str(b.body) });
         break;
       }
-      case 'followup': {
+      // A rung of the no-reply ladder: follow-up with a gift, cold call, studio visit.
+      case 'touch': {
+        const kind = str(b.kind);
+        if (!['followup', 'call', 'visit'].includes(kind)) return NextResponse.json({ error: 'Unknown touch.' }, { status: 400 });
         const { data: t, error: readErr } = await db().from('outreach_targets').select('followups, variant_id').eq('id', id).single();
         if (readErr) throw new Error(readErr.message);
         const { error } = await db()
@@ -94,7 +97,7 @@ export async function POST(request: Request) {
           .update({ followups: (t.followups as number) + 1, last_touch_at: now, updated_at: now })
           .eq('id', id);
         if (error) throw new Error(error.message);
-        await db().from('outreach_events').insert({ target_id: id, variant_id: t.variant_id, kind: 'followup', body: str(b.body) });
+        await db().from('outreach_events').insert({ target_id: id, variant_id: t.variant_id, kind, body: str(b.body) });
         break;
       }
       case 'delete_target': {

@@ -10,7 +10,8 @@ import {
   fillMessage,
   sendLinks,
   funnel,
-  overdueFollowUps,
+  dueMoves,
+  nextMove,
   plainCheck,
   reached,
   sendStreak,
@@ -85,7 +86,8 @@ export default function OutreachConsolePage() {
   const cleared = phases.filter((p) => p.steps.every((s) => s.done));
   const rank = cleared.length ? cleared[cleared.length - 1].rank : 'E';
   const streak = sendStreak(events);
-  const overdue = overdueFollowUps(targets);
+  const due = dueMoves(targets, events);
+  const overdue = due.map((x) => x.t);
   const scores = variantScores(variants, targets);
   const lessons = events.filter((e) => e.kind === 'lesson');
   const shown = targets.filter((t) => filter === 'all' || (t.stage !== 'signed' && t.stage !== 'no'));
@@ -151,7 +153,7 @@ export default function OutreachConsolePage() {
                 ))}
               </div>
               {overdue.length > 0 && (
-                <p className="text-xs text-[#ffb454] mt-3 font-sans">Follow up today: {overdue.map((t) => t.studio).join(', ')}</p>
+                <p className="text-xs text-[#ffb454] mt-3 font-sans">Due today: {due.map((x) => `${x.t.studio} (${x.move.label.toLowerCase()})`).join(' · ')}</p>
               )}
             </section>
 
@@ -210,6 +212,7 @@ export default function OutreachConsolePage() {
                     variants={variants}
                     open={openId === t.id}
                     overdue={overdue.includes(t)}
+                    move={nextMove(t, events)}
                     onToggle={() => setOpenId(openId === t.id ? null : t.id)}
                     act={act}
                     flash={flash}
@@ -328,9 +331,10 @@ function AddStudio({ variants, onAdd }: { variants: Variant[]; onAdd: (row: Reco
 }
 
 function StudioCard({
-  t, variants, open, overdue, onToggle, act, flash,
+  t, variants, open, overdue, move, onToggle, act, flash,
 }: {
   t: Target;
+  move: ReturnType<typeof nextMove>;
   variants: Variant[];
   open: boolean;
   overdue: boolean;
@@ -358,7 +362,9 @@ function StudioCard({
         <span className="text-[11px] text-[#666] font-sans">{[t.owner_name, t.area, t.batch].filter(Boolean).join(' · ')}</span>
         <span className="ml-auto text-[11px] flex gap-2 items-center">
           {v && <span className="text-[#00e5ff]">{v.code}</span>}
-          {overdue && <span className="text-[#ffb454]">FOLLOW UP</span>}
+          {move && move.key !== 'wait' && (
+            <span className={overdue ? 'text-[#ffb454]' : 'text-[#555]'}>{overdue ? move.label.toUpperCase() : `${move.label} in ${move.inDays}d`}</span>
+          )}
           <span className={t.stage === 'signed' ? 'text-[#33e6a0]' : t.stage === 'no' ? 'text-[#555]' : 'text-white'}>{STAGE_LABEL[t.stage]}</span>
         </span>
       </button>
@@ -380,9 +386,12 @@ function StudioCard({
                 MARK {STAGE_LABEL[next].toUpperCase()}
               </button>
             )}
-            {t.stage === 'messaged' && (
-              <button onClick={() => act({ action: 'followup', id: t.id }, 'Follow-up logged')} className="border border-[#ffb454] text-[#ffb454] px-3 py-2">
-                FOLLOWED UP ({t.followups})
+            {move && move.key !== 'wait' && (
+              <button
+                onClick={() => act({ action: 'touch', id: t.id, kind: move.key }, `${t.studio}: ${move.label} logged`)}
+                className={`border px-3 py-2 ${move.due ? 'border-[#ffb454] text-[#ffb454]' : 'border-[#333] text-[#888]'}`}
+              >
+                LOG: {move.label.toUpperCase()}{move.due ? '' : ` (due in ${move.inDays} working days)`}
               </button>
             )}
             {t.stage !== 'no' && t.stage !== 'signed' && (

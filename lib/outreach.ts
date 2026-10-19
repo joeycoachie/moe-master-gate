@@ -50,13 +50,13 @@ export type OutreachEvent = {
   id: string;
   target_id: string | null;
   variant_id: string | null;
-  kind: 'stage' | 'followup' | 'note' | 'lesson';
+  kind: 'stage' | 'followup' | 'call' | 'visit' | 'note' | 'lesson';
   stage: Stage | null;
   body: string;
   created_at: string;
 };
 
-export const FOLLOW_UP_AFTER_DAYS = 4;
+export const WAIT_WORKING_DAYS = 3;
 const DAY = 86_400_000;
 
 // A target "reached" a stage if it is at it now or passed it (a 'no' keeps what it reached).
@@ -95,13 +95,49 @@ export function sendLinks(contact: string, message: string) {
   };
 }
 
-// Messaged, no reply yet, and nobody has touched it for FOLLOW_UP_AFTER_DAYS.
-export function overdueFollowUps(targets: Target[], now = Date.now()) {
-  return targets.filter((t) => {
-    if (t.stage !== 'messaged') return false;
-    const last = t.last_touch_at ?? t.stage_at.messaged;
-    return Boolean(last) && now - new Date(last!).getTime() > FOLLOW_UP_AFTER_DAYS * DAY;
-  });
+// Working days (Mon–Fri, Malaysia time) between two moments.
+// Counts calendar dates, so a follow-up due "Friday" is due from Friday's first minute.
+export function workingDaysSince(iso: string, now = Date.now()) {
+  const myMidnight = (ms: number) => Math.floor((ms + 8 * 3_600_000) / DAY) * DAY;
+  const today = myMidnight(now);
+  let n = 0;
+  for (let d = myMidnight(new Date(iso).getTime()) + DAY; d <= today; d += DAY) {
+    const wd = new Date(d).getUTCDay();
+    if (wd !== 0 && wd !== 6) n++;
+  }
+  return n;
+}
+
+// The no-reply ladder (SYS-P058 ends with the physical drop, so the visit comes last):
+// message → 3 working days → follow-up with a gift → 3 working days → call → visit and drop the Executive Dossier.
+export type MoveKey = 'followup' | 'call' | 'visit';
+export const MOVE_LABEL: Record<MoveKey, string> = {
+  followup: 'Follow up with a gift',
+  call: 'Call them',
+  visit: 'Visit: drop the Executive Dossier',
+};
+export type Move = { key: MoveKey | 'wait'; label: string; due: boolean; inDays: number };
+
+export function nextMove(t: Target, events: OutreachEvent[], now = Date.now()): Move | null {
+  if (t.stage !== 'messaged') return null;
+  const last = (k: OutreachEvent['kind']) =>
+    events.filter((e) => e.target_id === t.id && e.kind === k).sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
+  const step = (key: MoveKey, since: string | undefined, wait: number): Move => {
+    const inDays = since ? Math.max(0, wait - workingDaysSince(since, now)) : 0;
+    return { key, label: MOVE_LABEL[key], due: inDays === 0, inDays };
+  };
+  if (last('visit')) return { key: 'wait', label: 'Ladder done. Log their reply, or mark Not now', due: false, inDays: 0 };
+  const call = last('call');
+  if (call) return step('visit', call.created_at, 0); // the call books the visit
+  const follow = last('followup');
+  if (follow) return step('call', follow.created_at, WAIT_WORKING_DAYS);
+  return step('followup', t.stage_at.messaged ?? t.last_touch_at ?? undefined, WAIT_WORKING_DAYS);
+}
+
+export function dueMoves(targets: Target[], events: OutreachEvent[], now = Date.now()) {
+  return targets
+    .map((t) => ({ t, move: nextMove(t, events, now) }))
+    .filter((x): x is { t: Target; move: Move } => Boolean(x.move?.due));
 }
 
 export function funnel(targets: Target[]) {
@@ -166,7 +202,7 @@ export function buildPhases(targets: Target[], variants: Variant[], events: Outr
   const f = funnel(targets);
   const live = variants.filter((v) => v.status !== 'retired');
   const cleanMsg = live.find((v) => plainCheck(v.body).pass);
-  const overdue = overdueFollowUps(targets);
+  const overdue = dueMoves(targets, events).map((x) => x.t);
   const followupsSent = events.filter((e) => e.kind === 'followup').length;
   const unsent = targets.filter((t) => t.stage === 'found').length;
   const firstCall = firstAt(targets, 'call_booked');
@@ -185,7 +221,7 @@ export function buildPhases(targets: Target[], variants: Variant[], events: Outr
         { label: 'A first message that passes the plain-language check', done: Boolean(cleanMsg), proof: cleanMsg ? `${cleanMsg.code} passes SYS-D028 · ${live.length} message(s) in test` : 'Add a message below' },
         { label: '10 studios on the list', done: f.found >= 10, proof: `${f.found} / 10 on the list` },
         { label: 'Every studio on the list has been messaged', done: f.found > 0 && unsent === 0, proof: f.found ? `${f.messaged} messaged · ${unsent} waiting` : 'List is empty' },
-        { label: `Nobody left hanging (follow up after ${FOLLOW_UP_AFTER_DAYS} days)`, done: (followupsSent > 0 || f.replied > 0) && overdue.length === 0, proof: overdue.length ? `${overdue.length} overdue: ${overdue.slice(0, 3).map((t) => t.studio).join(', ')}` : `${followupsSent} follow-up(s) sent · ${f.replied} replied` },
+        { label: `Nobody left hanging (follow-up, call, visit: ${WAIT_WORKING_DAYS} working days apart)`, done: (followupsSent > 0 || f.replied > 0) && overdue.length === 0, proof: overdue.length ? `${overdue.length} due now: ${overdue.slice(0, 3).map((t) => t.studio).join(', ')}` : `${followupsSent} follow-up(s) sent · ${f.replied} replied` },
       ],
     },
     {
@@ -218,7 +254,7 @@ export function buildPhases(targets: Target[], variants: Variant[], events: Outr
 export function sendStreak(events: OutreachEvent[], now = new Date()) {
   const myDay = (d: Date) => new Date(d.getTime() + 8 * 3_600_000).toISOString().slice(0, 10);
   const days = new Set(
-    events.filter((e) => e.kind === 'followup' || (e.kind === 'stage' && e.stage === 'messaged')).map((e) => myDay(new Date(e.created_at))),
+    events.filter((e) => ['followup', 'call', 'visit'].includes(e.kind) || (e.kind === 'stage' && e.stage === 'messaged')).map((e) => myDay(new Date(e.created_at))),
   );
   let cursor = now.getTime();
   if (!days.has(myDay(new Date(cursor)))) cursor -= DAY;
@@ -233,7 +269,7 @@ export function sendStreak(events: OutreachEvent[], now = new Date()) {
 // The phone report. Daily: today's to-dos. Fridays (Malaysia): the week in numbers too.
 export function buildReport(targets: Target[], variants: Variant[], events: OutreachEvent[], now = new Date()) {
   const f = funnel(targets);
-  const overdue = overdueFollowUps(targets, now.getTime());
+  const due = dueMoves(targets, events, now.getTime());
   const unsent = targets.filter((t) => t.stage === 'found');
   const dueToday = targets.filter((t) => t.next_date && t.next_date <= new Date(now.getTime() + 8 * 3_600_000).toISOString().slice(0, 10) && t.stage !== 'signed' && t.stage !== 'no');
   const weekAgo = now.getTime() - 7 * DAY;
@@ -244,16 +280,19 @@ export function buildReport(targets: Target[], variants: Variant[], events: Outr
 
   const lines: string[] = [];
   if (isFriday) {
-    lines.push(`This week: ${wk('messaged')} sent · ${thisWeek.filter((e) => e.kind === 'followup').length} follow-ups · ${wk('replied')} replies · ${wk('call_held')} calls · ${wk('plan_sent')} plans · ${wk('signed')} signed`);
+    lines.push(`This week: ${wk('messaged')} sent · ${thisWeek.filter((e) => e.kind === 'followup').length} follow-ups · ${thisWeek.filter((e) => e.kind === 'call').length} cold calls · ${thisWeek.filter((e) => e.kind === 'visit').length} visits · ${wk('replied')} replies · ${wk('call_held')} calls · ${wk('plan_sent')} plans · ${wk('signed')} signed`);
     lines.push(`All time: ${f.found} found → ${f.messaged} sent → ${f.replied} replied → ${f.calls} calls → ${f.plans} plans → ${f.signed} signed`);
     lines.push(best ? `Best message: ${best.variant.code} (${best.replied}/${best.sent} replied)` : 'No message has 5 sends yet, too early to pick a winner');
   }
-  if (overdue.length) lines.push(`Follow up today: ${overdue.map((t) => t.studio).join(', ')}`);
+  for (const k of ['followup', 'call', 'visit'] as const) {
+    const hits = due.filter((x) => x.move.key === k);
+    if (hits.length) lines.push(`${MOVE_LABEL[k]}: ${hits.map((x) => x.t.studio).join(', ')}`);
+  }
   if (dueToday.length) lines.push(`Due: ${dueToday.map((t) => `${t.studio} (${t.next_step || 'next step'})`).join(', ')}`);
   if (unsent.length) lines.push(`${unsent.length} studio(s) found but not messaged`);
   if (!targets.length) lines.push('The list is empty. Add 10 studios that fit.');
   if (!lines.length) lines.push(`Nothing due. Streak: ${sendStreak(events, now)} day(s). Protect "messages sent".`);
 
   const title = isFriday ? 'Outreach · Friday report' : 'Outreach · today';
-  return { title, body: lines.join('\n'), worthSending: isFriday || overdue.length > 0 || dueToday.length > 0 || unsent.length > 0 || !targets.length };
+  return { title, body: lines.join('\n'), worthSending: isFriday || due.length > 0 || dueToday.length > 0 || unsent.length > 0 || !targets.length };
 }
