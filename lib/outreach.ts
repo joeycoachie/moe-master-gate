@@ -185,6 +185,11 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
     body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. A post-class tasting, matched to how they trained, with nothing for your studio to pay.\n\nReply YES and I\'ll send our short deck.'),
   },
   {
+    code: 'V11', road: 'fuel', angle: 'Hotel gym: one more member privilege',
+    use_when: 'Cold email, first touch. Hotel gyms with paid memberships (pool, sauna, spa). Formal tone. Email the membership team, ask for the wellness lead.',
+    body: msg('A Recovery Omakase morning for {studio} members', "Hello {name},\n\nI'm Joey from RECUP.STN, a recovery station in Kuala Lumpur. Your members already enjoy the pool, the sauna and the spa. We would like to add one more privilege for them: a Recovery Omakase morning.\n\nEach member does a 60-second check-in and gets a recovery drink matched to how they trained. We bring the station and the team, and the hotel pays nothing.\n\nCould you share the name of whoever looks after member events or wellness?\n\nThanks,\nJoey"),
+  },
+  {
     code: 'V6', road: 'fuel', angle: 'Warm invite: return the favour',
     use_when: 'Warm. After you have met them in person. This is the gift follow-up.',
     body: msg('Thank you, and a drink on us', "Hi {name}, Joey here. Thanks for your time at {studio}. I'd like to return the favour. Come by RECUP.STN HQ for a drink on us and a proper chat about recovery.\n\nDoes Thursday or Friday suit you?"),
@@ -214,6 +219,27 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
     code: 'V4', road: 'kinetic', angle: 'Chat: ask who to talk to',
     use_when: "Cold chat, when you don't know who decides.",
     body: msg('Who looks after coaching at {studio}?', "Hi, I'm Joey. I saw that {detail}.\n\nWho is the best person to speak with about how your coaches plan and track client training? A name is all I need."),
+  },
+];
+
+// Studios researched by Claude, ready to add in one tap (contacts checked on their own websites).
+export type SuggestedTarget = {
+  key: string; studio: string; owner_name: string; area: string; contact: string;
+  fit_note: string; batch: string; road: Road; variant_code: string; next_step: string; why: string;
+};
+export const SUGGESTED_TARGETS: SuggestedTarget[] = [
+  {
+    key: 'sofitel-fitness',
+    studio: 'Sofitel FITNESS',
+    owner_name: '',
+    area: 'Sofitel KL Damansara hotel · level 3',
+    contact: 'Elisha.Frankie@sofitel.com (membership) · sri.dewani@sofitel.com (enquiries) · Tel +603 2720 6688',
+    fit_note: 'your members already get the pool, sauna and spa',
+    batch: 'B2 · Hotel gyms',
+    road: 'fuel',
+    variant_code: 'V11',
+    next_step: 'Email V11 to Elisha (membership). Get the wellness lead’s name. Ask early: can outside drinks be served in the hotel?',
+    why: 'Hotel gym, memberships RM299–4,999. Not SOFIT the studio. No PT or classes listed, so Fuel first; the system only if they run training.',
   },
 ];
 

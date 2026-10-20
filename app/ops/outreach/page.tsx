@@ -7,6 +7,7 @@ import {
   CHANNELS,
   CHANNEL_LABEL,
   REPLY_GATES,
+  SUGGESTED_TARGETS,
   ROADS,
   WHO_LABEL,
   ROAD_INFO,
@@ -126,6 +127,21 @@ export default function OutreachConsolePage() {
       .map((t) => ({ t, what: t.next_step || 'Next step' })),
     ...targets.filter((t) => t.stage === 'found').map((t) => ({ t, what: 'Send the first message' })),
   ];
+  const [dismissed, setDismissed] = useState<string[]>(() => {
+    try {
+      return typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('outreach:dismissed') || '[]') : [];
+    } catch {
+      return [];
+    }
+  });
+  const dismiss = (key: string) => {
+    const next = [...dismissed, key];
+    setDismissed(next);
+    try {
+      localStorage.setItem('outreach:dismissed', JSON.stringify(next));
+    } catch {}
+  };
+  const suggestions = SUGGESTED_TARGETS.filter((x) => !dismissed.includes(x.key) && !targets.some((t) => t.studio === x.studio));
   const jump = (id: string) => {
     setOpenId(id);
     setTimeout(() => document.getElementById(`studio-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
@@ -286,6 +302,30 @@ export default function OutreachConsolePage() {
                 </div>
               </div>
               <AddStudio variants={roadVariants.filter((v) => v.status !== 'retired')} onAdd={(row) => act({ action: 'add_target', road, ...row }, 'Studio added')} />
+              {suggestions.length > 0 && (
+                <div className="border border-dashed border-[#a855f7]/50 p-3 mt-3 space-y-2">
+                  <div className="text-[10px] tracking-widest text-[#a855f7]">SUGGESTED · researched, contacts checked</div>
+                  {suggestions.map((x) => (
+                    <div key={x.key} className="flex flex-wrap items-center gap-2 text-sm font-sans">
+                      <span className="text-[10px] font-mono" style={{ color: ROAD_INFO[x.road].colour }}>{x.road.toUpperCase()} · {x.variant_code}</span>
+                      <b>{x.studio}</b>
+                      <span className="text-xs text-[#888] w-full">{x.why}</span>
+                      <button
+                        onClick={() => {
+                          const { key: _key, why: _why, variant_code, ...row } = x;
+                          void _key;
+                          void _why;
+                          act({ action: 'add_target', ...row, variant_id: variants.find((v) => v.code === variant_code)?.id ?? '' }, `${x.studio} added`);
+                        }}
+                        className="border border-[#a855f7] text-[#a855f7] px-3 py-1 text-xs font-mono"
+                      >
+                        + ADD
+                      </button>
+                      <button onClick={() => dismiss(x.key)} className="border border-[#333] text-[#666] px-3 py-1 text-xs font-mono">NOT NOW</button>
+                    </div>
+                  ))}
+                </div>
+              )}
               {groups.map(({ r, list }) => (
                 <div key={r} className="mt-4">
                   <div className="text-[11px] tracking-widest uppercase mb-2 flex gap-2" style={{ color: ROAD_INFO[r].colour }}>
