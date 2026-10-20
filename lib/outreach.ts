@@ -150,6 +150,95 @@ export function defaultChannel(contact: string, message: string): Channel {
   return 'person';
 }
 
+// ---------- Reply gates: when they answer, tap what they said, get the reply and the next step ----------
+// Most first replies come from the front desk, not the owner. The admin gates' only job is to reach
+// the person who decides. Every gate passes the SYS-D028 check (20 Oct 2026).
+
+export type ReplyGate = {
+  key: string;
+  who: 'admin' | 'owner' | 'either';
+  said: string; // what they said, as the button reads
+  reply: Record<Road, string>;
+  stage: Stage; // moves forward only
+  next: string; // the next step, written onto the card
+  inDays: number; // working days until the next step is due
+};
+
+export const REPLY_GATES: ReplyGate[] = [
+  {
+    key: 'admin_what', who: 'admin', said: '“What is this about?” / asks for details',
+    reply: {
+      kinetic: "Thanks for getting back to me. In short, we help studios keep every client's programme and progress on record, so every instructor coaches the same way. Who looks after coaching or operations there? I'd value 15 minutes with them.",
+      fuel: 'Thanks for getting back to me. In short, we bring a one-day recovery pop-up to your studio for members after training. Nothing for your team to set up. Who decides on member events there? Happy to send a photo of the setup.',
+    },
+    stage: 'replied', next: "Get the decision-maker's name. Put it in Owner and send them the first message", inDays: 2,
+  },
+  {
+    key: 'admin_pass', who: 'admin', said: '“We’ll pass it on” / owner is busy',
+    reply: {
+      kinetic: "Thank you, I appreciate it. Could I have their name so I write to them properly? I'll check back with you on {day} if I haven't heard.",
+      fuel: "Thank you, I appreciate it. Could I have their name so I write to them properly? I'll check back with you on {day} if I haven't heard.",
+    },
+    stage: 'replied', next: 'Check back with the front desk. Ask for the owner by name', inDays: 3,
+  },
+  {
+    key: 'admin_email', who: 'admin', said: '“Send us an email”',
+    reply: {
+      kinetic: "Of course. What's the best email to send it to, and who should I address it to?",
+      fuel: "Of course. What's the best email to send it to, and who should I address it to?",
+    },
+    stage: 'replied', next: 'Put the email in Contact, then send the first message by EMAIL', inDays: 1,
+  },
+  {
+    key: 'owner_yes', who: 'owner', said: 'Interested / “tell me more”',
+    reply: {
+      kinetic: "Great to hear from you, {name}. Does Tuesday or Wednesday suit you for 15 minutes? I'm happy to come to you.",
+      fuel: "Great to hear from you, {name}. Does Tuesday or Wednesday suit you for 15 minutes? I'm happy to come to you.",
+    },
+    stage: 'replied', next: 'They pick a time → tap MARK CALL BOOKED. Then listen first, no pitch', inDays: 1,
+  },
+  {
+    key: 'owner_price', who: 'owner', said: '“How much is it?”',
+    reply: {
+      kinetic: "Fair question. It depends on how your studio runs, so I'd rather not guess. Give me 15 minutes to see your setup, then I'll send clear numbers in writing.",
+      // Assumes the test day costs the studio nothing (founder to confirm the pop-up's money terms).
+      fuel: 'Fair question. For the test day, your studio pays nothing. We bring everything and members choose what they try. Shall we pick a date?',
+    },
+    stage: 'replied', next: 'Book the 15 minutes (Kinetic) or the pop-up date (Fuel)', inDays: 2,
+  },
+  {
+    key: 'not_now', who: 'either', said: '“Not interested” / “not now”',
+    reply: {
+      kinetic: 'Understood, and thanks for the honest answer. Would it be all right if I check back in three months?',
+      fuel: 'Understood, and thanks for the honest answer. Would it be all right if I check back in three months?',
+    },
+    stage: 'no', next: 'Check back in three months with something new (a result, a case study)', inDays: 65,
+  },
+];
+
+export const WHO_LABEL: Record<ReplyGate['who'], string> = {
+  admin: 'Front desk / admin replied',
+  owner: 'Owner / decision-maker replied',
+  either: 'Either',
+};
+
+// yyyy-mm-dd (Malaysia) n working days from now.
+export function addWorkingDays(n: number, now = Date.now()) {
+  let d = Math.floor((now + 8 * 3_600_000) / DAY) * DAY;
+  let left = n;
+  while (left > 0) {
+    d += DAY;
+    const wd = new Date(d).getUTCDay();
+    if (wd !== 0 && wd !== 6) left--;
+  }
+  return new Date(d).toISOString().slice(0, 10);
+}
+
+export function gateReply(gate: ReplyGate, road: Road, t: Pick<Target, 'studio' | 'owner_name' | 'fit_note'>, now = Date.now()) {
+  const day = new Date(`${addWorkingDays(gate.inDays, now)}T00:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'UTC' });
+  return fillMessage(gate.reply[road].replaceAll('{day}', day), t).replace(/^Great to hear from you, there\./, 'Great to hear from you.');
+}
+
 // Working days (Mon–Fri, Malaysia time) between two moments.
 // Counts calendar dates, so a follow-up due "Friday" is due from Friday's first minute.
 export function workingDaysSince(iso: string, now = Date.now()) {

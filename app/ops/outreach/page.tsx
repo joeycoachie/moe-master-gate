@@ -6,13 +6,16 @@ import { useEffect, useMemo, useState } from 'react';
 import {
   CHANNELS,
   CHANNEL_LABEL,
+  REPLY_GATES,
   ROADS,
+  WHO_LABEL,
   ROAD_INFO,
   STAGES,
   buildPhases,
   defaultChannel,
   fillMessage,
   formatFor,
+  gateReply,
   funnel,
   openLink,
   roadOf,
@@ -425,6 +428,9 @@ function StudioCard({
 
   const message = v ? fillMessage(v.body, t) : '';
   const [picked, setPicked] = useState<Channel | null>(null);
+  const [gateKey, setGateKey] = useState<string | null>(null);
+  const gate = REPLY_GATES.find((g) => g.key === gateKey);
+  const showGates = ['messaged', 'replied'].includes(t.stage);
   const channel = picked ?? defaultChannel(t.contact, v?.body ?? '');
   const packaged = formatFor(channel, message);
   const link = v ? openLink(channel, t.contact, message) : undefined;
@@ -450,6 +456,15 @@ function StudioCard({
       </button>
       {open && (
         <div className="border-t border-[#1a1a1a] p-3 space-y-3 font-sans">
+          {/* The next step, always on top */}
+          {t.next_step && (
+            <div className="border border-[#ffb454]/40 bg-[#ffb454]/5 px-3 py-2 text-sm">
+              <span className="text-[10px] font-mono text-[#ffb454] mr-2">NEXT</span>
+              {t.next_step}
+              {t.next_date && <span className="text-[#888]"> · by {new Date(`${t.next_date}T00:00:00Z`).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' })}</span>}
+            </div>
+          )}
+
           {/* Road */}
           <div className="flex items-center gap-2 text-[10px] font-mono">
             <span className="text-[#555]">ROAD</span>
@@ -555,6 +570,53 @@ function StudioCard({
               <button onClick={() => act({ action: 'set_stage', id: t.id, stage: 'no' as Stage }, 'Marked not now')} className="border border-[#333] text-[#666] px-3 py-2">NOT NOW</button>
             )}
           </div>
+
+          {/* Reply gates */}
+          {showGates && (
+            <div className="border border-[#a855f7]/40 p-3 space-y-2">
+              <div className="text-[10px] font-mono text-[#a855f7] tracking-widest">THEY REPLIED? TAP WHAT THEY SAID</div>
+              {(['admin', 'owner', 'either'] as const).map((who) => (
+                <div key={who}>
+                  <div className="text-[10px] text-[#666] mb-1">{WHO_LABEL[who]}</div>
+                  <div className="flex flex-wrap gap-1">
+                    {REPLY_GATES.filter((g) => g.who === who).map((g) => (
+                      <button
+                        key={g.key}
+                        onClick={() => setGateKey(g.key === gateKey ? null : g.key)}
+                        className={`border px-2 py-1 text-xs text-left ${g.key === gateKey ? 'border-[#a855f7] text-white' : 'border-[#333] text-[#999]'}`}
+                      >
+                        {g.said}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              {!gate && t.stage === 'messaged' && <p className="text-[11px] text-[#555]">No reply yet? Follow the LOG button above: gift, then call, then visit.</p>}
+              {gate && (() => {
+                const reply = formatFor(channel, gateReply(gate, road, t)).text;
+                return (
+                  <div className="space-y-2">
+                    <textarea readOnly rows={Math.min(6, reply.split('\n').length + 2)} onFocus={(e) => e.currentTarget.select()} className={`${input} text-[#ccc]`} value={reply} />
+                    <p className="text-[11px] text-[#ffb454]">Then: {gate.next}</p>
+                    <div className="flex flex-wrap gap-2 text-xs font-mono">
+                      <button
+                        onClick={async () => flash((await copyText(reply)) ? 'Reply copied' : 'Copy blocked. Press and hold, then Select All')}
+                        className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2"
+                      >
+                        COPY REPLY
+                      </button>
+                      <button
+                        onClick={async () => (await act({ action: 'reply', id: t.id, gate: gate.key }, `${t.studio}: reply logged, next step set`)) && setGateKey(null)}
+                        className="border border-[#a855f7] text-[#a855f7] px-3 py-2"
+                      >
+                        I SENT IT · SET NEXT STEP
+                      </button>
+                    </div>
+                  </div>
+                );
+              })()}
+            </div>
+          )}
 
           <input className={input} placeholder="Contact: email · WhatsApp +60… · IG @handle" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} />
           <input className={input} placeholder="Detail from their page (fills {detail})" value={draft.fit_note} onChange={(e) => setDraft({ ...draft, fit_note: e.target.value })} />

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
-import { STAGES, plainCheck, type Stage } from '@/lib/outreach';
+import { REPLY_GATES, STAGES, addWorkingDays, plainCheck, type Stage } from '@/lib/outreach';
 
 // Outreach Console data. Owner names and contacts go through the service key only, behind SYS.OP.
 
@@ -101,6 +101,31 @@ export async function POST(request: Request) {
           .eq('id', id);
         if (error) throw new Error(error.message);
         await db().from('outreach_events').insert({ target_id: id, variant_id: t.variant_id, kind: 'stage', stage, body: str(b.body) });
+        break;
+      }
+      // A reply gate: log what they said, move the stage forward, write the next step onto the card.
+      case 'reply': {
+        const gate = REPLY_GATES.find((g) => g.key === str(b.gate));
+        if (!gate) return NextResponse.json({ error: 'Unknown reply.' }, { status: 400 });
+        const { data: t, error: readErr } = await db().from('outreach_targets').select('stage, stage_at, variant_id').eq('id', id).single();
+        if (readErr) throw new Error(readErr.message);
+        const stageAt = { ...(t.stage_at as Record<string, string>) };
+        let stage = t.stage as Stage;
+        if (gate.stage === 'no') {
+          stage = 'no';
+          stageAt.no ??= now;
+        } else {
+          const to = STAGES.indexOf(gate.stage as (typeof STAGES)[number]);
+          for (const s of STAGES.slice(1, to + 1)) stageAt[s] ??= now;
+          if (stage === 'no' || STAGES.indexOf(stage as (typeof STAGES)[number]) < to) stage = gate.stage;
+        }
+        const { error } = await db()
+          .from('outreach_targets')
+          .update({ stage, stage_at: stageAt, next_step: gate.next, next_date: addWorkingDays(gate.inDays), last_touch_at: now, updated_at: now })
+          .eq('id', id);
+        if (error) throw new Error(error.message);
+        await db().from('outreach_events').insert({ target_id: id, variant_id: t.variant_id, kind: 'note', body: `Reply: ${gate.said}` });
+        if (stage !== t.stage) await db().from('outreach_events').insert({ target_id: id, variant_id: t.variant_id, kind: 'stage', stage });
         break;
       }
       // A rung of the no-reply ladder: follow-up with a gift, cold call, studio visit.
