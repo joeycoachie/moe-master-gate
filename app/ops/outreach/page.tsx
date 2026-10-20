@@ -20,6 +20,7 @@ import {
   openLink,
   roadOf,
   stageLabel,
+  todayMY,
   dueMoves,
   nextMove,
   plainCheck,
@@ -116,6 +117,18 @@ export default function OutreachConsolePage() {
   const overdue = due.map((x) => x.t);
   const scores = variantScores(roadVariants, roadTargets);
   const lessons = events.filter((e) => e.kind === 'lesson');
+  // DO NOW: the only list you need each day. Overdue moves first, then due next steps, then studios not yet messaged.
+  const doNow = [
+    ...due.map((x) => ({ t: x.t, what: x.move.label })),
+    ...targets
+      .filter((t) => t.next_date && t.next_date <= todayMY() && !['signed', 'no'].includes(t.stage) && !due.some((x) => x.t.id === t.id))
+      .map((t) => ({ t, what: t.next_step || 'Next step' })),
+    ...targets.filter((t) => t.stage === 'found').map((t) => ({ t, what: 'Send the first message' })),
+  ];
+  const jump = (id: string) => {
+    setOpenId(id);
+    setTimeout(() => document.getElementById(`studio-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  };
   // Every studio stays visible: the road being viewed first, the other road underneath.
   const inPlay = (t: Target) => filter === 'all' || (t.stage !== 'signed' && t.stage !== 'no');
   const groups = [road, ...ROADS.filter((r) => r !== road)].map((r) => ({ r, list: targets.filter((t) => roadOf(t) === r && inPlay(t)) }));
@@ -199,16 +212,35 @@ export default function OutreachConsolePage() {
                   );
                 })}
               </div>
-              {overdue.length > 0 && (
-                <p className="text-xs text-[#ffb454] mt-3 font-sans">Due today: {due.map((x) => `${x.t.studio} (${x.move.label.toLowerCase()})`).join(' · ')}</p>
+            </section>
+
+            {/* DO NOW */}
+            <section className="border border-[#ffb454]/50 bg-[#ffb454]/5 p-4 mb-6">
+              <h2 className="text-sm text-[#ffb454] tracking-widest mb-3">DO NOW · {doNow.length}</h2>
+              {doNow.length ? (
+                <ul className="space-y-2">
+                  {doNow.slice(0, 8).map(({ t, what }, i) => (
+                    <li key={`${t.id}-${i}`}>
+                      <button onClick={() => jump(t.id)} className="w-full text-left flex items-center gap-3 border border-[#222] bg-[#0a0a0a] px-3 py-2 hover:border-[#ffb454]">
+                        <span className="text-[10px]" style={{ color: ROAD_INFO[roadOf(t)].colour }}>{roadOf(t) === 'fuel' ? 'FUEL' : 'KINETIC'}</span>
+                        <span className="font-sans font-bold text-sm">{t.studio}</span>
+                        <span className="font-sans text-sm text-[#ccc]">{what}</span>
+                        <span className="ml-auto text-xs text-[#ffb454]">OPEN →</span>
+                      </button>
+                    </li>
+                  ))}
+                  {doNow.length > 8 && <li className="text-[11px] text-[#666] font-sans">+{doNow.length - 8} more below</li>}
+                </ul>
+              ) : (
+                <p className="text-sm font-sans text-[#888]">Nothing due. Add studios, or send to the next batch.</p>
               )}
             </section>
 
-            {/* Phases, auto-ticked */}
-            <section className="mb-8">
-              <h2 className="text-sm tracking-widest mb-3" style={{ color: ROAD_INFO[road].colour }}>
-                THE FOUR PHASES · {ROAD_INFO[road].name.toUpperCase()} · ticked from your data
-              </h2>
+            {/* Phases, auto-ticked (folded) */}
+            <details className="mb-8">
+              <summary className="cursor-pointer text-sm tracking-widest mb-3" style={{ color: ROAD_INFO[road].colour }}>
+                THE FOUR PHASES · {ROAD_INFO[road].name.toUpperCase()} · {doneSteps}/{allSteps.length} steps ticked from your data
+              </summary>
               <div className="space-y-3">
                 {phases.map((p) => {
                   const done = p.steps.every((s) => s.done);
@@ -238,7 +270,7 @@ export default function OutreachConsolePage() {
                   );
                 })}
               </div>
-            </section>
+            </details>
 
             {/* Studio list */}
             <section className="mb-8">
@@ -281,8 +313,8 @@ export default function OutreachConsolePage() {
             </section>
 
             {/* Message tests */}
-            <section className="mb-8">
-              <h2 className="text-sm text-[#888] tracking-widest mb-1">MESSAGE TESTS · {ROAD_INFO[road].name}</h2>
+            <details className="mb-8">
+              <summary className="cursor-pointer text-sm text-[#888] tracking-widest mb-1">MESSAGE TESTS · {ROAD_INFO[road].name} · {scores.length} messages</summary>
               <p className="text-xs text-[#666] font-sans mb-3">Send each message to 5 studios. After 5 sends the reply rate counts. Change one thing at a time, keep the winner, write down why.</p>
               <div className="space-y-2">
                 {scores.map(({ variant: v, sent, replied, calls, rate, enough }) => (
@@ -308,11 +340,11 @@ export default function OutreachConsolePage() {
                 ))}
               </div>
               <AddVariant onAdd={(row) => act({ action: 'add_variant', road, ...row }, 'Message added')} nextCode={`V${variants.length + 1}`} />
-            </section>
+            </details>
 
             {/* Lessons */}
-            <section className="mb-8">
-              <h2 className="text-sm text-[#888] tracking-widest mb-1">WHAT WE LEARNED</h2>
+            <details className="mb-8">
+              <summary className="cursor-pointer text-sm text-[#888] tracking-widest mb-1">WHAT WE LEARNED · {lessons.length}</summary>
               <p className="text-xs text-[#666] font-sans mb-3">The friction an owner names becomes the next message. Feeds P-010, the Friday ritual.</p>
               <AddLesson variants={variants} onAdd={(row) => act({ action: 'lesson', ...row }, 'Lesson saved')} />
               <ul className="space-y-2 mt-3">
@@ -326,7 +358,7 @@ export default function OutreachConsolePage() {
                   </li>
                 ))}
               </ul>
-            </section>
+            </details>
           </>
         )}
       </div>
@@ -446,7 +478,7 @@ function StudioCard({
   };
 
   return (
-    <div className={`border bg-[#0a0a0a] ${overdue ? 'border-[#ffb454]/60' : 'border-[#222]'}`}>
+    <div id={`studio-${t.id}`} className={`border bg-[#0a0a0a] scroll-mt-4 ${overdue ? 'border-[#ffb454]/60' : 'border-[#222]'}`}>
       <button onClick={onToggle} className="w-full text-left p-3 flex items-center gap-3 flex-wrap">
         <span className="font-bold font-sans">{t.studio}</span>
         <span className="text-[11px] text-[#666] font-sans">{[t.owner_name, t.area, t.batch].filter(Boolean).join(' · ')}</span>

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
-import { REPLY_GATES, STAGES, addWorkingDays, plainCheck, type Stage } from '@/lib/outreach';
+import { MESSAGE_LIBRARY, REPLY_GATES, STAGES, addWorkingDays, plainCheck, type Stage } from '@/lib/outreach';
 
 // Outreach Console data. Owner names and contacts go through the service key only, behind SYS.OP.
 
@@ -32,6 +32,13 @@ export async function GET() {
   if (!(await isArchitect())) return unauthorized();
   try {
     const db = getSupabaseAdmin();
+    // Load the message library (lib/outreach.ts) by code: new messages appear, changed wording updates,
+    // stats stay with the code, and a message's testing/winner/retired status is never touched.
+    const sync = await db.from('outreach_variants').upsert(
+      MESSAGE_LIBRARY.map(({ code, road, angle, use_when, body }) => ({ code, road, angle, use_when, body })),
+      { onConflict: 'code' },
+    );
+    if (sync.error) throw new Error(sync.error.message);
     const [variants, targets, events] = await Promise.all([
       db.from('outreach_variants').select('*').order('code'),
       db.from('outreach_targets').select('*').order('created_at'),

@@ -90,3 +90,8 @@ Newest at the top within each section.
 ## 2026-10-19 · SYS-D022 V2.2 · Triage Doctrine and override library
 - Founder approved V2.2 ("approve V2.2 + install"). Phases 2–3 (Anchor, Crucible) are the immutable arc; Phases 1 and 4 (Primer, Unwind) are fluid triage. A card may carry several named overrides (`ra`, `clavicle`, `arch`); it replaces V2.1's single override. Doctrine: armory/doctrine/SYS-D022_V2.2.md.
 - KIN-P019_W2 is now KA-Alex's Advanced Hip Armor & Triage card (19 Oct); it replaces the 11 Oct issue.
+
+## 2026-10-20 · RECUP.STN studio outreach
+- Fuel goes first: the Recovery Omakase / post-class tasting is the hook; the studio system (Kinetic) comes second, after a tasting day. Never both in one first message.
+- The first session is free to the studio. Pricing is not in the deck and only comes up after the tasting day.
+- The offer is called "The Recovery Omakase" (not "metabolic", per RECUP's word rules).
