@@ -116,7 +116,9 @@ export default function OutreachConsolePage() {
   const overdue = due.map((x) => x.t);
   const scores = variantScores(roadVariants, roadTargets);
   const lessons = events.filter((e) => e.kind === 'lesson');
-  const shown = roadTargets.filter((t) => filter === 'all' || (t.stage !== 'signed' && t.stage !== 'no'));
+  // Every studio stays visible: the road being viewed first, the other road underneath.
+  const inPlay = (t: Target) => filter === 'all' || (t.stage !== 'signed' && t.stage !== 'no');
+  const groups = [road, ...ROADS.filter((r) => r !== road)].map((r) => ({ r, list: targets.filter((t) => roadOf(t) === r && inPlay(t)) }));
 
   const sendReport = async () => {
     const res = await fetch('/ops/api/outreach/report?force=1');
@@ -241,7 +243,7 @@ export default function OutreachConsolePage() {
             {/* Studio list */}
             <section className="mb-8">
               <div className="flex items-center gap-3 mb-3 flex-wrap">
-                <h2 className="text-sm text-[#888] tracking-widest">STUDIOS · <span style={{ color: ROAD_INFO[road].colour }}>{ROAD_INFO[road].name}</span></h2>
+                <h2 className="text-sm text-[#888] tracking-widest">STUDIOS · both roads</h2>
                 <div className="ml-auto flex gap-1 text-[11px]">
                   {(['open', 'all'] as const).map((k) => (
                     <button key={k} onClick={() => setFilter(k)} className={`border px-2 py-1 ${filter === k ? 'border-[#00e5ff] text-[#00e5ff]' : 'border-[#333] text-[#666]'}`}>
@@ -251,29 +253,31 @@ export default function OutreachConsolePage() {
                 </div>
               </div>
               <AddStudio variants={roadVariants.filter((v) => v.status !== 'retired')} onAdd={(row) => act({ action: 'add_target', road, ...row }, 'Studio added')} />
-              <div className="space-y-2 mt-3">
-                {shown.map((t) => (
-                  <StudioCard
-                    key={t.id}
-                    t={t}
-                    variants={variants}
-                    open={openId === t.id}
-                    overdue={overdue.includes(t)}
-                    move={nextMove(t, events)}
-                    hasKineticTwin={targets.some((k) => roadOf(k) === 'kinetic' && k.studio === t.studio)}
-                    onToggle={() => setOpenId(openId === t.id ? null : t.id)}
-                    act={act}
-                    flash={flash}
-                  />
-                ))}
-                {!shown.length && (
-                  <p className="text-xs text-[#555] font-sans">
-                    {road === 'fuel'
-                      ? 'No studios on the Fuel road yet. Open a studio card and tap FUEL to move it here, or add one.'
-                      : 'No studios in play. Add the first 10 that fit: results-minded, still on WhatsApp and spreadsheets.'}
-                  </p>
-                )}
-              </div>
+              {groups.map(({ r, list }) => (
+                <div key={r} className="mt-4">
+                  <div className="text-[11px] tracking-widest uppercase mb-2 flex gap-2" style={{ color: ROAD_INFO[r].colour }}>
+                    <span>{ROAD_INFO[r].name}</span>
+                    <span className="text-[#555]">· {list.length} studio{list.length === 1 ? '' : 's'}</span>
+                  </div>
+                  <div className="space-y-2" style={{ borderLeft: `2px solid ${ROAD_INFO[r].colour}55`, paddingLeft: 8 }}>
+                    {list.map((t) => (
+                      <StudioCard
+                        key={t.id}
+                        t={t}
+                        variants={variants}
+                        open={openId === t.id}
+                        overdue={overdue.includes(t)}
+                        move={nextMove(t, events)}
+                        hasKineticTwin={targets.some((k) => roadOf(k) === 'kinetic' && k.studio === t.studio)}
+                        onToggle={() => setOpenId(openId === t.id ? null : t.id)}
+                        act={act}
+                        flash={flash}
+                      />
+                    ))}
+                    {!list.length && <p className="text-xs text-[#555] font-sans">None yet. Open a studio card and tap {r.toUpperCase()} to move it here, or add one.</p>}
+                  </div>
+                </div>
+              ))}
             </section>
 
             {/* Message tests */}
