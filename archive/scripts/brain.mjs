@@ -94,6 +94,12 @@ ${read(path.join(HUB, 'DECISIONS.md')).replace(/^# .*\n/, '')}
 
 ---
 
+## 3b. How we think with high-value operators (HVO Playbook)
+
+${read(path.join(HUB, 'HVO_PLAYBOOK.md')).replace(/^# .*\n/, '').replace(/^## /gm, '### ')}
+
+---
+
 ## 4. Open decision gates (only the founder settles these)
 
 ${gates.map((g) => `- ${g}`).join('\n') || '- none'}
