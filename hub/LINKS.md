@@ -47,6 +47,14 @@ Last checked: 2026-10-16.
 | Brain Pack (paste into any agent) | [/ops/archive/brain](https://terminal.theoperatorplaybook.com/ops/archive/brain) |
 | CRM Terminal | [moe-operator-terminal.web.app](https://moe-operator-terminal.web.app) |
 
+## Sales materials (private until shared from the page's Share menu)
+
+| What | Link | Send when |
+|---|---|---|
+| RECUP.STN studio deck (12 slides) | [claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F](https://claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F) | as a PDF, after they reply YES |
+| RECUP.STN Partner Guide | [claude.ai/artifact/Q7jLnDqX6afH5uy21CyqQA](https://claude.ai/artifact/Q7jLnDqX6afH5uy21CyqQA) | with the deck |
+| Check-in link for a hosted tasting | joeycoachie.github.io/recup-station-/intake-ipad.html?src=qr&host=Studio%20Name | the day before the tasting |
+
 ## Back office (accounts)
 
 | What | Link |
