@@ -78,3 +78,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-20 · M.O.E. Terminal · Outreach: V10 'Your tasting day, in numbers', the bridge from the Fuel tasting to the Kinetic system; OPEN KINETIC ROAD now loads it with the next step · b1664e9
 - 2026-10-20 · RECUP.STN · Founder: no free tastings. Studio pays nothing, members pay RM[__] for the three-cup flight. Console messages, reply gates, deck and DECISIONS updated · e880212
 - 2026-10-20 · M.O.E. Terminal · Outreach: every message and reply now ends on one easy ask on its own line (Reply YES / a name / Tue or Wed / which class); new messages without an ask get a warning · 6e78055
+- 2026-10-20 · M.O.E. Terminal · Outreach: Suggested box (studios researched by Claude, one-tap ADD); Sofitel FITNESS (hotel gym, Sofitel KL Damansara; not SOFIT the studio) suggested on the Fuel road with V11 hotel-gym email to the membership team · c368fa9
