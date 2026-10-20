@@ -28,6 +28,7 @@ Last verified: 2026-10-06 (Founder Command window, from disk and the Vercel acco
 - `www` and root → **Gumroad store. Never repoint.** Never switch the nameservers to Vercel (that kills the store).
 - `terminal` → A `76.76.21.21` → Vercel project `instructor-callibration-terminal`. Live 2026-10-06.
 - `studio` → A `76.76.21.21` → same project; its root shows `/studio` (the B2B page). Added 2026-10-16.
+- **The boundary (2026-10-20):** `studio.` is the outside: public sales pages only (`/studio`, `/recup/deck`, `/recup/guide`). `terminal.` is the inside: every sign-in (instructors, clients, RECUP team, founder). Team pages requested on `studio.` forward to `terminal.` (proxy.ts).
 - **Adding a product subdomain:** an agent runs `vercel domains add <name>.theoperatorplaybook.com <vercel-project>`, then the founder adds a Custom record (Type `A`, Name `<name>`, IP `76.76.21.21`). HTTPS takes about 3 minutes.
 
 ## Founder-only access
