@@ -163,16 +163,16 @@ export type LibraryMessage = { code: string; road: Road; angle: string; use_when
 const msg = (subject: string, text: string) => `Subject: ${subject}\n\n${text}`;
 
 export const MESSAGE_LIBRARY: LibraryMessage[] = [
-  // Fuel road: the hook. Free first, always.
+  // Fuel road: the hook. The studio pays nothing; members pay a small price for the tasting flight (founder, 20 Oct).
   {
     code: 'V8', road: 'fuel', angle: 'Deck first: ask to send the deck',
     use_when: 'Cold, first touch. Default for any studio, and best when a front desk answers: they forward decks to the owner.',
-    body: msg('A free post-class tasting for {studio} members', "Hi {name}, Joey here from RECUP.STN. We run free post-class recovery tastings inside studios. Members check in, try three small cups and take home a recovery guide. Your team sets up nothing. Could I send our short deck to whoever plans member events?"),
+    body: msg('A post-class tasting for {studio} members', "Hi {name}, Joey here from RECUP.STN. We run post-class recovery tastings inside studios. Members check in, try three small cups and take home a recovery guide. Your team sets up nothing and pays nothing. Could I send our short deck to whoever plans member events?"),
   },
   {
     code: 'V5', road: 'fuel', angle: 'Haze: lead with what is happening now',
     use_when: 'Cold, first touch. Studios whose members run or train outdoors. Only while the haze lasts. Send with one photo of the station.',
-    body: msg('A free recovery pop-up for {studio} while the haze lasts', "Hi {name}, Joey here. With the haze keeping runs indoors, we're testing a one-day recovery pop-up inside a few studios. Drinks, a short check-in, nothing for you to set up. Could {studio} be one of them?"),
+    body: msg('A recovery pop-up for {studio} while the haze lasts', "Hi {name}, Joey here. With the haze keeping runs indoors, we're testing a one-day recovery pop-up inside a few studios. Drinks, a short check-in, nothing for you to set up. Could {studio} be one of them?"),
   },
   {
     code: 'V7', road: 'fuel', angle: 'Premium studio: not another brand booth',
@@ -182,7 +182,7 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
   {
     code: 'V9', road: 'fuel', angle: 'Boutique: members leave the minute class ends',
     use_when: 'Cold, first touch. Small boutique studios that want members to stay and come back.',
-    body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. A free post-class tasting, matched to how they trained. Could I send you our short deck?'),
+    body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. A post-class tasting, matched to how they trained, with nothing for your studio to pay. Could I send you our short deck?'),
   },
   {
     code: 'V6', road: 'fuel', angle: 'Warm invite: return the favour',
@@ -259,8 +259,8 @@ export const REPLY_GATES: ReplyGate[] = [
   {
     key: 'deck_yes', who: 'either', said: '“Yes, send the deck”',
     reply: {
-      kinetic: 'Here it is, thank you. The short version: one table, one class, ten minutes, free for your studio. Which class is your busiest each week?',
-      fuel: 'Here it is, thank you. The short version: one table, one class, ten minutes, free for your studio. Which class is your busiest each week?',
+      kinetic: 'Here it is, thank you. The short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
+      fuel: 'Here it is, thank you. The short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
     },
     stage: 'replied', next: 'Attach the deck PDF to that reply. Then get a class and a date', inDays: 2,
   },
@@ -276,8 +276,8 @@ export const REPLY_GATES: ReplyGate[] = [
     key: 'owner_price', who: 'owner', said: '“How much is it?”',
     reply: {
       kinetic: "Fair question. It depends on how your studio runs, so I'd rather not guess. Give me 15 minutes to see your setup, then I'll send clear numbers in writing.",
-      // First session is free to the studio (founder, 20 Oct 2026). Pricing comes later.
-      fuel: 'Fair question. For the first session, your studio pays nothing. We bring everything and members choose what they try. Shall we pick a date?',
+      // The studio pays nothing; members pay for the tasting flight (founder, 20 Oct 2026).
+      fuel: 'Fair question. Your studio pays nothing. Members pay a small price for the tasting flight, and we bring everything. Shall we pick a date?',
     },
     stage: 'replied', next: 'Book the 15 minutes (Kinetic) or the pop-up date (Fuel)', inDays: 2,
   },

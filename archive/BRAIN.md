@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-10-20 · e964ed5
+# M.O.E. Brain Pack · 2026-10-20 · 3fcd189
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -292,7 +292,7 @@ Newest at the top within each section.
 
 ## 2026-10-20 · RECUP.STN studio outreach
 - Fuel goes first: the Recovery Omakase / post-class tasting is the hook; the studio system (Kinetic) comes second, after a tasting day. Never both in one first message.
-- The first session is free to the studio. Pricing is not in the deck and only comes up after the tasting day.
+- The studio pays nothing for a tasting. Members pay a small price for the three-cup flight (price to set). Changed the same day from "first session free": free drinks for members are not sustainable.
 - The offer is called "The Recovery Omakase" (not "metabolic", per RECUP's word rules).
 
 
