@@ -167,53 +167,53 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
   {
     code: 'V8', road: 'fuel', angle: 'Deck first: ask to send the deck',
     use_when: 'Cold, first touch. Default for any studio, and best when a front desk answers: they forward decks to the owner.',
-    body: msg('A post-class tasting for {studio} members', "Hi {name}, Joey here from RECUP.STN. We run post-class recovery tastings inside studios. Members check in, try three small cups and take home a recovery guide. Your team sets up nothing and pays nothing. Could I send our short deck to whoever plans member events?"),
+    body: msg('A post-class tasting for {studio} members', "Hi {name}, Joey here from RECUP.STN. We run post-class recovery tastings inside studios. Members check in, try three small cups and take home a recovery guide. Your team sets up nothing and pays nothing.\n\nReply YES and I'll send our short deck to whoever plans member events."),
   },
   {
     code: 'V5', road: 'fuel', angle: 'Haze: lead with what is happening now',
     use_when: 'Cold, first touch. Studios whose members run or train outdoors. Only while the haze lasts. Send with one photo of the station.',
-    body: msg('A recovery pop-up for {studio} while the haze lasts', "Hi {name}, Joey here. With the haze keeping runs indoors, we're testing a one-day recovery pop-up inside a few studios. Drinks, a short check-in, nothing for you to set up. Could {studio} be one of them?"),
+    body: msg('A recovery pop-up for {studio} while the haze lasts', "Hi {name}, Joey here. With the haze keeping runs indoors, we're running recovery pop-ups inside a few studios. Drinks, a short check-in, nothing for you to set up.\n\nReply YES and I'll send the details for {studio}."),
   },
   {
     code: 'V7', road: 'fuel', angle: 'Premium studio: not another brand booth',
     use_when: 'Cold, first touch. Premium studios that already run brand collaborations.',
-    body: msg('Not another brand booth', "Hi {name}, Joey here. Brands sample drinks at studios all the time. We do it differently. Each member does a 60-second check-in and gets the drink that fits today's session. You get the numbers after. Could we run one Recovery Omakase after your busiest class?"),
+    body: msg('Not another brand booth', "Hi {name}, Joey here. Brands sample drinks at studios all the time. We do it differently. Each member does a 60-second check-in and gets the drink that fits today's session. You get the numbers after.\n\nWhich class is your busiest? We'd bring the Recovery Omakase to that one."),
   },
   {
     code: 'V9', road: 'fuel', angle: 'Boutique: members leave the minute class ends',
     use_when: 'Cold, first touch. Small boutique studios that want members to stay and come back.',
-    body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. A post-class tasting, matched to how they trained, with nothing for your studio to pay. Could I send you our short deck?'),
+    body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. A post-class tasting, matched to how they trained, with nothing for your studio to pay.\n\nReply YES and I\'ll send our short deck.'),
   },
   {
     code: 'V6', road: 'fuel', angle: 'Warm invite: return the favour',
     use_when: 'Warm. After you have met them in person. This is the gift follow-up.',
-    body: msg('Thank you, and a drink on us', "Hi {name}, Joey here. Thanks for your time at {studio}. I'd like to return the favour. Come by RECUP.STN HQ for a drink on us and a proper chat about recovery. Does Thursday or Friday suit you?"),
+    body: msg('Thank you, and a drink on us', "Hi {name}, Joey here. Thanks for your time at {studio}. I'd like to return the favour. Come by RECUP.STN HQ for a drink on us and a proper chat about recovery.\n\nDoes Thursday or Friday suit you?"),
   },
   // Kinetic road: the system. Usually after a tasting day, through OPEN KINETIC ROAD.
   {
     code: 'V10', road: 'kinetic', angle: 'The bridge: tasting numbers → the system',
     use_when: 'Warm. The day after a tasting, when you send the owner their numbers. This is where the system comes in.',
-    body: msg('Your tasting day, in numbers', "Hi {name}, here are the numbers from the tasting at {studio}. [__] members checked in and [__] asked for more. That's one table on one day. Imagine the same picture for every client in every class. Who trains, what they need, who is slipping away. Could we take 15 minutes this week to look at it together?"),
+    body: msg('Your tasting day, in numbers', "Hi {name}, here are the numbers from the tasting at {studio}. [__] members checked in and [__] asked for more. That's one table on one day. Imagine the same picture for every client in every class. Who trains, what they need, who is slipping away.\n\nDoes Tuesday or Wednesday suit you for 15 minutes to look at it together?"),
   },
   {
     code: 'V3', road: 'kinetic', angle: 'Email: one real detail, then one question',
     use_when: 'Cold email, when you found one real detail on their website.',
-    body: msg('A quick question about coaching at {studio}', "Hi {name},\n\nI saw that {detail}.\n\nHow do you keep coaching plans consistent across your team while still tailoring them to each client?\n\nI'm working on a practical way to make that easier. Would you be open to a 15-minute call to compare notes?\n\nThanks,\nJoey"),
+    body: msg('A quick question about coaching at {studio}', "Hi {name},\n\nI saw that {detail}.\n\nHow do you keep coaching plans consistent across your team while still tailoring them to each client?\n\nI'm working on a practical way to make that easier. Does Tuesday or Wednesday suit you for a 15-minute call?\n\nThanks,\nJoey"),
   },
   {
     code: 'V1', road: 'kinetic', angle: "Owner's time: admin pain first",
     use_when: 'Cold, first touch. An owner who is drowning in admin.',
-    body: msg('Where is your studio losing time?', "You opened your studio to coach, not to chase spreadsheets. When every instructor tracks clients their own way, details get lost and clients drift. We set up one simple system for your floor: the same programme, every client's progress on record. Can I show you in 15 minutes where your studio is losing time?"),
+    body: msg('Where is your studio losing time?', "You opened your studio to coach, not to chase spreadsheets. When every instructor tracks clients their own way, details get lost and clients drift. We set up one simple system for your floor: the same programme, every client's progress on record. I can show you where your studio is losing time in 15 minutes.\n\nDoes Tuesday or Wednesday suit you?"),
   },
   {
     code: 'V2', road: 'kinetic', angle: 'Client safety: a question, not a statement',
     use_when: 'Cold, first touch. An owner who cares about clients getting hurt.',
-    body: msg('A quick question about clients with sore knees', "Quick question for {studio}. When a client with a sore knee joins a class, how does each instructor know what to change? Most studios keep that in WhatsApp or in one person's head. We built a simple way to keep it on record for every client. Open to a 15-minute look?"),
+    body: msg('A quick question about clients with sore knees', "Quick question for {studio}. When a client with a sore knee joins a class, how does each instructor know what to change? Most studios keep that in WhatsApp or in one person's head. We built a simple way to keep it on record for every client.\n\nDoes Tuesday or Wednesday suit you for a 15-minute look?"),
   },
   {
     code: 'V4', road: 'kinetic', angle: 'Chat: ask who to talk to',
     use_when: "Cold chat, when you don't know who decides.",
-    body: msg('Who looks after coaching at {studio}?', "Hi, I'm Joey. I saw that {detail}. Who would be the right person to speak with about how your coaches plan and track client training?"),
+    body: msg('Who looks after coaching at {studio}?', "Hi, I'm Joey. I saw that {detail}.\n\nWho is the best person to speak with about how your coaches plan and track client training? A name is all I need."),
   },
 ];
 
@@ -235,16 +235,16 @@ export const REPLY_GATES: ReplyGate[] = [
   {
     key: 'admin_what', who: 'admin', said: '“What is this about?” / asks for details',
     reply: {
-      kinetic: "Thanks for getting back to me. In short, we help studios keep every client's programme and progress on record, so every instructor coaches the same way. Who looks after coaching or operations there? I'd value 15 minutes with them.",
-      fuel: 'Thanks for getting back to me. In short, we bring a one-day recovery pop-up to your studio for members after training. Nothing for your team to set up. Who decides on member events there? Happy to send a photo of the setup.',
+      kinetic: "Thanks for getting back to me. In short, we help studios keep every client's programme and progress on record, so every instructor coaches the same way. Could you share the name of whoever looks after coaching or operations?",
+      fuel: 'Thanks for getting back to me. In short, we bring a recovery pop-up to your studio for members after training. Nothing for your team to set up or pay. Could you share the name of whoever plans member events?',
     },
     stage: 'replied', next: "Get the decision-maker's name. Put it in Owner and send them the first message", inDays: 2,
   },
   {
     key: 'admin_pass', who: 'admin', said: '“We’ll pass it on” / owner is busy',
     reply: {
-      kinetic: "Thank you, I appreciate it. Could I have their name so I write to them properly? I'll check back with you on {day} if I haven't heard.",
-      fuel: "Thank you, I appreciate it. Could I have their name so I write to them properly? I'll check back with you on {day} if I haven't heard.",
+      kinetic: "Thank you, I appreciate it. I'll check back with you on {day} if I haven't heard. Could I have their name so I write to them properly?",
+      fuel: "Thank you, I appreciate it. I'll check back with you on {day} if I haven't heard. Could I have their name so I write to them properly?",
     },
     stage: 'replied', next: 'Check back with the front desk. Ask for the owner by name', inDays: 3,
   },
@@ -267,17 +267,17 @@ export const REPLY_GATES: ReplyGate[] = [
   {
     key: 'owner_yes', who: 'owner', said: 'Interested / “tell me more”',
     reply: {
-      kinetic: "Great to hear from you, {name}. Does Tuesday or Wednesday suit you for 15 minutes? I'm happy to come to you.",
-      fuel: "Great to hear from you, {name}. Does Tuesday or Wednesday suit you for 15 minutes? I'm happy to come to you.",
+      kinetic: "Great to hear from you, {name}. I'm happy to come to you. Does Tuesday or Wednesday suit you for 15 minutes?",
+      fuel: "Great to hear from you, {name}. I'm happy to come to you. Does Tuesday or Wednesday suit you for 15 minutes?",
     },
     stage: 'replied', next: 'They pick a time → tap MARK CALL BOOKED. Then listen first, no pitch', inDays: 1,
   },
   {
     key: 'owner_price', who: 'owner', said: '“How much is it?”',
     reply: {
-      kinetic: "Fair question. It depends on how your studio runs, so I'd rather not guess. Give me 15 minutes to see your setup, then I'll send clear numbers in writing.",
+      kinetic: "Fair question. It depends on how your studio runs, so I'd rather not guess. After 15 minutes on your setup, I'll send clear numbers in writing. Does Tuesday or Wednesday suit you?",
       // The studio pays nothing; members pay for the tasting flight (founder, 20 Oct 2026).
-      fuel: 'Fair question. Your studio pays nothing. Members pay a small price for the tasting flight, and we bring everything. Shall we pick a date?',
+      fuel: 'Fair question. Your studio pays nothing. Members pay a small price for the tasting flight, and we bring everything. Which class and date suit you best?',
     },
     stage: 'replied', next: 'Book the 15 minutes (Kinetic) or the pop-up date (Fuel)', inDays: 2,
   },
@@ -400,6 +400,15 @@ export function plainCheck(text: string) {
   }
   if (/[!;—–]/.test(text)) issues.push('Use only periods and commas (R8)');
   return { pass: issues.length === 0, banned, issues };
+}
+
+// Every message ends on one ask that is easy to answer: a yes, a name, a day or a class.
+// The sign-off ("Thanks, Joey") is ignored; the line before it must be the ask.
+export function ctaCheck(text: string) {
+  const body = text.replace(/^subject:[^\n]*\n+/i, '').replace(/\n+(thanks|cheers|best|regards)[^\n]*\n+joey\s*$/i, '').trim();
+  const lastLine = body.split(/\n+/).filter(Boolean).pop() ?? '';
+  const pass = /\?\s*$/.test(lastLine) || /^reply\b/i.test(lastLine) || /\?[^.?!]*\.\s*$/.test(lastLine);
+  return { pass, lastLine };
 }
 
 // ---------- The four phases, ticked from data ----------

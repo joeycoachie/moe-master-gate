@@ -14,6 +14,7 @@ import {
   buildPhases,
   defaultChannel,
   fillMessage,
+  ctaCheck,
   formatFor,
   gateReply,
   funnel,
@@ -697,6 +698,9 @@ function AddVariant({ onAdd, nextCode }: { onAdd: (row: Record<string, string>) 
         <p className={`text-[11px] font-sans ${check.pass ? 'text-[#33e6a0]' : check.banned ? 'text-[#ff5c72]' : 'text-[#ffb454]'}`}>
           {check.pass ? 'Plain-language check: words pass.' : `Plain-language check: ${check.issues.join(' · ')}`}
         </p>
+      )}
+      {row.body && !ctaCheck(row.body).pass && (
+        <p className="text-[11px] font-sans text-[#ffb454]">No clear ask at the end. Finish on one line they can answer: a yes, a name, a day or a class.</p>
       )}
       <button className="border border-[#a855f7] text-[#a855f7] px-4 py-2 text-xs" disabled={!row.body}>+ ADD MESSAGE TO TEST</button>
     </form>
