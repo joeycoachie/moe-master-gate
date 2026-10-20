@@ -1,5 +1,10 @@
 import { MESSAGE_LIBRARY, REPLY_GATES, WAIT_WORKING_DAYS, formatFor } from '@/lib/outreach';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { currentPartnerId } from '@/lib/teamSession';
 import CopyButton from './CopyButton';
+import SignOut from '../SignOut';
 
 export const metadata = {
   title: 'RECUP.STN · Team Guide',
@@ -12,19 +17,36 @@ export const metadata = {
 const OPENERS = ['V8', 'V5', 'V7', 'V9', 'V11'];
 const STUDIO_GUIDE = 'https://studio.theoperatorplaybook.com/recup/guide';
 
-export default function RecupTeamGuide() {
+// Team members only: sign in with a team code (main gate or /recup/login).
+async function signedInName(): Promise<string | null> {
+  const id = await currentPartnerId();
+  if (!id) return null;
+  try {
+    const { data } = await getSupabaseAdmin().from('recup_partners').select('full_name, active').eq('id', id).maybeSingle();
+    return data?.active ? (data.full_name as string) : null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function RecupTeamGuide() {
+  const name = await signedInName();
+  if (!name) redirect('/recup/login');
   const openers = OPENERS.map((code) => MESSAGE_LIBRARY.find((m) => m.code === code)!).filter(Boolean);
   const gates = REPLY_GATES;
 
   return (
-    <main className="rt">
-      <style>{CSS}</style>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Rubik:wght@400;500;700&display=swap" />
-      <div className="wrap">
+    <div className="wrap">
+        <nav className="bar">
+          <span>Signed in as {name.split(' ')[0]}</span>
+          <Link href="/recup/log">My studios →</Link>
+          <SignOut />
+        </nav>
+
         <header className="stack">
           <p className="eyebrow">RECUP.STN · by The M.O.E. Group</p>
           <h1>Team Guide</h1>
-          <p className="lede">For partners who reach out to studios with us. Read it once, then keep it open while you send.</p>
+          <p className="lede">For partners who reach out to studios with us. This is a guide, not a script. You know your studios and your people, so use your own judgement. When you are unsure, ask Joey.</p>
         </header>
 
         <div className="intent">
@@ -135,8 +157,10 @@ export default function RecupTeamGuide() {
         </section>
 
         <section className="stack">
-          <h2>8 · Report back</h2>
-          <p>After every touch, send Joey one WhatsApp: the studio, what happened, the next step and its date. He logs it in the system so nobody gets messaged twice.</p>
+          <h2>8 · Log it, and ask when unsure</h2>
+          <p>Add a studio in My studios before you message it. If someone already has it, you will be told, so no studio hears from us twice. After each touch, tap what happened. Joey sees every log.</p>
+          <p>You are a partner, Joey is the founder. Questions, prices, or anything that feels off: message him.</p>
+          <Link href="/recup/log" className="btn" style={{ alignSelf: 'flex-start', textDecoration: 'none' }}>Open my studios</Link>
           <div className="contact">
             <div className="stack" style={{ gap: 2 }}>
               <b>Joey</b>
@@ -146,49 +170,6 @@ export default function RecupTeamGuide() {
             <CopyButton text="+60 10-231 9893" targetId="joey-wa" />
           </div>
         </section>
-      </div>
-    </main>
+    </div>
   );
 }
-
-const CSS = `
-.rt { --bg:#F6F0E7; --panel:#EADFD0; --panel-2:#F0E7DA; --fg:#221B17; --muted:#5A4D44; --accent:#B8482A; --accent-fg:#FBF4EC; --line:#DDCFBD;
-  --display:'Oswald','Arial Narrow',Arial,sans-serif; --body:'Rubik',Arial,sans-serif;
-  background:var(--bg); color:var(--fg); font:400 16px/1.6 var(--body); min-height:100vh;
-  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px)); }
-@media (prefers-color-scheme: dark) { .rt { --bg:#1C1613; --panel:#2A221D; --panel-2:#241D19; --fg:#F3EBE1; --muted:#C9BBAB; --accent:#E07A55; --accent-fg:#1C1613; --line:#3A2F28; color-scheme:dark; } }
-.rt .wrap { max-width:760px; margin:0 auto; padding-block:40px 64px; display:flex; flex-direction:column; gap:40px; }
-.rt h1, .rt h2, .rt h3 { font-family:var(--display); font-weight:600; margin:0; text-wrap:balance; }
-.rt h1 { font-size:clamp(34px, 7vw, 52px); line-height:1.05; }
-.rt h2 { font-size:24px; line-height:1.2; }
-.rt h3 { font-size:18px; }
-.rt p { margin:0; }
-.rt .stack { display:flex; flex-direction:column; gap:14px; min-width:0; }
-.rt .eyebrow { font-family:var(--display); font-size:13px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); }
-.rt .lede { font-size:18px; color:var(--muted); }
-.rt .note { font-size:14px; color:var(--muted); }
-.rt .intent { background:var(--accent); color:var(--accent-fg); padding:24px; border-radius:14px; display:flex; flex-direction:column; gap:10px; }
-.rt .intent .eyebrow { color:var(--accent-fg); opacity:.85; }
-.rt .intent p:last-child { font-size:18px; line-height:1.5; }
-.rt .split { display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; }
-.rt .box { background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:8px; }
-.rt .box ul, .rt .rules { margin:0; padding-left:18px; display:flex; flex-direction:column; gap:6px; }
-.rt .msg { border-top:1px solid var(--line); padding-top:14px; display:flex; flex-direction:column; gap:6px; }
-.rt .msg-head { display:flex; justify-content:space-between; align-items:center; gap:12px; }
-.rt .use { font-size:14px; color:var(--accent); }
-.rt .subject { font-size:14px; color:var(--muted); }
-.rt .body { white-space:pre-wrap; background:var(--panel-2); border-radius:10px; padding:12px 14px; }
-.rt .copy { font:500 13px var(--body); background:var(--fg); color:var(--bg); border:0; border-radius:999px; padding:6px 14px; cursor:pointer; flex:none; }
-.rt .copy:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-.rt .ladder { list-style:none; margin:0; padding:0; }
-.rt .ladder li { display:grid; grid-template-columns:150px 1fr; gap:12px; padding:10px 0; border-top:1px solid var(--line); }
-.rt .ladder li:last-child { border-bottom:1px solid var(--line); }
-.rt .ladder b { font-family:var(--display); font-weight:500; color:var(--accent); }
-.rt .lenses { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; }
-.rt .lenses div { background:var(--panel); border-radius:12px; padding:14px; display:flex; flex-direction:column; gap:4px; }
-.rt .lenses span { font-size:14px; color:var(--muted); }
-.rt .linkrow, .rt .contact { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; background:var(--panel); border-radius:12px; padding:14px 16px; }
-.rt .link { font-size:14px; word-break:break-all; min-width:0; }
-.rt .num { font-family:var(--display); font-size:22px; font-variant-numeric:tabular-nums; }
-@media (max-width:480px) { .rt .ladder li { grid-template-columns:1fr; gap:2px; } }
-`;

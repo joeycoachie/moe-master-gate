@@ -27,5 +27,6 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 15 | outreach_batch_b1 | Messages V3 (email) and V4 (WhatsApp/IG) + first 6 KL studios. Real data: skip for a demo copy | in use (run 19 Oct) |
 | 16 | outreach_two_roads | Two roads (Kinetic Studio OS / Fuel RECUP pop-up), "use when" per message, V5 haze pop-up + V6 warm invite; Peak moved to Fuel | in use (run 20 Oct) |
 | 17 | outreach_v7_premium | V7: Recovery Omakase hook for premium studios (Fuel road) | not needed: since 20 Oct the console loads every message from lib/outreach.ts itself |
+| 18 | recup_team | RECUP.STN team: partners (team codes), their studio claims and touches. One studio, one owner | **to run** (20 Oct) |
 
-New SQL goes here as `18_<name>.sql`, with a row in this table.
+New SQL goes here as `19_<name>.sql`, with a row in this table.

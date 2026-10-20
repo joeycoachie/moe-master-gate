@@ -43,6 +43,7 @@ Last checked: 2026-10-16.
 | Outreach Console (studio list, message tests, auto-ticked phases) | [/ops/outreach](https://terminal.theoperatorplaybook.com/ops/outreach) (OUTREACH button on /terminal) |
 | Armory (all arcs) | [/ops/armory](https://terminal.theoperatorplaybook.com/ops/armory) |
 | Clients (files, portal codes, fuel) | [/ops/clients](https://terminal.theoperatorplaybook.com/ops/clients) |
+| RECUP.STN Team (partners, codes, their studios) | [/ops/partners](https://terminal.theoperatorplaybook.com/ops/partners) (or TEAM on /terminal) |
 | Intelligence Archive | [/ops/archive](https://terminal.theoperatorplaybook.com/ops/archive) |
 | Brain Pack (paste into any agent) | [/ops/archive/brain](https://terminal.theoperatorplaybook.com/ops/archive/brain) |
 | CRM Terminal | [moe-operator-terminal.web.app](https://moe-operator-terminal.web.app) |
@@ -53,7 +54,7 @@ Last checked: 2026-10-16.
 |---|---|---|
 | RECUP.STN studio deck (12 slides) | [claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F](https://claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F) | as a PDF, after they reply YES |
 | RECUP.STN Studio Guide (one view on mobile, send to studios) | [studio.theoperatorplaybook.com/recup/guide](https://studio.theoperatorplaybook.com/recup/guide) | with the deck (also linked on its last slide) |
-| RECUP.STN Team Guide (outreach partners) | [studio.theoperatorplaybook.com/recup/team](https://studio.theoperatorplaybook.com/recup/team) | to anyone doing outreach with us |
+| RECUP.STN team sign-in (Team Guide + My studios) | [studio.theoperatorplaybook.com/recup/login](https://studio.theoperatorplaybook.com/recup/login), or the main gate | partners, with their TEAM- code |
 | Partner Kit in the God Terminal | [terminal.html → 07B_PARTNER_KIT](https://joeycoachie.github.io/recup-station-/terminal.html#partnerKit) | deck, guide, check-in link + QR per studio |
 | Check-in link for a hosted tasting | joeycoachie.github.io/recup-station-/intake-ipad.html?src=qr&host=Studio%20Name | the day before the tasting |
 

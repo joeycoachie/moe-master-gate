@@ -33,6 +33,19 @@ export default function Gate() {
         router.push('/portal');
         return;
       }
+      // Or a RECUP.STN team code (TEAM-NAME-123456): opens the Team Guide and the partner's studios.
+      if (/^TEAM/i.test(accessCode.trim())) {
+        const team = await fetch('/recup/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: accessCode }),
+        }).catch(() => null);
+        if (team?.ok) {
+          setStatus('ROUTING');
+          router.push('/recup/team');
+          return;
+        }
+      }
       setError('INVALID CREDENTIALS. NODE LOCKED.');
       setStatus('IDLE');
       return;

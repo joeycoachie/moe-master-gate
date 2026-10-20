@@ -68,6 +68,13 @@ export async function POST(request: Request) {
       case 'add_target': {
         const studio = str(b.studio);
         if (!studio) return NextResponse.json({ error: 'Studio name is required.' }, { status: 400 });
+        // One studio, one owner: a studio a RECUP.STN partner already holds stays theirs.
+        const key = studio.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const claimed = await db().from('recup_partner_targets').select('recup_partners(full_name)').eq('studio_key', key).maybeSingle();
+        if (!claimed.error && claimed.data) {
+          const who = (claimed.data.recup_partners as unknown as { full_name: string } | null)?.full_name ?? 'a partner';
+          return NextResponse.json({ error: `${who} already has ${studio} on the RECUP team list. See TEAM before adding it here.` }, { status: 409 });
+        }
         const row: Record<string, unknown> = { studio, variant_id: str(b.variant_id) || null };
         for (const k of TEXT_FIELDS) if (k !== 'studio') row[k] = str(b[k]);
         if (road(b.road)) row.road = road(b.road);
