@@ -191,6 +191,11 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
   },
   // Kinetic road: the system. Usually after a tasting day, through OPEN KINETIC ROAD.
   {
+    code: 'V10', road: 'kinetic', angle: 'The bridge: tasting numbers → the system',
+    use_when: 'Warm. The day after a tasting, when you send the owner their numbers. This is where the system comes in.',
+    body: msg('Your tasting day, in numbers', "Hi {name}, here are the numbers from the tasting at {studio}. [__] members checked in and [__] asked for more. That's one table on one day. Imagine the same picture for every client in every class. Who trains, what they need, who is slipping away. Could we take 15 minutes this week to look at it together?"),
+  },
+  {
     code: 'V3', road: 'kinetic', angle: 'Email: one real detail, then one question',
     use_when: 'Cold email, when you found one real detail on their website.',
     body: msg('A quick question about coaching at {studio}', "Hi {name},\n\nI saw that {detail}.\n\nHow do you keep coaching plans consistent across your team while still tailoring them to each client?\n\nI'm working on a practical way to make that easier. Would you be open to a 15-minute call to compare notes?\n\nThanks,\nJoey"),

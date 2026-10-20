@@ -593,7 +593,7 @@ function StudioCard({
               <button
                 onClick={() =>
                   act(
-                    { action: 'add_target', road: 'kinetic', stage: 'replied', studio: t.studio, owner_name: t.owner_name, area: t.area, contact: t.contact, fit_note: t.fit_note, batch: t.batch, friction: t.friction },
+                    { action: 'add_target', road: 'kinetic', stage: 'replied', variant_id: variants.find((x) => x.code === 'V10')?.id ?? '', next_step: 'Send V10 with their tasting numbers, then book the 15 minutes', studio: t.studio, owner_name: t.owner_name, area: t.area, contact: t.contact, fit_note: t.fit_note, batch: t.batch, friction: t.friction },
                     `${t.studio} is now on the Kinetic road`,
                   )
                 }
