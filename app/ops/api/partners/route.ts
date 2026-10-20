@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
-import { generateTeamCode, hashTeamCode } from '@/lib/teamSession';
+import { currentTeamCode, hashTeamCode, teamCodeFor } from '@/lib/teamSession';
 import { studioKey } from '@/lib/recupTeam';
 
 // Founder view of the RECUP.STN team: partners, their codes, and every studio they hold.
@@ -22,7 +22,7 @@ export async function GET() {
   if (!(await isArchitect())) return unauthorized();
   try {
     const [partners, targets, founder] = await Promise.all([
-      db().from('recup_partners').select('id, full_name, phone, active, created_at').order('created_at'),
+      db().from('recup_partners').select('id, full_name, phone, active, created_at, code_hash').order('created_at'),
       db().from('recup_partner_targets').select('*').order('created_at'),
       db().from('outreach_targets').select('studio'),
     ]);
@@ -30,7 +30,8 @@ export async function GET() {
     if (targets.error) throw new Error(targets.error.message);
     const founderKeys = new Set((founder.data ?? []).map((t) => studioKey(t.studio as string)));
     return NextResponse.json({
-      partners: partners.data,
+      // Founder only: each partner's current code, so it is never lost. Hashes never leave the server.
+      partners: (partners.data ?? []).map(({ code_hash, ...p }) => ({ ...p, code: currentTeamCode(p.full_name as string, p.id as string, code_hash as string | null)?.code ?? null })),
       targets: (targets.data ?? []).map((t) => ({ ...t, clash: founderKeys.has(t.studio_key as string) })),
     });
   } catch (err) {
@@ -51,15 +52,18 @@ export async function POST(request: Request) {
       case 'add_partner': {
         const fullName = str(b.full_name);
         if (!fullName) return NextResponse.json({ error: 'Name is required.' }, { status: 400 });
-        const code = generateTeamCode(fullName);
-        const { error } = await db().from('recup_partners').insert({ full_name: fullName, phone: str(b.phone), code_hash: hashTeamCode(code) });
+        const { data: row, error } = await db().from('recup_partners').insert({ full_name: fullName, phone: str(b.phone) }).select('id').single();
         if (error) throw new Error(error.message);
-        return NextResponse.json({ ok: true, code }); // shown once; only the hash is stored
+        const code = teamCodeFor(fullName, row.id as string, 0);
+        const { error: codeErr } = await db().from('recup_partners').update({ code_hash: hashTeamCode(code) }).eq('id', row.id);
+        if (codeErr) throw new Error(codeErr.message);
+        return NextResponse.json({ ok: true, code });
       }
       case 'new_code': {
-        const { data: p, error: readErr } = await db().from('recup_partners').select('full_name').eq('id', str(b.id)).single();
+        const { data: p, error: readErr } = await db().from('recup_partners').select('id, full_name, code_hash').eq('id', str(b.id)).single();
         if (readErr) throw new Error(readErr.message);
-        const code = generateTeamCode(p.full_name as string);
+        const now = currentTeamCode(p.full_name as string, p.id as string, p.code_hash as string | null);
+        const code = teamCodeFor(p.full_name as string, p.id as string, now ? now.n + 1 : 0);
         const { error } = await db().from('recup_partners').update({ code_hash: hashTeamCode(code), active: true }).eq('id', str(b.id));
         if (error) throw new Error(error.message);
         return NextResponse.json({ ok: true, code }); // the old code stops working

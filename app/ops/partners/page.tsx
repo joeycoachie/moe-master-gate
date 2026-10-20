@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { TEAM_STAGE_LABEL, daysSince, needsTouch, type TeamTarget } from '@/lib/recupTeam';
 
-type Partner = { id: string; full_name: string; phone: string; active: boolean; created_at: string };
+type Partner = { id: string; full_name: string; phone: string; active: boolean; created_at: string; code: string | null };
 type Row = TeamTarget & { clash: boolean };
 
 // RECUP.STN team overview (founder only): who each partner has reached, and how long ago.
@@ -46,9 +46,18 @@ export default function OpsPartnersPage() {
 
   const nameOf = (id: string) => partners.find((p) => p.id === id)?.full_name ?? '—';
   const shown = targets.filter((t) => filter === 'all' || t.partner_id === filter);
-  const message = issued
-    ? `Hi ${issued.name.split(' ')[0]}, welcome to the RECUP.STN team. Sign in at terminal.theoperatorplaybook.com/recup/login with your team code: ${issued.code}\nYou'll find the Team Guide and your studio list there. Questions, message me anytime.`
-    : '';
+  const welcome = (name: string, code: string) =>
+    `Hi ${name.split(' ')[0]}, welcome to the RECUP.STN team. Sign in at terminal.theoperatorplaybook.com/recup/login with your team code: ${code}\nYou'll find the Team Guide and your studio list there. Questions, message me anytime.`;
+  const message = issued ? welcome(issued.name, issued.code) : '';
+  const [copied, setCopied] = useState('');
+  const copy = (text: string, what: string) =>
+    navigator.clipboard
+      ?.writeText(text)
+      .then(() => {
+        setCopied(what);
+        setTimeout(() => setCopied(''), 2000);
+      })
+      .catch(() => null);
 
   return (
     <main className="min-h-screen bg-[#030303] text-white font-mono p-4 md:p-8 flex flex-col">
@@ -82,9 +91,21 @@ export default function OpsPartnersPage() {
                     <span className="ml-auto text-xs text-[#888]">{mine.length} studios · {mine.filter((t) => t.stage_at.replied).length} replied · {mine.filter((t) => t.stage_at.held).length} tastings</span>
                   </div>
                   {dueCount > 0 && <p className="text-xs text-[#ffb454] mt-1">{dueCount} waiting on a touch</p>}
+                  <div className="flex flex-wrap items-center gap-2 mt-2 text-xs">
+                    <span className="text-[#666]">Code</span>
+                    {p.code ? (
+                      <>
+                        <span className="font-mono select-all text-[#33e6a0]">{p.code}</span>
+                        <button onClick={() => copy(p.code!, `${p.id}-code`)} className="border border-[#333] px-2 py-0.5 font-mono text-[10px] text-[#888] hover:text-white">{copied === `${p.id}-code` ? 'COPIED' : 'COPY'}</button>
+                        <button onClick={() => copy(welcome(p.full_name, p.code!), `${p.id}-msg`)} className="border border-[#333] px-2 py-0.5 font-mono text-[10px] text-[#888] hover:text-white">{copied === `${p.id}-msg` ? 'COPIED' : 'COPY WELCOME MESSAGE'}</button>
+                      </>
+                    ) : (
+                      <span className="text-[#ffb454]">Not shown for codes made before 20 Oct. Press NEW CODE once and it stays here.</span>
+                    )}
+                  </div>
                   <div className="flex gap-2 mt-2 text-[11px] font-mono">
                     <button onClick={() => setFilter(p.id)} className="border border-[#333] px-2 py-1 text-[#888] hover:text-white">SHOW STUDIOS</button>
-                    <button onClick={async () => { const b = await post({ action: 'new_code', id: p.id }); if (b.code) setIssued({ name: p.full_name, code: b.code }); }} className="border border-[#333] px-2 py-1 text-[#888] hover:text-white">NEW CODE</button>
+                    <button onClick={async () => { if (!window.confirm(`Give ${p.full_name} a new code? Their current code stops working.`)) return; const b = await post({ action: 'new_code', id: p.id }); if (b.code) setIssued({ name: p.full_name, code: b.code }); }} className="border border-[#333] px-2 py-1 text-[#888] hover:text-white">NEW CODE</button>
                     <button onClick={() => post({ action: 'set_active', id: p.id, active: !p.active })} className="border border-[#333] px-2 py-1 text-[#888] hover:text-[#ff5c72]">{p.active ? 'LOCK' : 'UNLOCK'}</button>
                   </div>
                 </div>
@@ -110,7 +131,7 @@ export default function OpsPartnersPage() {
 
           {issued && (
             <div className="border border-[#33e6a0]/60 bg-[#33e6a0]/5 p-4 mt-3 font-sans text-sm space-y-2">
-              <p><b>{issued.name}’s code:</b> <span className="font-mono select-all">{issued.code}</span> <span className="text-xs text-[#888]">Shown once. Any old code has stopped working.</span></p>
+              <p><b>{issued.name}’s code:</b> <span className="font-mono select-all">{issued.code}</span> <span className="text-xs text-[#888]">Also shown on their card above from now on. Any old code has stopped working.</span></p>
               <textarea readOnly rows={4} onFocus={(e) => e.currentTarget.select()} className="w-full bg-[#0a0a0a] border border-[#222] px-3 py-2 text-sm" value={message} />
               <button onClick={() => navigator.clipboard?.writeText(message).catch(() => null)} className="border border-[#33e6a0] text-[#33e6a0] px-3 py-1 text-xs font-mono">COPY WELCOME MESSAGE</button>
             </div>
