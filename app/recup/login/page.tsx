@@ -21,7 +21,7 @@ export default function RecupTeamLogin() {
     }).catch(() => null);
     if (res?.ok) return router.replace('/recup/team');
     setBusy(false);
-    setError('That code didn’t work. Check it, or ask Joey for a new one.');
+    setError('That code didn’t work. Check it, or ask the Architect for a new one.');
   };
 
   return (
@@ -29,7 +29,7 @@ export default function RecupTeamLogin() {
       <header className="stack">
         <p className="eyebrow">RECUP.STN · by The M.O.E. Group</p>
         <h1>Team sign-in</h1>
-        <p className="lede">For partners who reach out to studios with us. Use the team code Joey gave you.</p>
+        <p className="lede">For partners who reach out to studios with us. Use the team code the Architect gave you.</p>
       </header>
       <form className="stack" onSubmit={submit}>
         <label htmlFor="code" className="note">Your team code</label>
@@ -37,7 +37,7 @@ export default function RecupTeamLogin() {
         {error && <p className="err">{error}</p>}
         <button className="btn" disabled={busy || !code.trim()}>{busy ? 'Signing in…' : 'Sign in'}</button>
       </form>
-      <p className="note">No code yet? Message Joey on WhatsApp at +60 10-231 9893.</p>
+      <p className="note">No code yet? Message the Architect on WhatsApp at +60 10-231 9893.</p>
     </div>
   );
 }

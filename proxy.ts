@@ -12,8 +12,18 @@ import {
 // session), so it must stay reachable without Danny's Ops passcode.
 const PUBLIC_OPS_PATHS = new Set(['/ops/login', '/ops/api/login', '/ops/architect', '/ops/api/sync', '/ops/api/outreach/report']);
 
+// The boundary: studio.theoperatorplaybook.com is the outside (public deck and Studio Guide);
+// terminal.theoperatorplaybook.com is the inside, where everyone signs in. Team pages live inside only.
+const INSIDE_ORIGIN = 'https://terminal.theoperatorplaybook.com';
+const TEAM_PAGES = /^\/recup\/(login|team|log)(\/|$)/;
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (TEAM_PAGES.test(pathname) && request.headers.get('host')?.startsWith('studio.')) {
+    return NextResponse.redirect(new URL(pathname, INSIDE_ORIGIN));
+  }
+  if (pathname.startsWith('/recup/')) return NextResponse.next();
 
   // studio.theoperatorplaybook.com is the public sales page; its root shows /studio.
   if (pathname === '/') {
@@ -50,5 +60,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/ops/:path*'],
+  matcher: ['/', '/ops/:path*', '/recup/:path*'],
 };

@@ -12,7 +12,7 @@ const db = getSupabaseAdmin;
 function teamError(err: unknown) {
   const message = err instanceof Error ? err.message : String(err);
   if (err instanceof AdminNotConfiguredError || /recup_partner/.test(message)) {
-    return NextResponse.json({ error: 'The team log is not switched on yet. Ask Joey.' }, { status: 503 });
+    return NextResponse.json({ error: 'The team log is not switched on yet. Ask the Architect.' }, { status: 503 });
   }
   return NextResponse.json({ error: message }, { status: 500 });
 }
@@ -61,16 +61,16 @@ export async function POST(request: Request) {
         const { data: taken } = await db().from('recup_partner_targets').select('partner_id, recup_partners(full_name)').eq('studio_key', key).maybeSingle();
         if (taken) {
           const who = taken.partner_id === partnerId ? 'you' : ((taken.recup_partners as unknown as { full_name: string } | null)?.full_name.split(' ')[0] ?? 'another partner');
-          return NextResponse.json({ error: `Already taken by ${who}. Ask Joey before contacting them.` }, { status: 409 });
+          return NextResponse.json({ error: `Already taken by ${who}. Ask the Architect before contacting them.` }, { status: 409 });
         }
         const founder = await db().from('outreach_targets').select('studio');
         if (!founder.error && (founder.data ?? []).some((t) => studioKey(t.studio as string) === key)) {
-          return NextResponse.json({ error: 'Joey is already in touch with this studio. Ask him before contacting them.' }, { status: 409 });
+          return NextResponse.json({ error: 'The Architect is already in touch with this studio. Ask before contacting them.' }, { status: 409 });
         }
         const { error } = await db().from('recup_partner_targets').insert({
           partner_id: partnerId, studio, studio_key: key, area: str(b.area), contact: str(b.contact), notes: str(b.notes),
         });
-        if (error) throw new Error(error.code === '23505' ? 'Already taken. Ask Joey before contacting them.' : error.message);
+        if (error) throw new Error(error.code === '23505' ? 'Already taken. Ask the Architect before contacting them.' : error.message);
         break;
       }
       case 'set_stage': {

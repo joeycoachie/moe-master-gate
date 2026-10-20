@@ -53,7 +53,7 @@ export default function MyStudios() {
       <header className="stack">
         <p className="eyebrow">RECUP.STN · Team</p>
         <h1>My studios</h1>
-        <p className="lede">Add a studio before you message it. After each touch, tap what happened. Joey sees this list.</p>
+        <p className="lede">Add a studio before you message it. After each touch, tap what happened. The Architect sees this list.</p>
       </header>
 
       {error && <p className="err">{error}</p>}
