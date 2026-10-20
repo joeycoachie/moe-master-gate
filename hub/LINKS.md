@@ -52,7 +52,8 @@ Last checked: 2026-10-16.
 | What | Link | Send when |
 |---|---|---|
 | RECUP.STN studio deck (12 slides) | [claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F](https://claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F) | as a PDF, after they reply YES |
-| RECUP.STN Partner Guide (public, send this) | [joeycoachie.github.io/recup-station-/partner-guide.html](https://joeycoachie.github.io/recup-station-/partner-guide.html) | with the deck |
+| RECUP.STN Studio Guide (one view on mobile, send to studios) | [studio.theoperatorplaybook.com/recup/guide](https://studio.theoperatorplaybook.com/recup/guide) | with the deck (also linked on its last slide) |
+| RECUP.STN Team Guide (outreach partners) | [studio.theoperatorplaybook.com/recup/team](https://studio.theoperatorplaybook.com/recup/team) | to anyone doing outreach with us |
 | Partner Kit in the God Terminal | [terminal.html → 07B_PARTNER_KIT](https://joeycoachie.github.io/recup-station-/terminal.html#partnerKit) | deck, guide, check-in link + QR per studio |
 | Check-in link for a hosted tasting | joeycoachie.github.io/recup-station-/intake-ipad.html?src=qr&host=Studio%20Name | the day before the tasting |
 
