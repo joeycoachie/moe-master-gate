@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RECUP.STN · Guide studio</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Rubik:wght@400;500;700&display=swap">
+<style>
+  /* Layout: one reading column, the deck's warm palette; tables for "slide → what to look for", a timeline for the day. */
+  :root {
+    --bg: #F6F0E7; --panel: #EADFD0; --panel-2: #F0E7DA; --fg: #221B17; --muted: #5A4D44;
+    --accent: #B8482A; --accent-fg: #FBF4EC; --line: #DDCFBD;
+    --display: 'Oswald', 'Arial Narrow', Arial, sans-serif; --body: 'Rubik', Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #1C1613; --panel: #2A221D; --panel-2: #241D19; --fg: #F3EBE1; --muted: #C9BBAB;
+    --accent: #E07A55; --accent-fg: #1C1613; --line: #3A2F28; color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #1C1613; --panel: #2A221D; --panel-2: #241D19; --fg: #F3EBE1; --muted: #C9BBAB;
+    --accent: #E07A55; --accent-fg: #1C1613; --line: #3A2F28; color-scheme: dark }
+
+  body { background: var(--bg); color: var(--fg); font: 400 16px/1.6 var(--body);
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .wrap { max-width: 760px; margin: 0 auto; padding-block: 40px 64px; display: flex; flex-direction: column; gap: 40px; }
+  h1, h2 { font-family: var(--display); font-weight: 600; letter-spacing: .01em; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(34px, 7vw, 52px); line-height: 1.05; }
+  h2 { font-size: 26px; line-height: 1.15; }
+  p { margin: 0; }
+  .eyebrow { font-family: var(--display); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  .lede { font-size: 18px; color: var(--muted); max-width: 60ch; }
+  section { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .intent { background: var(--accent); color: var(--accent-fg); padding: 24px; border-radius: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .intent p { font-size: 19px; line-height: 1.45; }
+  .intent .eyebrow { color: var(--accent-fg); opacity: .85; }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 15px; }
+  th { text-align: left; font-family: var(--display); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; font-size: 13px; color: var(--muted); padding: 8px 10px; border-bottom: 2px solid var(--line); }
+  td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 500; white-space: nowrap; }
+  .asks { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .ask { background: var(--panel); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .ask b { font-family: var(--display); font-weight: 600; font-size: 20px; }
+  .ask span { color: var(--muted); font-size: 14px; }
+  ol.day { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  ol.day li { display: grid; grid-template-columns: 128px 1fr; gap: 14px; padding: 12px 0; border-top: 1px solid var(--line); }
+  ol.day li:last-child { border-bottom: 1px solid var(--line); }
+  .when { font-family: var(--display); font-weight: 500; color: var(--accent); }
+  .split { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .box { background: var(--panel-2); border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .box h3 { margin: 0; font-family: var(--display); font-weight: 600; font-size: 18px; }
+  .box ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+  details { border-top: 1px solid var(--line); padding: 12px 0; }
+  details:last-of-type { border-bottom: 1px solid var(--line); }
+  summary { cursor: pointer; font-weight: 500; }
+  summary:focus-visible, a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  details p { margin-top: 8px; color: var(--muted); }
+  .contact { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; background: var(--panel); border-radius: 14px; padding: 18px 20px; }
+  .contact .num { font-family: var(--display); font-size: 22px; font-variant-numeric: tabular-nums; user-select: all; }
+  button { font: 500 14px var(--body); background: var(--fg); color: var(--bg); border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+  .note { font-size: 13px; color: var(--muted); }
+  @media (max-width: 480px) { ol.day li { grid-template-columns: 1fr; gap: 2px; } }
+  body { margin: 0; }
+  .langs { font-size: 14px; display: flex; gap: 6px; flex-wrap: wrap; } .langs a { color: inherit; opacity: .75; } .langs b { font-weight: 600; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <p class="eyebrow">RECUP.STN · par The M.O.E. Group</p>
+    <nav class="langs" aria-label="Language"><a href="/recup/guide" hreflang="en">EN</a> · <a href="/recup/guide?lang=zh" hreflang="zh-Hans">中文</a> · <a href="/recup/guide?lang=ms" hreflang="ms">BM</a> · <b>FR</b></nav>
+    <h1>Guide studio</h1>
+    <p class="lede">À lire avec notre présentation. Trois minutes suffisent. Vous y trouverez notre intention, le déroulé de la journée et les quatre réponses dont nous avons besoin.</p>
+  </header>
+
+  <div class="intent">
+    <p class="eyebrow">Ce que nous venons faire</p>
+    <p>Vos membres reçoivent une boisson de récupération adaptée à leur entraînement. Vous recevez les chiffres ensuite. Personne ne se voit rien vendre, et votre studio ne paie rien.</p>
+  </div>
+
+  <section>
+    <h2>Comment lire la présentation</h2>
+    <div class="scroll">
+      <table>
+        <tr><th>Pages</th><th>À regarder</th><th>À vous demander</th></tr>
+        <tr><td>Qui nous sommes · Pourquoi maintenant</td><td>L’équipe derrière RECUP.STN, et pourquoi la récupération compte davantage quand l’entraînement se fait en salle</td><td>Mes membres s’entraînent-ils assez dur pour en avoir besoin ?</td></tr>
+        <tr><td>Pourquoi nous</td><td>Notre différence avec un stand de marque : des boissons adaptées à chaque membre, et les chiffres restent à vous</td><td>Qu’ai-je obtenu de ma dernière collaboration ?</td></tr>
+        <tr><td>La carte</td><td>Dans votre studio, nous servons une petite sélection, choisie pour chaque membre. La carte complète est au RECUP.STN HQ</td><td>Est-ce que je veux voir chaque étiquette d’abord ? (Venez au HQ.)</td></tr>
+        <tr><td>Trois formules</td><td>La dégustation après le cours, le Recovery Omakase et le bilan bien-être individuel</td><td>Laquelle convient le mieux à mes membres ?</td></tr>
+        <tr><td>Preuves</td><td>Des années sur le terrain, un HQ déjà en activité, de vrais membres avec leurs propres mots</td><td>Est-ce une équipe à qui je confie mes membres ?</td></tr>
+        <tr><td>Qui fait quoi · Notre façon de travailler</td><td>Ce que vous fournissez, ce que nous apportons, et comment nous garantissons la sécurité</td><td>Y a-t-il des règles du lieu à leur signaler ?</td></tr>
+        <tr><td>Après la journée</td><td>Les chiffres que vous recevez, et comment nous décidons ensemble de la suite</td><td>Quel cours et quelle date ?</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Les quatre réponses dont nous avons besoin</h2>
+    <p class="note">C’est tout ce que nous vous demandons. Répondez-nous et nous nous occupons du reste.</p>
+    <div class="asks">
+      <div class="ask"><b>Quel cours</b><span>Le plus fréquenté est le meilleur choix.</span></div>
+      <div class="ask"><b>Quelle date</b><span>N’importe quel jour dans les deux ou trois prochaines semaines.</span></div>
+      <div class="ask"><b>Qui le jour J</b><span>Une personne de votre équipe que nous pouvons appeler.</span></div>
+      <div class="ask"><b>Vos règles</b><span>Vos règles sur la nourriture, les boissons, l’espace ou la marque.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Déroulé de la journée</h2>
+    <ol class="day">
+      <li><span class="when">Avant</span><span>Nous fixons ensemble le cours, la date, vos règles et ce que nous compterons ce jour-là. Vous partagez une publication ou une story avec vos membres.</span></li>
+      <li><span class="when">La veille</span><span>Nous confirmons l’heure et vous envoyons le lien d’enregistrement au nom de votre studio.</span></li>
+      <li><span class="when">15 min avant la fin du cours</span><span>Nous installons une table près de votre entrée. Votre équipe n’a rien à faire.</span></li>
+      <li><span class="when">Fin du cours</span><span>Les membres s’enregistrent sur leur téléphone en 60 secondes, goûtent trois petits verres et repartent avec un guide de récupération gratuit.</span></li>
+      <li><span class="when">Après</span><span>Nous rangeons et laissons l’espace comme nous l’avons trouvé.</span></li>
+      <li><span class="when">Les jours suivants</span><span>Vous recevez les chiffres : qui a goûté, ce qu’ils ont choisi, qui en veut plus. Puis un court échange pour décider ensemble de la suite.</span></li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Qui apporte quoi</h2>
+    <div class="split">
+      <div class="box"><h3>Votre studio</h3><ul><li>La place pour une table près de l’entrée</li><li>Un cours et une date</li><li>Une publication ou une story pour vos membres</li><li>Une personne de contact le jour J</li></ul></div>
+      <div class="box"><h3>RECUP.STN</h3><ul><li>Boissons, gobelets, glace et personnel formé</li><li>Le support d’enregistrement et le QR code</li><li>Installation et rangement</li><li>Vos chiffres après la journée</li></ul></div>
+    </div>
+    <p class="note">Votre studio ne paie rien. Les membres paient un petit prix pour les trois verres.</p>
+  </section>
+
+  <section>
+    <h2>Vos membres et leurs données</h2>
+    <div class="split">
+      <div class="box"><h3>Avant tout enregistrement</h3><p>Chaque membre coche une case pour donner son accord. Rien n’est enregistré sans cela.</p></div>
+      <div class="box"><h3>Partagé avec vous</h3><p>Avec une deuxième case, les membres choisissent si vous voyez leurs résultats.</p></div>
+      <div class="box"><h3>Jamais vendu</h3><p>Les membres peuvent nous demander de supprimer leurs données à tout moment.</p></div>
+      <div class="box"><h3>Pas un examen médical</h3><p>Les membres ayant un problème de santé consultent d’abord leur médecin. Nous ne faisons aucune promesse médicale.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Les questions des partenaires</h2>
+    <div>
+      <details><summary>Quels produits utilisez-vous ?</summary><p>Des produits d’une entreprise internationale de nutrition. Venez au RECUP.STN HQ, nous vous montrerons la carte complète et chaque étiquette.</p></details>
+      <details><summary>Combien cela coûte-t-il à notre studio ?</summary><p>Rien. Les membres paient un petit prix pour la dégustation, et nous apportons tout.</p></details>
+      <details><summary>Allez-vous vendre à nos membres ?</summary><p>Non. Nous servons, nous écoutons et nous envoyons aux membres leur guide gratuit. Si un membre en veut plus, il nous le demande.</p></details>
+      <details><summary>Et si un membre a un problème de santé ?</summary><p>L’enregistrement pose d’abord les questions de sécurité. Toute personne enceinte, suivie par un médecin, atteinte d’une maladie rénale ou sous anticoagulants est invitée à consulter son médecin d’abord.</p></details>
+      <details><summary>Que se passe-t-il après la dégustation ?</summary><p>Nous regardons les chiffres avec vous et décidons ensemble. Certains studios veulent des sessions régulières. D’autres veulent la même vision pour chaque client, chaque semaine. Nous vous montrerons comment, quand vous serez prêt.</p></details>
+    </div>
+  </section>
+
+  <section>
+    <h2>Contactez-nous</h2>
+    <div class="contact">
+      <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+        <b>Joey</b>
+        <span class="note">Architecte d’écosystèmes de performance humaine</span>
+      </div>
+      <span class="num" id="wa">+60 10-231 9893</span>
+      <button type="button" id="copyBtn">Copier le numéro</button>
+      <span class="note">WhatsApp · Instagram @recup.stn</span>
+    </div>
+  </section>
+</main>
+
+<script>
+  document.getElementById('copyBtn').addEventListener('click', async (e) => {
+    const btn = e.currentTarget, text = document.getElementById('wa').textContent;
+    try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; }
+    catch { const r = document.createRange(); r.selectNodeContents(document.getElementById('wa')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected, press copy'; }
+    setTimeout(() => (btn.textContent = 'Copy number'), 2000);
+  });
+</script>
+</body>
+</html>

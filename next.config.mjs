@@ -9,10 +9,21 @@ const nextConfig = {
   },
   // RECUP.STN pages on our own domain (studio.theoperatorplaybook.com/recup/…), clean URLs.
   async rewrites() {
-    return [
-      { source: '/recup/guide', destination: '/recup/guide.html' },
-      { source: '/recup/deck', destination: '/recup/deck.html' },
-    ];
+    // ?lang=zh|ms|fr serves that language (built by scripts/build-recup-i18n.py); anything else is English.
+    const langs = ['zh', 'ms', 'fr'];
+    return {
+      beforeFiles: ['guide', 'deck'].flatMap((page) =>
+        langs.map((lang) => ({
+          source: `/recup/${page}`,
+          has: [{ type: 'query', key: 'lang', value: lang }],
+          destination: `/recup/${page}-${lang}.html`,
+        })),
+      ),
+      afterFiles: [
+        { source: '/recup/guide', destination: '/recup/guide.html' },
+        { source: '/recup/deck', destination: '/recup/deck.html' },
+      ],
+    };
   },
 };
 

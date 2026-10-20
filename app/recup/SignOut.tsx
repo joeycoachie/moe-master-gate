@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 
-export default function SignOut() {
+export default function SignOut({ label = 'Sign out' }: { label?: string }) {
   const router = useRouter();
   return (
     <button
@@ -13,7 +13,7 @@ export default function SignOut() {
         router.replace('/recup/login');
       }}
     >
-      Sign out
+      {label}
     </button>
   );
 }
