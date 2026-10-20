@@ -47,7 +47,7 @@ export default function OpsPartnersPage() {
   const nameOf = (id: string) => partners.find((p) => p.id === id)?.full_name ?? '—';
   const shown = targets.filter((t) => filter === 'all' || t.partner_id === filter);
   const message = issued
-    ? `Hi ${issued.name.split(' ')[0]}, welcome to the RECUP.STN team. Sign in at terminal.theoperatorplaybook.com with your team code: ${issued.code}\nYou'll find the Team Guide and your studio list there. Questions, message me anytime.`
+    ? `Hi ${issued.name.split(' ')[0]}, welcome to the RECUP.STN team. Sign in at terminal.theoperatorplaybook.com/recup/login with your team code: ${issued.code}\nYou'll find the Team Guide and your studio list there. Questions, message me anytime.`
     : '';
 
   return (
