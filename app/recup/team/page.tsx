@@ -16,6 +16,7 @@ export const metadata = {
 // Partners work the Fuel road only; the system conversation and its prices stay with Joey.
 const OPENERS = ['V8', 'V5', 'V7', 'V9', 'V11'];
 const STUDIO_GUIDE = 'https://studio.theoperatorplaybook.com/recup/guide';
+const DECK = 'https://studio.theoperatorplaybook.com/recup/deck';
 
 // Team members only: sign in with a team code (main gate or /recup/login).
 async function signedInName(): Promise<string | null> {
@@ -126,8 +127,12 @@ export default async function RecupTeamGuide() {
         <section className="stack">
           <h2>5 · When they say yes</h2>
           <div className="split">
-            <div className="box"><h3>Send them</h3><ul><li>The deck PDF (ask Joey for the latest)</li><li>The Studio Guide link below</li></ul></div>
+            <div className="box"><h3>Send them</h3><ul><li>The deck link below</li><li>The Studio Guide link below</li></ul></div>
             <div className="box"><h3>Get from them</h3><ul><li>Which class</li><li>Which date</li><li>Who we call on the day</li><li>Their rules on food, drink and space</li></ul></div>
+          </div>
+          <div className="linkrow">
+            <span className="link" id="deck-link">{DECK}</span>
+            <CopyButton text={DECK} targetId="deck-link" />
           </div>
           <div className="linkrow">
             <span className="link" id="studio-guide">{STUDIO_GUIDE}</span>

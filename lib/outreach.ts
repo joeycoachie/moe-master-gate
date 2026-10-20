@@ -285,10 +285,10 @@ export const REPLY_GATES: ReplyGate[] = [
   {
     key: 'deck_yes', who: 'either', said: '“Yes, send the deck”',
     reply: {
-      kinetic: 'Here it is, thank you. The short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
-      fuel: 'Here it is, thank you. The short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
+      kinetic: 'Here it is, thank you:\nhttps://studio.theoperatorplaybook.com/recup/deck\n\nThe short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
+      fuel: 'Here it is, thank you:\nhttps://studio.theoperatorplaybook.com/recup/deck\n\nThe short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
     },
-    stage: 'replied', next: 'Attach the deck PDF to that reply. Then get a class and a date', inDays: 2,
+    stage: 'replied', next: 'The deck link is in the reply. Then get a class and a date', inDays: 2,
   },
   {
     key: 'owner_yes', who: 'owner', said: 'Interested / “tell me more”',

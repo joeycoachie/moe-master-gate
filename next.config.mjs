@@ -9,7 +9,10 @@ const nextConfig = {
   },
   // RECUP.STN pages on our own domain (studio.theoperatorplaybook.com/recup/…), clean URLs.
   async rewrites() {
-    return [{ source: '/recup/guide', destination: '/recup/guide.html' }];
+    return [
+      { source: '/recup/guide', destination: '/recup/guide.html' },
+      { source: '/recup/deck', destination: '/recup/deck.html' },
+    ];
   },
 };
 
