@@ -85,7 +85,7 @@ export default async function RecupTeamGuide({ searchParams }: { searchParams: P
           <h2>{t('Your kit')}</h2>
           <p className="note">{t('What studios get from us. Open them once so you know what they will read.')}</p>
           <div className="linkrow">
-            <span className="stack" style={{ gap: 0, minWidth: 0 }}><b>{t('Studio deck · 12 slides')}</b><span className="link" id="kit-deck">{deck}</span></span>
+            <span className="stack" style={{ gap: 0, minWidth: 0 }}><b>{t('Studio deck · 13 slides')}</b><span className="link" id="kit-deck">{deck}</span></span>
             <a className="btn" href={deck} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>{t('Open')}</a>
             <CopyButton text={deck} targetId="kit-deck" labels={copyLabels} />
           </div>
@@ -128,7 +128,7 @@ export default async function RecupTeamGuide({ searchParams }: { searchParams: P
           <h2>{t('2 · Rules for every message')}</h2>
           <ul className="rules">
             <li>{t('Your first name at the top, one clear ask at the end. A yes, a name, a day or a class.')}</li>
-            <li>{t('The studio pays nothing. Members pay a small price for the tasting. Never write “free tasting”.')}</li>
+            <li>{t('No event fee for the studio. Members pay RM18 per cup. Never write “free tasting”.')}</li>
             <li>{t('No brand names, no health promises, no famous names we have no deal with.')}</li>
             <li>{t('Use our words: “the drink”, “recovery”, “check”. If a word feels like a sales or lab word, ask the Architect first.')}</li>
             <li>{t('One offer per message. Never mention the studio system or its prices. That is the Architect’s conversation.')}</li>

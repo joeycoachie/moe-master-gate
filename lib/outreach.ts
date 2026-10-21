@@ -163,16 +163,16 @@ export type LibraryMessage = { code: string; road: Road; angle: string; use_when
 const msg = (subject: string, text: string) => `Subject: ${subject}\n\n${text}`;
 
 export const MESSAGE_LIBRARY: LibraryMessage[] = [
-  // Fuel road: the hook. The studio pays nothing; members pay a small price for the tasting flight (founder, 20 Oct).
+  // Fuel road: the hook. After-class pilot: one drink per member, RM18 flat per cup, no event fee for the studio (founder, 21 Oct).
   {
     code: 'V8', road: 'fuel', angle: 'Deck first: ask to send the deck',
     use_when: 'Cold, first touch. Default for any studio, and best when a front desk answers: they forward decks to the owner.',
-    body: msg('A post-class tasting for {studio} members', "Hi {name}, Joey here from RECUP.STN. We run post-class recovery tastings inside studios. Members check in, try three small cups and take home a recovery guide. Your team sets up nothing and pays nothing.\n\nReply YES and I'll send our short deck to whoever plans member events."),
+    body: msg('A one-class recovery pilot for {studio}', "Hi {name}, Joey here from RECUP.STN. We run a one-class recovery pilot inside studios. Members do a short check-in and get one drink chosen for their session. We bring the drinks and staff, and there is no event fee for the studio.\n\nReply YES and I'll send our short deck to whoever plans member events."),
   },
   {
     code: 'V5', road: 'fuel', angle: 'Haze: lead with what is happening now',
     use_when: 'Cold, first touch. Studios whose members run or train outdoors. Only while the haze lasts. Send with one photo of the station.',
-    body: msg('A recovery pop-up for {studio} while the haze lasts', "Hi {name}, Joey here. With the haze keeping runs indoors, we're running recovery pop-ups inside a few studios. Drinks, a short check-in, nothing for you to set up.\n\nReply YES and I'll send the details for {studio}."),
+    body: msg('A recovery pop-up for {studio} while the haze lasts', "Hi {name}, Joey here. With the haze keeping runs indoors, we're running a one-class recovery pilot inside a few studios. One drink each, chosen from a short check-in. We bring everything.\n\nReply YES and I'll send the details for {studio}."),
   },
   {
     code: 'V7', road: 'fuel', angle: 'Premium studio: not another brand booth',
@@ -182,7 +182,7 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
   {
     code: 'V9', road: 'fuel', angle: 'Boutique: members leave the minute class ends',
     use_when: 'Cold, first touch. Small boutique studios that want members to stay and come back.',
-    body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. A post-class tasting, matched to how they trained, with nothing for your studio to pay.\n\nReply YES and I\'ll send our short deck.'),
+    body: msg('Ten more minutes with your members', 'Hi {name}, Joey here. Most members leave the minute class ends. We give them a reason to stay ten minutes. One recovery drink each, chosen from a short check-in, with no event fee for your studio.\n\nReply YES and I\'ll send our short deck.'),
   },
   {
     code: 'V11', road: 'fuel', angle: 'Hotel gym: one more member privilege',
@@ -262,7 +262,7 @@ export const REPLY_GATES: ReplyGate[] = [
     key: 'admin_what', who: 'admin', said: '“What is this about?” / asks for details',
     reply: {
       kinetic: "Thanks for getting back to me. In short, we help studios keep every client's programme and progress on record, so every instructor coaches the same way. Could you share the name of whoever looks after coaching or operations?",
-      fuel: 'Thanks for getting back to me. In short, we bring a recovery pop-up to your studio for members after training. Nothing for your team to set up or pay. Could you share the name of whoever plans member events?',
+      fuel: 'Thanks for getting back to me. In short, after one class we serve members one recovery drink each, chosen from a short check-in. We bring the drinks and staff, and there is no event fee for the studio. Could you share the name of whoever plans member events?',
     },
     stage: 'replied', next: "Get the decision-maker's name. Put it in Owner and send them the first message", inDays: 2,
   },
@@ -285,8 +285,8 @@ export const REPLY_GATES: ReplyGate[] = [
   {
     key: 'deck_yes', who: 'either', said: '“Yes, send the deck”',
     reply: {
-      kinetic: 'Here it is, thank you:\nhttps://studio.theoperatorplaybook.com/recup/deck\n\nThe short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
-      fuel: 'Here it is, thank you:\nhttps://studio.theoperatorplaybook.com/recup/deck\n\nThe short version: one table, one class, ten minutes, nothing for your studio to pay. Which class is your busiest each week?',
+      kinetic: 'Here it is, thank you:\nhttps://studio.theoperatorplaybook.com/recup/deck\n\nThe short version: one class, one drink each, no event fee for your studio. Which class is your busiest each week?',
+      fuel: 'Here it is, thank you:\nhttps://studio.theoperatorplaybook.com/recup/deck\n\nThe short version: one class, one drink each, no event fee for your studio. Which class is your busiest each week?',
     },
     stage: 'replied', next: 'The deck link is in the reply. Then get a class and a date', inDays: 2,
   },
@@ -302,8 +302,8 @@ export const REPLY_GATES: ReplyGate[] = [
     key: 'owner_price', who: 'owner', said: '“How much is it?”',
     reply: {
       kinetic: "Fair question. It depends on how your studio runs, so I'd rather not guess. After 15 minutes on your setup, I'll send clear numbers in writing. Does Tuesday or Wednesday suit you?",
-      // The studio pays nothing; members pay for the tasting flight (founder, 20 Oct 2026).
-      fuel: 'Fair question. Your studio pays nothing. Members pay a small price for the tasting flight, and we bring everything. Which class and date suit you best?',
+      // No event fee for the studio; members pay RM18 per cup (founder, 21 Oct 2026).
+      fuel: 'Fair question. There is no event fee for the studio. Members pay RM18 per cup, and we bring everything. Which class and date suit you best?',
     },
     stage: 'replied', next: 'Book the 15 minutes (Kinetic) or the pop-up date (Fuel)', inDays: 2,
   },

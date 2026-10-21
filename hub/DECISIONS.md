@@ -95,3 +95,10 @@ Newest at the top within each section.
 - Fuel goes first: the Recovery Omakase / post-class tasting is the hook; the studio system (Kinetic) comes second, after a tasting day. Never both in one first message.
 - The studio pays nothing for a tasting. Members pay a small price for the three-cup flight (price to set). Changed the same day from "first session free": free drinks for members are not sustainable.
 - The offer is called "The Recovery Omakase" (not "metabolic", per RECUP's word rules).
+
+## 2026-10-21 · RECUP.STN studio offer, second version
+- After-class pilot is the default: one drink per member, chosen from the check-in, **RM18 flat per cup** (the check-in picks, so the price can't vary). No event fee for the studio.
+- Studio after-class menu: **The Flow + The Build** only. The Prime (pre-training) is not approved for service. Full menu stays at RECUP.STN HQ.
+- The three-drink tasting flight is only for a **full event** (open day, challenge, community morning), priced per event and agreed in writing before booking. Never free.
+- Studio-facing title: **Joey, Founder, The M.O.E. Group**. Team pages keep "the Architect".
+- Proof on the deck: package members collect drinks and meals at HQ every week; the team has run community nutrition clubs for years (partner brand never named). Add the active package-member count once counted.

@@ -52,9 +52,9 @@ Last checked: 2026-10-16.
 
 | What | Link | Send when |
 |---|---|---|
-| RECUP.STN studio deck (12 slides, send this) | [studio.theoperatorplaybook.com/recup/deck](https://studio.theoperatorplaybook.com/recup/deck) | after they reply YES (it's in the 'send the deck' reply) |
+| RECUP.STN studio deck (13 slides, send this) | [studio.theoperatorplaybook.com/recup/deck](https://studio.theoperatorplaybook.com/recup/deck) | after they reply YES (it's in the 'send the deck' reply) |
 | Same, other languages | add `?lang=zh` (中文), `?lang=ms` (Bahasa), `?lang=fr` (Français) to the deck or Studio Guide link | match the studio's language |
-| Studio deck, editable copy | [claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F](https://claude.ai/artifact/KL27kTxrpPkLfCt9yazx6F) · source in sales/recup-deck | founder only |
+| Studio deck source | `sales/recup-deck` (slides) + `sales/i18n` (translations), built by `scripts/build-recup-i18n.py` | the claude.ai copy KL27kTxrpPkLfCt9yazx6F is out of date (old 3-cup offer): don't export it |
 | RECUP.STN Studio Guide (one view on mobile, send to studios) | [studio.theoperatorplaybook.com/recup/guide](https://studio.theoperatorplaybook.com/recup/guide) | with the deck (also linked on its last slide) |
 | RECUP.STN team sign-in (Team Guide + My studios) | [terminal.theoperatorplaybook.com](https://terminal.theoperatorplaybook.com) (main gate) or [/recup/login](https://terminal.theoperatorplaybook.com/recup/login) | partners, with their TEAM- code |
 | Partner Kit in the God Terminal | [terminal.html → 07B_PARTNER_KIT](https://joeycoachie.github.io/recup-station-/terminal.html#partnerKit) | deck, guide, check-in link + QR per studio |
