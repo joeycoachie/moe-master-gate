@@ -212,6 +212,16 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
     use_when: 'No reply by email. A short DM to the studio’s Instagram, from @recup.stn.',
     body: msg('Quick note from RECUP.STN', "Hi {studio}, Joey from @recup.stn here. I sent you an email about a one-class recovery pilot for your members.\n\nWho is the best person to chat with about member events?"),
   },
+  {
+    code: 'V15', road: 'fuel', angle: 'Call script: ask for the person by name',
+    use_when: 'The call step of the no-reply ladder. Say it, don’t read it.',
+    body: 'Hi, this is Joey from RECUP.STN. I wrote to {name} last week about a one-class recovery pilot for your members. Is {name} around, or who is the best person to speak to?',
+  },
+  {
+    code: 'V16', road: 'fuel', angle: 'Visit script: at the front desk',
+    use_when: 'The visit step. Bring the deck printed or on your phone.',
+    body: "Hi, I'm Joey from RECUP.STN. I've written to {name} about a one-class recovery pilot for your members. Could I leave our one-page plan for them?",
+  },
   // Kinetic road: the system. Usually after a tasting day, through OPEN KINETIC ROAD.
   {
     code: 'V10', road: 'kinetic', angle: 'The bridge: tasting numbers → the system',

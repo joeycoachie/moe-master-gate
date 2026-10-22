@@ -697,23 +697,27 @@ function StudioCard({
           )}
 
           {/* The gift follow-up, ready when it is due */}
-          {move && move.key === 'followup' && (() => {
-            const gv = variants.find((x) => x.code === (channel === 'instagram' ? 'V14' : 'V13'));
+          {move && move.key !== 'wait' && (() => {
+            // Follow-up: V13 (or V14 on Instagram). Call: V15 script. Visit: V16 script.
+            const code = move.key === 'followup' ? (channel === 'instagram' ? 'V14' : 'V13') : move.key === 'call' ? 'V15' : 'V16';
+            const gv = variants.find((x) => x.code === code);
             if (!gv) return null;
-            const gift = formatFor(channel, fillMessage(gv.body, t));
+            const ch = move.key === 'followup' ? channel : 'person';
+            const gift = formatFor(ch, fillMessage(gv.body, t));
+            const what = move.key === 'followup' ? 'FOLLOW-UP' : move.key === 'call' ? 'CALL' : 'VISIT';
             return (
               <div className="border border-[#ffb454]/50 p-3 space-y-2">
-                <div className="text-[10px] font-mono text-[#ffb454] tracking-widest">{move.due ? 'FOLLOW-UP DUE' : `FOLLOW-UP IN ${move.inDays} WORKING DAYS`} · {gv.code} · {CHANNEL_LABEL[channel].toUpperCase()}</div>
-                {channel === 'email' && gift.subject && <p className="text-xs text-[#888]">Subject: <span className="text-[#ccc]">{gift.subject}</span></p>}
+                <div className="text-[10px] font-mono text-[#ffb454] tracking-widest">{move.due ? `${what} DUE` : `${what} IN ${move.inDays} WORKING DAYS`} · {gv.code} · {CHANNEL_LABEL[ch].toUpperCase()}</div>
+                {ch === 'email' && gift.subject && <p className="text-xs text-[#888]">Subject: <span className="text-[#ccc]">{gift.subject}</span></p>}
                 <textarea readOnly rows={Math.min(7, gift.text.split('\n').length + 1)} onFocus={(e) => e.currentTarget.select()} className={`${input} text-[#ccc]`} value={gift.text} />
                 <div className="flex flex-wrap gap-2 text-xs font-mono">
                   <button
-                    onClick={async () => flash((await copyText(channel === 'email' && gift.subject ? `Subject: ${gift.subject}\n\n${gift.text}` : gift.text)) ? 'Follow-up copied' : 'Copy blocked. Press and hold, then Select All')}
+                    onClick={async () => flash((await copyText(ch === 'email' && gift.subject ? `Subject: ${gift.subject}\n\n${gift.text}` : gift.text)) ? 'Follow-up copied' : 'Copy blocked. Press and hold, then Select All')}
                     className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2"
                   >
-                    COPY FOLLOW-UP
+                    {move.key === 'followup' ? 'COPY FOLLOW-UP' : 'COPY SCRIPT'}
                   </button>
-                  <span className="text-[11px] text-[#666] self-center font-sans">Switch “Send by” to Instagram for the DM version. Then tap LOG above.</span>
+                  <span className="text-[11px] text-[#666] self-center font-sans">{move.key === 'followup' ? 'Switch “Send by” to Instagram for the DM version. Then tap LOG above.' : 'Say it in your own words, then tap LOG above.'}</span>
                 </div>
               </div>
             );
