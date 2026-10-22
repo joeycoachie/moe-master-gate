@@ -198,9 +198,9 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
   },
   // Follow-ups and referrals (22 Oct 2026).
   {
-    code: 'V12', road: 'fuel', angle: 'Referral: someone named who to contact',
-    use_when: 'Warm. Someone at the studio named the right person. Put that person in Owner and the referrer in Referred by.',
-    body: msg('{referrer} suggested I write to you', "Hello {name},\n\n{referrer} kindly suggested I get in touch. I'm Joey, founder of RECUP.STN, a recovery station from The M.O.E. Group in Kuala Lumpur.\n\nWe would like to offer {studio} members a Recovery Omakase morning. After training, each member does a short check-in and gets one recovery drink chosen for their session. We bring the station and the team.\n\nCould I show you how it works in 15 minutes? Does Tuesday or Wednesday next week suit you?\n\nThanks,\nJoey\nFounder, The M.O.E. Group\n+60 10-231 9893"),
+    code: 'V12', road: 'fuel', angle: 'Referral: a full first introduction to the new person',
+    use_when: 'Someone passed you to a new person. They have never seen your first message, so this one explains everything from the start. Owner = the new person, Referred by = who passed you on.',
+    body: msg('A recovery pilot for {studio} members ({referrer} suggested you)', "Hello {name},\n\n{referrer} at {studio} suggested you are the right person for this. So I'm writing to you directly. My name is Joey, founder of RECUP.STN, a recovery station from The M.O.E. Group here in Kuala Lumpur.\n\nWe are offering a one-class recovery pilot to a few gyms and studios. After a workout, each member answers a short check-in and gets one recovery drink chosen for that session. We bring the drinks, the staff and the set-up, and the venue pays no event fee. Afterwards you receive a summary of how many members took part and what they chose.\n\nOur short deck explains it in three minutes. Would it be all right if I send it to you?\n\nThanks,\nJoey\nFounder, The M.O.E. Group\n+60 10-231 9893"),
   },
   {
     code: 'V13', road: 'fuel', angle: 'Gift follow-up: an invite to HQ',
@@ -280,7 +280,8 @@ export type ReplyGate = {
   who: 'admin' | 'owner' | 'either';
   said: string; // what they said, as the button reads
   reply: Record<Road, string>;
-  stage: Stage; // moves forward only
+  stage: Stage; // moves forward only, unless restart
+  restart?: boolean; // a referral: same studio, new person, so the card starts again at Found
   next: string; // the next step, written onto the card
   inDays: number; // working days until the next step is due
 };
@@ -305,10 +306,11 @@ export const REPLY_GATES: ReplyGate[] = [
   {
     key: 'admin_referred', who: 'admin', said: 'They name someone else to contact',
     reply: {
-      kinetic: "Thank you, that's very helpful. I'll write to them directly and mention that you suggested it. Could I ask their best email?",
-      fuel: "Thank you, that's very helpful. I'll write to them directly and mention that you suggested it. Could I ask their best email?",
+      kinetic: "Thank you, that's very helpful. I'll write to them directly and explain everything from the start. Could I ask their best email, and may I mention your name?",
+      fuel: "Thank you, that's very helpful. I'll write to them directly and explain everything from the start. Could I ask their best email, and may I mention your name?",
     },
-    stage: 'replied', next: 'Put the new name in Owner and the person who referred you in Referred by. Then send V12', inDays: 1,
+    // The new person has never heard from us: the card starts again for them (the reply stays in the history).
+    stage: 'found', restart: true, next: 'New person: put them in Owner, who passed you on in Referred by. Send V12 (a full introduction), then MARK MESSAGED. Their follow-ups start from that day', inDays: 1,
   },
   {
     key: 'admin_email', who: 'admin', said: '“Send us an email”',

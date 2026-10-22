@@ -28,6 +28,7 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 16 | outreach_two_roads | Two roads (Kinetic Studio OS / Fuel RECUP pop-up), "use when" per message, V5 haze pop-up + V6 warm invite; Peak moved to Fuel | in use (run 20 Oct) |
 | 17 | outreach_v7_premium | V7: Recovery Omakase hook for premium studios (Fuel road) | not needed: since 20 Oct the console loads every message from lib/outreach.ts itself |
 | 18 | recup_team | RECUP.STN team: partners (team codes), their studio claims and touches. One studio, one owner | **to run** (20 Oct) |
-| 19 | outreach_referrals | 'Referred by' on studios + Sofitel reply logged (Swee Mei via Elisha) | **to run** (22 Oct) |
+| 19 | outreach_referrals | 'Referred by' on studios + Sofitel reply logged (Swee Mei via Elisha) | in use (run 22 Oct) |
+| 20 | sofitel_restart | Sofitel card back to Found for Swee Mei (referral restart) | **to run** (22 Oct) |
 
-New SQL goes here as `20_<name>.sql`, with a row in this table.
+New SQL goes here as `21_<name>.sql`, with a row in this table.

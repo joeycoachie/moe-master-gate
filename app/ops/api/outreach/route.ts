@@ -128,7 +128,11 @@ export async function POST(request: Request) {
         if (readErr) throw new Error(readErr.message);
         const stageAt = { ...(t.stage_at as Record<string, string>) };
         let stage = t.stage as Stage;
-        if (gate.stage === 'no') {
+        if (gate.restart) {
+          // A referral: the new person has never heard from us. Back to Found; MARK MESSAGED starts their ladder.
+          stage = 'found';
+          stageAt.replied ??= now;
+        } else if (gate.stage === 'no') {
           stage = 'no';
           stageAt.no ??= now;
         } else {
