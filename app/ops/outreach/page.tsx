@@ -500,7 +500,7 @@ function StudioCard({
 }) {
   const road = roadOf(t);
   const v = variants.find((x) => x.id === t.variant_id);
-  const [draft, setDraft] = useState({ friction: t.friction, next_step: t.next_step, next_date: t.next_date ?? '', fit_note: t.fit_note, contact: t.contact });
+  const [draft, setDraft] = useState({ friction: t.friction, next_step: t.next_step, next_date: t.next_date ?? '', fit_note: t.fit_note, contact: t.contact, owner_name: t.owner_name, referred_by: t.referred_by ?? '' });
   const idx = t.stage === 'no' ? -1 : STAGES.indexOf(t.stage);
   const next = idx >= 0 && idx < STAGES.length - 1 ? STAGES[idx + 1] : null;
 
@@ -523,7 +523,7 @@ function StudioCard({
     <div id={`studio-${t.id}`} className={`border bg-[#0a0a0a] scroll-mt-4 ${overdue ? 'border-[#ffb454]/60' : 'border-[#222]'}`}>
       <button onClick={onToggle} className="w-full text-left p-3 flex items-center gap-3 flex-wrap">
         <span className="font-bold font-sans">{t.studio}</span>
-        <span className="text-[11px] text-[#666] font-sans">{[t.owner_name, t.area, t.batch].filter(Boolean).join(' · ')}</span>
+        <span className="text-[11px] text-[#666] font-sans">{[t.owner_name, t.referred_by ? `via ${t.referred_by}` : '', t.area, t.batch].filter(Boolean).join(' · ')}</span>
         <span className="ml-auto text-[11px] flex gap-2 items-center">
           {v && <span style={{ color: ROAD_INFO[road].colour }}>{v.code}</span>}
           {move && move.key !== 'wait' && (
@@ -696,6 +696,33 @@ function StudioCard({
             </div>
           )}
 
+          {/* The gift follow-up, ready when it is due */}
+          {move && move.key === 'followup' && (() => {
+            const gv = variants.find((x) => x.code === (channel === 'instagram' ? 'V14' : 'V13'));
+            if (!gv) return null;
+            const gift = formatFor(channel, fillMessage(gv.body, t));
+            return (
+              <div className="border border-[#ffb454]/50 p-3 space-y-2">
+                <div className="text-[10px] font-mono text-[#ffb454] tracking-widest">{move.due ? 'FOLLOW-UP DUE' : `FOLLOW-UP IN ${move.inDays} WORKING DAYS`} · {gv.code} · {CHANNEL_LABEL[channel].toUpperCase()}</div>
+                {channel === 'email' && gift.subject && <p className="text-xs text-[#888]">Subject: <span className="text-[#ccc]">{gift.subject}</span></p>}
+                <textarea readOnly rows={Math.min(7, gift.text.split('\n').length + 1)} onFocus={(e) => e.currentTarget.select()} className={`${input} text-[#ccc]`} value={gift.text} />
+                <div className="flex flex-wrap gap-2 text-xs font-mono">
+                  <button
+                    onClick={async () => flash((await copyText(channel === 'email' && gift.subject ? `Subject: ${gift.subject}\n\n${gift.text}` : gift.text)) ? 'Follow-up copied' : 'Copy blocked. Press and hold, then Select All')}
+                    className="border border-[#00e5ff] text-[#00e5ff] px-3 py-2"
+                  >
+                    COPY FOLLOW-UP
+                  </button>
+                  <span className="text-[11px] text-[#666] self-center font-sans">Switch “Send by” to Instagram for the DM version. Then tap LOG above.</span>
+                </div>
+              </div>
+            );
+          })()}
+
+          <div className="grid sm:grid-cols-2 gap-2">
+            <input className={input} placeholder="Owner / person to write to" value={draft.owner_name} onChange={(e) => setDraft({ ...draft, owner_name: e.target.value })} />
+            <input className={input} placeholder="Referred by (who gave us their name)" value={draft.referred_by} onChange={(e) => setDraft({ ...draft, referred_by: e.target.value })} />
+          </div>
           <input className={input} placeholder="Contact: email · WhatsApp +60… · IG @handle" value={draft.contact} onChange={(e) => setDraft({ ...draft, contact: e.target.value })} />
           <input className={input} placeholder="Detail from their page (fills {detail})" value={draft.fit_note} onChange={(e) => setDraft({ ...draft, fit_note: e.target.value })} />
           <textarea className={input} rows={3} placeholder={road === 'fuel' ? 'What their members need, in their words' : 'Their problem, in their words (from the call)'} value={draft.friction} onChange={(e) => setDraft({ ...draft, friction: e.target.value })} />

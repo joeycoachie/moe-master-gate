@@ -57,7 +57,9 @@ export default async function RecupTeamGuide({ searchParams }: { searchParams: P
   const me = name.split(' ')[0];
   const asMe = (text: string) => text.replace(/\bJoey\b/g, me);
   const openers = OPENERS.map((code) => MESSAGE_LIBRARY.find((m) => m.code === code)!).filter(Boolean);
-  const gates = REPLY_GATES;
+  // The referral email introduces the sender as founder, so partners get a note instead (rule in section 2).
+  const gates = REPLY_GATES.filter((g) => g.key !== 'admin_referred');
+  const followUps = ['V13', 'V14'].map((code) => MESSAGE_LIBRARY.find((m) => m.code === code)!).filter(Boolean);
 
   return (
     <div className="wrap">
@@ -132,6 +134,7 @@ export default async function RecupTeamGuide({ searchParams }: { searchParams: P
             <li>{t('No brand names, no health promises, no famous names we have no deal with.')}</li>
             <li>{t('Use our words: “the drink”, “recovery”, “check”. If a word feels like a sales or lab word, ask the Architect first.')}</li>
             <li>{t('One offer per message. Never mention the studio system or its prices. That is the Architect’s conversation.')}</li>
+            <li>{t('If they name someone else to contact, write both names in your notes in My studios. Then message the Architect before you write to the new person.')}</li>
           </ul>
         </section>
 
@@ -163,6 +166,21 @@ export default async function RecupTeamGuide({ searchParams }: { searchParams: P
             <li><b>{t('Then')}</b><span>{t('Visit and leave our deck in person. After that, stop and tell the Architect.')}</span></li>
           </ol>
           <p className="note">{t('Weekends don’t count. Email on Tuesday, the gift goes on Friday.')}</p>
+          {followUps.map((m) => {
+            const email = formatFor('email', asMe(t(m.body)));
+            const id = `msg-${m.code}`;
+            return (
+              <article key={m.code} className="msg">
+                <div className="msg-head">
+                  <b>{t(m.angle)}</b>
+                  <CopyButton text={m.code === 'V14' ? email.text : `${t('Subject:')} ${email.subject}\n\n${email.text}`} targetId={id} labels={copyLabels} />
+                </div>
+                <p className="use">{t('Use when:')} {t(m.use_when)}</p>
+                {m.code !== 'V14' && <p className="subject">{t('Subject:')} {email.subject}</p>}
+                <p className="body" id={id}>{email.text}</p>
+              </article>
+            );
+          })}
         </section>
 
         <section className="stack">

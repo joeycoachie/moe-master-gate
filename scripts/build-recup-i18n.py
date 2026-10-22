@@ -3,7 +3,8 @@
 # Sources (English):  sales/recup-guide/guide.html, sales/recup-deck (slides)
 # Translations:       sales/i18n/<lang>.json  (English text → translation; names are left out on purpose)
 # Output:             public/recup/guide[-zh|-ms|-fr].html, public/recup/deck[-zh|-ms|-fr].html
-# Served at /recup/guide?lang=zh etc. (next.config.mjs rewrites). Rebuild after any copy change.
+# Served at /recup/guide?lang=zh etc. (next.config.mjs rewrites). Rebuild after any copy change,
+# then check the slides: python3 scripts/qa-recup-deck.py
 import importlib.util, json, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

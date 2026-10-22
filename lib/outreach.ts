@@ -60,6 +60,7 @@ export type Target = {
   batch: string;
   variant_id: string | null;
   road?: Road;
+  referred_by?: string;
   stage: Stage;
   stage_at: Partial<Record<Stage, string>>;
   friction: string;
@@ -93,8 +94,9 @@ export function reached(t: Target, stage: Stage) {
 
 // {detail} is the one real thing we noticed about them (the studio's "detail" field, stored as fit_note).
 // Left as a visible blank when missing, so nothing generic goes out by accident.
-export function fillMessage(body: string, t: Pick<Target, 'studio' | 'owner_name' | 'fit_note'>) {
+export function fillMessage(body: string, t: Pick<Target, 'studio' | 'owner_name' | 'fit_note'> & { referred_by?: string }) {
   return body
+    .replaceAll('{referrer}', t.referred_by || '[WHO REFERRED YOU]')
     .replaceAll('{studio}', t.studio || 'your studio')
     .replaceAll('{name}', t.owner_name || 'there')
     .replaceAll('{detail}', t.fit_note || '[ADD ONE DETAIL FROM THEIR PAGE]');
@@ -115,7 +117,7 @@ export function formatFor(channel: Channel, message: string) {
   let text = (hasSubject ? rest.join('\n') : message).trim();
   if (channel !== 'email') {
     text = text
-      .replace(/\n+(thanks|cheers|best|regards)[^\n]*\n+joey\s*$/i, '') // chat needs no sign-off
+      .replace(/\n+(thanks|cheers|best|regards)[^\n]*(\n[^\n]*){1,3}\s*$/i, '') // chat needs no sign-off
       .replace(/\n{2,}/g, '\n\n')
       .trim();
   }
@@ -193,6 +195,22 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
     code: 'V6', road: 'fuel', angle: 'Warm invite: return the favour',
     use_when: 'Warm. After you have met them in person. This is the gift follow-up.',
     body: msg('Thank you, and a drink on us', "Hi {name}, Joey here. Thanks for your time at {studio}. I'd like to return the favour. Come by RECUP.STN HQ for a drink on us and a proper chat about recovery.\n\nDoes Thursday or Friday suit you?"),
+  },
+  // Follow-ups and referrals (22 Oct 2026).
+  {
+    code: 'V12', road: 'fuel', angle: 'Referral: someone named who to contact',
+    use_when: 'Warm. Someone at the studio named the right person. Put that person in Owner and the referrer in Referred by.',
+    body: msg('{referrer} suggested I write to you', "Hello {name},\n\n{referrer} kindly suggested I get in touch. I'm Joey, founder of RECUP.STN, a recovery station from The M.O.E. Group in Kuala Lumpur.\n\nWe would like to offer {studio} members a Recovery Omakase morning. After training, each member does a short check-in and gets one recovery drink chosen for their session. We bring the station and the team.\n\nCould I show you how it works in 15 minutes? Does Tuesday or Wednesday next week suit you?\n\nThanks,\nJoey\nFounder, The M.O.E. Group\n+60 10-231 9893"),
+  },
+  {
+    code: 'V13', road: 'fuel', angle: 'Gift follow-up: an invite to HQ',
+    use_when: 'No reply after 3 working days. Same channel as the first message. The gift is a visit to RECUP.STN HQ.',
+    body: msg('An invitation for the {studio} team', "Hi {name}, following up on my note about a recovery pilot for {studio}. Instead of another message, an invitation. Come by RECUP.STN HQ with one teammate, try the drinks on us, and see how the check-in works.\n\nDoes Thursday or Friday suit you?"),
+  },
+  {
+    code: 'V14', road: 'fuel', angle: 'Instagram nudge after an unanswered email',
+    use_when: 'No reply by email. A short DM to the studio’s Instagram, from @recup.stn.',
+    body: msg('Quick note from RECUP.STN', "Hi {studio}, Joey from @recup.stn here. I sent you an email about a one-class recovery pilot for your members.\n\nWho is the best person to chat with about member events?"),
   },
   // Kinetic road: the system. Usually after a tasting day, through OPEN KINETIC ROAD.
   {
@@ -273,6 +291,14 @@ export const REPLY_GATES: ReplyGate[] = [
       fuel: "Thank you, I appreciate it. I'll check back with you on {day} if I haven't heard. Could I have their name so I write to them properly?",
     },
     stage: 'replied', next: 'Check back with the front desk. Ask for the owner by name', inDays: 3,
+  },
+  {
+    key: 'admin_referred', who: 'admin', said: 'They name someone else to contact',
+    reply: {
+      kinetic: "Thank you, that's very helpful. I'll write to them directly and mention that you suggested it. Could I ask their best email?",
+      fuel: "Thank you, that's very helpful. I'll write to them directly and mention that you suggested it. Could I ask their best email?",
+    },
+    stage: 'replied', next: 'Put the new name in Owner and the person who referred you in Referred by. Then send V12', inDays: 1,
   },
   {
     key: 'admin_email', who: 'admin', said: '“Send us an email”',
@@ -431,7 +457,7 @@ export function plainCheck(text: string) {
 // Every message ends on one ask that is easy to answer: a yes, a name, a day or a class.
 // The sign-off ("Thanks, Joey") is ignored; the line before it must be the ask.
 export function ctaCheck(text: string) {
-  const body = text.replace(/^subject:[^\n]*\n+/i, '').replace(/\n+(thanks|cheers|best|regards)[^\n]*\n+joey\s*$/i, '').trim();
+  const body = text.replace(/^subject:[^\n]*\n+/i, '').replace(/\n+(thanks|cheers|best|regards)[^\n]*(\n[^\n]*){1,3}\s*$/i, '').trim();
   const lastLine = body.split(/\n+/).filter(Boolean).pop() ?? '';
   const pass = /\?\s*$/.test(lastLine) || /^reply\b/i.test(lastLine) || /\?[^.?!]*\.\s*$/.test(lastLine);
   return { pass, lastLine };

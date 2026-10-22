@@ -5,7 +5,7 @@ import { MESSAGE_LIBRARY, REPLY_GATES, STAGES, addWorkingDays, plainCheck, type 
 
 // Outreach Console data. Owner names and contacts go through the service key only, behind SYS.OP.
 
-const TEXT_FIELDS = ['studio', 'owner_name', 'area', 'contact', 'fit_note', 'batch', 'friction', 'next_step'] as const;
+const TEXT_FIELDS = ['studio', 'owner_name', 'area', 'contact', 'fit_note', 'batch', 'friction', 'next_step', 'referred_by'] as const;
 
 function outreachError(err: unknown) {
   const message = err instanceof Error ? err.message : String(err);
@@ -14,6 +14,9 @@ function outreachError(err: unknown) {
       { error: 'Outreach Console not set up yet: run database/14_outreach_console.sql in Supabase.', setup: true },
       { status: 503 },
     );
+  }
+  if (/column .*referred_by.* does not exist|Could not find the 'referred_by' column/i.test(message)) {
+    return NextResponse.json({ error: 'Referrals not switched on yet: run database/19_outreach_referrals.sql in Supabase.', setup: true }, { status: 503 });
   }
   if (/column .*(road|use_when).* does not exist|Could not find the '(road|use_when)' column/i.test(message)) {
     return NextResponse.json(
@@ -76,7 +79,7 @@ export async function POST(request: Request) {
           return NextResponse.json({ error: `${who} already has ${studio} on the RECUP team list. See TEAM before adding it here.` }, { status: 409 });
         }
         const row: Record<string, unknown> = { studio, variant_id: str(b.variant_id) || null };
-        for (const k of TEXT_FIELDS) if (k !== 'studio') row[k] = str(b[k]);
+        for (const k of TEXT_FIELDS) if (k !== 'studio' && (k !== 'referred_by' || str(b[k]))) row[k] = str(b[k]);
         if (road(b.road)) row.road = road(b.road);
         // A studio can start part-way along (e.g. it already said yes on the Fuel road).
         const start = str(b.stage) as Stage;
