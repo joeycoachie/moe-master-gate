@@ -67,6 +67,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     addedOn: '2026-10-16',
   },
   {
+    id: 'KIN-P020_W1',
+    arc: 'KIN-P020 — Load Re-Entry',
+    week: 1,
+    title: 'Metabolic Load & Scapular Re-Calibration',
+    focus: 'Light-spring mid-back gate → heel-crush footwork and jumpboard cardio → pelvic floor integration',
+    doctrine: 'SYS-D022 V2.1',
+    source: 'KA-Alex, 23 Oct 2026 (toggleRA alias added, stray field removed)',
+    addedOn: '2026-10-23',
+  },
+  {
     id: 'KIN-P019_W1',
     arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
     week: 1,
