@@ -53,6 +53,7 @@ Last checked: 2026-10-16.
 | What | Link | Send when |
 |---|---|---|
 | RECUP.STN studio deck (13 slides, send this) | [studio.theoperatorplaybook.com/recup/deck](https://studio.theoperatorplaybook.com/recup/deck) | after they reply YES (it's in the 'send the deck' reply) |
+| RECUP.STN hotel deck (fitness and spa, two roads: sponsored or members pay) | [studio.theoperatorplaybook.com/recup/deck-hotel](https://studio.theoperatorplaybook.com/recup/deck-hotel) | hotels (Sofitel). PDF: build from sales/recup-deck-hotel |
 | Same, other languages | add `?lang=zh` (中文), `?lang=ms` (Bahasa), `?lang=fr` (Français) to the deck or Studio Guide link | match the studio's language |
 | Studio deck source | `sales/recup-deck` (slides) + `sales/i18n` (translations), built by `scripts/build-recup-i18n.py` | the claude.ai copy KL27kTxrpPkLfCt9yazx6F is out of date (old 3-cup offer): don't export it |
 | RECUP.STN Studio Guide (one view on mobile, send to studios) | [studio.theoperatorplaybook.com/recup/guide](https://studio.theoperatorplaybook.com/recup/guide) | with the deck (also linked on its last slide) |

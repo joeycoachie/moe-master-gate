@@ -22,6 +22,8 @@ const nextConfig = {
       afterFiles: [
         { source: '/recup/guide', destination: '/recup/guide.html' },
         { source: '/recup/deck', destination: '/recup/deck.html' },
+        // Hotel fitness and spa version (sales/recup-deck-hotel): two roads, sponsored or members pay.
+        { source: '/recup/deck-hotel', destination: '/recup/deck-hotel.html' },
       ],
     };
   },
