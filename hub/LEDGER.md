@@ -103,3 +103,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-23 · RECUP.STN · Deck and guide proof now: nutrition clubs and cafés, aim to help Malaysians become metabolically healthy (founder's wording; EN/ZH/MS/FR, studio and hotel decks) · 3a91ee6
 - 2026-10-23 · M.O.E. Terminal · Joey page live at studio.theoperatorplaybook.com/joey; printed B2B card QR (moe-hub-9n57.vercel.app) now redirects there (old hub kept in Vercel history, roll back by promoting the previous deployment) · eea1fd1
 - 2026-10-23 · Hyrox Engine · Session 41 added (studio day, Week 2 Saturday: no impact, pelvis locked; Reformer/Barrel/Chair) with SYS-LOG logging · fdc2089
+- 2026-10-23 · M.O.E. Terminal · moe-hub-9n57 retired: redirect only to studio.theoperatorplaybook.com/joey, git disconnected, kept because printed cards point to it. Direct QR for reprints in Downloads
