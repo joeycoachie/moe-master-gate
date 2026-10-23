@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-10-21 · 6b911ce
+# M.O.E. Brain Pack · 2026-10-23 · e19e8e7
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -300,7 +300,7 @@ Newest at the top within each section.
 - Studio after-class menu: **The Flow + The Build** only. The Prime (pre-training) is not approved for service. Full menu stays at RECUP.STN HQ.
 - The three-drink tasting flight is only for a **full event** (open day, challenge, community morning), priced per event and agreed in writing before booking. Never free.
 - Studio-facing title: **Joey, Founder, The M.O.E. Group**. Team pages keep "the Architect".
-- Proof on the deck: package members collect drinks and meals at HQ every week; the team has run community nutrition clubs for years (partner brand never named). Add the active package-member count once counted.
+- Proof on the deck: package members collect drinks and meals at HQ every week; we run nutrition clubs and nutrition cafés with one aim: to help Malaysians become metabolically healthy (founder, 23 Oct 2026; partner brand never named). Add the active package-member count once counted.
 
 
 ---
@@ -624,7 +624,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **MET-T053** The Metabolic Pass (Social Currency): [ASSET] The physical artifact and street execution script. Uses the wooden easel "pop-up" aesthetic to bypass salesman defenses. Links directly to MET-MOE-004.
 - **SYS-T056** The Executive Dossiers (Master Copy): [ASSET] The centralized written copy for the Hardware, Fuel, and Software B2B dossiers. Allows for iterative updates to the core text independent of graphic de…
 - **MET-T058** Artifact B: Metabolic Pass QR: [ASSET] The official high-resolution QR code bridging physical Artifact B (The Metabolic Pass) to the WhatsApp intake flow. Encodes a pre-filled text payload t…
-- **SYS-T059** Artifact A: B2B Architect Card (Print File): [ASSET] The print-ready digital file for the physical B2B networking card. Employs the "Quiet Good Taste" aesthetic. Encodes SYS-T057 (The Master Ecosystem QR).
+- **SYS-T059** Artifact A: B2B Architect Card (Print File): [ASSET] The print-ready file for the physical B2B card (printed). Its QR encodes moe-hub-9n57.vercel.app, which now redirects to studio.theoperatorplaybook.com…
 - **MET-T060** Artifact B: Metabolic Pass (Print File): [ASSET] The print-ready digital file for the physical street-level diagnostic card. Features the triage checklist. Encodes MET-T058 (The WhatsApp Intake QR). P…
 - **KIN-T072** Functional Spec: KA-Alex (Biomechanical Strategist) [live]: The activation spec for KA-Alex, the AI chatbot role that acts as the clinical biomechanist and operational architect. KA-Alex translates STOTT Pilates, Anatom…
 

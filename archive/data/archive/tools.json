@@ -449,8 +449,26 @@
     "name": "Artifact A: B2B Architect Card (Print File)",
     "tool_type": "COMM_OS",
     "format": "pdf",
-    "desc": "[ASSET] The print-ready digital file for the physical B2B networking card. Employs the \"Quiet Good Taste\" aesthetic. Encodes SYS-T057 (The Master Ecosystem QR).",
-    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+    "desc": "[ASSET] The print-ready file for the physical B2B card (printed). Its QR encodes moe-hub-9n57.vercel.app, which now redirects to studio.theoperatorplaybook.com/joey. Reprints use the direct QR below and replace the printed \"MOE-GATE.XYZ\" text.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)",
+    "files": [
+      {
+        "label": "Print file (PDF, as printed)",
+        "path": "files/SYS-T059/print-file.pdf"
+      },
+      {
+        "label": "Card design (HTML render)",
+        "path": "files/SYS-T059/card-design.html"
+      },
+      {
+        "label": "QR for reprint (PNG)",
+        "path": "files/SYS-T059/qr-for-reprint.png"
+      },
+      {
+        "label": "QR for reprint (SVG, for the printer)",
+        "path": "files/SYS-T059/qr-for-reprint.svg"
+      }
+    ]
   },
   {
     "id": "MET-T060",

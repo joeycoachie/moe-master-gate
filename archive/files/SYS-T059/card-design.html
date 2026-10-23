@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artifact A: B2B Architect Card</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 2rem;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Exact Business Card Aspect Ratio: 3.5 x 2 */
+        .card-container {
+            width: 100%;
+            max-width: 490px;
+            aspect-ratio: 3.5 / 2;
+            background-color: #111111; /* True matte black */
+            position: relative;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.9), 
+                inset 0 0 0 1px rgba(255,255,255,0.05),
+                inset 0 0 20px rgba(0,0,0,0.5); /* Edge shadowing for 400gsm thickness feel */
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 1px;
+        }
+
+        /* Subtle noise for 400gsm silk cardstock texture */
+        .silk-texture {
+            position: absolute;
+            inset: 0;
+            opacity: 0.18;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            mix-blend-mode: overlay;
+        }
+
+        .debossed-text {
+            color: #e5e5e5;
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.15), 0px -1px 1px rgba(0, 0, 0, 1);
+        }
+
+        .debossed-light {
+            color: #888888;
+            text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.05), 0px -1px 1px rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="mb-12 text-center">
+        <h1 class="font-mono text-xs text-zinc-500 uppercase tracking-[0.3em]">Design Render // Prototype Run (Qty: 100)</h1>
+        <p class="font-serif text-2xl mt-2 text-zinc-300">Artifact A: The B2B Architect Card</p>
+        <p class="font-mono text-[10px] text-zinc-600 mt-2">Physical Specs: 3.5" x 2" // 400gsm Heavy Matte Black</p>
+    </header>
+
+    <div class="grid xl:grid-cols-2 gap-16 w-full max-w-6xl justify-items-center">
+
+        <!-- OPTION 1: THE MINIMALIST FRONT -->
+        <div class="w-full flex flex-col items-center">
+            <p class="font-mono text-[10px] text-cyan-500 uppercase tracking-widest mb-4">Option 1 Front: Minimalist + Contact Block</p>
+            <div class="card-container">
+                <div class="silk-texture"></div>
+                <div class="relative z-10 flex flex-col h-full justify-between items-center text-center">
+                    
+                    <!-- Centered Branding -->
+                    <div class="my-auto w-full">
+                        <h2 class="font-serif text-[36px] font-medium tracking-[0.12em] debossed-text leading-none mb-3">JOEY TAN</h2>
+                        <p class="font-mono text-[10.5px] uppercase tracking-[0.25em] font-bold text-zinc-400 debossed-light">ENTERPRISE SYSTEMS ARCHITECT</p>
+                    </div>
+                    
+                    <!-- SECURE LINE Contact Block (Bottom) -->
+                    <div class="w-full mt-auto text-left border-t border-zinc-700/60 pt-4 flex flex-col items-start">
+                        <p class="font-sans text-[10.5px] tracking-widest uppercase font-bold text-zinc-300">
+                            <span class="text-white font-black">SECURE LINE:</span> (+60) 10231 9893 <span class="mx-2 opacity-50">|</span> moveorelsegroup@gmail.com
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- OPTION 2: THE CORE IDENTITY FRAME FRONT -->
+        <div class="w-full flex flex-col items-center">
+            <p class="font-mono text-[10px] text-cyan-500 uppercase tracking-widest mb-4">Option 2 Front: The Core Identity Frame</p>
+            <div class="card-container">
+                <div class="silk-texture"></div>
+                <div class="relative z-10 flex flex-col h-full justify-between items-center text-center">
+                    
+                    <!-- Upscaled Centered Branding (Optically Centered) -->
+                    <div class="w-full flex flex-col items-center justify-center mt-8">
+                        <h2 class="font-serif text-[44px] font-semibold tracking-[0.12em] debossed-text leading-none mb-3">JOEY TAN</h2>
+                        <p class="font-mono text-[11px] uppercase tracking-[0.25em] text-zinc-400 font-bold debossed-light">ARCHITECT OF HUMAN PERFORMANCE ECOSYSTEMS</p>
+                    </div>
+
+                    <!-- Grounding Anchor & Secure Line (Bottom Edge) -->
+                    <div class="w-full mt-auto pt-6 flex flex-col items-center">
+                        <p class="font-mono text-[13px] tracking-[0.15em] uppercase font-extrabold text-zinc-300 mb-5">
+                            [ Human Performance & Execution ]
+                        </p>
+                        <div class="w-full border-t border-zinc-700/60 pt-4 flex justify-center">
+                            <p class="font-sans text-[8.5px] tracking-widest uppercase font-bold text-zinc-400">
+                                <span class="text-white font-black">SECURE LINE:</span> (+60) 10231 9893 <span class="mx-3 opacity-40">|</span> moveorelsegroup@gmail.com
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- THE UNIFIED BACK -->
+        <div class="w-full flex flex-col items-center xl:col-span-2 mt-8">
+            <p class="font-mono text-[10px] text-cyan-500 uppercase tracking-widest mb-4">The Unified Back (Ecosystem QR Hub)</p>
+            <div class="card-container items-center justify-center text-center">
+                <div class="silk-texture"></div>
+                <div class="relative z-10 flex flex-col items-center w-full h-full justify-between">
+                    
+                    <p class="font-mono text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-400 debossed-light">SCAN TO ACCESS ECOSYSTEM HUB</p>
+                    
+                    <!-- High-Res QR Placeholder Box -->
+                    <div class="flex flex-col items-center justify-center w-full mt-2">
+                        <div class="w-[90px] h-[90px] bg-white p-2 shadow-[0_0_30px_rgba(255,255,255,0.08)] relative group mb-4">
+                            <div class="w-full h-full border-[2px] border-zinc-300 flex flex-col items-center justify-center relative">
+                                <!-- Faux QR Matrix -->
+                                <div class="absolute top-1.5 left-1.5 w-3.5 h-3.5 bg-black"></div>
+                                <div class="absolute top-1.5 right-1.5 w-3.5 h-3.5 bg-black"></div>
+                                <div class="absolute bottom-1.5 left-1.5 w-3.5 h-3.5 bg-black"></div>
+                                <div class="w-2.5 h-2.5 bg-black absolute bottom-2 right-2"></div>
+                                <div class="w-2 h-2 bg-black absolute top-7 left-7"></div>
+                                <div class="w-4 h-2 bg-black absolute top-7 right-4"></div>
+                                <div class="w-2 h-4 bg-black absolute bottom-5 right-5"></div>
+                                <p class="font-mono text-[4.5px] font-black text-zinc-500 mt-[50px] uppercase tracking-widest leading-none">moe-gate.xyz</p>
+                            </div>
+                        </div>
+                        <h3 class="font-serif text-[17px] font-bold uppercase tracking-[0.2em] text-white mb-1.5 debossed-text">THE STRATEGIC ARMORY.</h3>
+                        <p class="font-mono text-[7px] text-zinc-500 uppercase tracking-[0.15em] font-bold">Scan to authenticate entry and view active nodes.</p>
+                    </div>
+                    
+                    <!-- Subheader Matrix Moved to Back -->
+                    <div class="w-full border-t border-zinc-700/60 pt-4 flex justify-center">
+                        <div class="font-sans text-[8px] tracking-[0.15em] uppercase font-bold text-zinc-200 flex justify-center items-center w-full gap-3 whitespace-nowrap">
+                            <span>Kinetic Programming</span>
+                            <span class="opacity-30">|</span>
+                            <span>Metabolic Resilience</span>
+                            <span class="opacity-30">|</span>
+                            <span>Behavioral Automation</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

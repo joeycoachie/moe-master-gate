@@ -13,6 +13,10 @@ const DATA_PATH = /^data\/[A-Za-z0-9_-]+(\/[A-Za-z0-9_-]+)?\.json$/;
 // Full-text documents (archive/docs/<ID>.md), served as plain text.
 const DOC_PATH = /^docs\/[A-Za-z0-9_.-]+\.md$/;
 
+// Attached files (archive/files/<ID>/<name>), e.g. print files and QR codes.
+const FILE_PATH = /^files\/[A-Za-z0-9_-]+\/[A-Za-z0-9_.-]+\.(pdf|png|svg|html)$/;
+const FILE_TYPES: Record<string, string> = { pdf: 'application/pdf', png: 'image/png', svg: 'image/svg+xml', html: 'text/html; charset=utf-8' };
+
 const escapeHtml = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 // The Brain Pack (archive/BRAIN.md, built by archive/scripts/brain.mjs) with one COPY button,
@@ -66,6 +70,15 @@ export async function GET(request: Request, { params }: { params: Promise<{ path
   if (rel === 'BRAIN.md') {
     const md = await readFile(path.join(ARCHIVE_ROOT, 'BRAIN.md'), 'utf8');
     return new NextResponse(md, { headers: { 'Content-Type': 'text/plain; charset=utf-8', ...PRIVATE_HEADERS } });
+  }
+
+  if (FILE_PATH.test(rel)) {
+    try {
+      const buf = await readFile(path.join(ARCHIVE_ROOT, rel));
+      return new NextResponse(new Uint8Array(buf), { headers: { 'Content-Type': FILE_TYPES[rel.split('.').pop() as string], ...PRIVATE_HEADERS } });
+    } catch {
+      return NextResponse.json({ error: 'Not found.' }, { status: 404 });
+    }
   }
 
   if (DOC_PATH.test(rel)) {
