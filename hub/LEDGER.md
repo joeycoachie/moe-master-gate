@@ -101,3 +101,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-23 · M.O.E. Terminal · KIN-P020 W1 (Load Re-Entry) live in the Armory; one doctrine fix pending from KA-Alex (jumpboard offered beside a mat swap) · 7cff1c3
 - 2026-10-23 · RECUP.STN · Hotel deck (fitness and spa; road A hotel-sponsored privilege, road B members pay RM18) live at studio.theoperatorplaybook.com/recup/deck-hotel, PDF for Sofitel · b41fcaf
 - 2026-10-23 · RECUP.STN · Deck and guide proof now: nutrition clubs and cafés, aim to help Malaysians become metabolically healthy (founder's wording; EN/ZH/MS/FR, studio and hotel decks) · 3a91ee6
+- 2026-10-23 · M.O.E. Terminal · Joey page live at studio.theoperatorplaybook.com/joey; printed B2B card QR (moe-hub-9n57.vercel.app) now redirects there (old hub kept in Vercel history, roll back by promoting the previous deployment) · eea1fd1
