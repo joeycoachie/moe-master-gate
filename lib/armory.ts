@@ -103,7 +103,9 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
 // without the syndrome, so clients see the result they are building.
 // `totalWeeks` is the arc length when the founder has set it; `focus` lights up the body map.
 export type BodyZone = 'neck' | 'shoulders' | 'upperBack' | 'core' | 'hips' | 'knees';
-export type ClientArc = { name: string; promise: string; weeks: Record<number, string>; totalWeeks?: number; focus: BodyZone[] };
+// `companion`: a load-day card used alongside the client's main arc (not a new programme). It shows
+// as its own session in the portal and never changes the client's programme path.
+export type ClientArc = { name: string; promise: string; weeks: Record<number, string>; totalWeeks?: number; focus: BodyZone[]; companion?: boolean };
 
 export const CLIENT_ARCS: Record<string, ClientArc> = {
   'KIN-P016': {
@@ -118,6 +120,13 @@ export const CLIENT_ARCS: Record<string, ClientArc> = {
     },
     totalWeeks: 5,
     focus: ['neck', 'shoulders', 'upperBack'],
+  },
+  'KIN-P020': {
+    name: 'Load day',
+    promise: 'Strength and stamina work alongside your main programme.',
+    weeks: { 1: 'Strength and stamina, shoulders kept safe' },
+    focus: ['core', 'hips'],
+    companion: true,
   },
   'KIN-P019': {
     name: 'Strong Hips, Calm Knees',

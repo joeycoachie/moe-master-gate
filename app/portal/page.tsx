@@ -365,7 +365,7 @@ export default function ClientPortalPage() {
 
             {view.journey.length > 0 && (
               <section>
-                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Your path</h2>
+                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Your path · {view.arc}</h2>
                 <div className="border border-[#222] bg-[#0a0a0a] p-5">
                   <Journey weeks={view.journey} />
                 </div>
@@ -398,7 +398,7 @@ export default function ClientPortalPage() {
                       <div>
                         <div className="text-[#00e5ff] text-sm">{formatDate(s.date)}</div>
                         <div className="text-xs text-[#ccc] mt-1">
-                          {s.extra && <span className="text-[9px] text-[#a78bfa] border border-[#a78bfa]/40 px-1.5 py-0.5 mr-2 tracking-widest uppercase">Extra</span>}
+                          {s.extra && <span className="text-[9px] text-[#a78bfa] border border-[#a78bfa]/40 px-1.5 py-0.5 mr-2 tracking-widest uppercase">{s.arc === 'Extra session' ? 'Extra' : s.arc}</span>}
                           {s.week ? `Week ${s.week}: ` : ''}
                           {s.title}
                         </div>

@@ -36,10 +36,11 @@ export function buildClientView(
       const extra = e.protocol_id === EXTRA_SESSION_ID;
       return {
         date: e.session_date,
-        extra,
+        extra: extra || !!ca?.companion,
         arc: extra ? 'Extra session' : (ca?.name ?? 'Your programme'),
-        week: extra ? null : (p?.week ?? null),
-        title: extra ? e.note || 'Extra session' : (p && ca?.weeks[p.week]) || (p ? `Week ${p.week}` : ''),
+        // Load days sit beside the main programme: no week number, their own title.
+        week: extra || ca?.companion ? null : (p?.week ?? null),
+        title: extra ? e.note || 'Extra session' : (p && ca?.weeks[p.week]) || (ca?.companion ? ca.name : p ? `Week ${p.week}` : ''),
         moves: extra ? stations.filter((st) => st.done && st.movement).map((st) => st.movement as string) : [],
         done: stations.filter((s) => s.done).length,
         total: stations.length,
