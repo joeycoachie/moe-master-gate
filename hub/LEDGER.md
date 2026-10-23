@@ -104,3 +104,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-23 · M.O.E. Terminal · Joey page live at studio.theoperatorplaybook.com/joey; printed B2B card QR (moe-hub-9n57.vercel.app) now redirects there (old hub kept in Vercel history, roll back by promoting the previous deployment) · eea1fd1
 - 2026-10-23 · Hyrox Engine · Session 41 added (studio day, Week 2 Saturday: no impact, pelvis locked; Reformer/Barrel/Chair) with SYS-LOG logging · fdc2089
 - 2026-10-23 · M.O.E. Terminal · moe-hub-9n57 retired: redirect only to studio.theoperatorplaybook.com/joey, git disconnected, kept because printed cards point to it. Direct QR for reprints in Downloads
+- 2026-10-23 · Intelligence Archive · Entries can carry files (archive/files/<ID>); SYS-T059 Artifact A (print PDF, card design, reprint QR) opens from the Archive · 9f8b0be
