@@ -105,3 +105,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-23 · Hyrox Engine · Session 41 added (studio day, Week 2 Saturday: no impact, pelvis locked; Reformer/Barrel/Chair) with SYS-LOG logging · fdc2089
 - 2026-10-23 · M.O.E. Terminal · moe-hub-9n57 retired: redirect only to studio.theoperatorplaybook.com/joey, git disconnected, kept because printed cards point to it. Direct QR for reprints in Downloads
 - 2026-10-23 · Intelligence Archive · Entries can carry files (archive/files/<ID>); SYS-T059 Artifact A (print PDF, card design, reprint QR) opens from the Archive · 9f8b0be
+- 2026-10-25 · RECUP.STN · Decks answer Rachel's 5 owner questions: new 'What you get' slide (benefits + two agreed numbers, stop if missed) and 'small risk to test' on proof; 14 slides, all languages, hotel PDF rebuilt · c552111
