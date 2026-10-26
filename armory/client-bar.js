@@ -255,7 +255,7 @@
 
     // Phase 5
     body.appendChild(label('Phase 5 · gate audit per client'));
-    var hint = el('div', '', 'Set the Phase 5 tab for one client, then capture it here. Repeat for each client.');
+    var hint = el('div', '', 'One client at a time: set the Phase 5 tab for them, tap CAPTURE, then check their own notes below. The card\'s notes box empties after each capture so the next client starts clean.');
     hint.setAttribute('style', 'font-size:11px;color:#888;margin-bottom:8px');
     body.appendChild(hint);
     S.selected.forEach(function (cid) {
@@ -270,10 +270,38 @@
       info.appendChild(n); info.appendChild(s);
       var b = el('button', 'font-mono', a ? 'RE-CAPTURE' : 'CAPTURE');
       b.setAttribute('style', 'font-size:10px;letter-spacing:.12em;color:#00e5ff;border:1px solid #00e5ff;background:#050505;padding:5px 8px;cursor:pointer');
-      b.onclick = function () { S.audit[cid] = captureAudit(); markDirty(); render(); };
+      b.onclick = function () {
+        var prev = S.audit[cid];
+        var cap = captureAudit();
+        // Re-capturing keeps notes already written for this client unless the card box has new text.
+        if (prev && prev.notes && !cap.notes) cap.notes = prev.notes;
+        S.audit[cid] = cap;
+        var box = document.getElementById('auditNotes');
+        if (box) box.value = '';
+        markDirty();
+        render();
+      };
       line.appendChild(info); line.appendChild(b);
       body.appendChild(line);
+      // Each client's own field notes. A session for two people has one notes box on the card,
+      // so notes live here per client and are saved with that client only.
+      if (a) {
+        var fn = el('textarea', '');
+        fn.value = a.notes || '';
+        fn.placeholder = 'Field notes for ' + clientName(cid) + ' only';
+        fn.rows = 2;
+        inputStyle(fn);
+        fn.setAttribute('style', fn.getAttribute('style') + ';width:100%;box-sizing:border-box;margin:-2px 0 8px;resize:vertical');
+        fn.oninput = function () { a.notes = fn.value; markDirty(); };
+        body.appendChild(fn);
+      }
     });
+    var noted = S.selected.map(function (cid) { return (S.audit[cid] && S.audit[cid].notes || '').trim(); }).filter(Boolean);
+    if (noted.length > 1 && noted.some(function (n, i) { return noted.indexOf(n) !== i; })) {
+      var warn = el('div', '', 'Two clients have the same field notes. Check each one says only what is true for that person.');
+      warn.setAttribute('style', 'font-size:11px;color:#f59e0b;margin:4px 0 8px');
+      body.appendChild(warn);
+    }
   }
 
   function summarize(a) {
