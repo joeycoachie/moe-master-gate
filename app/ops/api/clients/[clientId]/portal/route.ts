@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
 import { generatePortalCode, hashPortalCode } from '@/lib/clientSession';
 import fuelCatalog from '@/lib/fuelCatalog.json';
-import { allCheckins, clientRequests, studioToday, trackingFocus } from '@/lib/clientCheckins';
+import { allCheckins, clientReadiness, clientRequests, studioToday, trackingFocus } from '@/lib/clientCheckins';
 
 // Architect controls for one client's portal: code, access, unlocked fuel, RECUP.STN link.
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -35,7 +35,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cli
     if (error) throw new Error(error.message);
     if (!data) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
     const catalog = Object.entries(PRODUCTS).map(([key, p]) => ({ key, title: p.title, group: p.group }));
-    return NextResponse.json({ portal: data, catalog, checkins: await allCheckins(clientId), trackingFocus: await trackingFocus(clientId), requests: await clientRequests(clientId), today: studioToday() });
+    return NextResponse.json({ portal: data, catalog, checkins: await allCheckins(clientId), trackingFocus: await trackingFocus(clientId), requests: await clientRequests(clientId), readiness: await clientReadiness(clientId), today: studioToday() });
   } catch (err) {
     return setupHint(err);
   }

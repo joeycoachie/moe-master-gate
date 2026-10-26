@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { BodyMap, Journey, RecoveryPanel, Ring, TrendChart, resultTone, streak, type Checkin, type Zone } from './visuals';
 import { summarize } from '@/lib/recovery';
+import Readiness from './Readiness';
 
 type Session = {
   date: string;
@@ -94,6 +95,7 @@ type View = {
   recupLinked: boolean;
   checkins: Checkin[] | null;
   trackingFocus: string | null;
+  readiness: Record<string, string> | null;
   today: string;
 };
 
@@ -362,6 +364,13 @@ export default function ClientPortalPage() {
                 <BodyMap focus={view.focus} />
               </div>
             </section>
+
+            {view.readiness && (
+              <section>
+                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Your profile</h2>
+                <Readiness initial={view.readiness} />
+              </section>
+            )}
 
             {view.journey.length > 0 && (
               <section>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { RecoveryPanel, TrendChart, streak, type Checkin } from '@/app/portal/visuals';
 import { fmt, summarize } from '@/lib/recovery';
+import { PARTS, summarizeReadiness } from '@/lib/readiness';
 
 type Portal = { portal_enabled: boolean; portal_code_set_at: string | null; fuel_unlocked: { key: string; dose: string }[]; recup_member_code: string | null };
 type CatalogItem = { key: string; title: string; group: string };
@@ -44,6 +45,7 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
   const [today, setToday] = useState('');
   const [focus, setFocus] = useState('');
   const [requests, setRequests] = useState<{ item_key: string; created_at: string }[] | null>(null);
+  const [readiness, setReadiness] = useState<{ answers: Record<string, string>; updated_at: string | null } | null>(null);
 
   const apply = (p: Portal) => {
     setPortal(p);
@@ -65,6 +67,7 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
         setToday(body.today ?? '');
         setFocus(body.trackingFocus ?? '');
         setRequests(body.requests ?? null);
+        setReadiness(body.readiness ?? null);
       })
       .catch(() => setError('Connection failed.'));
   }, [clientId]);
@@ -271,6 +274,38 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
           <button onClick={() => reset('requests', 'Clear their "I\'m interested" list?')} disabled={busy} className="border border-[#333] text-[#888] px-2 py-1 hover:text-[#f59e0b] hover:border-[#f59e0b] disabled:opacity-40">INTEREST LIST</button>
         </div>
       )}
+
+      <div>
+        <div className="text-[10px] text-[#888] uppercase tracking-widest mb-2">Readiness profile</div>
+        {readiness === null ? (
+          <p className="text-[11px] text-[#f59e0b]">Not set up yet: run database/21_client_readiness.sql in Supabase.</p>
+        ) : (() => {
+          const r = summarizeReadiness(readiness.answers);
+          const yes = PARTS[0].questions.filter((q) => readiness.answers[q.key] === 'yes');
+          const label = (k: string) => PARTS.flatMap((p) => p.questions).find((q) => q.key === k);
+          return (
+            <div className="space-y-2 text-xs">
+              <p className="text-[#ccc]">
+                {r.partsDone} of 3 parts done
+                {r.score != null && <span> · score <b className="text-[#00e5ff]">{r.score}</b> ({r.band})</span>}
+                {readiness.updated_at && <span className="text-[#555]"> · {new Date(readiness.updated_at).toLocaleDateString('en-GB')}</span>}
+              </p>
+              {yes.length > 0 && (
+                <div className="border border-[#f59e0b]/40 bg-[#f59e0b]/5 p-3 space-y-1">
+                  <div className="text-[10px] text-[#f59e0b] uppercase tracking-widest">Safety check · said yes to</div>
+                  {yes.map((q) => <p key={q.key} className="text-[11px] text-[#ddd] font-sans">· {q.label}</p>)}
+                  <p className="text-[10px] text-[#888]">Talk to them before harder work. If unsure, ask for their doctor&apos;s OK.</p>
+                </div>
+              )}
+              {['goal', 'support'].filter((k) => readiness.answers[k]).map((k) => (
+                <p key={k} className="text-[11px] text-[#888]">
+                  {label(k)?.label} <span className="text-white">{label(k)?.choices.find((c) => c.value === readiness.answers[k])?.label}</span>
+                </p>
+              ))}
+            </div>
+          );
+        })()}
+      </div>
 
       {requests && requests.length > 0 && (
         <div>

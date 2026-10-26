@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { buildClientView, currentClientId } from '@/lib/clientPortal';
-import { allCheckins, studioToday, trackingFocus } from '@/lib/clientCheckins';
+import { allCheckins, clientReadiness, studioToday, trackingFocus } from '@/lib/clientCheckins';
 
 // The signed-in client's own file only. The client id comes from the signed cookie,
 // never from the request, so one client can't read another's.
@@ -28,8 +28,8 @@ export async function GET() {
       const s = e.arc_sessions as unknown as { session_date: string; protocol_id: string; note: string | null } | null;
       return s ? [{ stations: e.stations, audit: e.audit, session_date: s.session_date, protocol_id: s.protocol_id, note: s.note }] : [];
     });
-    const [checkins, focus] = await Promise.all([allCheckins(clientId), trackingFocus(clientId)]);
-    return NextResponse.json({ ...buildClientView(client, flat), checkins, trackingFocus: focus, today: studioToday() }, { headers: { 'Cache-Control': 'private, no-store' } });
+    const [checkins, focus, readiness] = await Promise.all([allCheckins(clientId), trackingFocus(clientId), clientReadiness(clientId)]);
+    return NextResponse.json({ ...buildClientView(client, flat), checkins, trackingFocus: focus, readiness: readiness?.answers ?? null, today: studioToday() }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch {
     return NextResponse.json({ error: 'Your file is unavailable right now.' }, { status: 503 });
   }

@@ -40,3 +40,10 @@ export async function clientRequests(clientId: string): Promise<{ item_key: stri
   if (error) return null;
   return data as { item_key: string; created_at: string }[];
 }
+
+// Readiness profile (database/21). Null until the table exists; empty answers until the client starts.
+export async function clientReadiness(clientId: string): Promise<{ answers: Record<string, string>; updated_at: string | null } | null> {
+  const { data, error } = await getSupabaseAdmin().from('client_readiness').select('answers, updated_at').eq('client_id', clientId).maybeSingle();
+  if (error) return null;
+  return { answers: (data?.answers as Record<string, string>) ?? {}, updated_at: data?.updated_at ?? null };
+}

@@ -30,5 +30,6 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 18 | recup_team | RECUP.STN team: partners (team codes), their studio claims and touches. One studio, one owner | **to run** (20 Oct) |
 | 19 | outreach_referrals | 'Referred by' on studios + Sofitel reply logged (Swee Mei via Elisha) | in use (run 22 Oct) |
 | 20 | sofitel_restart | Sofitel card back to Found for Swee Mei (referral restart) | **to run** (22 Oct) |
+| 21 | client_readiness | Readiness profile per client: safety check, lifestyle, commitment, score | **to run** (26 Oct) |
 
 New SQL goes here as `21_<name>.sql`, with a row in this table.
