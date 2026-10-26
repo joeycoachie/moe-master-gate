@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-10-23 · e19e8e7
+# M.O.E. Brain Pack · 2026-10-26 · 0b6631f
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -300,7 +300,10 @@ Newest at the top within each section.
 - Studio after-class menu: **The Flow + The Build** only. The Prime (pre-training) is not approved for service. Full menu stays at RECUP.STN HQ.
 - The three-drink tasting flight is only for a **full event** (open day, challenge, community morning), priced per event and agreed in writing before booking. Never free.
 - Studio-facing title: **Joey, Founder, The M.O.E. Group**. Team pages keep "the Architect".
-- Proof on the deck: package members collect drinks and meals at HQ every week; we run nutrition clubs and nutrition cafés with one aim: to help Malaysians become metabolically healthy (founder, 23 Oct 2026; partner brand never named). Add the active package-member count once counted.
+- Proof on the deck: package members collect drinks and meals at HQ every week; our coaching systems already run in high-performance studios in the Klang Valley; no mention of nutrition clubs or cafés (founder, 26 Oct 2026; partner brand never named; a studio is named only with its written OK). Add the active package-member count once counted.
+
+## 2026-10-26 · Outreach protocol (gate G-25)
+- The Phase Action Protocol is folded into SYS-P058 (Studio Infiltration Protocol) as its step-by-step checklist, v2.0. No new ID. Steps in plain words: Find, Say hello, Listen, Plan, Start. It runs in the Outreach Console.
 
 
 ---
@@ -408,7 +411,6 @@ The rule behind all five: **borrow with permission, return more than you took, k
 - G-22 · SYS-D028 · SYS-T065
 - G-23 · SYS-D028 · KIN-D024
 - G-24 · SYS-D028 · SYS-D023
-- G-25 · Phase Action Protocol (outreach console)
 - G-26 · Three ID and version clashes in files received 17 Oct
 - G-27 · T-032: sort the 9 prompts (keep, merge or veto)
 
@@ -551,7 +553,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **SYS-P056** The Negotiation Shield: [PLAYBOOK] Psychological architecture for transitioning from a "Technician" (hourly rate) to an "Architect" (Expected Value/Equity). Weaponizes Law 9 (Demonstr…
 - **KIN-P015** Hardware Procurement (The 3 Filters): [INTERNAL] The operational checklist for purchasing studio props. Enforces Zero Friction, Practical Safety, and Multi-Gate Utility to prevent chaotic room tran…
 - **SYS-P057** The Career Pivot DMO (Dual-Channel): [PLAYBOOK] Fuses both the Aggressive Outbound (Reddit DMs) and Automated Inbound (RM 100 Meta Ads + Notion Blueprint) into a single pipeline for recruiting lai…
-- **SYS-P058** The Studio Infiltration Protocol: [PLAYBOOK] B2B Checklist for approaching studio owners. Uses the Anchor & Bridge to pivot from kinetic movement to metabolic revenue, culminating in the physic…
+- **SYS-P058** The Studio Infiltration Protocol: [PLAYBOOK] Approaching studio, gym and hotel owners, from first message to a signed deal. v2.0 (2026-10-26, gate G-25) folds in the Phase Action Protocol as it…
 - **SYS-P059** The LTV Ascension Schedule: [PLAYBOOK] Architecting studio timetables as a conversion funnel. Employs Proximity and Gated Exclusivity to systematically move clients from Control (L1) to F…
 - **SYS-P060** The Universal Signal Pipeline (N8N-TELEGRAM): [PLAYBOOK] Automated asymmetric surveillance protocol. Syncs high-fidelity data sources (API/Webhook) directly to Telegram using N8N logic filters.
 - **SYS-P062** The 90-Day Ascent (Franchise Shell): [PLAYBOOK] The Master Shell for transitioning a [STUDIO/CLINIC] from "Reactive Chaos" to "Systemic Autonomy." Includes the Founder's Shields for scope creep.

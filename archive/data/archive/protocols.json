@@ -847,8 +847,16 @@
     "name": "The Studio Infiltration Protocol",
     "meta_type": "[L1-P]",
     "classification": "REVENUE_OS",
-    "desc": "[PLAYBOOK] B2B Checklist for approaching studio owners. Uses the Anchor & Bridge to pivot from kinetic movement to metabolic revenue, culminating in the physical drop of the Executive Dossiers.",
-    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+    "desc": "[PLAYBOOK] Approaching studio, gym and hotel owners, from first message to a signed deal. v2.0 (2026-10-26, gate G-25) folds in the Phase Action Protocol as its execution checklist: Find, Say hello, Listen, Plan, Start. Runs live in the Outreach Console (/ops/outreach). Ends with the Executive Dossier drop when a lead goes quiet.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)",
+    "doc_version": "2.0",
+    "components": [
+      "Find: 10 venues that care about results but run on WhatsApp and spreadsheets",
+      "Say hello: one short message, one ask (a 15-minute call or the deck)",
+      "Listen: ask, say back what you heard, no pitch",
+      "Plan: a one-page 90-day plan from their own words (T-029)",
+      "Start: sign the 90-Day Setup, or book the RECUP.STN pilot"
+    ]
   },
   {
     "id": "SYS-P059",

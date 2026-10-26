@@ -239,22 +239,6 @@ SYS-D023 links M.O.E. to Herbalife; SYS-D028 bars naming the partner brand in pu
 
 ## New items waiting to be filed
 
-### G-25 · Phase Action Protocol (outreach console)
-
-Received 17 Oct 2026: `inbox/phase-action-protocol.html`, a gamified 4-phase checklist (Targeting & Infiltration → Diagnostic → Blueprint → Handover). It only chains items already in the Archive: P-015, SYS-P058, T-027, T-029, P-011, T-044. Its job is SYS-P058's job (approach studio owners, end in a signed deal).
-
-1. Fold it into SYS-P058 as its execution checklist (no new ID; SYS-P058 v2)
-2. File it as a new Tool (T-045) that replaces nothing
-3. Keep it as a personal console only, not in the Archive
-
-**Recommended:** 1. Rule B: no new framework when an existing one does the job.
-
-Two fixes needed whichever you pick:
-- Phase 4 sells a "fractional retainer" (placeholder RM 3,500/month). The BC3 offer is the 90-Day Setup RM 9,000 + Studio Licence RM 1,200/month (+ Floor Command RM 2,000, + Recovery Bar). The Handover should sell that.
-- The Axiomatic Hook fails SYS-D028 (jargon: "architect internal operating systems", "biomechanical", "X-Ray"; one 23-word sentence). Plain version: `hub/OUTREACH_PLAIN.md`.
-
-**19 Oct 2026:** both fixes applied in the live version, the Outreach Console at /ops/outreach (SYS.OP). It runs on data, not hand ticks, so it works under any of the three options. This gate now only decides the Archive ID.
-
 ### G-26 · Three ID and version clashes in files received 17 Oct
 
 Full text of 7 documents is now in `docs/`. Three disagree with the Archive:
@@ -294,4 +278,6 @@ The Crucible Investigator is the agent you asked for: it digs into a failure fro
 
 ## Settled
 
-_None yet._
+### G-25 · Phase Action Protocol → settled 26 Oct 2026
+
+Founder chose option 1: folded into SYS-P058 as its execution checklist (v2.0), no new ID. It runs in the Outreach Console. The file stays in `inbox/` as the original.
