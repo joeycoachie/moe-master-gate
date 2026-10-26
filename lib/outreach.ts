@@ -209,8 +209,8 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
   },
   {
     code: 'V14', road: 'fuel', angle: 'Instagram nudge after an unanswered email',
-    use_when: 'No reply by email. A short DM to the studio’s Instagram, from @recup.stn.',
-    body: msg('Quick note from RECUP.STN', "Hi {studio}, Joey from @recup.stn here. I sent you an email about a one-class recovery pilot for your members.\n\nWho is the best person to chat with about member events?"),
+    use_when: 'No reply by email. A short DM to the studio’s Instagram, from your own account.',
+    body: msg('Quick note from RECUP.STN', "Hi {studio}, Joey from RECUP.STN here. I sent you an email about a one-class recovery pilot for your members.\n\nWho is the best person to chat with about member events?"),
   },
   {
     code: 'V15', road: 'fuel', angle: 'Call script: ask for the person by name',
