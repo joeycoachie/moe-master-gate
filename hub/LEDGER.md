@@ -111,3 +111,5 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-26 · RECUP.STN · Instagram handle removed from decks, guide and V14 (all languages) until the account is established; Sofitel PDF rebuilt · c0ba3bf
 - 2026-10-26 · RECUP.STN · Proof now 'already on studio floors' (no nutrition clubs/cafés, founder); Road A venue pricing draft (RM300 station + RM16/cup, min 25 cups) at Founder Command → RECUP PRICING; Sofitel deck shaped by her answers · 68cb0b0
 - 2026-10-26 · M.O.E. Terminal · Optimum Fit handover closed: clean data folder sent to Danny on Google Drive (founder)
+- 2026-10-26 · M.O.E. Terminal · Client readiness profile live in the portal (7 safety questions, your week, your commitment → readiness score 0-100; coach sees score and safety yes answers; needs database/21) · 6ac4870
+- 2026-10-26 · Intelligence Archive · Gate G-25 settled: Phase Action Protocol folded into SYS-P058 v2.0 · a829346
