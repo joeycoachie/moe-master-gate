@@ -108,3 +108,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-25 · RECUP.STN · Decks answer Rachel's 5 owner questions: new 'What you get' slide (benefits + two agreed numbers, stop if missed) and 'small risk to test' on proof; 14 slides, all languages, hotel PDF rebuilt · c552111
 - 2026-10-26 · M.O.E. Terminal · Client Log: each client in a shared session gets their own Phase 5 field notes (Zi's 26 Oct note was a copy of Mae's; founder to correct by reopening the session) · 1cc5056
 - 2026-10-26 · RECUP.STN · Final Sofitel deck (14 slides, 'RECUP.STN x Sofitel FITNESS.pdf') and email ready; founder schedules send 27 Oct 8:00 AM · 00c947d
+- 2026-10-26 · RECUP.STN · Instagram handle removed from decks, guide and V14 (all languages) until the account is established; Sofitel PDF rebuilt · c0ba3bf
