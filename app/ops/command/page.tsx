@@ -20,11 +20,12 @@ export default async function OpsCommandPage() {
     redirect('/ops/architect?next=/ops/command');
   }
 
-  const [roadmap, ledger, links, playbook] = await Promise.all([
+  const [roadmap, ledger, links, playbook, recupPricing] = await Promise.all([
     readFile(path.join(HUB, 'ROADMAP.md'), 'utf8'),
     readFile(path.join(HUB, 'LEDGER.md'), 'utf8'),
     readFile(path.join(HUB, 'LINKS.md'), 'utf8'),
     readFile(path.join(HUB, 'HVO_PLAYBOOK.md'), 'utf8'),
+    readFile(path.join(HUB, 'RECUP_PRICING.md'), 'utf8'),
   ]);
 
   // Ledger lines look like "- 2026-10-09 · Product · what changed · ref". Newest first.
@@ -47,6 +48,7 @@ export default async function OpsCommandPage() {
           </div>
           <nav className="flex gap-2 text-xs">
             <a href="#links" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">LINKS</a>
+            <a href="#recup" className="border border-[#E07A55]/60 px-3 py-2 text-[#E07A55] hover:text-white">RECUP PRICING</a>
             <a href="#playbook" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">HVO PLAYBOOK</a>
             <a href="#roadmap" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">ROADMAP</a>
             <a href="#ledger" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">LEDGER</a>
@@ -55,6 +57,8 @@ export default async function OpsCommandPage() {
         </header>
 
         <section id="links" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(links) }} />
+
+        <section id="recup" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(recupPricing) }} />
 
         <section id="playbook" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(playbook) }} />
 

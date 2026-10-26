@@ -101,4 +101,4 @@ Newest at the top within each section.
 - Studio after-class menu: **The Flow + The Build** only. The Prime (pre-training) is not approved for service. Full menu stays at RECUP.STN HQ.
 - The three-drink tasting flight is only for a **full event** (open day, challenge, community morning), priced per event and agreed in writing before booking. Never free.
 - Studio-facing title: **Joey, Founder, The M.O.E. Group**. Team pages keep "the Architect".
-- Proof on the deck: package members collect drinks and meals at HQ every week; we run nutrition clubs and nutrition cafés with one aim: to help Malaysians become metabolically healthy (founder, 23 Oct 2026; partner brand never named). Add the active package-member count once counted.
+- Proof on the deck: package members collect drinks and meals at HQ every week; our coaching systems already run in high-performance studios in the Klang Valley; no mention of nutrition clubs or cafés (founder, 26 Oct 2026; partner brand never named; a studio is named only with its written OK). Add the active package-member count once counted.
