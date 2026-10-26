@@ -109,3 +109,5 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-26 · M.O.E. Terminal · Client Log: each client in a shared session gets their own Phase 5 field notes (Zi's 26 Oct note was a copy of Mae's; founder to correct by reopening the session) · 1cc5056
 - 2026-10-26 · RECUP.STN · Final Sofitel deck (14 slides, 'RECUP.STN x Sofitel FITNESS.pdf') and email ready; founder schedules send 27 Oct 8:00 AM · 00c947d
 - 2026-10-26 · RECUP.STN · Instagram handle removed from decks, guide and V14 (all languages) until the account is established; Sofitel PDF rebuilt · c0ba3bf
+- 2026-10-26 · RECUP.STN · Proof now 'already on studio floors' (no nutrition clubs/cafés, founder); Road A venue pricing draft (RM300 station + RM16/cup, min 25 cups) at Founder Command → RECUP PRICING; Sofitel deck shaped by her answers · 68cb0b0
+- 2026-10-26 · M.O.E. Terminal · Optimum Fit handover closed: clean data folder sent to Danny on Google Drive (founder)
