@@ -698,8 +698,11 @@ function StudioCard({
 
           {/* The gift follow-up, ready when it is due */}
           {move && move.key !== 'wait' && (() => {
-            // Follow-up: V13 (or V14 on Instagram). Call: V15 script. Visit: V16 script.
-            const code = move.key === 'followup' ? (channel === 'instagram' ? 'V14' : 'V13') : move.key === 'call' ? 'V15' : 'V16';
+            // Follow-up 1 (gift): V13 fuel / V17 kinetic. Follow-up 2 (new angle): V18 fuel / V19 kinetic.
+            const kin = roadOf(t) === 'kinetic';
+            const code = move.key === 'followup'
+              ? channel === 'instagram' ? 'V14' : move.followup === 2 ? (kin ? 'V19' : 'V18') : (kin ? 'V17' : 'V13')
+              : move.key === 'call' ? 'V15' : 'V16';
             const gv = variants.find((x) => x.code === code);
             if (!gv) return null;
             const ch = move.key === 'followup' ? channel : 'person';

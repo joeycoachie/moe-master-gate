@@ -207,6 +207,13 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
     use_when: 'No reply after 3 working days. Same channel as the first message. The gift is a visit to RECUP.STN HQ.',
     body: msg('An invitation for the {studio} team', "Hi {name}, following up on my note about a recovery pilot for {studio}. Instead of another message, an invitation. Come by RECUP.STN HQ with one teammate, try the drinks on us, and see how the check-in works.\n\nDoes Thursday or Friday suit you?"),
   },
+  // Second follow-up (27 Oct 2026): a new angle, Chris Voss style. A no-oriented question ("Is that fair?",
+  // "Would it be a bad idea…?") is easy to answer because saying no feels safe. Attach one photo.
+  {
+    code: 'V18', road: 'fuel', angle: 'Second follow-up: a fair guess, then a no-question',
+    use_when: 'No reply 3 working days after the gift follow-up. Same thread. Attach one photo of the station at HQ (no brand logos, members only with their OK).',
+    body: msg('Is that fair?', "Hi {name}, Joey here. I haven't heard back, so my guess is member events are not a priority at {studio} right now. Is that fair?\n\nIf it is, no problem at all. If not, here is our station at HQ this month. One table, ten minutes after class, and a drink chosen for each member's session.\n\nWould it be a bad idea to try it after one class?"),
+  },
   {
     code: 'V14', road: 'fuel', angle: 'Instagram nudge after an unanswered email',
     use_when: 'No reply by email. A short DM to the studio’s Instagram, from your own account.',
@@ -227,6 +234,18 @@ export const MESSAGE_LIBRARY: LibraryMessage[] = [
     code: 'V10', road: 'kinetic', angle: 'The bridge: tasting numbers → the system',
     use_when: 'Warm. The day after a tasting, when you send the owner their numbers. This is where the system comes in.',
     body: msg('Your tasting day, in numbers', "Hi {name}, here are the numbers from the tasting at {studio}. [__] members checked in and [__] asked for more. That's one table on one day. Imagine the same picture for every client in every class. Who trains, what they need, who is slipping away.\n\nDoes Tuesday or Wednesday suit you for 15 minutes to look at it together?"),
+  },
+  // Kinetic follow-ups (27 Oct 2026). Gift = a free readiness check for their clients. Sell before build:
+  // offer it first; build the studio version for the first studio that says yes.
+  {
+    code: 'V17', road: 'kinetic', angle: 'Gift follow-up: a free readiness check for their clients',
+    use_when: 'No reply after 3 working days. Same thread as the first email. If they say yes, tell Claude to build their studio version.',
+    body: msg('A free readiness check for {studio} clients', "Hi {name}, following up on my note about coaching at {studio}. Instead of another question, something useful.\n\nWe built a 2-minute readiness check. Clients fill it in on their phone: sleep, stress, how often they train, and what they want most. I'd like to set it up for {studio} for free. You get the totals for your clients, and nothing is sold to them.\n\nWould that be useful, or is now a bad time?"),
+  },
+  {
+    code: 'V19', road: 'kinetic', angle: 'Second follow-up: a fair guess, then a no-question',
+    use_when: 'No reply 3 working days after the gift follow-up. Same thread. Attach one screenshot of the client portal (sample data, no real client).',
+    body: msg('Is that fair?', "Hi {name}, Joey here. I haven't heard back, so my guess is your team already coaches to one standard at {studio}. Is that fair?\n\nIf it is, I'll leave you be. If not, here is what a client sees on their phone after a session. Their programme week by week, and how they are recovering.\n\nWould it be a bad idea to look at it together for 15 minutes?"),
   },
   {
     code: 'V3', road: 'kinetic', angle: 'Email: one real detail, then one question',
@@ -392,14 +411,15 @@ export function workingDaysSince(iso: string, now = Date.now()) {
 }
 
 // The no-reply ladder (SYS-P058 ends with the physical drop, so the visit comes last):
-// message → 3 working days → follow-up with a gift → 3 working days → call → visit and drop the Executive Dossier.
+// message → 3 working days → follow-up with a gift → 3 working days → second follow-up (a new angle)
+// → 3 working days → call → visit and drop the Executive Dossier.
 export type MoveKey = 'followup' | 'call' | 'visit';
 export const MOVE_LABEL: Record<MoveKey, string> = {
   followup: 'Follow up with a gift',
   call: 'Call them',
   visit: 'Visit: drop the Executive Dossier',
 };
-export type Move = { key: MoveKey | 'wait'; label: string; due: boolean; inDays: number };
+export type Move = { key: MoveKey | 'wait'; label: string; due: boolean; inDays: number; followup?: 1 | 2 };
 
 export function nextMove(t: Target, events: OutreachEvent[], now = Date.now()): Move | null {
   if (t.stage !== 'messaged') return null;
@@ -413,8 +433,10 @@ export function nextMove(t: Target, events: OutreachEvent[], now = Date.now()): 
   const call = last('call');
   if (call) return step('visit', call.created_at, 0); // the call books the visit
   const follow = last('followup');
-  if (follow) return step('call', follow.created_at, WAIT_WORKING_DAYS);
-  return step('followup', t.stage_at.messaged ?? t.last_touch_at ?? undefined, WAIT_WORKING_DAYS);
+  const follows = events.filter((e) => e.target_id === t.id && e.kind === 'followup').length;
+  if (follow && follows >= 2) return step('call', follow.created_at, WAIT_WORKING_DAYS);
+  if (follow) return { ...step('followup', follow.created_at, WAIT_WORKING_DAYS), label: 'Second follow-up: a new angle', followup: 2 };
+  return { ...step('followup', t.stage_at.messaged ?? t.last_touch_at ?? undefined, WAIT_WORKING_DAYS), followup: 1 };
 }
 
 export function dueMoves(targets: Target[], events: OutreachEvent[], now = Date.now()) {
