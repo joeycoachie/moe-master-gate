@@ -48,5 +48,25 @@ const body=(fn)=>{const i=scripts.search(new RegExp('function\\s+'+fn+'\\s*\\(')
 const ul=body('updateLogistics'); ul&&ul.length>200&&ul.includes('logisticsBanner')?ok('hardware matrix engine: updateLogistics() works'):bad('hardware matrix engine stubbed: updateLogistics() is empty or missing');
 const ao=body('autoOptimizeEquipment'); ao&&ao.includes('getInventory')?ok('AUTO-FIT reads the inventory'):bad('AUTO-FIT stubbed: autoOptimizeEquipment() ignores the inventory');
 const ev=body('evaluateAuditLoop'); ev&&ev.includes('auditVerdictBox')?ok('Phase 5 verdict logic: evaluateAuditLoop()'):bad('Phase 5 verdict logic missing: no evaluateAuditLoop() writing #auditVerdictBox');
+// Arc continuity (V2.2): overrides and the triage gate introduced earlier in an arc carry forward.
+// KIN-P019 W3 (29 Oct) dropped W2's clavicle and arch overrides; this catches it next time.
+{
+  const path = require('path');
+  const m = path.basename(file).match(/^(KIN-P\d+)_W(\d+)\.html$/);
+  if (m) {
+    const dir = path.join(__dirname, 'protocols');
+    const keysOf = (html) => new Set([...html.matchAll(/id="([a-z]+)ToggleBtn"/g)].map((x) => x[1]));
+    const mine = keysOf(h);
+    const hasTriage = /Triage Resolution/i.test(h);
+    for (let w = 1; w < Number(m[2]); w++) {
+      const prev = path.join(dir, `${m[1]}_W${w}.html`);
+      if (!fs.existsSync(prev)) continue;
+      const ph = fs.readFileSync(prev, 'utf8');
+      const missing = [...keysOf(ph)].filter((k) => !mine.has(k));
+      if (missing.length) warn(`arc continuity: W${w} has override(s) ${missing.join(', ')} that this card dropped`);
+      if (/Triage Resolution/i.test(ph) && !hasTriage) warn(`arc continuity: W${w} has a Triage Resolution gate; this card has none`);
+    }
+  }
+}
 console.log(out.join('\n'));
 process.exitCode=out.some(l=>l.startsWith('FAIL'))?1:0;
