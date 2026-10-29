@@ -116,3 +116,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-10-27 · M.O.E. Terminal · Outreach: second follow-up step (new angle, no-oriented question) before the call; V17 kinetic gift (free readiness check, sell before build), V18/V19 · d630ba0
 - 2026-10-27 · Protocol Atlas · Four October crucibles debriefed (clinic founder, hotel manager, retainer exit, six silent studios) in GRAHAM folder Crucibles/2026-10, each with a plain public lesson
 - 2026-10-29 · M.O.E. Terminal · KIN-P019 W3 (Isometric Hinge & Tendon Analgesia) live in the Armory in KA-Alex's new Setup/Action/Breath/Layer format; toggleRA alias added and one degree-text glitch fixed, content untouched · a0cc71e
+- 2026-10-29 · M.O.E. Terminal · KIN-P019 W3 reissued by KA-Alex on SYS-D022 V2.2: nerve/knee, clavicle/pec and arch overrides restored, Gate 3 Triage Resolution, arch body check; checker now warns when a week drops an arc's overrides · bbb3abe
