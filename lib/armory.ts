@@ -96,6 +96,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'KA-Alex (KIN-T072), 19 Oct 2026 (replaces the 11 Oct issue)',
     addedOn: '2026-10-19',
   },
+  {
+    id: 'KIN-P019_W3',
+    arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
+    week: 3,
+    title: 'Isometric Hinge & Tendon Analgesia',
+    focus: 'Soft-knee (30°) hinge re-entry → shallow 30–45° isometric holds for the patellar tendon → rotation from thorax and hips; every move as Setup / Action / Breath / Layer',
+    doctrine: 'SYS-D022 V2.1',
+    source: 'KA-Alex (KIN-T072), 29 Oct 2026, Cognitive Ease format (toggleRA alias added, degree text fixed)',
+    addedOn: '2026-10-29',
+  },
 ];
 
 // What a client sees in their portal: outcome language, never the clinical label.
