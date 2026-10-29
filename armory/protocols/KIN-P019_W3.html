@@ -30,9 +30,16 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .ra-module { display: none; }
+        /* OVERRIDE MODULES (V2.2 Standard) */
+        .ra-module, .clavicle-module, .arch-module { display: none; }
         body.ra-active .ra-module { display: block; animation: fadeIn 0.25s ease-in; }
-        .ra-toggle-btn.active { background-color: #1e3a8a; border-color: #3b82f6; color: #ffffff; }
+        body.clavicle-active .clavicle-module { display: block; animation: fadeIn 0.25s ease-in; }
+        body.arch-active .arch-module { display: block; animation: fadeIn 0.25s ease-in; }
+
+        .override-btn { transition: all 0.2s; }
+        .override-btn.active.ra-btn { background-color: #1e3a8a; border-color: #3b82f6; color: #ffffff; }
+        .override-btn.active.clavicle-btn { background-color: #4c1d95; border-color: #8b5cf6; color: #ffffff; }
+        .override-btn.active.arch-btn { background-color: #064e3b; border-color: #10b981; color: #ffffff; }
 
         input[type="checkbox"] {
             appearance: none; background-color: #050505; margin: 0; font: inherit; color: currentColor;
@@ -58,7 +65,7 @@
     <aside class="w-full md:w-80 border-b md:border-b-0 md:border-r border-[#333333] bg-[#050505] p-6 flex flex-col overflow-y-auto shrink-0 z-20">
         <div class="mb-6 border-b border-[#222222] pb-5">
             <div class="flex items-center justify-between mb-2">
-                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2.1</p>
+                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2.2</p>
                 <span class="text-[10px] font-mono px-2 py-0.5 border border-[#3b82f6] bg-[#0a192f] text-blue-300">HIP/KNEE</span>
             </div>
             <h1 class="text-2xl text-white">KIN-P019_W3</h1>
@@ -120,13 +127,21 @@
                 </div>
             </div>
 
+            <!-- V2.2 DYNAMIC TRIAGE OVERRIDES -->
             <div class="pt-2 space-y-2 border-t border-[#222222]">
                 <div class="flex gap-2 mb-3">
                     <button onclick="setGlobalPreset('apparatus')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">STUDIO PRESET</button>
                     <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">MAT / PROPS</button>
                 </div>
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold mb-2">Dynamic Triage Overrides</h3>
                 <button id="raToggleBtn" onclick="toggleOverride('ra')" class="override-btn ra-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3 transition-colors">
-                    [ ] KNEE / NERVE OVERRIDE
+                    [ ] NERVE / KNEE SHEAR
+                </button>
+                <button id="clavicleToggleBtn" onclick="toggleOverride('clavicle')" class="override-btn clavicle-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3 transition-colors">
+                    [ ] ACUTE CLAVICLE / PEC FLUSH
+                </button>
+                <button id="archToggleBtn" onclick="toggleOverride('arch')" class="override-btn arch-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3 transition-colors">
+                    [ ] PRONATION / ARCH TENSION
                 </button>
             </div>
         </div>
@@ -167,7 +182,7 @@
             </div>
             <p class="text-xs text-gray-300 mt-4 leading-relaxed">
                 In Week 3, we re-introduce the hip hinge pattern. However, to prevent the autonomic sympathetic response (piloerection/"goosebumps") caused by sciatic-tibial nerve traction, we strictly enforce a <strong class="text-white">30° soft-knee bend (The Wall-Tap Hinge)</strong>. Straight legs are banned. <br><br>
-                To address patellofemoral sensitivity, we deploy <strong class="text-[#00e5ff] uppercase">Shallow Isometric Holds</strong> (e.g., Spanish Squats / Wall Sits). Heavy isometric holds at a shallow angle (30–45°) create immediate <strong class="text-white">tendon analgesia</strong> (pain relief for the patellar tendon) without the shear forces of deep flexion. The Override profile avoids deep squats entirely.
+                To address patellofemoral sensitivity, we deploy <strong class="text-[#00e5ff] uppercase">Shallow Isometric Holds</strong> (e.g., Spanish Squats / Wall Sits). Heavy isometric holds at a shallow angle (30-45°) create immediate <strong class="text-white">tendon analgesia</strong> (pain relief for the patellar tendon) without the shear forces of deep flexion. The Override profile avoids deep squats entirely.
             </p>
         </div>
 
@@ -202,20 +217,20 @@
                         </div>
                         <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
                             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 02: Isometric Depth Control</span>
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 02: Iso-Depth & Rotary Control</span>
                                 <select id="gate2-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none focus:border-[#00e5ff]">
-                                    <option value="pass">PASSED (Pain-free tendon analgesia achieved)</option>
-                                    <option value="fail">FAIL: Squatted too deep, causing patellar shear/pain</option>
+                                    <option value="pass">PASSED (Pain-free analgesia + Stable Rotation)</option>
+                                    <option value="fail">FAIL: Squatted too deep or knee valgus in torque</option>
                                 </select>
                             </div>
-                            <p class="text-[10px] text-gray-500 font-mono mt-2">During Wall Sits or Spanish Squats, did the client respect the 30-45° shallow limit?</p>
+                            <p class="text-[10px] text-gray-500 font-mono mt-2">During Wall Sits or Spanish Squats, did the client respect the 30-45° limit, keeping rotational integrity?</p>
                         </div>
                         <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
                             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
-                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 03: Rotational Control</span>
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 03: Triage Resolution</span>
                                 <select id="gate3-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 appearance-none outline-none focus:border-[#00e5ff]">
-                                    <option value="pass">PASSED (Pelvis stable, rotation from thorax/hips)</option>
-                                    <option value="fail">FAIL: Knee valgus or lumbar twisting during torque</option>
+                                    <option value="pass">PASSED (Overrides reduced acute pain)</option>
+                                    <option value="fail">FAIL: Clavicle/Foot/Knee pain persists</option>
                                 </select>
                             </div>
                         </div>
@@ -237,6 +252,13 @@
                             <div>
                                 <span class="text-xs font-mono font-bold text-red-400 uppercase block">Nerve Alert: Piloerection Triggered</span>
                                 <span class="text-[11px] text-gray-400">Goosebumps/"hair standing up" felt behind knees during hinge.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-amber-500 transition-colors">
+                            <input type="checkbox" id="som-arch" onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-amber-400 uppercase block">Foot/Arch Alert: Plantar Tension</span>
+                                <span class="text-[11px] text-gray-400">Client felt sharp arch or heel pain during grounded holds.</span>
                             </div>
                         </label>
                     </div>
@@ -272,21 +294,27 @@
                                 setup: 'Mat + Wall (1 foot away)', 
                                 reps: '12 Reps', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand 12 inches from wall. Feet hip-width. Lock knees into a soft 30° bend.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hinge at hips, sending sit-bones straight back until glutes lightly tap the wall. Shins must remain 100% vertical.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale to hinge back, Exhale to drive hips forward and squeeze glutes.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Add a 3-second isometric hold when glutes touch the wall.`, 
-                                ra: 'Mandate the 30° knee bend. If client locks knees, move them closer to the wall to force a shallower hinge.' 
+                                ra: 'Mandate the 30° knee bend. If client locks knees, move them closer to the wall to force a shallower hinge.',
+                                clavicle: 'Substitute with eccentric DB Chest Flies on a Foam Roller.',
+                                arch: 'Perform Seated Short Foot Doming (squeeze arch up without curling toes).'
                             },
                             props_freeweight: { 
                                 name: 'DB Soft-Knee RDL', 
                                 setup: '2 Light DBs', 
                                 reps: '10 Reps', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Hold DBs at sides. Feet hip-width. Establish a strict 30° knee bend.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hinge hips back, letting DBs slide down thighs. Stop just below the knees before the hamstrings stretch aggressively.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale descent, Exhale drive through flat heels to stand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> 4-second slow eccentric descent.`, 
-                                ra: 'Stop 20% before any pulling sensation behind the knee.' 
+                                ra: 'Stop 20% before any pulling sensation behind the knee.',
+                                clavicle: 'Substitute with unweighted floor sweeps to avoid DB chest pull.',
+                                arch: 'Keep weight fully centered on the heel; do not let the ball of foot press hard.'
                             },
                             props_band: { 
                                 name: 'Banded Good Morning (Soft Knee)', 
                                 setup: 'Band around neck/feet', 
                                 reps: '12 Reps', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Step on band, loop over back of neck. Hold band at shoulders to reduce neck strain. Soft 30° knee bend.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hinge hips back, bowing torso forward. Drive glutes forward into the band tension to stand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale bow forward, Exhale snap hips to vertical.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Pulse twice at the bottom of the hinge.`, 
-                                ra: 'Keep knees bent 30° minimum.' 
+                                ra: 'Keep knees bent 30° minimum.',
+                                clavicle: 'Remove the band from the neck; use a low anchor for a simple pull.',
+                                arch: 'Anchor the band under heavy dumbbells instead of feet.'
                             }
                         }
                     },
@@ -298,21 +326,27 @@
                                 setup: '1 Red', 
                                 reps: '60s Sway', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine on carriage. Heels placed wide on the corners of the footbar. Knees softly bent.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Gently sway both knees 6 inches to the right, then 6 inches to the left, mobilizing the lower lumbar and ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale as knees drop, Exhale to pull them back to center.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Turn head in the opposite direction of the knees.`, 
-                                ra: 'Keep knees softly bent, limit sway width to pain-free range.' 
+                                ra: 'Keep knees softly bent, limit sway width to pain-free range.',
+                                clavicle: 'Rest arms close to body instead of a wide "T".',
+                                arch: 'Let feet rest entirely neutral without pushing the footbar.'
                             },
                             mat: { 
                                 name: 'Sidelying Open-Book (45° Stack)', 
                                 setup: 'Roller between knees', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sidelying. Head supported. Knees bent at a loose 45° angle, clamping a foam roller to lock pelvis.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Sweep top arm toward ceiling, then let the weight of the arm peel the chest open toward the floor behind you.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale reach up, Exhale melt into rotation.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Bend the elbow to a 90° cactus arm to intensify pec stretch.`, 
-                                ra: 'Loose 45° bend prevents popliteal pinch.' 
+                                ra: 'Loose 45° bend prevents popliteal pinch.',
+                                clavicle: 'Substitute with Supine Scapular Glides on a vertical foam roller.',
+                                arch: 'Safe.'
                             },
                             barrel: { 
                                 name: 'Seated Apex Rotation', 
                                 setup: 'Sit high', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sit tall on barrel apex. Feet resting lightly on a high rung. Hands cradling base of skull.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Rotate the upper thoracic spine right and left. The pelvis must remain cemented to the apex.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale center, Exhale wring the ribs out to rotate.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Pulse twice at end range of rotation.`, 
-                                ra: 'Do not hook toes aggressively; keep legs relaxed.' 
+                                ra: 'Do not hook toes aggressively; keep legs relaxed.',
+                                clavicle: 'Keep arms low across chest rather than behind head.',
+                                arch: 'Do not hook the rung with toes; rest calves on the ladder.'
                             }
                         }
                     },
@@ -324,21 +358,27 @@
                                 setup: 'Top-sprung', 
                                 reps: '10 Reps', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine, knees bent, feet flat. Hands shoulder-width on Roll-Down bar above chest.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press bar down to thighs while actively imprinting the lower back into the mat. Perform subtle pelvic clocks.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale bar up, Exhale press down and flatten spine.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Float one leg to tabletop while pressing bar.`, 
-                                ra: 'Bolster under knees if lying flat causes back/knee pain.' 
+                                ra: 'Bolster under knees if lying flat causes back/knee pain.',
+                                clavicle: 'Use minimal spring tension; avoid locking elbows out.',
+                                arch: 'Standing calf stretch on wall instead.'
                             },
                             chair: { 
                                 name: 'Seated Pedal Core Hover', 
                                 setup: '1 Heavy', 
                                 reps: '30s Hold', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sit on front edge of chair. Hands resting on front corners of the seat pad.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Depress shoulders, push hands into seat, and hover hips 1 inch off the cushion using deep lower abs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Continuous deep breathing. Do not hold breath.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Extend one leg straight out while hovering.`, 
-                                ra: 'Safe. Focus on scapular depression.' 
+                                ra: 'Safe. Focus on scapular depression.',
+                                clavicle: 'Substitute with a passive forearm plank on the chair to avoid shoulder depression stress.',
+                                arch: 'Safe.'
                             },
                             mat: { 
                                 name: 'Quadruped Bird-Dog', 
                                 setup: 'Mat', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Hands under shoulders, knees under hips. Spine perfectly flat like a table.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Extend right arm forward and left leg backward. Resist any rotational shift in the pelvis.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale reach, Exhale pull limbs back to mat.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Draw a small square with the extended arm and leg.`, 
-                                ra: 'Drop to forearms to spare wrists.' 
+                                ra: 'Drop to forearms to spare wrists.',
+                                clavicle: 'Keep arm reaches low and short, avoid full extension.',
+                                arch: 'Safe.'
                             }
                         }
                     }
@@ -356,25 +396,31 @@
                         role: 'Shallow Tendon Isometric (Analgesia)',
                         options: {
                             props_band: { 
-                                name: 'Heavy Band Spanish Squat (30°)', 
+                                name: 'Heavy Band Spanish Squat (30-45°)', 
                                 setup: 'Heavy Band anchored behind knees', 
                                 reps: '5 x 15s Holds', 
-                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Band anchored to rig at calf height, looped behind both knees. Stand tall, tension on band.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Lean back against the band. Bend knees to a shallow 30°. Hold isometrically, letting the band support your weight.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s Inhale, 4s Exhale through the burn.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Tap one heel forward while holding the squat.`, 
-                                ra: 'Mandatory 30° depth limit. Zero deep flexion.' 
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Band anchored to rig at calf height, looped behind both knees. Stand tall, tension on band.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Lean back against the band. Bend knees to a shallow 30-45°. Hold isometrically, letting the band support your weight.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s Inhale, 4s Exhale through the burn.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Tap one heel forward while holding the squat.`, 
+                                ra: 'Mandatory 30° depth limit. Zero deep flexion.',
+                                clavicle: 'Arms fully relaxed at sides; do not grip the rig/wall.',
+                                arch: 'Focus strictly on the heel drive, do not grip with toes.'
                             },
                             barrel: { 
                                 name: 'Wall-Sit Isometric (against Barrel base)', 
                                 setup: 'Back against base', 
                                 reps: '4 x 20s Holds', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand with back against solid barrel base. Step feet forward 18 inches.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Slide down to a shallow 45° angle. Shins MUST be perfectly vertical. Press lower back into the wood. Hold.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Deep lateral rib breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Squeeze a yoga block between the knees.`, 
-                                ra: 'Keep shins perfectly vertical. Do not slide below 45°.' 
+                                ra: 'Keep shins perfectly vertical. Do not slide below 45°.',
+                                clavicle: 'Rest hands on lap instead of pushing against the wall.',
+                                arch: 'Maintain Tripod foot anchor; do not lift the medial arch.'
                             },
                             chair: { 
                                 name: 'Hovering Step-Down Iso-Hold', 
                                 setup: '1 Heavy Spring', 
                                 reps: '4 x 15s Holds / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand on chair seat. One foot flat, one foot hovering just above the pedal.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Lower the hovering foot 1 inch above the pedal. Freeze. The standing glute takes 100% of bodyweight in a shallow isometric hold.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale sharply to lock the core during the hold.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Close the eyes to increase proprioceptive demand.`, 
-                                ra: 'Hold dowel/wall for balance. Limit depth.' 
+                                ra: 'Hold dowel/wall for balance. Limit depth.',
+                                clavicle: 'Use a gentle wall-lean for balance rather than gripping a dowel.',
+                                arch: 'Grip the seat firmly with the entire foot pad, no heel floating.'
                             }
                         }
                     },
@@ -386,21 +432,27 @@
                                 setup: '1 Heavy DB', 
                                 reps: '45s Hold / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand perfectly tall. Hold one heavy DB in the right hand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> The weight tries to pull the right shoulder down. The left oblique must fire to keep the spine perfectly vertical. Zero movement.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Shallow, braced breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> March in place slowly while maintaining vertical spine.`, 
-                                ra: 'Safe. Pure core endurance without joint movement.' 
+                                ra: 'Safe. Pure core endurance without joint movement.',
+                                clavicle: 'Avoid DBs; perform an isometric side-plank from the knees instead.',
+                                arch: 'Safe.'
                             },
                             cadillac: { 
                                 name: 'Standing Pallof Press Iso-Hold', 
                                 setup: '1 Medium Spring', 
                                 reps: '30s Hold / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand sideways to tower. Grip handle with both hands at sternum.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press spring straight out in front of chest. Hold against the rotational pull trying to twist you toward the tower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale on the press out, hold breath tension.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Draw tiny circles with the hands while extended.`, 
-                                ra: 'Keep knees soft.' 
+                                ra: 'Keep knees soft.',
+                                clavicle: 'Hold the handle close to the sternum; avoid full arm extension.',
+                                arch: 'Safe.'
                             },
                             mat: { 
                                 name: 'Forearm Side Plank (Kneeling)', 
                                 setup: 'Mat', 
                                 reps: '30s Hold / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sidelying. Bottom forearm on mat, knees bent at 90° stacked.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drive bottom knee and forearm into mat to lift hips. Stack shoulders and hips vertically.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Breathe into the top ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Lift the top leg into a clamshell hover.`, 
-                                ra: 'Safe.' 
+                                ra: 'Safe.',
+                                clavicle: 'Avoid; substitute with supine oblique dead bugs.',
+                                arch: 'Ensure the anchored foot remains flat without rolling.'
                             }
                         }
                     },
@@ -412,21 +464,27 @@
                                 setup: 'Band above knees', 
                                 reps: '4 x 15s Holds / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sidelying. Band ABOVE knees. Hips stacked, knees bent 45°.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Open top knee against band. Stop when pelvis wants to roll back. Hold isometrically at peak contraction.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale to open, inhale to hold.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Float the top foot up (internal rotation) while holding knee open.`, 
-                                ra: 'Band ABOVE knee prevents joint torque.' 
+                                ra: 'Band ABOVE knee prevents joint torque.',
+                                clavicle: 'Support head fully; keep top arm rested along torso.',
+                                arch: 'Safe.'
                             },
                             reformer: { 
                                 name: 'Side Splits Isometric (Shallow)', 
                                 setup: '1 Red', 
                                 reps: '30s Hold', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand straddling carriage and platform. Equal weight on both feet.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press carriage out just 3-4 inches. Freeze. The abductors and adductors fight to hold the carriage completely still.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Deep, steady breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Shift weight 60% into the carriage leg.`, 
-                                ra: 'Substitute with sidelying clamshells if standing aggravates knee.' 
+                                ra: 'Substitute with sidelying clamshells if standing aggravates knee.',
+                                clavicle: 'Safe.',
+                                arch: 'Grip the platform firmly with the big toe.'
                             },
                             props_slider: { 
                                 name: 'Lateral Slider Lunge (Shallow Hold)', 
                                 setup: '1 Slider', 
                                 reps: '20s Hold / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand tall. One foot on slider.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Slide foot out laterally 12 inches. Sink standing leg into a shallow 30° squat. Freeze and hold.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale into the hold.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Reach opposite hand toward the sliding foot.`, 
-                                ra: 'Limit depth strictly to 30°.' 
+                                ra: 'Limit depth strictly to 30°.',
+                                clavicle: 'Do not reach opposite hand down; keep both hands on hips.',
+                                arch: 'Keep the standing foot entirely flat, resisting any pronation pull.'
                             }
                         }
                     }
@@ -448,21 +506,27 @@
                                 setup: 'Band anchored high', 
                                 reps: '12 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand sideways to high anchor. Hold band with both hands over outside shoulder.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Pull band diagonally down across body to opposite hip. MUST pivot the back foot to allow hips to rotate and protect the knee.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale forcefully on the chop down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> 4-second slow eccentric return.`, 
-                                ra: 'Pivot the back foot during rotation to prevent knee torque.' 
+                                ra: 'Pivot the back foot during rotation to prevent knee torque.',
+                                clavicle: 'Restrict high shoulder ranges; anchor the band lower.',
+                                arch: 'Maintain tripod anchor on pivoting foot, no heel slipping.'
                             },
                             cadillac: { 
                                 name: 'Kneeling Arm Spring Twist', 
                                 setup: '1 Medium Spring', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Kneel facing sideways to tower. Hold spring handle in both hands at sternum.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Keeping hips locked forward, rotate the ribcage away from the tower, pulling the spring across body.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale to twist, Inhale center.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Extend arms straight out to increase lever length.`, 
-                                ra: 'Sit on a box instead of kneeling to spare the patella.' 
+                                ra: 'Sit on a box instead of kneeling to spare the patella.',
+                                clavicle: 'Keep arms fully tucked into the sides (T-Rex arms) during rotation.',
+                                arch: 'Safe.'
                             },
                             reformer: { 
                                 name: 'Short Box Seated Twist', 
                                 setup: '2 Red (Box)', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sit tall on Short Box, feet flat on the floor (shins vertical) squeezing a Yoga Block between knees to lock the pelvis. Cross arms tightly over chest.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Rotate the ribcage 45° to the right, keeping the left sit-bone glued to the box. The block should not shift.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale to grow tall, Exhale to wring the ribs out and rotate.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Add a 3-second isometric pulse at the end range of the twist.`, 
-                                ra: 'Safe. Zero knee load.' 
+                                ra: 'Safe. Zero knee load.',
+                                clavicle: 'Keep hands resting on thighs instead of crossed high on chest.',
+                                arch: 'Keep feet flat without pressing forcefully on the toes.'
                             }
                         }
                     },
@@ -474,21 +538,27 @@
                                 setup: '1 Blue // Loop Above Knee', 
                                 reps: '10 Circles / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sidelying on carriage, head supported. Thread loop carefully ABOVE top knee (distal femur).<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Draw slow, massive circles with the femur. The pelvis must not rock forward or backward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale top half of circle, Exhale bottom half.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Reverse direction after 5 reps.`, 
-                                ra: 'Loop ABOVE knee ensures zero knee/ankle shear.' 
+                                ra: 'Loop ABOVE knee ensures zero knee/ankle shear.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
                             },
                             cadillac: { 
                                 name: 'Sidelying Heavy Leg Spring Press', 
                                 setup: '1 Heavy Spring // Loop Above Knee', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sidelying on bed. Loop placed securely ABOVE the knee.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press the femur down toward the end of the bed, driving through the glute medius.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale press, Inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold the press at the bottom for 3s.`, 
-                                ra: 'Safe. Bypasses the knee joint.' 
+                                ra: 'Safe. Bypasses the knee joint.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
                             },
                             mat: { 
                                 name: 'Quadruped Fire Hydrants', 
                                 setup: 'Mat', 
                                 reps: '12 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Quadruped on mat. Core braced.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Lift right knee out laterally toward the ceiling, maintaining 90° knee bend. Keep weight even on both hands.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale lift, Inhale lower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Extend the leg straight out at the top of the hydrant.`, 
-                                ra: 'Place a pad under the supporting knee.' 
+                                ra: 'Place a pad under the supporting knee.',
+                                clavicle: 'Drop to forearms to protect the shoulder joint.',
+                                arch: 'Safe.'
                             }
                         }
                     },
@@ -500,21 +570,27 @@
                                 setup: '1 DB (Opposite Hand)', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Split stance. Hold DB in left hand, right leg forward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drop straight down into a shallow split squat (max 45° bend). The off-center weight forces the right glute to anchor.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale down, Exhale drive up.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> 4s slow eccentric drop.`, 
-                                ra: 'Mandate shallow depth. Bodyweight only if DB is too heavy.' 
+                                ra: 'Mandate shallow depth. Bodyweight only if DB is too heavy.',
+                                clavicle: 'Bodyweight only; keep hands on hips.',
+                                arch: 'Flat heel mandatory on the front foot.'
                             },
                             chair: { 
                                 name: 'Forward Step-Up (Low Target)', 
                                 setup: '1 Heavy', 
                                 reps: '8 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> One foot flat on pedal, hands lightly on side handles.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drive through pedal foot to stand up slightly, transferring weight entirely into the glute. Control the pedal back down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale drive up, Inhale resist down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Release handles and balance freely.`, 
-                                ra: 'Use a block on the floor instead of the high chair pedal if knee is hot.' 
+                                ra: 'Use a block on the floor instead of the high chair pedal if knee is hot.',
+                                clavicle: 'Keep arms fully relaxed at sides.',
+                                arch: 'Maintain strict Tripod foot, no inward collapse on the pedal.'
                             },
                             reformer: { 
                                 name: 'Single-Leg Bridge on Stopper', 
                                 setup: '3 Red (Locked)', 
                                 reps: '10 Reps / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine, right heel flat on footbar. Left leg bent at 90° hovering.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drive right hip up toward ceiling. Carriage stays completely still against stopper.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale bridge up, Inhale lower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Lift arms off mat toward ceiling.`, 
-                                ra: 'Keep the free leg bent (no straight leg raises) to avoid nerve pull.' 
+                                ra: 'Keep the free leg bent (no straight leg raises) to avoid nerve pull.',
+                                clavicle: 'Leave arms flat on the mat.',
+                                arch: 'Heels only; do not curl toes around the footbar.'
                             }
                         }
                     }
@@ -536,21 +612,27 @@
                                 setup: '1 Blue', 
                                 reps: '10 Glides / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine, one foot in strap. Keep knee bent at a strict 30° angle.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Point toe as leg rises toward ceiling (slackens nerve). Flex ankle slightly as leg lowers to footbar.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Natural rhythmic breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Add a tiny micro-bend/extend of the knee at the top.`, 
-                                ra: 'Mandate pointed toe on the way up to slacken the nerve.' 
+                                ra: 'Mandate pointed toe on the way up to slacken the nerve.',
+                                clavicle: 'Passive Pec Minor stretch on roller instead.',
+                                arch: 'Do not articulate the ankle aggressively; keep it relaxed.'
                             },
                             mat: { 
                                 name: 'Supine Banded Floss', 
                                 setup: 'Light Band', 
                                 reps: '10 Glides / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine. Band around arch of foot, held in hands.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Extend knee to soft bend pointing toe up; bend knee toward chest while bringing ankle neutral.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale leg down, Exhale knee to chest.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Extremely slow, smooth transitions.`, 
-                                ra: 'Gentle, pain-free sliders. Zero static stretching.' 
+                                ra: 'Gentle, pain-free sliders. Zero static stretching.',
+                                clavicle: 'Substitute with a chest-opening stretch; drop the band.',
+                                arch: 'Seated manual plantar fascia massage.'
                             },
                             cadillac: { 
                                 name: 'Leg Spring Soft-Knee Arc', 
                                 setup: '1 Light', 
                                 reps: '10 Glides / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine, foot in spring loop. Establish soft knee bend.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press leg down toward mat, float back up while pointing toes.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale up, Exhale down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Allow spring to gently traction the hip at the top.`, 
-                                ra: 'Roller under opposite knee to prevent hyperextension.' 
+                                ra: 'Roller under opposite knee to prevent hyperextension.',
+                                clavicle: 'Arms rest fully flat.',
+                                arch: 'No tension applied through the arch.'
                             }
                         }
                     },
@@ -562,21 +644,27 @@
                                 setup: 'Block under Sacrum', 
                                 reps: '60s / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine. Flat yoga block placed securely under sacrum (pelvis).<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hug right knee to chest. Slide left heel out along mat until leg is straight, keeping a soft micro-bend in the knee.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Deep belly breathing to release psoas.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Reach left arm overhead.`, 
-                                ra: 'Soft knee prevents sciatic traction.' 
+                                ra: 'Soft knee prevents sciatic traction.',
+                                clavicle: 'Arms in low "T".',
+                                arch: 'Safe.'
                             },
                             reformer: { 
                                 name: 'Eve’s Lunge (Supported)', 
                                 setup: '1 Red', 
                                 reps: '60s / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> One foot on floor, one knee on carriage against block.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press carriage back gently to stretch hip flexor. Keep torso upright.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s Inhale, 6s Exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Slight lateral side bend away from the stretching hip.`, 
-                                ra: 'Substitute with Supine Sacral Block release to avoid kneeling on patella.' 
+                                ra: 'Substitute with Supine Sacral Block release to avoid kneeling on patella.',
+                                clavicle: 'Avoid reaching overhead.',
+                                arch: 'Safe.'
                             },
                             barrel: { 
                                 name: 'Standing Quad/Psoas Stretch', 
                                 setup: 'Facing barrel', 
                                 reps: '60s / Side', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Stand tall. Rest top of one foot gently on a low barrel rung behind you.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Tuck pelvis slightly (posterior tilt) to open the front of the hip.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Relax shoulders, breathe deeply.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Reach same-side arm to ceiling.`, 
-                                ra: 'Safe. Do not over-stretch.' 
+                                ra: 'Safe. Do not over-stretch.',
+                                clavicle: 'Keep both hands securely on the barrel frame.',
+                                arch: 'Safe.'
                             }
                         }
                     },
@@ -588,21 +676,27 @@
                                 setup: 'Roller under knees', 
                                 reps: '2 Mins', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine on mat. Thick roller placed beneath knees (30° loose-packed bend).<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Arms rest wide. Eyes closed. Sink bodyweight entirely into floor.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Box breathing (4s in, 4s hold, 4s out, 4s hold).<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Focus on releasing jaw tension.`, 
-                                ra: 'S-Rank safe. Drains popliteal fluid.' 
+                                ra: 'S-Rank safe. Drains popliteal fluid.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
                             },
                             barrel: { 
                                 name: 'Passive Thoracic Drape', 
                                 setup: 'Over Apex', 
                                 reps: '2 Mins', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Sit back against barrel. Drape mid-back over apex.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Arms fall wide. Head supported if needed. Total passive extension.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Let ribs flare open on inhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Slowly rock side to side 1 inch.`, 
-                                ra: 'Safe.' 
+                                ra: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
                             },
                             cadillac: { 
                                 name: 'Bolstered Knee Rest', 
                                 setup: 'Bolster under knees', 
                                 reps: '2 Mins', 
                                 exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Supine on bed. Heavy bolster under knees.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Same as constructive rest. Complete offloading.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Diaphragmatic breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Lights dimmed.`, 
-                                ra: 'Safe.' 
+                                ra: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
                             }
                         }
                     }
@@ -756,21 +850,21 @@
             }
         }
 
-        const activeOverrides = { ra: false };
-        function toggleRA() { toggleOverride('ra'); } // contract shim: Client Log and checker call toggleRA()
+        const activeOverrides = { ra: false, clavicle: false, arch: false };
         function toggleOverride(type) {
             const btn = document.getElementById(`${type}ToggleBtn`);
             activeOverrides[type] = !activeOverrides[type];
             if (activeOverrides[type]) {
                 document.body.classList.add(`${type}-active`);
                 btn.classList.add('active');
-                btn.innerText = `[X] KNEE / NERVE OVERRIDE ACTIVE`;
+                btn.innerText = `[X] ${btn.innerText.replace('[ ]', '').trim()} ACTIVE`;
             } else {
                 document.body.classList.remove(`${type}-active`);
                 btn.classList.remove('active');
-                btn.innerText = `[ ] KNEE / NERVE OVERRIDE`;
+                btn.innerText = `[ ] ${btn.innerText.replace('[X]', '').replace('ACTIVE', '').trim()}`;
             }
         }
+        function toggleRA() { toggleOverride('ra'); }
 
         function renderCurrentPhase() {
             if (currentPhase === 'audit') {
@@ -819,9 +913,17 @@
                             </div>
                         </div>
                         <div class="space-y-2 mt-4">
-                            <div class="ra-module border border-[#1e3a8a] bg-[#0a0f1c] p-4 border-l-4 border-l-[#3b82f6]">
-                                <span class="text-[10px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">KNEE / NERVE OVERRIDE</span>
-                                <p class="text-xs text-gray-200 leading-relaxed">${activeMove.ra}</p>
+                            <div class="ra-module border border-[#1e3a8a] bg-[#0a0f1c] p-3 border-l-4 border-l-[#3b82f6]">
+                                <span class="text-[9px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">NERVE / KNEE SHEAR</span>
+                                <p class="text-xs text-gray-200">${activeMove.ra}</p>
+                            </div>
+                            <div class="clavicle-module border border-[#4c1d95] bg-[#2e1065] p-3 border-l-4 border-l-[#8b5cf6]">
+                                <span class="text-[9px] font-mono text-[#8b5cf6] font-bold uppercase tracking-widest block mb-1">ACUTE CLAVICLE / PEC FLUSH</span>
+                                <p class="text-xs text-gray-200">${activeMove.clavicle || 'Standard execution applies.'}</p>
+                            </div>
+                            <div class="arch-module border border-[#064e3b] bg-[#022c22] p-3 border-l-4 border-l-[#10b981]">
+                                <span class="text-[9px] font-mono text-[#10b981] font-bold uppercase tracking-widest block mb-1">PRONATION / ARCH TENSION</span>
+                                <p class="text-xs text-gray-200">${activeMove.arch || 'Standard execution applies.'}</p>
                             </div>
                         </div>
                     </div>
@@ -852,6 +954,7 @@
             
             const hitTarget = document.getElementById('som-target').checked;
             const piloAlert = document.getElementById('som-pilo').checked;
+            const archAlert = document.getElementById('som-arch').checked;
 
             const deductions = [];
             let badge = 'CLEAR FOR W4 (GAIT INTEGRATION)';
@@ -866,7 +969,12 @@
                 deductions.push('• [TENDON ALERT]: Squatted too deep during isometrics. Limit depth to 30-45° to ensure patellar tendon analgesia without joint capsule shear.');
             }
             if (g3 === 'fail') {
-                deductions.push('• [ROTATIONAL ALERT]: Knee valgus or lumbar twisting during torque. Regress rotational pulls to seated or kneeling positions to lock the pelvis.');
+                deductions.push('• [TRIAGE ALERT]: Overrides failed to clear acute joint/nerve tension. Downgrade load and remain at W3.');
+            }
+            if (archAlert) {
+                badge = 'HOLD AT W3 // RE-CALIBRATE ANCHOR';
+                color = 'text-amber-400 border-amber-400';
+                deductions.push('• [FOOT ALERT]: Sharp arch/heel pain during isometrics. Emphasize seated doming and eliminate heavy grounded holds.');
             }
 
             if (hitTarget && deductions.length === 0) {

@@ -101,9 +101,9 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
     week: 3,
     title: 'Isometric Hinge & Tendon Analgesia',
-    focus: 'Soft-knee (30°) hinge re-entry → shallow 30–45° isometric holds for the patellar tendon → rotation from thorax and hips; every move as Setup / Action / Breath / Layer',
-    doctrine: 'SYS-D022 V2.1',
-    source: 'KA-Alex (KIN-T072), 29 Oct 2026, Cognitive Ease format (toggleRA alias added, degree text fixed)',
+    focus: 'Soft-knee (30°) hinge re-entry → shallow 30–45° isometric holds for the patellar tendon → rotation from thorax and hips; three triage overrides; every move as Setup / Action / Breath / Layer',
+    doctrine: 'SYS-D022 V2.2',
+    source: 'KA-Alex (KIN-T072), 29 Oct 2026 reissue: V2.2 triage (nerve/knee, clavicle/pec, arch) + Cognitive Ease format',
     addedOn: '2026-10-29',
   },
 ];
