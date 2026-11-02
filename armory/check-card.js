@@ -57,14 +57,15 @@ const ev=body('evaluateAuditLoop'); ev&&ev.includes('auditVerdictBox')?ok('Phase
     const dir = path.join(__dirname, 'protocols');
     const keysOf = (html) => new Set([...html.matchAll(/id="([a-z]+)ToggleBtn"/g)].map((x) => x[1]));
     const mine = keysOf(h);
-    const hasTriage = /Triage Resolution/i.test(h);
+    const TRIAGE_GATE = /Gate 0\d:[^<]*Triage/i; // e.g. "Triage Resolution", "Nerve/Triage Clearance"
+    const hasTriage = TRIAGE_GATE.test(h);
     for (let w = 1; w < Number(m[2]); w++) {
       const prev = path.join(dir, `${m[1]}_W${w}.html`);
       if (!fs.existsSync(prev)) continue;
       const ph = fs.readFileSync(prev, 'utf8');
       const missing = [...keysOf(ph)].filter((k) => !mine.has(k));
       if (missing.length) warn(`arc continuity: W${w} has override(s) ${missing.join(', ')} that this card dropped`);
-      if (/Triage Resolution/i.test(ph) && !hasTriage) warn(`arc continuity: W${w} has a Triage Resolution gate; this card has none`);
+      if (TRIAGE_GATE.test(ph) && !hasTriage) warn(`arc continuity: W${w} has a triage gate; this card has none`);
     }
   }
 }

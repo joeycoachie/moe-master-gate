@@ -106,6 +106,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'KA-Alex (KIN-T072), 29 Oct 2026 reissue: V2.2 triage (nerve/knee, clavicle/pec, arch) + Cognitive Ease format',
     addedOn: '2026-10-29',
   },
+  {
+    id: 'KIN-P019_W4',
+    arc: 'KIN-P019 — Knee/Nerve Diagnostic & Hip Flow',
+    week: 4,
+    title: 'Gait & Coronal Integration (arc exit)',
+    focus: 'Tripod foot and hip rotation → lateral step-downs and coronal sling → step-ups and walking propulsion; graduation test for the arc',
+    doctrine: 'SYS-D022 V2.2',
+    source: 'KA-Alex (KIN-T072), 2 Nov 2026 (toggleRA alias added)',
+    addedOn: '2026-11-02',
+  },
 ];
 
 // What a client sees in their portal: outcome language, never the clinical label.
