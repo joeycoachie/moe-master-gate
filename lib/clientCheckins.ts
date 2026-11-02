@@ -31,14 +31,15 @@ export async function trackingFocus(clientId: string): Promise<string | null> {
 }
 
 // Products this client tapped "I'm interested" on (database/13). Null until the table exists.
-export async function clientRequests(clientId: string): Promise<{ item_key: string; created_at: string }[] | null> {
-  const { data, error } = await getSupabaseAdmin()
-    .from('client_requests')
-    .select('item_key, created_at')
-    .eq('client_id', clientId)
-    .order('created_at', { ascending: false });
+export type ClientRequest = { item_key: string; created_at: string; detail?: string | null };
+export async function clientRequests(clientId: string): Promise<ClientRequest[] | null> {
+  const db = getSupabaseAdmin();
+  const q = (cols: string) => db.from('client_requests').select(cols).eq('client_id', clientId).order('created_at', { ascending: false });
+  // detail arrives with database/23; until then read without it.
+  let { data, error } = await q('item_key, created_at, detail');
+  if (error) ({ data, error } = await q('item_key, created_at'));
   if (error) return null;
-  return data as { item_key: string; created_at: string }[];
+  return data as unknown as ClientRequest[];
 }
 
 // Readiness profile (database/21). Null until the table exists; empty answers until the client starts.

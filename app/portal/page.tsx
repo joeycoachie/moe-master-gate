@@ -167,6 +167,20 @@ function ProgrammeMenu({ view }: { view: View }) {
               <span className="text-[9px] text-[#888] border border-[#333] px-2 py-0.5 tracking-widest whitespace-nowrap">{pr.weeks} WEEKS</span>
             </div>
             <p className="text-xs text-[#aaa] font-sans leading-relaxed mt-2">{pr.promise}</p>
+            {(() => {
+              // Her real record in this programme: weeks done and end-of-session checks passed.
+              const mine = view.sessions.filter((x) => !x.extra && x.arc === pr.name);
+              if (!mine.length) return null;
+              const weeks = new Set(mine.map((x) => x.week).filter(Boolean)).size;
+              const checks = mine.flatMap((x) => x.gates);
+              const passed = checks.filter((g) => /^(passed|cleared|pass\b)/i.test(g.result.trim())).length;
+              return (
+                <p className="text-[11px] text-[#ccc] mt-3 border-t border-[#1a1a1a] pt-2">
+                  You so far: {weeks} of {pr.weeks} weeks · {mine.length} session{mine.length === 1 ? '' : 's'}
+                  {checks.length ? ` · ${passed} of ${checks.length} checks passed` : ''}
+                </p>
+              );
+            })()}
             {pr.current ? (
               <p className="text-[11px] text-[#00e5ff] mt-3">Your current programme</p>
             ) : sent[pr.key] || asked ? (
@@ -179,6 +193,61 @@ function ProgrammeMenu({ view }: { view: View }) {
           </div>
         );
       })}
+      <CustomRequest />
+    </div>
+  );
+}
+
+// "Something else in mind?": the client describes a pain, a stiffness or a goal in their own
+// words. The coach reads it in their file and plans the next programme with them.
+function CustomRequest() {
+  const [text, setText] = useState('');
+  const [note, setNote] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const send = async () => {
+    setBusy(true);
+    setNote('');
+    try {
+      const res = await fetch('/portal/api/interest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key: 'custom', detail: text }) });
+      const body = await res.json();
+      if (!res.ok) {
+        setNote(body.error || 'Could not send.');
+        return;
+      }
+      setDone(true);
+    } catch {
+      setNote('Connection failed.');
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <div className="border border-[#222] bg-[#070707] p-4">
+      <div className="text-sm font-bold">Something else in mind?</div>
+      <p className="text-xs text-[#aaa] font-sans leading-relaxed mt-1">
+        Tell your coach what you want to work on next: a pain, a stiff spot or a goal. Your coach plans it with you.
+      </p>
+      {done ? (
+        <p className="text-[11px] text-[#4CAF50] mt-3">Sent. Your coach will talk it through with you.</p>
+      ) : (
+        <>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            rows={3}
+            maxLength={1000}
+            placeholder="e.g. My right hip feels tight when I run, and I want to run 5 km without stopping."
+            className="w-full mt-3 bg-[#0a0a0a] border border-[#333] text-white text-xs font-sans p-3 outline-none focus:border-[#00e5ff] resize-none"
+          />
+          <div className="flex items-center gap-3 mt-2">
+            <button onClick={send} disabled={busy || text.trim().length < 3} className="border border-[#00e5ff] text-[#00e5ff] px-3 py-1.5 text-[10px] tracking-widest hover:bg-[#00e5ff] hover:text-black transition-colors disabled:opacity-40">
+              {busy ? 'SENDING…' : 'SEND TO MY COACH'}
+            </button>
+            {note && <span className="text-[11px] text-[#ef4444]">{note}</span>}
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -467,7 +536,7 @@ export default function ClientPortalPage() {
               </section>
             )}
 
-            {view.programmes.length > 1 && (
+            {view.programmes.length > 0 && (
               <section>
                 <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Choose your next programme</h2>
                 <ProgrammeMenu view={view} />

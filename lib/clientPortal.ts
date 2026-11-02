@@ -110,7 +110,9 @@ export function programmeMenu(currentArc: string | null) {
       current: currentArc?.split('_')[0] === key,
     }));
 }
-export function requestLabel(itemKey: string, productTitle?: string) {
+export const CUSTOM_REQUEST_PREFIX = 'custom:';
+export function requestLabel(itemKey: string, productTitle?: string, detail?: string | null) {
+  if (itemKey.startsWith(CUSTOM_REQUEST_PREFIX)) return `Their own words: "${detail ?? ''}"`;
   if (itemKey.startsWith(ARC_REQUEST_PREFIX)) {
     const a = CLIENT_ARCS[itemKey.slice(ARC_REQUEST_PREFIX.length)];
     return a ? `Programme: ${a.name}` : itemKey;

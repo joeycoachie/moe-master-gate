@@ -31,6 +31,7 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 19 | outreach_referrals | 'Referred by' on studios + Sofitel reply logged (Swee Mei via Elisha) | in use (run 22 Oct) |
 | 20 | sofitel_restart | Sofitel card back to Found for Swee Mei (referral restart) | **to run** (22 Oct) |
 | 21 | client_readiness | Readiness profile per client: safety check, lifestyle, commitment, score | **to run** (26 Oct) |
-| 22 | client_packages | Session packages: sessions left, payment due, last updated (portal corner + client file) | **to run** (2 Nov) |
+| 22 | client_packages | Session packages: sessions left, payment due, last updated (portal corner + client file) | in use (run 2 Nov) |
+| 23 | custom_requests | 'Something else in mind?' free-text programme requests from the portal | **to run** (2 Nov) |
 
-New SQL goes here as `23_<name>.sql`, with a row in this table.
+New SQL goes here as `24_<name>.sql`, with a row in this table.

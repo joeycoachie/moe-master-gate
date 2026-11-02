@@ -23,8 +23,8 @@ function setupHint(err: unknown) {
 }
 
 // "They asked about" rows carry a readable label: a fuel product title or "Programme: <name>".
-function labelled(rows: { item_key: string; created_at: string }[] | null) {
-  return rows?.map((r) => ({ ...r, label: requestLabel(r.item_key, PRODUCTS[r.item_key]?.title) })) ?? null;
+function labelled(rows: { item_key: string; created_at: string; detail?: string | null }[] | null) {
+  return rows?.map((r) => ({ ...r, label: requestLabel(r.item_key, PRODUCTS[r.item_key]?.title, r.detail) })) ?? null;
 }
 
 async function readParams(params: Promise<{ clientId: string }>) {
