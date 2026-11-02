@@ -121,3 +121,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-02 · M.O.E. Terminal · KIN-P019 W4 (Gait & Coronal Integration, arc exit) live: Strong Hips, Calm Knees now complete at 4 weeks · aef34b2
 - 2026-11-02 · M.O.E. Terminal · Portal: 'Something else in mind?' box (client's own words to the coach, ping without the text; needs database/23) and real per-programme history on each card. KA-Alex's Portal V2 not pasted as-is: invented KIN-P012 history, unbuilt KIN-P013, coach verdicts held back pending founder · e70d9d8
 - 2026-11-02 · M.O.E. Terminal · Client portal readability pass: larger, brighter text, sans font, five tabs (Today, Programme, Sessions, Fuel, Profile), sessions show latest 3 · 4a7d172
+- 2026-11-02 · Hyrox Engine · Sessions 49 (Wk 4 Mon: carries, SkiErg by stroke rate, anti-rotation core) and 50 (Wk 4 Tue: side strength, 10 x 60s intervals) added with SYS-LOG logging · 06ca7d5
