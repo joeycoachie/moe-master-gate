@@ -4,6 +4,7 @@ import { adminError, isArchitect, unauthorized } from '@/lib/architectGate';
 import { generatePortalCode, hashPortalCode } from '@/lib/clientSession';
 import fuelCatalog from '@/lib/fuelCatalog.json';
 import { allCheckins, clientReadiness, clientRequests, studioToday, trackingFocus } from '@/lib/clientCheckins';
+import { requestLabel } from '@/lib/clientPortal';
 
 // Architect controls for one client's portal: code, access, unlocked fuel, RECUP.STN link.
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -21,6 +22,11 @@ function setupHint(err: unknown) {
   return adminError(err);
 }
 
+// "They asked about" rows carry a readable label: a fuel product title or "Programme: <name>".
+function labelled(rows: { item_key: string; created_at: string }[] | null) {
+  return rows?.map((r) => ({ ...r, label: requestLabel(r.item_key, PRODUCTS[r.item_key]?.title) })) ?? null;
+}
+
 async function readParams(params: Promise<{ clientId: string }>) {
   const { clientId } = await params;
   return UUID.test(clientId) ? clientId : null;
@@ -35,7 +41,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cli
     if (error) throw new Error(error.message);
     if (!data) return NextResponse.json({ error: 'Not found.' }, { status: 404 });
     const catalog = Object.entries(PRODUCTS).map(([key, p]) => ({ key, title: p.title, group: p.group }));
-    return NextResponse.json({ portal: data, catalog, checkins: await allCheckins(clientId), trackingFocus: await trackingFocus(clientId), requests: await clientRequests(clientId), readiness: await clientReadiness(clientId), today: studioToday() });
+    return NextResponse.json({ portal: data, catalog, checkins: await allCheckins(clientId), trackingFocus: await trackingFocus(clientId), requests: labelled(await clientRequests(clientId)), readiness: await clientReadiness(clientId), today: studioToday() });
   } catch (err) {
     return setupHint(err);
   }
@@ -153,7 +159,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ c
     } else {
       return NextResponse.json({ error: 'Unknown reset.' }, { status: 400 });
     }
-    return NextResponse.json({ ok: true, checkins: await allCheckins(clientId), requests: await clientRequests(clientId) });
+    return NextResponse.json({ ok: true, checkins: await allCheckins(clientId), requests: labelled(await clientRequests(clientId)) });
   } catch (err) {
     return adminError(err);
   }

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { buildClientView, currentClientId } from '@/lib/clientPortal';
-import { allCheckins, clientReadiness, studioToday, trackingFocus } from '@/lib/clientCheckins';
+import { buildClientView, currentClientId, programmeMenu } from '@/lib/clientPortal';
+import { activePackage } from '@/lib/clientPackage';
+import { summarizePackage } from '@/lib/packageSummary';
+import { allCheckins, clientReadiness, clientRequests, studioToday, trackingFocus } from '@/lib/clientCheckins';
 
 // The signed-in client's own file only. The client id comes from the signed cookie,
 // never from the request, so one client can't read another's.
@@ -28,8 +30,9 @@ export async function GET() {
       const s = e.arc_sessions as unknown as { session_date: string; protocol_id: string; note: string | null } | null;
       return s ? [{ stations: e.stations, audit: e.audit, session_date: s.session_date, protocol_id: s.protocol_id, note: s.note }] : [];
     });
-    const [checkins, focus, readiness] = await Promise.all([allCheckins(clientId), trackingFocus(clientId), clientReadiness(clientId)]);
-    return NextResponse.json({ ...buildClientView(client, flat), checkins, trackingFocus: focus, readiness: readiness?.answers ?? null, today: studioToday() }, { headers: { 'Cache-Control': 'private, no-store' } });
+    const [checkins, focus, readiness, pkg, requests] = await Promise.all([allCheckins(clientId), trackingFocus(clientId), clientReadiness(clientId), activePackage(clientId), clientRequests(clientId)]);
+    const packageSummary = pkg ? { ...summarizePackage(pkg, flat.map((e) => e.session_date)), note: pkg.note } : null;
+    return NextResponse.json({ ...buildClientView(client, flat), checkins, trackingFocus: focus, readiness: readiness?.answers ?? null, package: packageSummary, programmes: programmeMenu(client.current_arc), requested: (requests ?? []).map((r) => r.item_key), today: studioToday() }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch {
     return NextResponse.json({ error: 'Your file is unavailable right now.' }, { status: 503 });
   }

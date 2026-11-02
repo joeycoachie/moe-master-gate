@@ -96,8 +96,92 @@ type View = {
   checkins: Checkin[] | null;
   trackingFocus: string | null;
   readiness: Record<string, string> | null;
+  package: {
+    total: number;
+    used: number;
+    left: number;
+    lastSession: string | null;
+    updatedOn: string;
+    paymentDue: string | null;
+    renewSoon: boolean;
+    note: string;
+  } | null;
+  programmes: { key: string; name: string; promise: string; weeks: number; current: boolean }[];
+  requested: string[];
   today: string;
 };
+
+const shortDate = (d: string) => new Date(`${d}T00:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+
+// The corner card: sessions left in their package, when the file last changed, payment due.
+function PackageCorner({ p, today }: { p: NonNullable<View['package']>; today: string }) {
+  const due = p.paymentDue;
+  const overdue = !!due && due <= today;
+  return (
+    <div className={`border p-4 flex items-center gap-4 ${p.renewSoon || overdue ? 'border-[#f59e0b]/60 bg-[#f59e0b]/5' : 'border-[#222] bg-[#0a0a0a]'}`}>
+      <div className="text-center shrink-0">
+        <div className={`text-3xl leading-none ${p.renewSoon ? 'text-[#f59e0b]' : 'text-[#00e5ff]'}`}>{p.left}</div>
+        <div className="text-[9px] text-[#888] uppercase tracking-widest mt-1">of {p.total} left</div>
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="h-1.5 bg-[#1a1a1a]">
+          <div className={`h-full ${p.renewSoon ? 'bg-[#f59e0b]' : 'bg-[#00e5ff]'}`} style={{ width: `${Math.min(100, (p.used / p.total) * 100)}%` }} />
+        </div>
+        <div className="text-[11px] text-[#ccc] mt-2">
+          {p.note || 'Your sessions'}
+          {p.lastSession ? ` · last session ${shortDate(p.lastSession)}` : ''}
+        </div>
+        <div className="text-[10px] text-[#666] mt-0.5">Updated {shortDate(p.updatedOn)}</div>
+        {due && (
+          <div className={`text-[11px] mt-1 ${overdue ? 'text-[#f59e0b]' : 'text-[#aaa]'}`}>
+            {overdue ? 'Payment due now' : `Next payment due ${shortDate(due)}`}
+          </div>
+        )}
+        {!due && p.renewSoon && <div className="text-[11px] mt-1 text-[#f59e0b]">{p.left === 0 ? 'Package used up. Ask your coach to renew.' : 'Almost done. Ask your coach about renewing.'}</div>}
+      </div>
+    </div>
+  );
+}
+
+// "Choose your next programme": the client asks, the coach decides.
+function ProgrammeMenu({ view }: { view: View }) {
+  const [sent, setSent] = useState<Record<string, string>>({});
+  const ask = async (key: string) => {
+    setSent((s) => ({ ...s, [key]: 'Sending…' }));
+    try {
+      const res = await fetch('/portal/api/interest', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ key }) });
+      const body = await res.json();
+      setSent((s) => ({ ...s, [key]: res.ok ? 'Sent. Your coach will plan it with you.' : body.error || 'Could not send.' }));
+    } catch {
+      setSent((s) => ({ ...s, [key]: 'Connection failed.' }));
+    }
+  };
+  return (
+    <div className="space-y-3">
+      {view.programmes.map((pr) => {
+        const asked = view.requested.includes(pr.key);
+        return (
+          <div key={pr.key} className={`border p-4 ${pr.current ? 'border-[#00e5ff]/60 bg-[#05101a]' : 'border-[#222] bg-[#0a0a0a]'}`}>
+            <div className="flex justify-between items-start gap-3">
+              <div className="text-sm font-bold">{pr.name}</div>
+              <span className="text-[9px] text-[#888] border border-[#333] px-2 py-0.5 tracking-widest whitespace-nowrap">{pr.weeks} WEEKS</span>
+            </div>
+            <p className="text-xs text-[#aaa] font-sans leading-relaxed mt-2">{pr.promise}</p>
+            {pr.current ? (
+              <p className="text-[11px] text-[#00e5ff] mt-3">Your current programme</p>
+            ) : sent[pr.key] || asked ? (
+              <p className="text-[11px] text-[#4CAF50] mt-3">{sent[pr.key] || 'Asked. Your coach will plan it with you.'}</p>
+            ) : (
+              <button onClick={() => ask(pr.key)} className="mt-3 border border-[#00e5ff] text-[#00e5ff] px-3 py-1.5 text-[10px] tracking-widest hover:bg-[#00e5ff] hover:text-black transition-colors">
+                I&apos;D LIKE THIS NEXT
+              </button>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
 
 // 0-10 scales (database/13): discomfort is the standard pain score, sleep the single-item
 // sleep quality scale. The first question names the client's own focus area when one is set.
@@ -341,6 +425,8 @@ export default function ClientPortalPage() {
 
         {state === 'ready' && view && (
           <div className="space-y-10">
+            {view.package && <PackageCorner p={view.package} today={view.today} />}
+
             {/* What you're building: programme, where it works on the body, and the numbers so far. */}
             <section className="border border-[#222] bg-[#0a0a0a] p-5 border-l-4 border-l-[#00e5ff]">
               <div className="grid sm:grid-cols-[1fr_200px] gap-6 items-center">
@@ -378,6 +464,13 @@ export default function ClientPortalPage() {
                 <div className="border border-[#222] bg-[#0a0a0a] p-5">
                   <Journey weeks={view.journey} />
                 </div>
+              </section>
+            )}
+
+            {view.programmes.length > 1 && (
+              <section>
+                <h2 className="text-sm text-[#888] uppercase tracking-widest border-l-2 border-[#00e5ff] pl-3 mb-4">Choose your next programme</h2>
+                <ProgrammeMenu view={view} />
               </section>
             )}
 

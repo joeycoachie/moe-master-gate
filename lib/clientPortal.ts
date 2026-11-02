@@ -1,7 +1,7 @@
 import 'server-only';
 import { cookies } from 'next/headers';
 import { CLIENT_COOKIE_NAME, readClientSessionToken } from '@/lib/clientSession';
-import { ARMORY_PROTOCOLS, clientArcFor } from '@/lib/armory';
+import { ARMORY_PROTOCOLS, CLIENT_ARCS, clientArcFor } from '@/lib/armory';
 import fuelCatalog from '@/lib/fuelCatalog.json';
 import { FUEL_QA, PARTNER_BRAND, PARTNER_PRODUCTS } from '@/lib/fuelQa';
 
@@ -93,4 +93,27 @@ export function buildClientView(
     fuel: fuelWithQa,
     recupLinked: !!client.recup_member_code,
   };
+}
+
+// Programmes a client can ask for next (portal "Choose your next programme"). Companion arcs
+// (load days) aren't programmes on their own. Requests go to the coach, who decides; a client
+// never switches arc themselves, because each arc carries its own safety overrides.
+export const ARC_REQUEST_PREFIX = 'arc:';
+export function programmeMenu(currentArc: string | null) {
+  return Object.entries(CLIENT_ARCS)
+    .filter(([, a]) => !a.companion)
+    .map(([key, a]) => ({
+      key: ARC_REQUEST_PREFIX + key,
+      name: a.name,
+      promise: a.promise,
+      weeks: a.totalWeeks ?? Object.keys(a.weeks).length,
+      current: currentArc?.split('_')[0] === key,
+    }));
+}
+export function requestLabel(itemKey: string, productTitle?: string) {
+  if (itemKey.startsWith(ARC_REQUEST_PREFIX)) {
+    const a = CLIENT_ARCS[itemKey.slice(ARC_REQUEST_PREFIX.length)];
+    return a ? `Programme: ${a.name}` : itemKey;
+  }
+  return productTitle ?? itemKey;
 }

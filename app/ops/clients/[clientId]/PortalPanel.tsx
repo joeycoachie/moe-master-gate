@@ -44,7 +44,7 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
   const [checkins, setCheckins] = useState<Checkin[] | null>(null);
   const [today, setToday] = useState('');
   const [focus, setFocus] = useState('');
-  const [requests, setRequests] = useState<{ item_key: string; created_at: string }[] | null>(null);
+  const [requests, setRequests] = useState<{ item_key: string; created_at: string; label?: string }[] | null>(null);
   const [readiness, setReadiness] = useState<{ answers: Record<string, string>; updated_at: string | null } | null>(null);
 
   const apply = (p: Portal) => {
@@ -313,7 +313,7 @@ export default function PortalPanel({ clientId, clientFirstName }: { clientId: s
           <ul className="space-y-1">
             {requests.map((r) => (
               <li key={r.item_key} className="text-xs text-[#ccc]">
-                <span className="text-[#4CAF50]">●</span> {catalog.find((c) => c.key === r.item_key)?.title ?? r.item_key}
+                <span className="text-[#4CAF50]">●</span> {r.label ?? catalog.find((c) => c.key === r.item_key)?.title ?? r.item_key}
                 <span className="text-[#555]"> · {new Date(r.created_at).toLocaleDateString('en-GB')}</span>
               </li>
             ))}

@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PortalPanel from './PortalPanel';
 import ExtraSessionForm from './ExtraSessionForm';
+import PackagePanel from './PackagePanel';
 
 type Client = {
   id: string;
@@ -174,6 +175,7 @@ export default function OpsClientPage() {
           </section>
         )}
 
+        {client && <PackagePanel clientId={client.id} />}
         {client && <PortalPanel clientId={client.id} clientFirstName={client.full_name.split(/\s+/)[0]} />}
 
         <h2 className="text-lg font-bold mb-1 border-b border-[#222] pb-2">Timeline · newest first</h2>
