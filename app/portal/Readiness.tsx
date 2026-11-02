@@ -51,14 +51,14 @@ export default function Readiness({ initial }: { initial: Answers }) {
     <div className="border border-[#222] bg-[#0a0a0a] p-5 space-y-4">
       <div className="flex justify-between items-end gap-3">
         <div>
-          <div className="text-[10px] text-[#888] uppercase tracking-widest">Your profile</div>
+          <div className="text-[13px] text-[#bdbdbd] uppercase tracking-wide">Your profile</div>
           <div className="text-sm text-white mt-1">{sum.partsDone} of 3 parts done</div>
         </div>
         {sum.score != null && (
           <div className="text-right">
-            <div className="text-[10px] text-[#888] uppercase tracking-widest">Readiness score</div>
+            <div className="text-[13px] text-[#bdbdbd] uppercase tracking-wide">Readiness score</div>
             <div className="text-3xl text-[#00e5ff] leading-none mt-1">{sum.score}</div>
-            <div className="text-[11px] text-[#4CAF50] mt-1">{sum.band}</div>
+            <div className="text-[14px] text-[#4CAF50] mt-1">{sum.band}</div>
           </div>
         )}
       </div>
@@ -67,8 +67,8 @@ export default function Readiness({ initial }: { initial: Answers }) {
           <button
             key={p.key}
             onClick={() => start(p.key)}
-            className={`h-10 border text-[10px] tracking-widest uppercase transition-colors ${
-              partDone(p, answers) ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : open === p.key ? 'border-[#00e5ff] text-[#00e5ff]' : 'border-[#333] text-[#888]'
+            className={`h-10 border text-[13px] tracking-wide uppercase transition-colors ${
+              partDone(p, answers) ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : open === p.key ? 'border-[#00e5ff] text-[#00e5ff]' : 'border-[#333] text-[#bdbdbd]'
             }`}
           >
             {p.title}
@@ -76,17 +76,17 @@ export default function Readiness({ initial }: { initial: Answers }) {
         ))}
       </div>
       {sum.safetyFlag && (
-        <p className="text-xs text-[#f59e0b] border border-[#f59e0b]/40 bg-[#f59e0b]/5 p-3">
+        <p className="text-sm text-[#f59e0b] border border-[#f59e0b]/40 bg-[#f59e0b]/5 p-3">
           Thanks for being honest. Your coach will check in with you before harder work.
         </p>
       )}
 
       {part ? (
         <div className="space-y-4 border-t border-[#1a1a1a] pt-4">
-          <p className="text-xs text-[#aaa] font-sans leading-relaxed">{part.intro}</p>
+          <p className="text-sm text-[#d4d4d4] font-sans leading-relaxed">{part.intro}</p>
           {part.questions.map((q) => (
             <div key={q.key}>
-              <div className="text-[12px] text-[#ddd] font-sans leading-snug mb-2">{q.label}</div>
+              <div className="text-[14px] text-[#ededed] font-sans leading-snug mb-2">{q.label}</div>
               <div className="flex flex-wrap gap-1.5">
                 {q.choices.map((c) => {
                   const on = draft[q.key] === c.value;
@@ -94,7 +94,7 @@ export default function Readiness({ initial }: { initial: Answers }) {
                     <button
                       key={c.value}
                       onClick={() => setDraft((d) => ({ ...d, [q.key]: c.value }))}
-                      className={`px-3 h-9 border text-xs transition-colors ${on ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : 'border-[#333] text-[#999]'}`}
+                      className={`px-3 h-9 border text-sm transition-colors ${on ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold' : 'border-[#333] text-[#c4c4c4]'}`}
                     >
                       {c.label}
                     </button>
@@ -107,14 +107,14 @@ export default function Readiness({ initial }: { initial: Answers }) {
             <button
               onClick={() => save(part)}
               disabled={busy || !part.questions.every((q) => draft[q.key])}
-              className="border border-[#00e5ff] text-[#00e5ff] px-5 py-2 text-xs tracking-widest hover:bg-[#00e5ff] hover:text-black transition-colors disabled:opacity-40"
+              className="border border-[#00e5ff] text-[#00e5ff] px-5 py-2 text-sm tracking-wide hover:bg-[#00e5ff] hover:text-black transition-colors disabled:opacity-40"
             >
               {busy ? 'SAVING…' : 'SAVE'}
             </button>
-            <button onClick={() => setOpen(null)} className="text-[10px] text-[#666] tracking-widest">
+            <button onClick={() => setOpen(null)} className="text-[13px] text-[#a6a6a6] tracking-wide">
               CLOSE
             </button>
-            {note && <span className="text-[11px] text-[#888]">{note}</span>}
+            {note && <span className="text-[14px] text-[#bdbdbd]">{note}</span>}
           </div>
         </div>
       ) : (
@@ -122,12 +122,12 @@ export default function Readiness({ initial }: { initial: Answers }) {
           {next && (
             <button
               onClick={() => start(next.key)}
-              className="border border-[#00e5ff] text-[#00e5ff] px-5 py-2 text-xs tracking-widest hover:bg-[#00e5ff] hover:text-black transition-colors"
+              className="border border-[#00e5ff] text-[#00e5ff] px-5 py-2 text-sm tracking-wide hover:bg-[#00e5ff] hover:text-black transition-colors"
             >
               {sum.partsDone === 0 ? 'START · ABOUT 2 MINUTES' : `NEXT · ${next.title.toUpperCase()}`}
             </button>
           )}
-          {note && <span className="text-[11px] text-[#888]">{note}</span>}
+          {note && <span className="text-[14px] text-[#bdbdbd]">{note}</span>}
         </div>
       )}
     </div>

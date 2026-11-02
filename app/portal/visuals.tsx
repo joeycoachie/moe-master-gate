@@ -88,13 +88,13 @@ export function BodyMap({ focus }: { focus: Zone[] }) {
         {(['front', 'back'] as const).map((v) => (
           <div key={v} className="text-center">
             <Figure view={v} focus={focus} />
-            <div className="text-[9px] text-[#555] tracking-widest uppercase mt-1">{v}</div>
+            <div className="text-[12px] text-[#9b9b9b] tracking-wide uppercase mt-1">{v}</div>
           </div>
         ))}
       </div>
       <div className="flex flex-wrap justify-center gap-1.5 mt-3">
         {focus.map((z) => (
-          <span key={z} className="text-[9px] tracking-widest uppercase text-[#00e5ff] border border-[#00e5ff]/40 px-2 py-0.5">
+          <span key={z} className="text-[12px] tracking-wide uppercase text-[#00e5ff] border border-[#00e5ff]/40 px-2 py-0.5">
             {ZONE_LABEL[z]}
           </span>
         ))}
@@ -124,12 +124,12 @@ export function Journey({ weeks }: { weeks: { week: number; title: string; done:
               <button
                 onClick={() => setPicked(w.week)}
                 aria-label={`Week ${w.week}`}
-                className={`relative w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-[11px] border transition-colors ${
+                className={`relative w-9 h-9 shrink-0 rounded-full flex items-center justify-center text-[14px] border transition-colors ${
                   w.done
                     ? 'bg-[#00e5ff] border-[#00e5ff] text-black font-bold'
                     : isNext
                       ? 'border-[#00e5ff] text-[#00e5ff]'
-                      : 'border-[#333] text-[#555]'
+                      : 'border-[#333] text-[#9b9b9b]'
                 } ${isPicked ? 'ring-2 ring-white/60 ring-offset-2 ring-offset-[#0a0a0a]' : ''}`}
               >
                 {isNext && <span className="absolute inset-0 rounded-full border border-[#00e5ff] animate-ping opacity-40" />}
@@ -141,13 +141,13 @@ export function Journey({ weeks }: { weeks: { week: number; title: string; done:
         })}
       </div>
       {shown && (
-        <div className="mt-4 text-xs">
-          <span className="text-[#888]">Week {shown.week}</span>
-          <span className="text-[#555]"> · {shown.done ? 'done' : shown.week === next ? 'up next' : 'coming'}</span>
+        <div className="mt-4 text-sm">
+          <span className="text-[#bdbdbd]">Week {shown.week}</span>
+          <span className="text-[#9b9b9b]"> · {shown.done ? 'done' : shown.week === next ? 'up next' : 'coming'}</span>
           {shown.title && <div className="text-white mt-1">{shown.title}</div>}
         </div>
       )}
-      <div className="text-[10px] text-[#666] mt-3">
+      <div className="text-[13px] text-[#a6a6a6] mt-3">
         {doneCount} of {weeks.length} weeks done
       </div>
     </div>
@@ -236,7 +236,7 @@ export function TrendChart({
         {[0, 5, 10].map((v) => (
           <g key={v}>
             <line x1={pad.l} x2={W - pad.r} y1={y(v)} y2={y(v)} stroke="#1c1c1c" strokeWidth="1" />
-            <text x="2" y={y(v) + 3} fontSize="7" fill="#555" fontFamily="monospace">
+            <text x="2" y={y(v) + 3} fontSize="9" fill="#9b9b9b" fontFamily="monospace">
               {v}
             </text>
           </g>
@@ -286,8 +286,8 @@ export function TrendChart({
                 <text
                   x={x(i)}
                   y={H - 4}
-                  fontSize="7"
-                  fill="#555"
+                  fontSize="9"
+                  fill="#9b9b9b"
                   textAnchor={i === 0 ? 'start' : i === cols.length - 1 ? 'end' : 'middle'}
                   fontFamily="monospace"
                 >
@@ -298,7 +298,7 @@ export function TrendChart({
           );
         })}
       </svg>
-      <div className="flex flex-wrap gap-4 mt-2 text-[10px] text-[#888]">
+      <div className="flex flex-wrap gap-4 mt-2 text-[13px] text-[#bdbdbd]">
         {SERIES.map((s) => (
           <span key={s.key} className="flex items-center gap-1.5">
             <span className="w-3 h-0.5 inline-block" style={{ background: s.color }} />
@@ -326,7 +326,7 @@ export function RecoveryPanel({ summary, focus }: { summary: RecoverySummary; fo
   const better = (key: 'body' | 'sleep' | 'energy', change: number | null) => change != null && (key === 'body' ? change < 0 : change > 0);
   if (!summary.count) {
     return (
-      <p className="text-xs text-[#888] leading-relaxed">
+      <p className="text-sm text-[#bdbdbd] leading-relaxed">
         Your {WINDOW_DAYS}-day Recovery Window starts with your first check-in. Your first 3 set your starting point.
       </p>
     );
@@ -336,7 +336,7 @@ export function RecoveryPanel({ summary, focus }: { summary: RecoverySummary; fo
     <div>
       <div className="flex justify-between items-end gap-3">
         <div>
-          <div className="text-[10px] text-[#888] uppercase tracking-widest">Recovery Window</div>
+          <div className="text-[13px] text-[#bdbdbd] uppercase tracking-wide">Recovery Window</div>
           <div className="text-sm text-white mt-1">
             Day {day} of {WINDOW_DAYS}
             {summary.day > WINDOW_DAYS ? ' · window complete' : ''}
@@ -344,10 +344,10 @@ export function RecoveryPanel({ summary, focus }: { summary: RecoverySummary; fo
         </div>
         {summary.ready && summary.nowScore != null && (
           <div className="text-right">
-            <div className="text-[10px] text-[#888] uppercase tracking-widest">Recovery score</div>
+            <div className="text-[13px] text-[#bdbdbd] uppercase tracking-wide">Recovery score</div>
             <div className="text-3xl text-[#00e5ff] leading-none mt-1">{summary.nowScore}</div>
             {summary.baselineScore != null && (
-              <div className={`text-[11px] mt-1 ${summary.nowScore >= summary.baselineScore ? 'text-[#4CAF50]' : 'text-[#f59e0b]'}`}>
+              <div className={`text-[14px] mt-1 ${summary.nowScore >= summary.baselineScore ? 'text-[#4CAF50]' : 'text-[#f59e0b]'}`}>
                 {summary.nowScore >= summary.baselineScore ? '+' : ''}
                 {summary.nowScore - summary.baselineScore} since you started
               </div>
@@ -360,7 +360,7 @@ export function RecoveryPanel({ summary, focus }: { summary: RecoverySummary; fo
       </div>
 
       {!summary.ready ? (
-        <p className="text-xs text-[#ccc] mt-4">
+        <p className="text-sm text-[#e8e8e8] mt-4">
           {summary.toUnlock > 0
             ? `${summary.toUnlock} more check-in${summary.toUnlock === 1 ? '' : 's'} to unlock your first result.`
             : 'Keep checking in this week to unlock your first result.'}
@@ -371,16 +371,16 @@ export function RecoveryPanel({ summary, focus }: { summary: RecoverySummary; fo
             .filter((m) => m.before != null && m.now != null)
             .map((m) => (
               <div key={m.key} className="flex justify-between items-center gap-3 border-b border-[#1a1a1a] pb-2">
-                <span className="text-xs text-[#ccc]">{label[m.key]}</span>
-                <span className="text-xs whitespace-nowrap">
-                  <span className="text-[#888]">{fmt(m.before)}</span>
-                  <span className="text-[#555]"> → </span>
+                <span className="text-sm text-[#e8e8e8]">{label[m.key]}</span>
+                <span className="text-sm whitespace-nowrap">
+                  <span className="text-[#bdbdbd]">{fmt(m.before)}</span>
+                  <span className="text-[#9b9b9b]"> → </span>
                   <span className={better(m.key, m.change) ? 'text-[#4CAF50]' : 'text-white'}>{fmt(m.now)}</span>
-                  {m.feelable && <span className="ml-2 text-[9px] text-[#4CAF50] border border-[#4CAF50]/40 px-1.5 py-0.5 uppercase tracking-widest">You can feel this</span>}
+                  {m.feelable && <span className="ml-2 text-[12px] text-[#4CAF50] border border-[#4CAF50]/40 px-1.5 py-0.5 uppercase tracking-wide">You can feel this</span>}
                 </span>
               </div>
             ))}
-          <p className="text-[10px] text-[#666]">Starting point: your first 3 check-ins. Now: your last 7 days. All scores out of 10.</p>
+          <p className="text-[13px] text-[#a6a6a6]">Starting point: your first 3 check-ins. Now: your last 7 days. All scores out of 10.</p>
         </div>
       )}
     </div>
