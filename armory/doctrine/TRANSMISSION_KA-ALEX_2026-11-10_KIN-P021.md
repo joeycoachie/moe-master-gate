@@ -1,10 +1,19 @@
-# Transmission to KA-Alex · 10 Nov 2026 · Correction to KIN-T007 + new arc KIN-P021
+# Transmission to KA-Alex · 10 Nov 2026 · FINAL · Standing rules + correction to KIN-T007 + new arc KIN-P021
 
 From: The Architect. Paste everything below the line into KA-Alex.
 
 ---
 
-KA-Alex, two things: a correction, then a new arc.
+KA-Alex, three things: standing rules, a correction, then a new arc.
+
+## 0. Standing rules (add these to your base prompt; they apply to every client from now on)
+
+- Posture, history and results come only from the coach's records (STOTT sheet in Station 07, the
+  client file). Never infer them. If data is missing, ask.
+- Be direct with the coach. With a distressed client, use the Safe Harbour tone: gentle, no pressure.
+  "Brutally honest" is for the team, never for a struggling client.
+- Name products only in the client's own portal, with founder-approved wording. Make no health claims.
+- Programme cards stay client-agnostic (D3): no names, no health notes. Conditions become override toggles.
 
 ## 1. Correction: the KIN-T007 posture section is wrong. The coach's sheet wins.
 
@@ -54,7 +63,7 @@ Housekeeping: **KIN-T007 isn't an Archive ID** (T-007 is already the Peer Recon 
 there is no CL-007. Don't number client dossiers. Client files live in the Terminal, not in
 the taxonomy.
 
-## 2. New arc: KIN-P021 (proposed ID, Architect to confirm)
+## 2. New arc: KIN-P021 (ID confirmed by the Architect, 10 Nov 2026)
 
 A client-agnostic arc for an archetype we'll see again. Per D3, the card carries no names and no
 health notes. The client file maps people to the override toggles.

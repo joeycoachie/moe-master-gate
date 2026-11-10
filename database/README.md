@@ -36,4 +36,6 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 
 | 24 | station07_postural_fix | Station 07 fix: 3 missing columns added, public reads closed (instructors can still log). Real-client seed files are kept off the repo | **to run** (10 Nov) |
 
-New SQL goes here as `25_<name>.sql`, with a row in this table.
+| 25 | postural_rebuild | Live postural table was a different old version (findings = uuid): rebuilt while empty, insert-only for the public key | **to run** (10 Nov) |
+
+New SQL goes here as `26_<name>.sql`, with a row in this table.
