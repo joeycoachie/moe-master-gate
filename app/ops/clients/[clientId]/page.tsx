@@ -7,6 +7,7 @@ import PortalPanel from './PortalPanel';
 import ExtraSessionForm from './ExtraSessionForm';
 import PackagePanel from './PackagePanel';
 import PosturePanel, { type PostureRow } from './PosturePanel';
+import AlexBrief from './AlexBrief';
 
 type Client = {
   id: string;
@@ -179,6 +180,7 @@ export default function OpsClientPage() {
         )}
 
         {client && posture && <PosturePanel rows={posture} />}
+        {client && posture && <AlexBrief client={client} posture={posture} />}
         {client && <PackagePanel clientId={client.id} />}
         {client && <PortalPanel clientId={client.id} clientFirstName={client.full_name.split(/\s+/)[0]} />}
 
