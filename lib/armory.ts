@@ -116,6 +116,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'KA-Alex (KIN-T072), 2 Nov 2026 (toggleRA alias added)',
     addedOn: '2026-11-02',
   },
+  {
+    id: 'KIN-P021_W1',
+    arc: 'KIN-P021 — Gravity Offload On-Ramp',
+    week: 1,
+    title: 'Breath & Finding the Curve',
+    focus: 'Rib breathing, pelvic clocks and cervical nods → soft-knee footwork and light mid-back → supported core and side-hip, staged stand',
+    doctrine: 'SYS-D022 V2.2',
+    source: 'KA-Alex (KIN-T072), 10 Nov 2026 (client-specific sides made generic, bp override moved to the ra slot, overrides off by default, Phase 5 not pre-filled)',
+    addedOn: '2026-11-10',
+  },
 ];
 
 // What a client sees in their portal: outcome language, never the clinical label.
