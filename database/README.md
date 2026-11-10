@@ -10,7 +10,7 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 
 | # | File | What it built | Status |
 |---|---|---|---|
-| 01 | postural_assessments | Postural Diagnostic intake | in use |
+| 01 | postural_assessments | Postural Diagnostic intake | live table was an older version; fixed by 24 |
 | 02 | programming_log_schema | Station 8 group-class logs + V.A.E. feedback | in use |
 | 03 | session_log_1on1_schema | 1-1 session log + saved sequences | in use |
 | 04 | instructor_availability_schema | Station 10 availability + instructor roles | in use |
@@ -34,4 +34,6 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 22 | client_packages | Session packages: sessions left, payment due, last updated (portal corner + client file) | in use (run 2 Nov) |
 | 23 | custom_requests | 'Something else in mind?' free-text programme requests from the portal | **to run** (2 Nov) |
 
-New SQL goes here as `24_<name>.sql`, with a row in this table.
+| 24 | station07_postural_fix | Station 07 fix: 3 missing columns added, public reads closed (instructors can still log). Real-client seed files are kept off the repo | **to run** (10 Nov) |
+
+New SQL goes here as `25_<name>.sql`, with a row in this table.

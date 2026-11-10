@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import PortalPanel from './PortalPanel';
 import ExtraSessionForm from './ExtraSessionForm';
 import PackagePanel from './PackagePanel';
+import PosturePanel, { type PostureRow } from './PosturePanel';
 
 type Client = {
   id: string;
@@ -56,6 +57,7 @@ export default function OpsClientPage() {
   const [client, setClient] = useState<Client | null>(null);
   const [draft, setDraft] = useState<Client | null>(null);
   const [timeline, setTimeline] = useState<TimelineItem[]>([]);
+  const [posture, setPosture] = useState<PostureRow[] | null>(null);
   const [error, setError] = useState('');
   const [saving, setSaving] = useState(false);
   const [savedNote, setSavedNote] = useState('');
@@ -75,6 +77,7 @@ export default function OpsClientPage() {
         setClient(body.client);
         setDraft(body.client);
         setTimeline(body.timeline);
+        setPosture(body.posture ?? []);
       })
       .catch(() => setError('Connection failed while loading client.'));
   }, [clientId, router]);
@@ -175,6 +178,7 @@ export default function OpsClientPage() {
           </section>
         )}
 
+        {client && posture && <PosturePanel rows={posture} />}
         {client && <PackagePanel clientId={client.id} />}
         {client && <PortalPanel clientId={client.id} clientFirstName={client.full_name.split(/\s+/)[0]} />}
 

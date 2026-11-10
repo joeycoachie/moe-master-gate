@@ -46,7 +46,15 @@ export async function GET(_request: Request, { params }: { params: Promise<{ cli
       })
       .sort((a, b) => b.session_date.localeCompare(a.session_date));
 
-    return NextResponse.json({ client, timeline });
+    // Station 07 postural assessments logged under this client's name (instructor-run, matched by name).
+    const { data: posture, error: postureError } = await db
+      .from('postural_assessments')
+      .select('id, instructor_name, findings, recommended_focus, notes, created_at')
+      .ilike('client_name', client.full_name)
+      .order('created_at', { ascending: false })
+      .limit(10);
+    // Never let Station 07 break the client file (e.g. before database/24 has been run).
+    return NextResponse.json({ client, timeline, posture: postureError ? [] : (posture ?? []) });
   } catch (err) {
     return adminError(err);
   }
