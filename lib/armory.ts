@@ -123,7 +123,7 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     title: 'Breath & Finding the Curve',
     focus: 'Rib breathing, pelvic clocks and cervical nods → soft-knee footwork and light mid-back → supported core and side-hip, staged stand',
     doctrine: 'SYS-D022 V2.2',
-    source: 'KA-Alex (KIN-T072), 10 Nov 2026 (client-specific sides made generic, bp override moved to the ra slot, overrides off by default, Phase 5 not pre-filled)',
+    source: 'KA-Alex (KIN-T072), resent 11 Nov 2026 on V2.2 (sides by role, HIGH BLOOD PRESSURE in the ra slot, overrides off, Phase 5 empty); used as sent',
     addedOn: '2026-11-10',
   },
 ];
