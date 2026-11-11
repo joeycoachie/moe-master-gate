@@ -69,5 +69,27 @@ const ev=body('evaluateAuditLoop'); ev&&ev.includes('auditVerdictBox')?ok('Phase
     }
   }
 }
+// V2.3 (12 Nov 2026): the override library is on every card, every option answers every switch,
+// and every exec can be pictured on the floor. FAIL on cards that say V2.3, WARN on older cards.
+{
+  const v23 = /SYS-D022 V2\.3/.test(h);
+  const flag = v23 ? bad : warn;
+  const declared = new Set([...h.matchAll(/id="([a-z]+)ToggleBtn"/g)].map((x) => x[1]));
+  const raLabel = (h.match(/id="raToggleBtn"[^>]*>([^<]*)</) || [])[1] || '';
+  const hasNerve = declared.has('nerve') || /NERVE/i.test(raLabel);
+  const lib = { nerve: hasNerve, clavicle: declared.has('clavicle'), arch: declared.has('arch') };
+  const missingLib = Object.keys(lib).filter((k) => !lib[k]);
+  missingLib.length ? flag('V2.3 library missing on this card: ' + missingLib.join(', ')) : ok('V2.3 library: nerve, clavicle, arch');
+  const need = ['ra', ...declared].filter((k, i, a) => a.indexOf(k) === i);
+  let noField = 0, sameAbove = 0, noPicture = 0;
+  for (const ph of Object.keys(r.DB)) for (const st of Object.values(r.DB[ph].stations || {})) for (const v of Object.values(st.options || {})) {
+    if (need.some((k) => !(k in v))) noField++;
+    if (/same as above/i.test(v.exec || '')) sameAbove++;
+    if (!/Picture it/i.test(v.exec || '')) noPicture++;
+  }
+  noField ? flag(noField + ' option(s) lack a field for a declared switch (' + need.join(', ') + ')') : ok('every option answers every switch');
+  sameAbove ? flag(sameAbove + ' option(s) say "Same as above" (C1: each exec stands on its own)') : ok('no "Same as above"');
+  noPicture ? flag(noPicture + ' option(s) have no "Picture it" line (C1)') : ok('every option has "Picture it"');
+}
 console.log(out.join('\n'));
 process.exitCode=out.some(l=>l.startsWith('FAIL'))?1:0;

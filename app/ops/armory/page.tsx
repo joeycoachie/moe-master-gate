@@ -30,12 +30,20 @@ export default async function OpsArmoryPage() {
               {ARMORY_PROTOCOLS.length === 1 ? '' : 's'}
             </p>
           </div>
-          <a
-            href="/ops/architect"
-            className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors"
-          >
-            TRAINING COMMAND
-          </a>
+          <div className="flex gap-2 flex-wrap">
+            <a
+              href="/ops/armory/doctrine"
+              className="border border-[#a855f7] px-4 py-2 text-xs text-[#a855f7] hover:text-white transition-colors"
+            >
+              DOCTRINE (SSOT)
+            </a>
+            <a
+              href="/ops/architect"
+              className="border border-[#333] px-4 py-2 text-xs text-[#888] hover:text-white hover:border-[#a855f7] transition-colors"
+            >
+              TRAINING COMMAND
+            </a>
+          </div>
         </header>
 
         <div className="space-y-10">

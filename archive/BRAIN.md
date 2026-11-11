@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-10-26 · 0b6631f
+# M.O.E. Brain Pack · 2026-11-12 · c1a8045
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -304,6 +304,11 @@ Newest at the top within each section.
 
 ## 2026-10-26 · Outreach protocol (gate G-25)
 - The Phase Action Protocol is folded into SYS-P058 (Studio Infiltration Protocol) as its step-by-step checklist, v2.0. No new ID. Steps in plain words: Find, Say hello, Listen, Plan, Start. It runs in the Outreach Console.
+
+## 2026-11-12 · SYS-D022 V2.3 · Override library on every card
+- Founder: "Yes, every card." Every card in every arc carries NERVE / KNEE SHEAR, ACUTE CLAVICLE / PEC FLUSH and PRONATION / ARCH TENSION, plus the `ra` slot and its arc's own switches. Doctrine: armory/doctrine/SYS-D022_V2.3.md.
+- Founder (11 Nov): TRX is on the apparatus registry. On KIN-P021 the standing TRX row is the coach's choice until W4.
+- Founder (11 Nov): no paid Gemini API. KA-Alex stays in the Gemini app (copy-paste loop) until income covers it.
 
 
 ---

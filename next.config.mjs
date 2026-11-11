@@ -4,6 +4,7 @@ const nextConfig = {
   // stay behind the Architect gate) — make sure Vercel ships them with the route.
   outputFileTracingIncludes: {
     '/ops/armory/[protocolId]': ['./armory/protocols/**/*', './armory/client-bar.js'],
+    '/ops/armory/doctrine': ['./armory/doctrine/*.md'],
     '/ops/command': ['./hub/ROADMAP.md', './hub/LEDGER.md', './hub/LINKS.md', './hub/HVO_PLAYBOOK.md', './hub/RECUP_PRICING.md'],
     '/ops/archive/[[...path]]': ['./archive/*.html', './archive/data/**/*.json', './archive/BRAIN.md', './archive/docs/*.md', './archive/files/**/*'],
   },
