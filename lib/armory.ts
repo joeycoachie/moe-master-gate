@@ -126,6 +126,16 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'KA-Alex (KIN-T072), resent 11 Nov 2026 on V2.2 (sides by role, HIGH BLOOD PRESSURE in the ra slot, overrides off, Phase 5 empty); used as sent',
     addedOn: '2026-11-10',
   },
+  {
+    id: 'KIN-P021_W2',
+    arc: 'KIN-P021 — Gravity Offload On-Ramp',
+    week: 2,
+    title: 'Spine That Moves',
+    focus: 'Breath and gentle tilts → side-hip strength, mid-back and soft-knee footwork → assisted roll-down, knee floats and seated rotation, staged stand',
+    doctrine: 'SYS-D022 V2.2',
+    source: 'KA-Alex (KIN-T072), 11 Nov 2026; TRX added to the apparatus registry and Anchor M2 opens on the lying-down option (founder, 11 Nov)',
+    addedOn: '2026-11-11',
+  },
 ];
 
 // What a client sees in their portal: outcome language, never the clinical label.

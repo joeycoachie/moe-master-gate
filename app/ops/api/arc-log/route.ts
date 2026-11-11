@@ -18,6 +18,32 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const protocol = searchParams.get('protocol') ?? '';
   const date = searchParams.get('date') ?? '';
+  // history=1: which option each client did at each station on earlier dates of this card,
+  // so a repeat of the week can rotate to options they haven't done yet.
+  if (searchParams.get('history') === '1') {
+    if (!findProtocol(protocol)) return NextResponse.json({ error: 'Invalid protocol.' }, { status: 400 });
+    try {
+      const { data, error } = await getSupabaseAdmin()
+        .from('arc_sessions')
+        .select('session_date, arc_session_entries(client_id, stations)')
+        .eq('protocol_id', protocol)
+        .order('session_date');
+      if (error) throw new Error(error.message);
+      const history: Record<string, Record<string, { apparatus: string; date: string }[]>> = {};
+      for (const s of data ?? []) {
+        if (DATE.test(date) && s.session_date === date) continue; // today's session is the one being logged
+        for (const e of s.arc_session_entries ?? []) {
+          const byKey = (history[e.client_id] ??= {});
+          for (const [k, v] of Object.entries((e.stations ?? {}) as Record<string, StationLog>)) {
+            if (v && v.done !== false && v.apparatus) (byKey[k] ??= []).push({ apparatus: v.apparatus, date: s.session_date });
+          }
+        }
+      }
+      return NextResponse.json({ history });
+    } catch (err) {
+      return adminError(err);
+    }
+  }
   if (!findProtocol(protocol) || !DATE.test(date)) return NextResponse.json({ error: 'Invalid protocol or date.' }, { status: 400 });
   try {
     const { data, error } = await getSupabaseAdmin()

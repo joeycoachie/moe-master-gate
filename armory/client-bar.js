@@ -26,7 +26,7 @@
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   }
 
-  var S = { date: today(), sessionId: null, sessions: [], clients: [], selected: [], log: {}, audit: {}, dirty: false, open: false };
+  var S = { date: today(), sessionId: null, sessions: [], clients: [], selected: [], log: {}, audit: {}, history: {}, dirty: false, open: false };
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -217,6 +217,20 @@
       body.appendChild(box);
     }
 
+    // Repeat of this week: same job at every station, a different movement each time.
+    var used = usedCounts();
+    if (Object.keys(used).length) {
+      var rbox = el('div', '');
+      rbox.setAttribute('style', 'margin-top:10px;border:1px solid #333;border-left:3px solid #a855f7;background:#0b0710;padding:10px');
+      var rt = el('div', '', 'Done this week before. FRESH SET switches every station to the option ' + (S.selected.length > 1 ? 'these clients have' : 'this client has') + ' done least (same job, different movement). Stations with one option stay as they are.');
+      rt.setAttribute('style', 'font-size:12px;color:#ddd;line-height:1.5');
+      var rb = el('button', 'font-mono', 'FRESH SET');
+      rb.setAttribute('style', 'margin-top:8px;font-size:10px;letter-spacing:.1em;padding:6px 10px;cursor:pointer;border:1px solid #a855f7;color:#fff;background:#3b0764');
+      rb.onclick = applyFreshSet;
+      rbox.appendChild(rt); rbox.appendChild(rb);
+      body.appendChild(rbox);
+    }
+
     // Stations, per phase
     PHASES.forEach(function (ph) {
       var phase = DB[ph];
@@ -232,6 +246,12 @@
         var sub = el('div', 'font-mono', cur.label);
         sub.setAttribute('style', 'font-size:9px;letter-spacing:.1em;color:#00e5ff;margin-bottom:8px;text-transform:uppercase');
         box.appendChild(h); box.appendChild(sub);
+        var before = used[key];
+        if (before) {
+          var bl = el('div', '', 'Done before: ' + Object.keys(before).map(function (a) { return (LABELS[a] || a) + ' ×' + before[a]; }).join(', '));
+          bl.setAttribute('style', 'font-size:11px;color:#c4b5fd;margin:-4px 0 6px');
+          box.appendChild(bl);
+        }
         S.selected.forEach(function (cid) {
           var e = entryFor(cid, key);
           var line = el('div', '');
@@ -360,6 +380,42 @@
     };
   }
 
+  // ---------- Repeat-week rotation ----------
+  // { 'anchor.M2': { reformer: 2, cadillac: 1 } } for the selected clients' earlier sessions on this card.
+  function usedCounts() {
+    var out = {};
+    S.selected.forEach(function (cid) {
+      var byKey = S.history[cid] || {};
+      Object.keys(byKey).forEach(function (k) {
+        byKey[k].forEach(function (h) {
+          out[k] = out[k] || {};
+          out[k][h.apparatus] = (out[k][h.apparatus] || 0) + 1;
+        });
+      });
+    });
+    return out;
+  }
+  function applyFreshSet() {
+    var used = usedCounts();
+    var changed = 0;
+    KEYS.forEach(function (key) {
+      var parts = key.split('.');
+      var opts = Object.keys(DB[parts[0]].stations[parts[1]].options || {});
+      if (opts.length < 2) return;
+      var counts = used[key] || {};
+      var def = SEL[parts[0]][parts[1]];
+      // Least done first; on a tie keep the card's own first choice, then the card's order.
+      var best = opts.slice().sort(function (a, b) {
+        return (counts[a] || 0) - (counts[b] || 0) || (a === def ? -1 : b === def ? 1 : opts.indexOf(a) - opts.indexOf(b));
+      })[0];
+      if (best !== def) { SEL[parts[0]][parts[1]] = best; changed++; }
+    });
+    if (typeof window.renderCurrentPhase === 'function') window.renderCurrentPhase();
+    markDirty();
+    render();
+    setStatus('FRESH SET: ' + changed + ' station' + (changed === 1 ? '' : 's') + ' switched', '#a855f7');
+  }
+
   // ---------- Data ----------
   function api(url, opts) {
     return fetch(url, opts).then(function (r) {
@@ -384,8 +440,11 @@
         if (!S.sessionId) { S.selected = []; S.log = {}; S.audit = {}; }
         S.dirty = false;
         setStatus(S.sessions.length ? S.sessions.length + ' session(s) logged on this date' : 'No sessions on this date yet');
-        render();
+        return api('/ops/api/arc-log?protocol=' + encodeURIComponent(PID) + '&history=1&date=' + S.date)
+          .then(function (h) { S.history = h.history || {}; })
+          .catch(function () { S.history = {}; });
       })
+      .then(function () { render(); })
       .catch(function (e) { setStatus(e.message, '#ef4444'); render(); });
   }
 

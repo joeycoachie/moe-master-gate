@@ -147,6 +147,21 @@
       "same_actions": false,
       "status": "live",
       "note": "same_actions is no: a jumpboard series is its own station, never a swap-in alternative for another apparatus."
+    },
+    "props_trx": {
+      "label": "TRX / Suspension",
+      "sub_tools": [
+        "Suspension straps"
+      ],
+      "settings": "Anchor height, body angle (near vertical = light)",
+      "station_fit": [
+        "anchor",
+        "mid-back row"
+      ],
+      "ra_rule": "Standing work: soft knees, no breath holding; near-vertical angle for high blood pressure.",
+      "same_actions": true,
+      "status": "live",
+      "added": "2026-11-11 (founder, for KIN-P021 W2)"
     }
   },
   "decisions": {
