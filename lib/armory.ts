@@ -122,8 +122,8 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     week: 1,
     title: 'Breath & Finding the Curve',
     focus: 'Rib breathing, pelvic clocks and cervical nods → soft-knee footwork and light mid-back → supported core and side-hip, staged stand',
-    doctrine: 'SYS-D022 V2.2',
-    source: 'KA-Alex (KIN-T072), resent 11 Nov 2026 on V2.2 (sides by role, HIGH BLOOD PRESSURE in the ra slot, overrides off, Phase 5 empty); used as sent',
+    doctrine: 'SYS-D022 V2.3',
+    source: 'KA-Alex (KIN-T072), reissued 12 Nov 2026 on V2.3 (library on every option, Picture it lines, Chair/TRX/Barrel options, coach floor substitutions added). Terminal edits: override classes renamed -mod to -module; High-Box Roll Down cue rewritten to keep the head above the heart',
     addedOn: '2026-11-10',
   },
   {
