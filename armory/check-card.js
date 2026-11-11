@@ -91,5 +91,19 @@ const ev=body('evaluateAuditLoop'); ev&&ev.includes('auditVerdictBox')?ok('Phase
   sameAbove ? flag(sameAbove + ' option(s) say "Same as above" (C1: each exec stands on its own)') : ok('no "Same as above"');
   noPicture ? flag(noPicture + ' option(s) have no "Picture it" line (C1)') : ok('every option has "Picture it"');
 }
+// A station that names the same apparatus key twice loses the first option without an error
+// (JavaScript keeps the last). Always a FAIL: the coach would never see the lost movement.
+{
+  const dupes = [];
+  for (const block of h.split(/options:\s*\{/).slice(1)) {
+    const seen = new Set();
+    // Option keys sit directly before "{ name:"; the next "role:" ends this station.
+    for (const m of block.split(/\brole:/)[0].matchAll(/([a-z_]+):\s*\{\s*name:\s*['"`]([^'"`]*)/g)) {
+      if (seen.has(m[1])) dupes.push(m[1] + ' (' + m[2] + ')');
+      seen.add(m[1]);
+    }
+  }
+  dupes.length ? bad('apparatus key used twice in one station, first option is lost: ' + dupes.join(', ')) : ok('no apparatus key used twice in a station');
+}
 console.log(out.join('\n'));
 process.exitCode=out.some(l=>l.startsWith('FAIL'))?1:0;

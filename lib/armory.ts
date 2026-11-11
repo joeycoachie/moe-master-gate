@@ -132,8 +132,8 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     week: 2,
     title: 'Spine That Moves',
     focus: 'Breath and gentle tilts → side-hip strength, mid-back and soft-knee footwork → assisted roll-down, knee floats and seated rotation, staged stand',
-    doctrine: 'SYS-D022 V2.2',
-    source: 'KA-Alex (KIN-T072), 11 Nov 2026; TRX added to the apparatus registry and Anchor M2 opens on the lying-down option (founder, 11 Nov)',
+    doctrine: 'SYS-D022 V2.3',
+    source: 'KA-Alex (KIN-T072), reissued 12 Nov 2026 on V2.3 (barrel straddle removed for this archetype, Chair/High Box for seated work). Terminal edits: Anchor M3 had reformer twice, so Long Box Hamstring Curls hid Parallel Footwork; Footwork kept, curl returned to Alex for a Cadillac version; switch labels written in full',
     addedOn: '2026-11-11',
   },
 ];
