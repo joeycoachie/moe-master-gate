@@ -2,6 +2,22 @@
 
 One rule: **everything enters through one door, gets checked once, and lives in one place.** Nothing is kept twice.
 
+## One home for each kind of thing (single source of truth)
+
+Everything else only *reads* from the home. If two places disagree, the home wins.
+
+| Kind of thing | Its one home | Who writes it | Who reads it |
+|---|---|---|---|
+| Studios, hotels, partners: stage, next step, every send and reply | **Outreach Console** (Terminal) | Joey taps LOG / REPLIED | Google Calendar feed "M.O.E. Outreach", Aria |
+| Clients: sessions, check-ins, portal, health notes | **Client files** (Terminal) | Joey, instructors, clients | The client's portal |
+| Arc cards (how a session runs) | **Armory** (Terminal) | KA-Alex drafts, the card check gates | Instructors, Client Log |
+| Doctrines, protocols, tools, IDs, templates | **Intelligence Archive** (Terminal) → Brain Pack | This Claude Code window, on Joey's `file:` | Every agent, via the Brain Pack |
+| Settled decisions | **hub/DECISIONS.md** (Terminal, Founder Command) | Only on Joey's `decide:` | Brain Pack, every agent |
+| Daily loops, content briefs, posts, research, lessons | **Protocol Atlas** (claude.ai) | Joey and Aria | Aria's brief |
+| Time | **Google Calendar** | Generated: the outreach feed, plus blocks Joey asks for | Joey, Aria |
+
+A decision made in the Atlas or with Aria is a draft until Joey says `decide:` here. Then it is settled and every agent sees it.
+
 ## The doors
 
 | You have | Paste it into | Start the message with | Where it ends up |
