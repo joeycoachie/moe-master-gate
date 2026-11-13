@@ -136,3 +136,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-13 · Intelligence Archive · Entries with stored documents show OPEN · Full text; Founder Command gets WHERE TO PASTE (hub/INTAKE.md: one door per input, four gates, weekly rhythm) · 880f92f
 - 2026-11-13 · Intelligence Archive · P-016 Envoy sequence template (fill-in, 4 steps); cards show the template first and the source second · 27c1cd5
 - 2026-11-13 · Founder Command · Aria (personal envoy, claude.ai) setup prompt in hub/ARIA.md: weekday 7:30am brief, drafts only, reads Calendar incl. M.O.E. Outreach feed
+- 2026-11-13 · Founder Command · Single source of truth table (one home per kind of information) in WHERE TO PASTE; final Aria prompt in hub/ARIA.md. Riad replied 13 Nov (will visit HQ, sent a Google Form for the quote): Peak card next step set · 24ebecd
