@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-12 · c1a8045
+# M.O.E. Brain Pack · 2026-11-13 · c725b42
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -13,7 +13,7 @@ Rules for you:
    (SYS-D028): no jargon, sentences of 20 words or fewer, no "!" or ";", numbers need a source.
    Internal names (Wolf, Shepherd, Crucible, S-Rank) stay internal.
 4. Health: no claims that a product or programme treats, heals or cures anything.
-5. Full documents exist for: D-007, D-016_v1.2, P-017, P-018, P-027, T-008, T-032. Ask the founder to paste one if you need it.
+5. Full documents exist for: D-007, D-016_v1.2, P-016, P-017, P-018, P-027, T-008, T-032. Ask the founder to paste one if you need it.
 
 ---
 
@@ -495,7 +495,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **P-013** The Pre-Flight Authenticity Check: The final, non-negotiable quality gate for all Pillar content — “Gift of Service” + “Impacts Culture.”
 - **P-014** “DM to Doctrine” Conversion Protocol: 4-phase system (Shepherd, Probe, Bridge, Invitation) converting inbound DMs into newsletter subscribers.
 - **P-015** The Unified Outreach Protocol: 4-stage chain of command (Spymaster, Forgemaster, Herald, Operator) for high-value outreach.
-- **P-016** The Envoy Protocol: 4-pillar system (Resonance Hook, Value-Driven Follow-Up, De-Risking, Sovereignty Clause) for partnership building.
+- **P-016** The Envoy Protocol (full text): 4-pillar system (Resonance Hook, Value-Driven Follow-Up, De-Risking, Sovereignty Clause) for partnership building.
 - **P-017** The 90-Day “Air & Ground War” Protocol (Tripwire OS) (full text): Low-touch Tripwire OS for 90-day client sprints; explicitly excludes the Crucible Pipeline.
 - **P-018** The 90-Day Ascent Protocol (Client OS) (full text): High-touch Master Brief; includes Crucible Extraction and System Forging.
 - **P-019** The Inbound Filter Protocol: 4-phase system (Re-Frame, Filter, Hold, Takeaway) for filtering C-Rank inbound requests.
