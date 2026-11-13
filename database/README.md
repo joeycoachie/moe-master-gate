@@ -27,10 +27,10 @@ File 10 adds 4 real client names at the end; delete those lines when building a 
 | 15 | outreach_batch_b1 | Messages V3 (email) and V4 (WhatsApp/IG) + first 6 KL studios. Real data: skip for a demo copy | in use (run 19 Oct) |
 | 16 | outreach_two_roads | Two roads (Kinetic Studio OS / Fuel RECUP pop-up), "use when" per message, V5 haze pop-up + V6 warm invite; Peak moved to Fuel | in use (run 20 Oct) |
 | 17 | outreach_v7_premium | V7: Recovery Omakase hook for premium studios (Fuel road) | not needed: since 20 Oct the console loads every message from lib/outreach.ts itself |
-| 18 | recup_team | RECUP.STN team: partners (team codes), their studio claims and touches. One studio, one owner | **to run** (20 Oct) |
+| 18 | recup_team | RECUP.STN team: partners (team codes), their studio claims and touches. One studio, one owner | in use (checked 13 Nov) |
 | 19 | outreach_referrals | 'Referred by' on studios + Sofitel reply logged (Swee Mei via Elisha) | in use (run 22 Oct) |
-| 20 | sofitel_restart | Sofitel card back to Found for Swee Mei (referral restart) | **to run** (22 Oct) |
-| 21 | client_readiness | Readiness profile per client: safety check, lifestyle, commitment, score | **to run** (26 Oct) |
+| 20 | sofitel_restart | Sofitel card back to Found for Swee Mei (referral restart) | **do not run** (overtaken: Swee Mei already replied, 26 Oct) |
+| 21 | client_readiness | Readiness profile per client: safety check, lifestyle, commitment, score | in use (checked 13 Nov) |
 | 22 | client_packages | Session packages: sessions left, payment due, last updated (portal corner + client file) | in use (run 2 Nov) |
 | 23 | custom_requests | 'Something else in mind?' free-text programme requests from the portal | **to run** (2 Nov) |
 
