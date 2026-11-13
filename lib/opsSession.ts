@@ -63,3 +63,9 @@ export function isValidOpsArchitectToken(token: string | undefined | null): bool
   const expiresAt = Number(payload.slice(ARCHITECT_SCOPE.length + 1));
   return Number.isFinite(expiresAt) && Date.now() <= expiresAt;
 }
+
+// Secret key for the outreach calendar feed (/feeds/outreach.ics?key=…). Derived from the session
+// secret, so it needs no new setting; changing OPS_SESSION_SECRET changes the feed link.
+export function outreachFeedKey(): string {
+  return sign('outreach-calendar-feed').slice(0, 32);
+}

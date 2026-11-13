@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { OPS_ARCHITECT_COOKIE_NAME, isValidOpsArchitectToken } from '@/lib/opsSession';
+import { OPS_ARCHITECT_COOKIE_NAME, isValidOpsArchitectToken, outreachFeedKey } from '@/lib/opsSession';
 import { markdownToHtml } from '@/lib/markdown';
 
 export const metadata = {
@@ -57,6 +57,17 @@ export default async function OpsCommandPage() {
         </header>
 
         <section id="links" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(links) }} />
+
+        <section id="calendar" className="mb-14 border border-[#333] bg-[#0a0a0a] p-5 font-sans">
+          <h2 className="text-lg font-bold text-white mb-2">Outreach in your Google Calendar</h2>
+          <p className="text-xs text-[#aaa] leading-relaxed mb-3">
+            Every studio&apos;s next step shows on its date, updated by itself. In Google Calendar on a computer: Other calendars → + → From URL → paste this link → Add calendar.
+            Keep this link private. Aria reads your calendar, so she sees these too.
+          </p>
+          <code className="block text-[11px] text-[#00e5ff] bg-[#050505] border border-[#222] p-3 break-all select-all">
+            {`https://terminal.theoperatorplaybook.com/feeds/outreach.ics?key=${outreachFeedKey()}`}
+          </code>
+        </section>
 
         <section id="recup" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(recupPricing) }} />
 
