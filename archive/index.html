@@ -44,6 +44,7 @@
   .use-tpl { margin-top: 10px; padding: 6px 10px; font-size: 10px; }
   .skel-source { font-size: 11px; color: var(--ink-dim); }
   .files { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .files a.src { border-color: var(--line); color: var(--ink-dim); font-weight: 500; }
   .files a { font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 700; letter-spacing: .05em; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--accent); color: var(--accent); text-decoration: none; }
   .howto { font-size: 12.5px; color: var(--ink-dim); }
   .howto summary { cursor: pointer; color: var(--ink); }
@@ -328,9 +329,10 @@
         var dbox = document.createElement("div");
         dbox.className = "files";
         var da = document.createElement("a");
-        da.href = "docs/" + docId + ".md"; da.target = "_blank"; da.rel = "noopener"; da.textContent = "OPEN · Full text";
+        da.href = "docs/" + docId + ".md"; da.target = "_blank"; da.rel = "noopener"; da.textContent = "READ THE SOURCE"; da.className = "src";
         dbox.appendChild(da);
         card.appendChild(dbox);
+        if (SKEL_BY_ID[r.id]) card.insertBefore(dbox, null);
       }
       if (r && r.files && r.files.length) {
         var box = document.createElement("div");
@@ -347,9 +349,11 @@
         var b = document.createElement("button");
         b.type = "button";
         b.className = "use-tpl";
+        b.style.display = "block";
         b.textContent = "USE THIS TEMPLATE · " + k.title;
         b.addEventListener("click", function () { showSkeleton(k.key); });
-        card.appendChild(b);
+        var firstBox = card.querySelector(".files");
+        if (firstBox) card.insertBefore(b, firstBox); else card.appendChild(b);
       });
     });
     host.querySelectorAll("[data-go]").forEach(function (b) {
