@@ -35,6 +35,8 @@ const skeletons = fs.existsSync(SKEL_DIR)
     })
   : [];
 fs.writeFileSync(path.join(ROOT, 'data', 'skeletons.json'), JSON.stringify(skeletons, null, 2) + '\n');
+// Which entries have full text (archive/docs/<ID>.md), for the viewer's OPEN · Full text button.
+fs.writeFileSync(path.join(ROOT, 'data', 'docs.json'), JSON.stringify(docs, null, 2) + '\n');
 
 const gates = [...read(path.join(ROOT, 'DECISION_GATES.md')).split('## Settled')[0].matchAll(/^### (G-\d+ · .+)$/gm)].map((m) => m[1]);
 

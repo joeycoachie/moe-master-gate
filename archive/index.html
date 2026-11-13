@@ -323,6 +323,15 @@
     host.querySelectorAll(".entry").forEach(function (card, i) {
       var r = list[i];
       // Attached files (archive/files/<ID>/…): open in a new tab.
+      var docId = r && (DOCS.indexOf(r.id) >= 0 ? r.id : DOCS.filter(function (d) { return d.indexOf(r.id + "_") === 0; })[0]);
+      if (docId) {
+        var dbox = document.createElement("div");
+        dbox.className = "files";
+        var da = document.createElement("a");
+        da.href = "docs/" + docId + ".md"; da.target = "_blank"; da.rel = "noopener"; da.textContent = "OPEN · Full text";
+        dbox.appendChild(da);
+        card.appendChild(dbox);
+      }
       if (r && r.files && r.files.length) {
         var box = document.createElement("div");
         box.className = "files";
@@ -360,6 +369,7 @@
   }
 
   var SKELS = [];
+  var DOCS = [];
   var SKEL_BY_ID = {};
   function showSkeleton(key) {
     var k = SKELS.filter(function (x) { return x.key === key; })[0];
@@ -387,6 +397,7 @@
       if (!r.ok) return;
       SKELS = await r.json();
     } catch (e) { return; }
+    try { var dr = await fetch("data/docs.json", { cache: "no-store" }); if (dr.ok) DOCS = await dr.json(); } catch (e) {}
     SKELS.forEach(function (k) { (SKEL_BY_ID[k.id] = SKEL_BY_ID[k.id] || []).push(k); });
     var sel = document.getElementById("skelSelect");
     SKELS.slice().sort(function (a, b) { return (a.status === "ready" ? 0 : 1) - (b.status === "ready" ? 0 : 1) || a.title.localeCompare(b.title); })

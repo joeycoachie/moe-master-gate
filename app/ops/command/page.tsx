@@ -20,12 +20,13 @@ export default async function OpsCommandPage() {
     redirect('/ops/architect?next=/ops/command');
   }
 
-  const [roadmap, ledger, links, playbook, recupPricing] = await Promise.all([
+  const [roadmap, ledger, links, playbook, recupPricing, intake] = await Promise.all([
     readFile(path.join(HUB, 'ROADMAP.md'), 'utf8'),
     readFile(path.join(HUB, 'LEDGER.md'), 'utf8'),
     readFile(path.join(HUB, 'LINKS.md'), 'utf8'),
     readFile(path.join(HUB, 'HVO_PLAYBOOK.md'), 'utf8'),
     readFile(path.join(HUB, 'RECUP_PRICING.md'), 'utf8'),
+    readFile(path.join(HUB, 'INTAKE.md'), 'utf8'),
   ]);
 
   // Ledger lines look like "- 2026-10-09 · Product · what changed · ref". Newest first.
@@ -47,6 +48,7 @@ export default async function OpsCommandPage() {
             <h1 className="text-2xl font-bold mt-1">Founder Command</h1>
           </div>
           <nav className="flex gap-2 text-xs">
+            <a href="#intake" className="border border-[#00e5ff]/60 px-3 py-2 text-[#00e5ff] hover:text-white">WHERE TO PASTE</a>
             <a href="#links" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">LINKS</a>
             <a href="#recup" className="border border-[#E07A55]/60 px-3 py-2 text-[#E07A55] hover:text-white">RECUP PRICING</a>
             <a href="#playbook" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">HVO PLAYBOOK</a>
@@ -57,6 +59,8 @@ export default async function OpsCommandPage() {
         </header>
 
         <section id="links" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(links) }} />
+
+        <section id="intake" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(intake) }} />
 
         <section id="calendar" className="mb-14 border border-[#333] bg-[#0a0a0a] p-5 font-sans">
           <h2 className="text-lg font-bold text-white mb-2">Outreach in your Google Calendar</h2>

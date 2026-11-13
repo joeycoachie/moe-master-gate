@@ -5,7 +5,7 @@ const nextConfig = {
   outputFileTracingIncludes: {
     '/ops/armory/[protocolId]': ['./armory/protocols/**/*', './armory/client-bar.js'],
     '/ops/armory/doctrine': ['./armory/doctrine/*.md'],
-    '/ops/command': ['./hub/ROADMAP.md', './hub/LEDGER.md', './hub/LINKS.md', './hub/HVO_PLAYBOOK.md', './hub/RECUP_PRICING.md'],
+    '/ops/command': ['./hub/ROADMAP.md', './hub/LEDGER.md', './hub/LINKS.md', './hub/HVO_PLAYBOOK.md', './hub/RECUP_PRICING.md', './hub/INTAKE.md'],
     '/ops/archive/[[...path]]': ['./archive/*.html', './archive/data/**/*.json', './archive/BRAIN.md', './archive/docs/*.md', './archive/files/**/*'],
   },
   // RECUP.STN pages on our own domain (studio.theoperatorplaybook.com/recup/…), clean URLs.
