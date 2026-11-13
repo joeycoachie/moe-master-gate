@@ -131,3 +131,5 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-12 · M.O.E. Terminal · KIN-P021 W1 reissued on SYS-D022 V2.3 live in the Armory (passes card check); reply to KA-Alex asks for raised TRX hamstring option, barrel mount, full labels, then W2 · d2f1f51
 - 2026-11-12 · M.O.E. Terminal · KIN-P021 W2 reissued on SYS-D022 V2.3 live; duplicate key that hid Footwork fixed, card check now catches it; reply asks KA-Alex for Cadillac hamstring option, W1 barrel removal, Breath/Layer lines, then W3 · c84d478
 - 2026-11-13 · Hyrox Engine · Sessions 54.1 (putt and chip, no full swings), 55 (nerve check, no treadmill), 56 (studio, nothing on the spine), 57 (off the concrete, fix the row), 58 (partner pulls before sled day) added in plain language with SYS-LOG logging; red-flag line added to 55 · 97c8286
+- 2026-11-13 · M.O.E. Terminal · Outreach calendar feed live: private .ics of every studio's next step (link in Founder Command → Outreach in your Google Calendar), so Google Calendar and Aria see the console without pasting · c725b42
+- 2026-11-13 · Intelligence Archive · P-016 Envoy Protocol full text stored (Aria's brief) · 59ca7ec
