@@ -79,6 +79,9 @@
   }
   .name { font-weight: 700; font-size: 14.5px; }
   .classtag { font-family: "JetBrains Mono", monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-dim); border: 1px solid var(--line); border-radius: 999px; padding: 2px 7px; margin-left: auto; }
+  .star { margin-left: auto; background: none; border: 0; cursor: pointer; font-size: 20px; line-height: 1; padding: 2px 4px; color: var(--ink-dim); }
+  .star.on { color: #ffb454; }
+  .classtag ~ .star { margin-left: 4px; }
   .stat { font-family: "JetBrains Mono", monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 3px; border: 1px solid currentColor; }
   .stat.live { color: var(--ok); } .stat.draft { color: var(--warn); } .stat.frozen, .stat.retired { color: var(--ink-dim); }
   .desc { font-size: 12.5px; color: var(--ink-dim); line-height: 1.55; }
@@ -187,6 +190,10 @@
   var DOMAIN_LABEL = { all: "All", sys: "SYS", kin: "KIN", met: "MET", legacy: "Legacy" };
   var COLLS = ["signals", "protocols", "tools", "crucibles"];
 
+  // Starred entries: kept on this device only (each phone or laptop has its own list).
+  var STARS = {};
+  try { STARS = JSON.parse(localStorage.getItem("archive-stars") || "{}") || {}; } catch (e) { STARS = {}; }
+  function saveStars() { try { localStorage.setItem("archive-stars", JSON.stringify(STARS)); } catch (e) {} }
   var state = { tab: "protocols", domain: "all", q: "", dbData: { signals: [], protocols: [], tools: [], crucibles: [] } };
 
 
@@ -217,7 +224,8 @@
 
   function currentList() {
     var q = state.q.trim().toLowerCase();
-    var base = q ? COLLS.reduce(function (a, c) { return a.concat(merged(c)); }, []) : merged(state.tab);
+    var all = COLLS.reduce(function (a, c) { return a.concat(merged(c)); }, []);
+    var base = state.tab === "starred" ? all.filter(function (r) { return STARS[r.id]; }) : q ? all : merged(state.tab);
     var exact = base.filter(function (r) { return r.id.toLowerCase() === q; });
     if (exact.length) return exact;
     var STOP = { what: 1, how: 1, the: 1, can: 1, are: 1, which: 1, who: 1, why: 1, does: 1, should: 1, our: 1, for: 1, and: 1, you: 1, this: 1, that: 1, with: 1, want: 1, need: 1 };
@@ -234,7 +242,7 @@
   function renderTabs() {
     var el = document.getElementById("tabs");
     el.innerHTML = "";
-    [["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"], ["signals", "Signals"]].forEach(function (t) {
+    [["starred", "\u2605 Starred (" + Object.keys(STARS).length + ")"], ["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"], ["signals", "Signals"]].forEach(function (t) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "tab" + (state.tab === t[0] ? " active" : "");
@@ -312,6 +320,7 @@
           '<span class="name">' + esc(r.name) + '</span>' +
           (r.status ? '<span class="stat ' + esc(r.status) + '">' + esc(r.status) + '</span>' : '') +
           (r.classification || r.layer ? '<span class="classtag">' + esc([r.classification, r.layer].filter(Boolean).join(" · ")) + '</span>' : '') +
+          '<button type="button" class="star' + (STARS[r.id] ? ' on' : '') + '" data-star="' + esc(r.id) + '" aria-label="' + (STARS[r.id] ? 'Unstar ' : 'Star ') + esc(r.id) + '">' + (STARS[r.id] ? '\u2605' : '\u2606') + '</button>' +
         '</div>' +
         '<div class="desc">' + esc(r.desc) + '</div>' +
         (r.node ? '<div class="node">' + esc(r.node) + '</div>' : '') +
@@ -359,8 +368,15 @@
     host.querySelectorAll("[data-go]").forEach(function (b) {
       b.addEventListener("click", function () { goTo(b.getAttribute("data-go")); });
     });
+    host.querySelectorAll("[data-star]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var id = b.getAttribute("data-star");
+        if (STARS[id]) delete STARS[id]; else STARS[id] = 1;
+        saveStars(); renderTabs(); renderResults();
+      });
+    });
     if (!list.length) {
-      host.innerHTML = '<div class="note">No entries match. Try clearing the search or filter.</div>';
+      host.innerHTML = '<div class="note">' + (state.tab === "starred" && !state.q.trim() ? 'Nothing starred yet. Tap the \u2606 on any entry to keep it here.' : 'No entries match. Try clearing the search or filter.') + '</div>';
     }
   }
 
