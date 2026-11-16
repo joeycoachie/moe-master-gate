@@ -3,6 +3,12 @@
 -- 2. Sofitel: Swee Mei's one-screen summary sent today → call her Thursday 19 Nov.
 -- 3. Shows MOVE's card so we can see why the call step (V15) is not showing.
 
+-- 0. Fix (run 16 Nov failed here): the live table was made before 'call' and 'visit' existed, so it
+--    refused them. This also broke the console's LOG: CALL / LOG: VISIT buttons. Now it accepts all six.
+alter table public.outreach_events drop constraint if exists outreach_events_kind_check;
+alter table public.outreach_events add constraint outreach_events_kind_check
+  check (kind in ('stage', 'followup', 'call', 'visit', 'note', 'lesson'));
+
 insert into public.outreach_events (target_id, variant_id, kind, body)
 select id, variant_id, 'call', 'Called 16 Nov, no answer. Visit booked for 17 Nov.'
 from public.outreach_targets t

@@ -150,6 +150,8 @@ The **moat** is the Triad on top (SYS-D023): the same client record also routes 
 
 **Wellness real estate and retreats.** It's a large, growing market, and it has the same floor gap. Retreats and wellness residences sell "programmes", run them with freelance instructors, and keep no record once the guest leaves. Our arcs + client record + RECUP.STN fuel answer exactly that. It's a **channel for BC4–BC5, not a pivot now**: the sales cycles are long, the buyers are developers who buy from operators they know, and we have no network there yet. The cheap test meanwhile is one Malaysian retreat or wellness resort running a short programme on our arcs, or the fourth job in the table above.
 
+**Gated: community-event scouting (founder, 16 Nov 2026).** Use a scraping tool to find the wellness and fitness community events in KL, go in person, and introduce ourselves to the people there. It goes into the Outreach Console's existing ladder as a new way in: event found → attend → intro in person → follow up. No new protocol. **Gate: opens after the first RECUP.STN pop-up has run and we hold its check-in numbers.** Why wait: the problem now is follow-through on leads we already have (Sofitel, six B1 studios), not finding more. The first pop-up's numbers are also what make an in-person intro land.
+
 ## 8. Founder answers
 
 | # | Question | Answer (10–11 Oct 2026) |
