@@ -143,3 +143,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-16 · M.O.E. Terminal · Outreach: Sofitel final summary emailed by founder (call Thu 19 Nov); TRIBE call unanswered, visit 17 Nov 11:30 on calendar; database/26 written, not yet run · 8ed7da9
 - 2026-11-16 · Hyrox Engine · Session 61 (Week 6 Monday: physio first, then a 7-minute run test on the track, then erg + plank drags) added in plain language with SYS-LOG logging and red-flag line · ea86524
 - 2026-11-17 · Archive · Mom Test protocol + B2B IP License Agreement filed verbatim to archive/inbox, gate G-28 opened (fold into SYS-P058 / T-044, no new IDs) · 87e6d04
+- 2026-11-17 · Archive · gate G-29 opened: diagnostics compartment map (Person/Business/Internal × Qualify/Intake/Session/Plan) · db35b01
