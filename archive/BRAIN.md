@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-17 · e7e2242
+# M.O.E. Brain Pack · 2026-11-17 · 28dd858
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -421,6 +421,7 @@ The rule behind all five: **borrow with permission, return more than you took, k
 - G-26 · Three ID and version clashes in files received 17 Oct
 - G-27 · T-032: sort the 9 prompts (keep, merge or veto)
 - G-28 · Mom Test + B2B IP License Agreement (received 17 Nov)
+- G-29 · Diagnostics: one map, one tool per box
 
 ---
 

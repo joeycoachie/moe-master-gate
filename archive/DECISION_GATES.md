@@ -295,6 +295,24 @@ Clashes found (nothing changed):
 
 **Recommended:** 1, with the build price staying at P-048's RM 5,000 and RM 1,500 parked until a client actually says no to a monthly fee. Contract wording gets a lawyer pass before first use.
 
+### G-29 · Diagnostics: one map, one tool per box
+
+About 20 Archive entries are question sets. Many do the same job. Proposed map: **who** it's for × **which step**. Each box keeps ONE live tool. The others become a component of it, or retire. No new IDs.
+
+| | 1 · Qualify (free, DM / QR) | 2 · Intake (form before the session) | 3 · Paid session | 4 · The plan |
+|---|---|---|---|---|
+| **Person (B2C)** | **Whale questions** (non-runners) + **Kinetic Diagnostic quiz** (runners, QR). Fold in: SYS-T065, SYS-T064, MET-T058/T060 card | **T-027**. Fold in: T-015 as its metabolic part | **P-040** (RM 130). P-037 sets the order | **T-029** |
+| **Business (B2B)** | **Mom Test**, as the Listen step of SYS-P058. Replaces Whale Q7 | **T-017** renamed "HVO Audit" (drop Aquatic). T-018 for staff triage | P-036 Friction Report (staff replies) | **T-029** / studio-plan skeleton |
+| **Internal (staff, IP)** | — | — | SYS-T050 V.A.E. instructor audit | SYS-T052 filter, P-046 debrief |
+
+Method behind all of it: P-041 (Doctor Frame: ask, don't pitch). P-039 is the bridge from DM to T-027.
+
+1. Accept the map: add a `compartment` field (who + step) to these entries, fold the extras in as components, and show the map in the Archive
+2. Accept the map but change some boxes (tell me which)
+3. Leave as is
+
+**Recommended:** 1.
+
 ## Settled
 
 ### G-25 · Phase Action Protocol → settled 26 Oct 2026
