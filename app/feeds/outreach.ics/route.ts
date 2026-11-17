@@ -61,6 +61,43 @@ export async function GET(request: Request) {
       'END:VEVENT',
     );
   }
+  // Done trail: every call, visit, follow-up and stage move from the last 14 days shows as a ✅ on
+  // the day it happened, so the calendar shows what got done as well as what's next. One per studio per day.
+  const since = new Date(Date.now() - 14 * 86_400_000).toISOString();
+  const { data: done } = await getSupabaseAdmin()
+    .from('outreach_events')
+    .select('id, target_id, kind, stage, created_at')
+    .in('kind', ['followup', 'call', 'visit', 'stage'])
+    .gte('created_at', since);
+  const { data: names } = await getSupabaseAdmin().from('outreach_targets').select('id, studio');
+  const studioOf = new Map((names ?? []).map((t) => [t.id, t.studio]));
+  const WHAT: Record<string, string> = { followup: 'follow-up sent', call: 'call made', visit: 'visit done' };
+  const byDay = new Map<string, { studio: string; day: string; what: Set<string> }>();
+  for (const e of done ?? []) {
+    const studio = studioOf.get(e.target_id);
+    if (!studio) continue;
+    const day = new Date(new Date(e.created_at).getTime() + 8 * 3_600_000).toISOString().slice(0, 10); // KL date
+    const k = `${e.target_id}:${day}`;
+    const row = byDay.get(k) ?? { studio, day, what: new Set<string>() };
+    row.what.add(e.kind === 'stage' ? `moved to ${String(e.stage ?? '').replace('_', ' ')}` : WHAT[e.kind]);
+    byDay.set(k, row);
+  }
+  for (const [k, row] of byDay) {
+    const start = row.day.replace(/-/g, '');
+    const end = new Date(`${row.day}T00:00:00Z`);
+    end.setUTCDate(end.getUTCDate() + 1);
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:outreach-done-${k.replace(':', '-')}@theoperatorplaybook.com`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${start}`,
+      `DTEND;VALUE=DATE:${end.toISOString().slice(0, 10).replace(/-/g, '')}`,
+      fold(`SUMMARY:${esc(`✅ ${row.studio}: ${[...row.what].join(', ')}`)}`),
+      fold(`DESCRIPTION:${esc('Logged on the Outreach card. Done.')}`),
+      'TRANSP:TRANSPARENT',
+      'END:VEVENT',
+    );
+  }
   lines.push('END:VCALENDAR');
   return new Response(lines.join('\r\n') + '\r\n', {
     headers: { 'Content-Type': 'text/calendar; charset=utf-8', 'Cache-Control': 'private, no-store' },

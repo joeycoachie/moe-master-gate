@@ -118,3 +118,7 @@ Newest at the top within each section.
 ## 2026-11-17 · Diagnostics map (gate G-29)
 - Founder: "gate G-29: option 1". Every question set sits in one box: who (person, business, internal) × step (qualify, intake, paid session, plan). One tool per box; the rest are folded in. Map: archive/data/compartments.json.
 - Whale questions are for people only. Gyms, studios and teams get the Mom Test (SYS-P058 Listen step).
+
+## 2026-11-17 · Health Bar is the place, RECUP.STN is what we run there
+- Founder approved. The Health Bar's owner has agreed to us using the name, and there's no partner signage at the door. Use "the Health Bar" with anyone nearby or who has visited (e.g. Stephanie, Ascentium, same building). For studios across town: "RECUP.STN, based at the Health Bar in [building]". Never name the partner brand. Partly replaces the 5 Oct naming (HealthBar → RECUP.STN HQ).
+- Outreach rhythm: calls Mon–Wed; anyone who hasn't picked up gets visited on Friday (one trip).

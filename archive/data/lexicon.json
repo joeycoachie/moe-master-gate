@@ -217,14 +217,12 @@
       "id": "healthbar",
       "kind": "swap",
       "term": "HealthBar / Healthbar Node",
-      "say": "RECUP.STN HQ",
+      "say": "the Health Bar (the place) · RECUP.STN (what we run there)",
       "match": [
-        "healthbar node",
-        "healthbar",
-        "health bar"
+        "healthbar node"
       ],
       "scope": "all",
-      "why": "Our own brand. Says nothing about the partner brand.",
+      "why": "17 Nov 2026 (founder): the Health Bar is the place, RECUP.STN is what we run there. The owner has agreed to us using the name, and there's no partner signage. Only the internal 'node' wording is swapped. Never name the partner brand.",
       "added": "2026-10-05"
     },
     {

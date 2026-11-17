@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-17 · 136d5e4
+# M.O.E. Brain Pack · 2026-11-17 · 719ff01
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -21,7 +21,7 @@ Rules for you:
 
 Banned in public copy: "cure / heal / treat", "detox / cleanse / flush toxins", "disease names in claims (diabetes, hypertension, PCOS, fertility, thyroid, cancer)", "Herbalife (and product names: F1, F3, RS Pro, Niteworks, CR7)", "Operator / Protagonist / Seeker / Sovereign (as labels for people)", "proven / proves / clinically proven", "S-Rank / C-Rank / S+ Rank", "supplement (at the booth)", "Wolf / Shepherd / Crucible / Pillar / Pulse".
 
-Swaps: "biomarkers" → "health check results"; "Systemic Biomechanical Diagnostics" → "quick body checks to stop pain"; "Body Science Specialist" → "recovery for runners"; "calibrate / calibration" → "check / test"; "Circadian Cortisol Reset" → "fix your sleep and energy rhythm"; "Deployment of Fuel Protocol & Products" → "you get your plan and products"; "executive function / cognitive processing speed" → "thinking clearly"; "FORMOH Audit / Digital Qualifier" → "a few quick questions"; "Foundational Reset" → "weeks 1–2"; "Fuel System Architecture" → "weeks 3–13: lose belly fat, keep your muscle"; "gut healing" → "settle your stomach"; "Hardware & Software" → "your mind and body"; "HealthBar / Healthbar Node" → "RECUP.STN HQ"; "Home Armory" → "starter pack"; "Internal Operating System" → "how you're built"; "Magic Number" → "your daily protein number"; "your metabolic engine is leaking / decaying" → "your body isn't recovering properly"; "Metabolic Protocols / Structural Integrity" → "drinks matched to your run"; "optimization / optimize" → "make it work better"; "postprandial somnolence / circadian trough" → "feeling slow after lunch"; "protocol (meaning a drink or a plan)" → "the drink / your plan / a simple rule"; "Scan. Identify the Leak. Calibrate your Repair." → "Check your body. Find the weak spot. Fix it."; "shake / meal replacement" → "measured meal"; "Signal vs. Noise" → "what matters and what doesn't"; "The Sovereign Health Protocol" → "RECUP 90"; "Strategy Calibration Call" → "15-minute call"; "visceral fat oxidation" → "burn belly fat".
+Swaps: "biomarkers" → "health check results"; "Systemic Biomechanical Diagnostics" → "quick body checks to stop pain"; "Body Science Specialist" → "recovery for runners"; "calibrate / calibration" → "check / test"; "Circadian Cortisol Reset" → "fix your sleep and energy rhythm"; "Deployment of Fuel Protocol & Products" → "you get your plan and products"; "executive function / cognitive processing speed" → "thinking clearly"; "FORMOH Audit / Digital Qualifier" → "a few quick questions"; "Foundational Reset" → "weeks 1–2"; "Fuel System Architecture" → "weeks 3–13: lose belly fat, keep your muscle"; "gut healing" → "settle your stomach"; "Hardware & Software" → "your mind and body"; "HealthBar / Healthbar Node" → "the Health Bar (the place) · RECUP.STN (what we run there)"; "Home Armory" → "starter pack"; "Internal Operating System" → "how you're built"; "Magic Number" → "your daily protein number"; "your metabolic engine is leaking / decaying" → "your body isn't recovering properly"; "Metabolic Protocols / Structural Integrity" → "drinks matched to your run"; "optimization / optimize" → "make it work better"; "postprandial somnolence / circadian trough" → "feeling slow after lunch"; "protocol (meaning a drink or a plan)" → "the drink / your plan / a simple rule"; "Scan. Identify the Leak. Calibrate your Repair." → "Check your body. Find the weak spot. Fix it."; "shake / meal replacement" → "measured meal"; "Signal vs. Noise" → "what matters and what doesn't"; "The Sovereign Health Protocol" → "RECUP 90"; "Strategy Calibration Call" → "15-minute call"; "visceral fat oxidation" → "burn belly fat".
 
 ---
 
@@ -319,6 +319,10 @@ Newest at the top within each section.
 ## 2026-11-17 · Diagnostics map (gate G-29)
 - Founder: "gate G-29: option 1". Every question set sits in one box: who (person, business, internal) × step (qualify, intake, paid session, plan). One tool per box; the rest are folded in. Map: archive/data/compartments.json.
 - Whale questions are for people only. Gyms, studios and teams get the Mom Test (SYS-P058 Listen step).
+
+## 2026-11-17 · Health Bar is the place, RECUP.STN is what we run there
+- Founder approved. The Health Bar's owner has agreed to us using the name, and there's no partner signage at the door. Use "the Health Bar" with anyone nearby or who has visited (e.g. Stephanie, Ascentium, same building). For studios across town: "RECUP.STN, based at the Health Bar in [building]". Never name the partner brand. Partly replaces the 5 Oct naming (HealthBar → RECUP.STN HQ).
+- Outreach rhythm: calls Mon–Wed; anyone who hasn't picked up gets visited on Friday (one trip).
 
 
 ---

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { STAGES, type Stage } from '@/lib/outreach';
 import { outreachAgentKey, outreachFeedKey, timingSafeStringsEqual } from '@/lib/opsSession';
 
 // The Outreach Console for agents (Claude Code on the founder's laptop), so the founder never pastes
@@ -44,6 +45,7 @@ export async function GET(request: Request) {
 // Body: { action: 'note' | 'touch' | 'update' | 'add', studio, ... }
 //   note:   { body }                                  → a note on the card's history
 //   touch:  { kind: 'followup'|'call'|'visit', body } → a rung of the no-reply ladder
+//   stage:  { stage, body? }                         → move the card (e.g. found → messaged)
 //   update: { next_step?, next_date?, owner_name?, contact?, friction?, area? }
 //   add:    { road: 'fuel'|'kinetic', owner_name?, contact?, area?, batch?, friction?, next_step?, next_date? }
 export async function POST(request: Request) {
@@ -94,6 +96,18 @@ export async function POST(request: Request) {
     if (typeof b.next_date === 'string') patch.next_date = str(b.next_date, 10) || null;
     const { error } = await db.from('outreach_targets').update(patch).eq('id', t.id);
     if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  } else if (action === 'stage') {
+    // Same rule as the console: keep the first time each stage was reached, fill in skipped ones.
+    const stage = str(b.stage) as Stage;
+    if (![...STAGES, 'no'].includes(stage)) return NextResponse.json({ error: 'Unknown stage.' }, { status: 400 });
+    const { data: row, error: readErr } = await db.from('outreach_targets').select('stage_at').eq('id', t.id).single();
+    if (readErr) return NextResponse.json({ error: readErr.message }, { status: 503 });
+    const stageAt = { ...(row.stage_at as Record<string, string>) };
+    if (stage !== 'no') for (const s of STAGES.slice(1, STAGES.indexOf(stage as (typeof STAGES)[number]) + 1)) stageAt[s] ??= now;
+    else stageAt.no ??= now;
+    const { error } = await db.from('outreach_targets').update({ stage, stage_at: stageAt, last_touch_at: now, updated_at: now }).eq('id', t.id);
+    if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+    await db.from('outreach_events').insert({ target_id: t.id, variant_id: t.variant_id, kind: 'stage', stage, body: str(b.body) });
   } else {
     return NextResponse.json({ error: 'Unknown action.' }, { status: 400 });
   }
