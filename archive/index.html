@@ -375,7 +375,7 @@
       var card = document.createElement("div");
       card.className = "entry" + (rich ? " rich" : "");
       var comps = r.components && r.components.length
-        ? '<details class="comp"><summary>Inside it · ' + r.components.length + ' parts</summary><ul>' + r.components.map(function (c) {
+        ? '<details class="comp"' + (list.length <= 3 ? ' open' : '') + '><summary>Inside it · ' + r.components.length + ' parts</summary><ul>' + r.components.map(function (c) {
             if (typeof c === "string") return '<li>' + esc(c) + '</li>';
             return '<li><b>' + esc(c.name) + '</b>' + (c.status && c.status !== "live" ? ' <span class="stat ' + esc(c.status) + '">' + esc(c.status) + '</span>' : '') + (c.note ? '. ' + esc(c.note) : '') + '</li>';
           }).join("") + '</ul></details>' : '';
@@ -390,7 +390,7 @@
         '<div class="desc">' + esc(r.desc) + '</div>' +
         boxTag(r.id) +
         (r.node ? '<div class="node">' + esc(r.node) + '</div>' : '') +
-        (r.source ? '<a class="ssot" href="' + esc(r.source) + '">Open the source →</a>' : '') +
+        (r.source ? (/^(https?:|\/|docs\/|files\/)/.test(r.source) ? '<a class="ssot" href="' + esc(r.source) + '">Open the source →</a>' : '<div class="ssot">Source: ' + esc(r.source) + '</div>') : '') +
         (r.answers && r.answers.length ? '<div class="sec">Answers</div><ul class="answers">' + r.answers.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join("") + '</ul>' : '') +
         comps +
         relBlock(r);

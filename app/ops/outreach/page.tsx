@@ -770,12 +770,13 @@ const CALL_CARDS = {
   },
   owner: {
     title: 'CALL CARD · OWNER',
-    rule: 'They talk 70%. Diagnose, then a yes or no. Never “let’s stay in touch”.',
+    rule: 'They talk 70%. Ask about the past, never pitch portals or code (SYS-P058 Mom Test). End on a yes or no.',
     rows: [
       ['Frame', 'Can I ask a few questions about how you run things, then share where I think I fit? If it’s not a fit, we’ll both know in 15 minutes.'],
-      ['Diagnose', 'When did you last lose a client or a coach? · What did you try, what did it cost? · Roughly what is that each month?'],
+      ['Q1 Past', 'When did you last lose a client or a coach? What did you try, what did it cost, where did it fail? (Nothing tried = not a real pain.)'],
+      ['Q2 Cost', 'Roughly what does that cost you each month? (Get a ringgit number.)'],
       ['Label', 'Sounds like … (say back what you heard, in one line)'],
-      ['Close', 'If I ran this for 90 days, what would you need to see to pay for it?'],
+      ['Q3 Close', 'If I ran this for 90 days, what would you need to see before you put a fixed budget into it? (Yes, no or a date. Never “let’s stay in touch”.)'],
     ],
   },
 } as const;
