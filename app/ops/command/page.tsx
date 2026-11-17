@@ -2,7 +2,7 @@ import { readFile } from 'fs/promises';
 import path from 'path';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { OPS_ARCHITECT_COOKIE_NAME, isValidOpsArchitectToken, outreachFeedKey } from '@/lib/opsSession';
+import { OPS_ARCHITECT_COOKIE_NAME, isValidOpsArchitectToken, outreachAgentKey, outreachFeedKey } from '@/lib/opsSession';
 import { markdownToHtml } from '@/lib/markdown';
 
 export const metadata = {
@@ -71,6 +71,14 @@ export default async function OpsCommandPage() {
           <code className="block text-[11px] text-[#00e5ff] bg-[#050505] border border-[#222] p-3 break-all select-all">
             {`https://terminal.theoperatorplaybook.com/feeds/outreach.ics?key=${outreachFeedKey()}`}
           </code>
+        </section>
+
+        <section id="agent" className="mb-14 border border-[#a855f7]/60 bg-[#0a0a0a] p-5 font-sans">
+          <h2 className="text-lg font-bold text-white mb-2">Agent key (for Claude Code)</h2>
+          <p className="text-xs text-[#aaa] leading-relaxed mb-3">
+            Paste this once into Claude Code on your laptop. Claude then reads every studio card and logs calls, visits and notes for you. Never share it anywhere else.
+          </p>
+          <code className="block text-[11px] text-[#a855f7] bg-[#050505] border border-[#222] p-3 break-all select-all">{outreachAgentKey()}</code>
         </section>
 
         <section id="recup" className="font-sans mb-14" dangerouslySetInnerHTML={{ __html: markdownToHtml(recupPricing) }} />

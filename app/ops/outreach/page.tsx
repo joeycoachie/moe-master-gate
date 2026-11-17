@@ -696,6 +696,8 @@ function StudioCard({
             </div>
           )}
 
+          {t.stage === 'call_booked' && <CallCard kind="owner" />}
+
           {/* The gift follow-up, ready when it is due */}
           {move && move.key !== 'wait' && (() => {
             // Follow-up 1 (gift): V13 fuel / V17 kinetic. Follow-up 2 (new angle): V18 fuel / V19 kinetic.
@@ -712,7 +714,7 @@ function StudioCard({
               <div className="border border-[#ffb454]/50 p-3 space-y-2">
                 <div className="text-[10px] font-mono text-[#ffb454] tracking-widest">{move.due ? `${what} DUE` : `${what} IN ${move.inDays} WORKING DAYS`} · {gv.code} · {CHANNEL_LABEL[ch].toUpperCase()}</div>
                 {ch === 'email' && gift.subject && <p className="text-xs text-[#888]">Subject: <span className="text-[#ccc]">{gift.subject}</span></p>}
-                <textarea readOnly rows={Math.min(7, gift.text.split('\n').length + 1)} onFocus={(e) => e.currentTarget.select()} className={`${input} text-[#ccc]`} value={gift.text} />
+                {move.key === 'call' ? <CallCard kind="gatekeeper" /> : <textarea readOnly rows={Math.min(7, gift.text.split('\n').length + 1)} onFocus={(e) => e.currentTarget.select()} className={`${input} text-[#ccc]`} value={gift.text} />}
                 <div className="flex flex-wrap gap-2 text-xs font-mono">
                   <button
                     onClick={async () => flash((await copyText(ch === 'email' && gift.subject ? `Subject: ${gift.subject}\n\n${gift.text}` : gift.text)) ? 'Follow-up copied' : 'Copy blocked. Press and hold, then Select All')}
@@ -748,6 +750,55 @@ function StudioCard({
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Call cards (Archive skeletons call-card-gatekeeper / call-card-owner, P-041 + D-015).
+// Short on screen; the why sits folded under one line so the card stays clean.
+const CALL_CARDS = {
+  gatekeeper: {
+    title: 'CALL CARD · FRONT DESK',
+    rule: 'Max 2 sentences, then a question. Goal: a name and a time.',
+    rows: [
+      ['Open', 'Hi, this is Joey from RECUP.STN. I’m hoping you can help me.'],
+      ['Ask', 'I’d like to speak to whoever plans member events. Who’s the best person for that?'],
+      ['“What’s it about?”', 'After one class, each member gets a recovery drink matched to their workout. We bring everything, there’s no fee. (Then stop.)'],
+      ['⭐ Pivot', 'Sounds like this isn’t your call to make, and that’s completely fair. Would it be a bad idea to tell me who does decide, so I stop bothering you?'],
+      ['Close', 'What’s their name, and when are they usually in? … Thank you, you’ve really helped.'],
+    ],
+  },
+  owner: {
+    title: 'CALL CARD · OWNER',
+    rule: 'They talk 70%. Diagnose, then a yes or no. Never “let’s stay in touch”.',
+    rows: [
+      ['Frame', 'Can I ask a few questions about how you run things, then share where I think I fit? If it’s not a fit, we’ll both know in 15 minutes.'],
+      ['Diagnose', 'When did you last lose a client or a coach? · What did you try, what did it cost? · Roughly what is that each month?'],
+      ['Label', 'Sounds like … (say back what you heard, in one line)'],
+      ['Close', 'If I ran this for 90 days, what would you need to see to pay for it?'],
+    ],
+  },
+} as const;
+
+function CallCard({ kind }: { kind: keyof typeof CALL_CARDS }) {
+  const c = CALL_CARDS[kind];
+  return (
+    <div className="border border-[#a855f7]/50 p-3 space-y-2 font-sans">
+      <div className="text-[10px] font-mono text-[#a855f7] tracking-widest">{c.title}</div>
+      <p className="text-xs text-[#ffb454]">{c.rule}</p>
+      <dl className="space-y-1.5 text-[13px]">
+        {c.rows.map(([k, v]) => (
+          <div key={k} className="grid grid-cols-[88px_1fr] gap-2">
+            <dt className="text-[#888] text-xs pt-0.5">{k}</dt>
+            <dd className="text-[#ddd]">{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <details className="text-xs text-[#888]">
+        <summary className="cursor-pointer text-[#666]">Pro tip · P-041 Doctor Frame · D-015 Architect Frame</summary>
+        <p className="mt-1.5">P-041: diagnose, don’t pitch. Questions build your frame; talking more does not. D-015: leave things out and hold your position. Silence after a question is yours, don’t fill it.</p>
+        <a href={`/ops/archive?tpl=call-card-${kind}`} className="text-[#a855f7] underline">Full card in the Archive</a>
+      </details>
     </div>
   );
 }

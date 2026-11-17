@@ -1,5 +1,25 @@
 [
   {
+    "key": "call-card-gatekeeper",
+    "id": "P-041",
+    "title": "Call card 1 · Front desk or gatekeeper (get a name and a time)",
+    "use_when": "Read 30 seconds before calling a studio, hotel or company when someone other than the decision-maker will pick up. Your only goal is a name and a time.",
+    "status": "ready",
+    "source": "P-041 Doctor Frame (diagnose, don't pitch) + D-015 Architect Frame (leave things out, hold your position). Tested on the SOFIT call, 17 Nov 2026",
+    "replaces": "V15 one-line call script",
+    "body": "RULE: no more than 2 sentences, then a question. Your only goal is a name and a time.\nSay less than feels natural. Talking more does not build your frame. Asking does.\n\nOPEN (warm, slow)\n\"Hi, this is Joey from [RECUP.STN]. I'm hoping you can help me.\"\n\nTHE ASK\n\"I'd like to speak to whoever [plans member events / looks after coaching]. Who's the best person for that?\"\n\nTHEY ASK \"WHAT'S IT ABOUT?\" (one sentence, then stop talking)\n\"After one class, each member gets a recovery drink matched to their workout. We bring everything, there's no fee.\"\n\n⭐ THE PIVOT (when they can't decide)\n\"Sounds like this isn't your call to make, and that's completely fair. Would it be a bad idea to tell me who does decide, so I stop bothering you?\"\nWhy it works: \"Sounds like…\" names their situation, so they feel understood, not pushed. \"Would it be a bad idea…\" lets them answer with a no, which feels safe. \"So I stop bothering you\" makes helping you the easy choice.\n\nCLOSE\n\"What's their name, and when are they usually in?\"  Then: \"Thank you, you've really helped.\"\n\nAFTER (within 1 hour)\nNote on the studio's Outreach card, in their words: who picked up · name you got · time you got · what they asked."
+  },
+  {
+    "key": "call-card-owner",
+    "id": "P-041",
+    "title": "Call card 2 · Owner or decision-maker (diagnose, then a yes or no)",
+    "use_when": "Read 30 seconds before a call or meeting with an owner or decision-maker. You diagnose first and close on a yes or no, never \"let's stay in touch\".",
+    "status": "ready",
+    "source": "P-041 Doctor Frame (Universal Sales OS) + D-015 Architect Frame + D-009 Clarity before Momentum. First used for Riad (Peak), 18 Nov 2026",
+    "replaces": "nothing",
+    "body": "RULE: they talk 70%, you talk 30%. Ask, then stay quiet.\n\n1 · FRAME (first 20 seconds, D-015: you set the agenda)\n\"Thanks for making time. Can I ask a few questions about how [business] runs, then share where I think I fit? If it's not a fit, we'll both know in 15 minutes.\"\n\n2 · DIAGNOSE (P-041: no pitching yet)\n- \"When did you last lose a client or a coach? What happened?\"\n- \"What did you try to fix it? What did it cost you?\"\n- \"Roughly what does that cost you each month?\"\n- \"Who looks after your clients between sessions: food, recovery, the days they're not with you?\"\n\n3 · LABEL (say back what you heard, in one line)\n\"Sounds like [everything runs through you / clients drift between sessions].\"\n\n4 · CLOSE (a yes or no on a paid pilot)\n\"If I ran your [Pilates block] for 90 days, what would you need to see to pay for it?\"\n\nDON'T: give two offers, talk prices before they name the cost, mention the setup fee, or close with \"let's keep in touch\".\n\nAFTER (within 1 hour)\nNote on their Outreach card, in their words: the cost they named · what they'd need to see · yes, no or a date."
+  },
+  {
     "key": "client-90-days-light",
     "id": "P-017",
     "title": "Run a client's 90 days (light)",

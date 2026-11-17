@@ -69,3 +69,10 @@ export function isValidOpsArchitectToken(token: string | undefined | null): bool
 export function outreachFeedKey(): string {
   return sign('outreach-calendar-feed').slice(0, 32);
 }
+
+// Agent key: lets Claude Code (on the founder's laptop) read AND log to the Outreach Console
+// through /feeds/outreach.json, so the founder never pastes notes. Separate from the calendar key,
+// because the calendar link is shared with Google; this one is not.
+export function outreachAgentKey(): string {
+  return 'agt_' + sign('outreach-agent-access').slice(0, 40);
+}
