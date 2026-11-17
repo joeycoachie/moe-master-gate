@@ -145,3 +145,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-17 · Archive · Mom Test protocol + B2B IP License Agreement filed verbatim to archive/inbox, gate G-28 opened (fold into SYS-P058 / T-044, no new IDs) · 87e6d04
 - 2026-11-17 · Archive · gate G-29 opened: diagnostics compartment map (Person/Business/Internal × Qualify/Intake/Session/Plan) · db35b01
 - 2026-11-17 · Archive · G-28 settled (option 1): Mom Test = SYS-P058 v2.1 Listen step (3 questions + paid-pilot close), B2B licence = T-044 two-line contract (RM 5,000 build + monthly hosting, pauses after 30 days unpaid, RM 1,500 parked); HVO Playbook §8–9 + Brain Pack rebuilt · f6a5593
+- 2026-11-17 · Archive · G-29 settled: Diagnostics map tab at /ops/archive (data/compartments.json), extras folded, T-017 renamed HVO Audit, Whale Q7 points to Mom Test · 3e1b1c5
