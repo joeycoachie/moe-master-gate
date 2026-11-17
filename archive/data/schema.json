@@ -7,7 +7,8 @@
     "answers": "Plain questions a learner would actually ask that this asset answers. This is what the backend matches a goal against.",
     "concepts": "Short kebab-case tags from a shared vocabulary. Reuse existing tags before you invent one.",
     "components": "Parts that live inside this asset and do not get their own ID yet. Promote a part to its own ID only when it is reused outside its parent.",
-    "edges": "List of {rel, to, why}."
+    "edges": "List of {rel, to, why}.",
+    "compartment": "Diagnostics only. Which box a question set sits in (who x step) is stored once in data/compartments.json, not on the entry. One lead tool per box; the rest are folded. Gate G-29."
   },
   "relations": {
     "requires": "Learn the target first or this won't make sense. The backend walks this backward to find gaps.",

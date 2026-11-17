@@ -1,0 +1,79 @@
+{
+  "title": "Diagnostics map",
+  "decided": "2026-11-17, gate G-29 option 1",
+  "rule": "Each box has ONE live tool (lead). Anything else that does the same job is folded: use the lead instead. Folded entries keep their ID for history. The map is stored here once; entry cards show their box from this file.",
+  "method": { "id": "P-041", "note": "Doctor Frame behind every box: ask, don't pitch." },
+  "who": {
+    "person": "Person (B2C)",
+    "business": "Business (B2B)",
+    "internal": "Internal (staff, IP)"
+  },
+  "steps": {
+    "qualify": "1 · Qualify (free, DM or QR)",
+    "intake": "2 · Intake (form before the session)",
+    "session": "3 · Paid session",
+    "plan": "4 · The plan"
+  },
+  "boxes": [
+    {
+      "who": "person", "step": "qualify",
+      "lead": [
+        { "id": "SYS-D028", "part": "Whale questions", "note": "Non-runners. Draft, awaiting founder approval." },
+        { "part": "Kinetic Diagnostic quiz", "note": "Runners, via the live QR page. No Archive ID yet." }
+      ],
+      "folded": [
+        { "id": "SYS-T065", "why": "Short DM version of the same questions. Use Whale." },
+        { "id": "SYS-T064", "why": "The call to action that leads into Whale. Not a separate set of questions." },
+        { "id": "MET-T058", "why": "QR that opens the WhatsApp chat where Whale is asked." },
+        { "id": "MET-T060", "why": "Printed card that carries the MET-T058 QR." }
+      ],
+      "bridge": { "id": "P-039", "note": "Moves a DM that passes Whale into the T-027 form." }
+    },
+    {
+      "who": "person", "step": "intake",
+      "lead": [{ "id": "T-027" }],
+      "folded": [{ "id": "T-015", "why": "Becomes the metabolic part of T-027." }]
+    },
+    {
+      "who": "person", "step": "session",
+      "lead": [{ "id": "P-040", "note": "RM 130 diagnostic session." }],
+      "folded": [],
+      "support": [{ "id": "P-037", "note": "Sets the order: structural scan, then metabolic audit." }]
+    },
+    {
+      "who": "person", "step": "plan",
+      "lead": [{ "id": "T-029" }],
+      "folded": []
+    },
+    {
+      "who": "business", "step": "qualify",
+      "lead": [{ "id": "SYS-P058", "part": "Mom Test (Listen step)", "note": "Replaces Whale Q7. Original in inbox/mom-test-pilot-validation.md." }],
+      "folded": []
+    },
+    {
+      "who": "business", "step": "intake",
+      "lead": [{ "id": "T-017", "note": "HVO Audit, for any studio or team, not only aquatic." }],
+      "folded": [{ "id": "T-018", "why": "Staff triage part of T-017." }]
+    },
+    {
+      "who": "business", "step": "session",
+      "lead": [{ "id": "P-036", "part": "Friction Report", "note": "Anonymous staff replies turned into a report for the owner." }],
+      "folded": []
+    },
+    {
+      "who": "business", "step": "plan",
+      "lead": [{ "id": "T-029", "note": "Studio version: the studio-plan template." }],
+      "folded": []
+    },
+    {
+      "who": "internal", "step": "session",
+      "lead": [{ "id": "SYS-T050", "note": "V.A.E. instructor audit." }],
+      "folded": []
+    },
+    {
+      "who": "internal", "step": "plan",
+      "lead": [{ "id": "SYS-T052", "note": "Filter for filing new IP." }, { "id": "P-046", "note": "End-of-day debrief." }],
+      "folded": []
+    }
+  ]
+}

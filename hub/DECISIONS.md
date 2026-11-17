@@ -114,3 +114,7 @@ Newest at the top within each section.
 ## 2026-11-17 · Mom Test + B2B licence (gate G-28)
 - Founder: "G-28: 1". Mom Test folded into SYS-P058 as the Listen step script (v2.1). License Agreement folded into T-044 as the two-line contract (build fee + monthly hosting, hosting stops if unpaid). No new IDs.
 - Build fee stays RM 5,000 (P-048). RM 1,500 one-time handover parked until a client refuses any monthly fee. A lawyer reads the contract wording before first use.
+
+## 2026-11-17 · Diagnostics map (gate G-29)
+- Founder: "gate G-29: option 1". Every question set sits in one box: who (person, business, internal) × step (qualify, intake, paid session, plan). One tool per box; the rest are folded in. Map: archive/data/compartments.json.
+- Whale questions are for people only. Gyms, studios and teams get the Mom Test (SYS-P058 Listen step).

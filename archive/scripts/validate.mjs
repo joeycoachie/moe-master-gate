@@ -47,6 +47,24 @@ for (const e of entries) {
   }
 }
 
+// Diagnostics map (data/compartments.json, gate G-29): every ID must be filed, one lead per box, nothing both lead and folded.
+const cmap = readJSON('data/compartments.json');
+const boxKeys = new Set();
+const leadIds = new Set();
+for (const b of cmap.boxes) {
+  const key = `${b.who}/${b.step}`;
+  if (!cmap.who[b.who] || !cmap.steps[b.step]) err(`compartments/${key}`, 'unknown who or step');
+  if (boxKeys.has(key)) err(`compartments/${key}`, 'box listed twice');
+  boxKeys.add(key);
+  if (!b.lead || !b.lead.length) err(`compartments/${key}`, 'box has no lead tool');
+  const refs = [...(b.lead || []), ...(b.folded || []), ...(b.support || []), ...(b.bridge ? [b.bridge] : [])];
+  for (const r of refs) if (r.id && !byId.has(r.id)) err(`compartments/${key}`, `${r.id} is not filed`);
+  for (const l of b.lead || []) if (l.id) leadIds.add(l.id);
+  for (const f of b.folded || []) if (!f.why) err(`compartments/${key}`, `folded ${f.id} needs a "why"`);
+}
+for (const b of cmap.boxes) for (const f of b.folded || []) if (leadIds.has(f.id)) err(`compartments/${b.who}/${b.step}`, `${f.id} is a lead elsewhere and folded here`);
+if (!byId.has(cmap.method.id)) err('compartments', `method ${cmap.method.id} is not filed`);
+
 // Lexicon
 const lex = loadLexicon();
 const lexIds = new Set();

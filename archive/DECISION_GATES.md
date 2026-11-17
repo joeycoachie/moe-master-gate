@@ -276,25 +276,11 @@ The Crucible Investigator is the agent you asked for: it digs into a failure fro
 
 **Recommended:** 1. Then highlight the kept rows in the sheet as moved.
 
-### G-29 · Diagnostics: one map, one tool per box
-
-About 20 Archive entries are question sets. Many do the same job. Proposed map: **who** it's for × **which step**. Each box keeps ONE live tool. The others become a component of it, or retire. No new IDs.
-
-| | 1 · Qualify (free, DM / QR) | 2 · Intake (form before the session) | 3 · Paid session | 4 · The plan |
-|---|---|---|---|---|
-| **Person (B2C)** | **Whale questions** (non-runners) + **Kinetic Diagnostic quiz** (runners, QR). Fold in: SYS-T065, SYS-T064, MET-T058/T060 card | **T-027**. Fold in: T-015 as its metabolic part | **P-040** (RM 130). P-037 sets the order | **T-029** |
-| **Business (B2B)** | **Mom Test**, as the Listen step of SYS-P058. Replaces Whale Q7 | **T-017** renamed "HVO Audit" (drop Aquatic). T-018 for staff triage | P-036 Friction Report (staff replies) | **T-029** / studio-plan skeleton |
-| **Internal (staff, IP)** | — | — | SYS-T050 V.A.E. instructor audit | SYS-T052 filter, P-046 debrief |
-
-Method behind all of it: P-041 (Doctor Frame: ask, don't pitch). P-039 is the bridge from DM to T-027.
-
-1. Accept the map: add a `compartment` field (who + step) to these entries, fold the extras in as components, and show the map in the Archive
-2. Accept the map but change some boxes (tell me which)
-3. Leave as is
-
-**Recommended:** 1.
-
 ## Settled
+
+### G-29 · Diagnostics map → settled 17 Nov 2026
+
+Founder chose option 1. The map (who × step, one lead tool per box) lives once in `data/compartments.json` and shows as the **Diagnostics map** tab in the Archive; every card in a box says so. `npm run validate` checks it. Folded, no new IDs: SYS-T065, SYS-T064, MET-T058, MET-T060 under Whale; T-015 into T-027 (metabolic part); T-018 into T-017 (staff triage). T-017 renamed "Form: HVO Audit". Whale Q7 (B2B) removed from mandate.html, pointing to the Mom Test in SYS-P058. The Kinetic Diagnostic quiz is in the map with no ID yet.
 
 ### G-28 · Mom Test + B2B IP License Agreement → settled 17 Nov 2026
 

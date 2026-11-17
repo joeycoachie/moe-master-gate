@@ -116,6 +116,20 @@
   .add-box h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin: 0 0 10px; }
   .status { font-size: 11px; color: var(--ink-dim); }
 
+  .dmap { display: flex; flex-direction: column; gap: 14px; }
+  .dwho { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .dwho h3 { margin: 0; font-size: 15px; }
+  .dstep { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 10px; border-top: 1px solid var(--line); padding-top: 10px; }
+  .dstep-lbl { font-size: 12px; font-weight: 600; color: var(--ink-dim); padding-top: 3px; }
+  .dlead { display: flex; flex-direction: column; gap: 6px; }
+  .dnote { font-size: 13px; color: var(--ink-dim); line-height: 1.5; }
+  .dfold { font-size: 12.5px; color: var(--ink-dim); line-height: 1.5; margin-top: 2px; }
+  .dfold b { color: var(--warn); font-weight: 600; }
+  .dempty { font-size: 13px; color: var(--ink-dim); font-style: italic; }
+  .boxtag { font-size: 12px; color: var(--ink-dim); }
+  .boxtag b { color: var(--ink); font-weight: 600; }
+  .boxtag.fold b { color: var(--warn); }
+  @media (max-width: 560px) { .dstep { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
   .sync-note { font-size: 11px; color: var(--ink-dim); text-align: center; }
   [hidden] { display: none !important; }
 </style>
@@ -143,6 +157,7 @@
     <ul>
       <li><b>Tabs</b> are kinds of knowledge. Doctrines &amp; Playbooks: the rules and the step-by-step. Tools: templates and prompts. Crucibles: real failures and what they taught us. Signals: outside ideas worth keeping.</li>
       <li><b>Chips</b> are the business area. SYS: the business. KIN: movement. MET: nutrition. Legacy: older items kept for history.</li>
+      <li><b>Diagnostics map</b> shows every question set by who it is for and which step it belongs to. Use the one tool in each box.</li>
       <li><b>Search</b> takes a question too, such as "what can't I say".</li>
       <li><b>Use this template</b> appears on any entry that has a ready-to-use version.</li>
     </ul>
@@ -242,7 +257,7 @@
   function renderTabs() {
     var el = document.getElementById("tabs");
     el.innerHTML = "";
-    [["starred", "\u2605 Starred (" + Object.keys(STARS).length + ")"], ["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"], ["signals", "Signals"]].forEach(function (t) {
+    [["starred", "\u2605 Starred (" + Object.keys(STARS).length + ")"], ["diagnostics", "Diagnostics map"], ["protocols", "Doctrines & Playbooks"], ["tools", "Tools"], ["crucibles", "Crucibles"], ["signals", "Signals"]].forEach(function (t) {
       var b = document.createElement("button");
       b.type = "button";
       b.className = "tab" + (state.tab === t[0] ? " active" : "");
@@ -299,8 +314,57 @@
     return rows.length ? '<div class="rels">' + rows.join("") + '</div>' : '';
   }
 
+  var CMAP = null, BOX_OF = {};
+  function indexMap() {
+    BOX_OF = {};
+    if (!CMAP) return;
+    CMAP.boxes.forEach(function (b) {
+      var where = CMAP.who[b.who] + ", " + CMAP.steps[b.step].replace(/^\d · /, "").replace(/ \(.*\)$/, "");
+      b.lead.forEach(function (l) { if (l.id) (BOX_OF[l.id] = BOX_OF[l.id] || []).push({ lead: true, where: where, part: l.part }); });
+      (b.folded || []).forEach(function (f) { (BOX_OF[f.id] = BOX_OF[f.id] || []).push({ lead: false, where: where, why: f.why, into: b.lead[0] }); });
+    });
+  }
+  function boxTag(id) {
+    return (BOX_OF[id] || []).map(function (x) {
+      if (x.lead) return '<div class="boxtag">Diagnostics map: <b>' + esc(x.where) + '</b>' + (x.part ? ' (the ' + esc(x.part) + ')' : '') + ', the tool to use</div>';
+      return '<div class="boxtag fold">Diagnostics map: <b>folded</b> into ' + esc(x.into.id || x.into.part) + ' (' + esc(x.where) + '). ' + esc(x.why) + '</div>';
+    }).join("");
+  }
+  function renderMap(host) {
+    document.getElementById("countLine").textContent = CMAP ? "One tool per box. Use the tool in the box; folded ones are kept for history. Decided " + CMAP.decided + "." : "";
+    if (!CMAP) { host.innerHTML = '<div class="note">Could not load data/compartments.json.</div>'; return; }
+    function ref(x) {
+      var hit = x.id && INDEX[x.id];
+      var head = x.id ? targetBtn(x.id) : '<b>' + esc(x.part) + '</b>';
+      var bits = [];
+      if (x.id && x.part) bits.push("Part: " + x.part);
+      if (x.note) bits.push(x.note);
+      return '<div>' + head + (bits.length ? '<div class="dnote">' + esc(bits.join(". ")) + '</div>' : '') + '</div>';
+    }
+    var html = '<div class="dmap"><div class="note">Method behind every box: ' + targetBtn(CMAP.method.id) + ' ' + esc(CMAP.method.note) + '</div>';
+    Object.keys(CMAP.who).forEach(function (w) {
+      html += '<div class="dwho"><h3>' + esc(CMAP.who[w]) + '</h3>';
+      Object.keys(CMAP.steps).forEach(function (s) {
+        var b = CMAP.boxes.filter(function (x) { return x.who === w && x.step === s; })[0];
+        html += '<div class="dstep"><div class="dstep-lbl">' + esc(CMAP.steps[s]) + '</div><div class="dlead">';
+        if (!b) html += '<div class="dempty">Nothing here</div>';
+        else {
+          html += b.lead.map(ref).join("");
+          (b.support || []).forEach(function (x) { html += '<div class="dfold">Works with ' + targetBtn(x.id) + ' ' + esc(x.note) + '</div>'; });
+          if (b.bridge) html += '<div class="dfold">Next: ' + targetBtn(b.bridge.id) + ' ' + esc(b.bridge.note) + '</div>';
+          (b.folded || []).forEach(function (f) { html += '<div class="dfold"><b>Folded:</b> ' + targetBtn(f.id) + ' ' + esc(f.why) + '</div>'; });
+        }
+        html += '</div></div>';
+      });
+      html += '</div>';
+    });
+    host.innerHTML = html + '</div>';
+    host.querySelectorAll("[data-go]").forEach(function (b) { b.addEventListener("click", function () { goTo(b.getAttribute("data-go")); }); });
+  }
+
   function renderResults() {
     buildIndex();
+    if (state.tab === "diagnostics" && !state.q.trim()) { renderMap(document.getElementById("results")); return; }
     var list = currentList();
     document.getElementById("countLine").textContent = list.length + " entr" + (list.length === 1 ? "y" : "ies") + (state.q.trim() ? " across the whole archive" : "");
     var host = document.getElementById("results");
@@ -312,6 +376,7 @@
       card.className = "entry" + (rich ? " rich" : "");
       var comps = r.components && r.components.length
         ? '<details class="comp"><summary>Inside it · ' + r.components.length + ' parts</summary><ul>' + r.components.map(function (c) {
+            if (typeof c === "string") return '<li>' + esc(c) + '</li>';
             return '<li><b>' + esc(c.name) + '</b>' + (c.status && c.status !== "live" ? ' <span class="stat ' + esc(c.status) + '">' + esc(c.status) + '</span>' : '') + (c.note ? '. ' + esc(c.note) : '') + '</li>';
           }).join("") + '</ul></details>' : '';
       card.innerHTML =
@@ -323,6 +388,7 @@
           '<button type="button" class="star' + (STARS[r.id] ? ' on' : '') + '" data-star="' + esc(r.id) + '" aria-label="' + (STARS[r.id] ? 'Unstar ' : 'Star ') + esc(r.id) + '">' + (STARS[r.id] ? '\u2605' : '\u2606') + '</button>' +
         '</div>' +
         '<div class="desc">' + esc(r.desc) + '</div>' +
+        boxTag(r.id) +
         (r.node ? '<div class="node">' + esc(r.node) + '</div>' : '') +
         (r.source ? '<a class="ssot" href="' + esc(r.source) + '">Open the source →</a>' : '') +
         (r.answers && r.answers.length ? '<div class="sec">Answers</div><ul class="answers">' + r.answers.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join("") + '</ul>' : '') +
@@ -457,6 +523,7 @@
         return fetch("data/archive/" + c + ".json", { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
       }));
       COLLS.forEach(function (c, i) { state.dbData[c] = res[i]; });
+      try { var cm = await fetch("data/compartments.json", { cache: "no-store" }); if (cm.ok) { CMAP = await cm.json(); indexMap(); } } catch (e) {}
       var n = res.reduce(function (a, l) { return a + l.length; }, 0);
       var k = res.reduce(function (a, l) { return a + l.filter(function (e) { return e.classified; }).length; }, 0);
       note.textContent = n + " entries loaded from data/archive. " + k + " fully classified.";

@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-17 · 7d97c8d
+# M.O.E. Brain Pack · 2026-11-17 · 1bd4c3a
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -316,6 +316,10 @@ Newest at the top within each section.
 - Founder: "G-28: 1". Mom Test folded into SYS-P058 as the Listen step script (v2.1). License Agreement folded into T-044 as the two-line contract (build fee + monthly hosting, hosting stops if unpaid). No new IDs.
 - Build fee stays RM 5,000 (P-048). RM 1,500 one-time handover parked until a client refuses any monthly fee. A lawyer reads the contract wording before first use.
 
+## 2026-11-17 · Diagnostics map (gate G-29)
+- Founder: "gate G-29: option 1". Every question set sits in one box: who (person, business, internal) × step (qualify, intake, paid session, plan). One tool per box; the rest are folded in. Map: archive/data/compartments.json.
+- Whale questions are for people only. Gyms, studios and teams get the Mom Test (SYS-P058 Listen step).
+
 
 ---
 
@@ -445,7 +449,6 @@ A Malaysian lawyer reads the wording before the first client signs. Invoices 003
 - G-24 · SYS-D028 · SYS-D023
 - G-26 · Three ID and version clashes in files received 17 Oct
 - G-27 · T-032: sort the 9 prompts (keep, merge or veto)
-- G-29 · Diagnostics: one map, one tool per box
 
 ---
 
