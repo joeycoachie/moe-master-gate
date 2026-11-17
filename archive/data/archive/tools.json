@@ -211,7 +211,15 @@
     "id": "T-027",
     "name": "The Architect's Review Diagnostic",
     "classification": "DIAGNOSTIC [L3-P]",
-    "desc": "Universal diagnostic form covering Identity, Hardware, and Software layers."
+    "desc": "Universal diagnostic form covering Identity, Hardware, and Software layers.",
+    "components": [
+      {
+        "kind": "diagnostic",
+        "name": "Metabolic part (was T-015)",
+        "status": "live",
+        "note": "Folded in by gate G-29, 17 Nov 2026."
+      }
+    ]
   },
   {
     "id": "T-028",
@@ -273,11 +281,19 @@
   },
   {
     "id": "T-017",
-    "name": "Form: HVO Audit (Aquatic)",
+    "name": "Form: HVO Audit",
     "tool_type": "DIAGNOSTIC",
     "format": "typeform",
-    "desc": "The \"Performance Audit\" intake for High-Value Operators (e.g., Stephanie). Frames the engagement as a clinical audit, not a session.",
-    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+    "desc": "The \"Performance Audit\" intake for High-Value Operators (e.g., Stephanie). Frames the engagement as a clinical audit, not a session. Gate G-29 (17 Nov 2026): renamed from \"HVO Audit (Aquatic)\". Now the intake for any studio or team.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)",
+    "components": [
+      {
+        "kind": "diagnostic",
+        "name": "Staff triage (was T-018)",
+        "status": "live",
+        "note": "Folded in by gate G-29, 17 Nov 2026."
+      }
+    ]
   },
   {
     "id": "T-018",
@@ -377,8 +393,16 @@
     "name": "The Universal B2B Retainer Shell",
     "tool_type": "TEMPLATE",
     "format": "pdf",
-    "desc": "[FRANCHISE] The agnostic structural blueprint for B2B consulting deals. Dictates the \"Capital-Forward\" pricing rule and the Net-Profit Royalty offer.",
-    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)"
+    "desc": "[FRANCHISE] The agnostic structural blueprint for B2B consulting deals. Dictates the \"Capital-Forward\" pricing rule and the Net-Profit Royalty offer. v2026-11-17 (gate G-28): adds the two-line contract (build fee + hosting) from the B2B IP License Agreement.",
+    "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)",
+    "components": [
+      "Two-line contract: one-time build fee (RM 5,000, per P-048) + monthly hosting and upkeep retainer, priced separately",
+      "Hosting stops if unpaid: past 30 days overdue, database, webhooks and terminal links pause until the balance is cleared",
+      "Scope wall: floor work, graphics, manual data entry are not in the licence; extra scope needs a paid add-on agreed first",
+      "Code stays ours: the client gets a licence to use it, not ownership",
+      "Parked: RM 1,500 one-time handover (code handed over once, client pays their own servers), only if a client refuses any monthly fee",
+      "Before first use: a Malaysian lawyer reads the wording; client-facing copy passes SYS-D028"
+    ]
   },
   {
     "id": "SYS-T047",

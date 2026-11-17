@@ -70,3 +70,24 @@ The rule behind all five: **borrow with permission, return more than you took, k
 - Don't pitch before you listen.
 - Don't claim what you can't show: no borrowed fame, no invented numbers.
 - Don't chase with volume. Chase with the ladder: gift, call, visit, three working days apart.
+
+## 8. The Listen step script (SYS-P058 v2.1, Mom Test, settled 17 Nov 2026)
+
+Use it on any owner or decision-maker. Ready to read: Call card 2 in the Archive (Use a template).
+Never pitch portals, dashboards or code here. Ask about the past, not the future. People are kind about ideas, so compliments are not data.
+
+1. **Past action:** "When did you last try to fix this? What did you actually do, what did it cost in time, and where did it fail?" No time or money spent means a complaint, not a pain. Don't build for it.
+2. **Cost:** "What does this leak cost you each month, in lost clients or unbooked hours?" Get a ringgit number.
+3. **Proof:** "What would you need to see before you put a fixed budget into a pilot?"
+
+Close on a yes or no to a paid pilot (the 90-Day Setup). "Let's stay in touch" counts as a fail.
+If they offer a discount or treat you as their customer, turn the talk back to their numbers.
+High rapport with zero revenue is an illusion (Ries): count what was learned and what was paid.
+
+## 9. The two-line contract (T-044, settled 17 Nov 2026)
+
+Every software deal has two separate prices: the **build fee** (RM 5,000, P-048) and the **monthly hosting and upkeep fee**.
+Hosting pauses if an invoice is more than 30 days overdue. The code stays ours: the client gets a licence to use it.
+Floor work, graphics and data entry are not included. Extra scope needs a paid add-on agreed first.
+The RM 1,500 one-time handover (client runs their own servers) stays parked until a client refuses any monthly fee.
+A Malaysian lawyer reads the wording before the first client signs. Invoices 003/004 were paid on 26 Oct, so never send the "Data Vault Lock" notice.

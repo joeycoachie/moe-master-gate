@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-17 · 28dd858
+# M.O.E. Brain Pack · 2026-11-17 · 7d97c8d
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -312,6 +312,10 @@ Newest at the top within each section.
 - Founder (11 Nov): TRX is on the apparatus registry. On KIN-P021 the standing TRX row is the coach's choice until W4.
 - Founder (11 Nov): no paid Gemini API. KA-Alex stays in the Gemini app (copy-paste loop) until income covers it.
 
+## 2026-11-17 · Mom Test + B2B licence (gate G-28)
+- Founder: "G-28: 1". Mom Test folded into SYS-P058 as the Listen step script (v2.1). License Agreement folded into T-044 as the two-line contract (build fee + monthly hosting, hosting stops if unpaid). No new IDs.
+- Build fee stays RM 5,000 (P-048). RM 1,500 one-time handover parked until a client refuses any monthly fee. A lawyer reads the contract wording before first use.
+
 
 ---
 
@@ -389,6 +393,27 @@ The rule behind all five: **borrow with permission, return more than you took, k
 - Don't claim what you can't show: no borrowed fame, no invented numbers.
 - Don't chase with volume. Chase with the ladder: gift, call, visit, three working days apart.
 
+### 8. The Listen step script (SYS-P058 v2.1, Mom Test, settled 17 Nov 2026)
+
+Use it on any owner or decision-maker. Ready to read: Call card 2 in the Archive (Use a template).
+Never pitch portals, dashboards or code here. Ask about the past, not the future. People are kind about ideas, so compliments are not data.
+
+1. **Past action:** "When did you last try to fix this? What did you actually do, what did it cost in time, and where did it fail?" No time or money spent means a complaint, not a pain. Don't build for it.
+2. **Cost:** "What does this leak cost you each month, in lost clients or unbooked hours?" Get a ringgit number.
+3. **Proof:** "What would you need to see before you put a fixed budget into a pilot?"
+
+Close on a yes or no to a paid pilot (the 90-Day Setup). "Let's stay in touch" counts as a fail.
+If they offer a discount or treat you as their customer, turn the talk back to their numbers.
+High rapport with zero revenue is an illusion (Ries): count what was learned and what was paid.
+
+### 9. The two-line contract (T-044, settled 17 Nov 2026)
+
+Every software deal has two separate prices: the **build fee** (RM 5,000, P-048) and the **monthly hosting and upkeep fee**.
+Hosting pauses if an invoice is more than 30 days overdue. The code stays ours: the client gets a licence to use it.
+Floor work, graphics and data entry are not included. Extra scope needs a paid add-on agreed first.
+The RM 1,500 one-time handover (client runs their own servers) stays parked until a client refuses any monthly fee.
+A Malaysian lawyer reads the wording before the first client signs. Invoices 003/004 were paid on 26 Oct, so never send the "Data Vault Lock" notice.
+
 
 ---
 
@@ -420,7 +445,6 @@ The rule behind all five: **borrow with permission, return more than you took, k
 - G-24 · SYS-D028 · SYS-D023
 - G-26 · Three ID and version clashes in files received 17 Oct
 - G-27 · T-032: sort the 9 prompts (keep, merge or veto)
-- G-28 · Mom Test + B2B IP License Agreement (received 17 Nov)
 - G-29 · Diagnostics: one map, one tool per box
 
 ---
@@ -429,6 +453,8 @@ The rule behind all five: **borrow with permission, return more than you took, k
 
 The founder copies these from the Archive (Use a template). Status "proposed" waits for the founder's yes.
 
+- **Call card 1 · Front desk or gatekeeper (get a name and a time)** (P-041, ready): Read 30 seconds before calling a studio, hotel or company when someone other than the decision-maker will pick up. Your only goal is a name and a time.
+- **Call card 2 · Owner or decision-maker (diagnose, then a yes or no)** (P-041, ready): Read 30 seconds before a call or meeting with an owner or decision-maker. You diagnose first and close on a yes or no, never "let's stay in touch".
 - **Run a client's 90 days (light)** (P-017, ready): A lower-price 90-day engagement: set up the system, no weekly lessons or custom playbooks.
 - **Run a client's 90 days (full)** (P-018, ready): A business client has signed a 90-day engagement with weekly lessons and custom playbooks.
 - **Crucible Investigator** (T-032, proposed): Something went wrong with a client, a deal, a hire or yourself, and you want the real lesson and the fix.
@@ -615,7 +641,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **T-039** S+ Rank Operational Standard: Foundational onboarding doc — standards for Mindset, Strategy, Execution, Communication.
 - **T-011** Functional Spec: Tesseract [Head of IA]: The activation canvas for the "Mainframe" node. Focus: Doctrine Synthesis, Flow Optimization, and Brand Philosophy.
 - **T-012** Functional Spec: Tesseract [Armorer]: The activation canvas for the "Splinter Node" (e.g., KA-TES). Focus: Armory Intake, Classification, and Database Integrity.
-- **T-017** Form: HVO Audit (Aquatic): The "Performance Audit" intake for High-Value Operators (e.g., Stephanie). Frames the engagement as a clinical audit, not a session.
+- **T-017** Form: HVO Audit: The "Performance Audit" intake for High-Value Operators (e.g., Stephanie). Frames the engagement as a clinical audit, not a session. Gate G-29 (17 Nov 2026): r…
 - **T-018** Form: Junior Diagnostic: The automated triage form for the "Swimmer Team" (B2B scale). Ensures no one touches the Architect without data submission.
 - **T-020** [L3-P] Neighbourhood Goods Strategy Shell (Franchise Manual): The "Franchise-Ready" empty shell for the Neighbourhood Goods (B2B Partner) strategy. Includes the "Pivot Protocol" logic pre-installed.
 - **T-021** [L3-P] Trust-Based Sales Signal Template (Franchise Manual): The "Franchise-Ready" empty shell for the Trust-Based Sales Signal Protocol. Contains the logic for "Vulnerability Management" and "Solution Framing."
@@ -627,7 +653,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **T-037** Speech Vision: The Mianzi (Face) Trap: Keynote module reframing discomfort as biological data and Ego ("Face") as the bottleneck to growth.
 - **T-038** The M.O.E. Unified Historical Record: [INTERNAL] The chronological history of the enterprise (Seasons I, II, III). Tracks all major strategic pivots and Chief Strategist eras.
 - **T-043** The Sovereign Stack Setup Guide: [FRANCHISE] The sanitized, client-facing version of P-047. Stripped of internal M.O.E. names. Used to teach HVOs how to build their own digital Walled Gardens.
-- **T-044** The Universal B2B Retainer Shell: [FRANCHISE] The agnostic structural blueprint for B2B consulting deals. Dictates the "Capital-Forward" pricing rule and the Net-Profit Royalty offer.
+- **T-044** The Universal B2B Retainer Shell: [FRANCHISE] The agnostic structural blueprint for B2B consulting deals. Dictates the "Capital-Forward" pricing rule and the Net-Profit Royalty offer. v2026-11-…
 - **SYS-T047** The Titan Observation Canvas: [RECONNAISSANCE] Agnostic data-capture template for extracting operational behavior from high-earning operators. Tracks Cortisol Pacing, Simplicity Metrics, an…
 - **SYS-T048** The 66% Extraction Protocol: [PLAYBOOK] A psychological architecture designed to force the target to reveal their true friction (Black Swans) by weaponizing strategic silence. Phases: Disa…
 - **SYS-T049** The Reschedule Protocol: [PLAYBOOK] A communication architecture that eliminates guilt and low-status over-explaining when altering a timeline. Phases: Hard Stop (10%), Boundary (80%),…

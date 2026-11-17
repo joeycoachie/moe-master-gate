@@ -361,7 +361,7 @@
         "answers": "Is this lead worth a call?",
         "kind": "diagnostic",
         "name": "Whale questions",
-        "note": "Awaiting founder approval. Replaces the FORMOH Audit for non-runners. Promote to its own Tool ID once approved.",
+        "note": "Awaiting founder approval. Replaces the FORMOH Audit for non-runners. Promote to its own Tool ID once approved. Gate G-29: person, qualify step. Q7 (B2B) moved to the Mom Test in SYS-P058.",
         "status": "draft"
       },
       {
@@ -847,13 +847,17 @@
     "name": "The Studio Infiltration Protocol",
     "meta_type": "[L1-P]",
     "classification": "REVENUE_OS",
-    "desc": "[PLAYBOOK] Approaching studio, gym and hotel owners, from first message to a signed deal. v2.0 (2026-10-26, gate G-25) folds in the Phase Action Protocol as its execution checklist: Find, Say hello, Listen, Plan, Start. Runs live in the Outreach Console (/ops/outreach). Ends with the Executive Dossier drop when a lead goes quiet.",
+    "desc": "[PLAYBOOK] Approaching studio, gym and hotel owners, from first message to a signed deal. v2.0 (2026-10-26, gate G-25) folds in the Phase Action Protocol as its execution checklist: Find, Say hello, Listen, Plan, Start. v2.1 (2026-11-17, gate G-28) folds in the Mom Test as the Listen step script: ask about the past, not the future; no pitching portals, dashboards or code. Runs live in the Outreach Console (/ops/outreach). Ends with the Executive Dossier drop when a lead goes quiet.",
     "source": "O_IP_ARMORY_DATABASE sheet (CSV export imported 2026-10-10)",
-    "doc_version": "2.0",
+    "doc_version": "2.1",
     "components": [
       "Find: 10 venues that care about results but run on WhatsApp and spreadsheets",
       "Say hello: one short message, one ask (a 15-minute call or the deck)",
-      "Listen: ask, say back what you heard, no pitch",
+      "Listen: ask, say back what you heard, no pitch (no portals, dashboards or code)",
+      "Listen Q1 (past action): When did you last try to fix this? What did you actually do, what did it cost in time, and where did it fail? No time or money spent = a complaint, not a pain. Do not build for it.",
+      "Listen Q2 (cost): What does this leak cost you each month, in lost clients or unbooked hours? Get a ringgit number.",
+      "Listen Q3 (proof): What would you need to see before you put a fixed budget into a pilot?",
+      "Listen close: end on a yes/no to a paid pilot (the 90-Day Setup), never \"let us stay in touch\". Compliments are not data. If they offer a discount or treat you as a customer, turn the talk back to their numbers.",
       "Plan: a one-page 90-day plan from their own words (T-029)",
       "Start: sign the 90-Day Setup, or book the RECUP.STN pilot"
     ]

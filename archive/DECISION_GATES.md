@@ -276,25 +276,6 @@ The Crucible Investigator is the agent you asked for: it digs into a failure fro
 
 **Recommended:** 1. Then highlight the kept rows in the sheet as moved.
 
-### G-28 · Mom Test + B2B IP License Agreement (received 17 Nov)
-
-Two files from the founder, kept word-for-word in `inbox/`: `mom-test-pilot-validation.md` (two versions of one protocol) and `b2b-ip-server-license-agreement.md`. No new IDs minted. Both overlap things the Archive already has:
-
-- **Mom Test** does the same job as the **Listen** step of **SYS-P058** (ask, say back, no pitch). It adds three past-tense questions and one rule: end with a yes/no on a paid pilot, not "let's stay in touch".
-- **License Agreement** sits on top of **T-044** (Universal B2B Retainer Shell), **P-048** (RM 500 tripwire / RM 5,000 build / 15% royalty) and **P-042** (Retainer Frame). Its new idea: the code fee and the monthly hosting fee are two separate lines, and hosting stops if unpaid.
-
-Clashes found (nothing changed):
-- The text says invoices 003/004 are unpaid. They were **settled 26 Oct** (Optimum Fit loop closed). The "Data Vault Lock" notice must **not** be sent to anyone.
-- **RM 1,500 Standalone Package** vs **RM 5,000 build fee** in P-048. Two prices for the same handover.
-- "Non-cancellable" and "absolute right to suspend instantly" are contract terms. A Malaysian lawyer should read it before any client signs. It also fails SYS-D028 if a client sees it as written.
-- Version B promises a pilot "by Tuesday" with "30-day" test; version A says 90-day pilot. ROADMAP's offer is the 90-Day Setup.
-
-1. Fold both in, no new IDs: Mom Test → SYS-P058 v2.1 (the Listen step's question script); License → T-044 component "Two-line contract: build fee + monthly hosting, hosting stops if unpaid". Pick one build price.
-2. Give each its own new ID (check the frozen sheet first)
-3. Keep as reading only in `inbox/`
-
-**Recommended:** 1, with the build price staying at P-048's RM 5,000 and RM 1,500 parked until a client actually says no to a monthly fee. Contract wording gets a lawyer pass before first use.
-
 ### G-29 · Diagnostics: one map, one tool per box
 
 About 20 Archive entries are question sets. Many do the same job. Proposed map: **who** it's for × **which step**. Each box keeps ONE live tool. The others become a component of it, or retire. No new IDs.
@@ -314,6 +295,10 @@ Method behind all of it: P-041 (Doctor Frame: ask, don't pitch). P-039 is the br
 **Recommended:** 1.
 
 ## Settled
+
+### G-28 · Mom Test + B2B IP License Agreement → settled 17 Nov 2026
+
+Founder chose option 1. No new IDs. Mom Test folded into **SYS-P058 v2.1** as the Listen step script (3 past-tense questions + close on a yes/no to a paid pilot). License Agreement folded into **T-044** as components: two-line contract (build fee + monthly hosting), hosting stops if unpaid past 30 days, scope wall, code stays ours. Build price stays **RM 5,000** (P-048); **RM 1,500** one-time handover parked until a client refuses any monthly fee. Lawyer pass before first use. Invoices 003/004 were settled 26 Oct: the "Data Vault Lock" notice is never sent. Originals stay in `inbox/`.
 
 ### G-25 · Phase Action Protocol → settled 26 Oct 2026
 

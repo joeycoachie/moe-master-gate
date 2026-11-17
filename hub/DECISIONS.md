@@ -110,3 +110,7 @@ Newest at the top within each section.
 - Founder: "Yes, every card." Every card in every arc carries NERVE / KNEE SHEAR, ACUTE CLAVICLE / PEC FLUSH and PRONATION / ARCH TENSION, plus the `ra` slot and its arc's own switches. Doctrine: armory/doctrine/SYS-D022_V2.3.md.
 - Founder (11 Nov): TRX is on the apparatus registry. On KIN-P021 the standing TRX row is the coach's choice until W4.
 - Founder (11 Nov): no paid Gemini API. KA-Alex stays in the Gemini app (copy-paste loop) until income covers it.
+
+## 2026-11-17 · Mom Test + B2B licence (gate G-28)
+- Founder: "G-28: 1". Mom Test folded into SYS-P058 as the Listen step script (v2.1). License Agreement folded into T-044 as the two-line contract (build fee + monthly hosting, hosting stops if unpaid). No new IDs.
+- Build fee stays RM 5,000 (P-048). RM 1,500 one-time handover parked until a client refuses any monthly fee. A lawyer reads the contract wording before first use.

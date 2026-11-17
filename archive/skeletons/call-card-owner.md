@@ -4,7 +4,7 @@ id: P-041
 title: Call card 2 · Owner or decision-maker (diagnose, then a yes or no)
 use_when: Read 30 seconds before a call or meeting with an owner or decision-maker. You diagnose first and close on a yes or no, never "let's stay in touch".
 status: ready
-source: P-041 Doctor Frame (Universal Sales OS) + D-015 Architect Frame + D-009 Clarity before Momentum. First used for Riad (Peak), 18 Nov 2026
+source: P-041 Doctor Frame (Universal Sales OS) + D-015 Architect Frame + D-009 Clarity before Momentum + SYS-P058 v2.1 Listen step (Mom Test, G-28). First used for Riad (Peak), 18 Nov 2026
 replaces: nothing
 ---
 RULE: they talk 70%, you talk 30%. Ask, then stay quiet.
