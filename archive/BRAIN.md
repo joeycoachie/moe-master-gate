@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-13 · 6c00d51
+# M.O.E. Brain Pack · 2026-11-17 · e7e2242
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -177,6 +177,8 @@ The **moat** is the Triad on top (SYS-D023): the same client record also routes 
 **Avoid:** pure coding (AI makes code cheap; your edge is the domain plus the system) and only teaching hours (the freelancer era).
 
 **Wellness real estate and retreats.** It's a large, growing market, and it has the same floor gap. Retreats and wellness residences sell "programmes", run them with freelance instructors, and keep no record once the guest leaves. Our arcs + client record + RECUP.STN fuel answer exactly that. It's a **channel for BC4–BC5, not a pivot now**: the sales cycles are long, the buyers are developers who buy from operators they know, and we have no network there yet. The cheap test meanwhile is one Malaysian retreat or wellness resort running a short programme on our arcs, or the fourth job in the table above.
+
+**Gated: community-event scouting (founder, 16 Nov 2026).** Use a scraping tool to find the wellness and fitness community events in KL, go in person, and introduce ourselves to the people there. It goes into the Outreach Console's existing ladder as a new way in: event found → attend → intro in person → follow up. No new protocol. **Gate: opens after the first RECUP.STN pop-up has run and we hold its check-in numbers.** Why wait: the problem now is follow-through on leads we already have (Sofitel, six B1 studios), not finding more. The first pop-up's numbers are also what make an in-person intro land.
 
 ## 8. Founder answers
 
@@ -418,6 +420,7 @@ The rule behind all five: **borrow with permission, return more than you took, k
 - G-24 · SYS-D028 · SYS-D023
 - G-26 · Three ID and version clashes in files received 17 Oct
 - G-27 · T-032: sort the 9 prompts (keep, merge or veto)
+- G-28 · Mom Test + B2B IP License Agreement (received 17 Nov)
 
 ---
 
