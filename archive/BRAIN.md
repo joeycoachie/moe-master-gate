@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-18 · 92c48ba
+# M.O.E. Brain Pack · 2026-11-18 · 87f6a69
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -466,7 +466,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **Run a client's 90 days (full)** (P-018, ready): A business client has signed a 90-day engagement with weekly lessons and custom playbooks.
 - **Crucible Debrief (T-032): raw notes after a call, visit or session → the debrief** (T-032, ready): After any important call, visit or session (it went well or badly). Paste your raw notes, get a Crucible Debrief, bring it to the Sunday Cognitive Close.
 - **Envoy sequence: first message to a respectful exit** (P-016, ready): Before you contact anyone high-value (a studio owner, a hotel manager, a partner). Fill it in, then send one step at a time.
-- **Crucible as Curriculum (D-007): Phase 3, turn a crucible into content (Pulse + Pillar)** (D-007, ready): After a hard week: turn the lesson into one short post and one longer piece.
+- **Crucible as Curriculum (D-007): Extraction → Forge → Disseminate, a crucible into content (Pulse + Pillar)** (D-007, ready): After a hard week: turn the lesson into one short post and one longer piece.
 - **Confidential Friction Report (for a boss)** (P-036, ready): You have collected anonymous answers from a team and need to hand the owner a clear report.
 - **Project index page (Master Ledger)** (T-008, ready): Starting any new project or client: one page that points to everything.
 - **Crucible-to-Asset Pipeline (P-027): 3 phases from a 1-to-1 service to a product** (P-027, ready): A service eats your time (Founder's time is saturated) and you want a small product (a tripwire) that sells it for you. Start from a Crucible Debrief (T-032).
