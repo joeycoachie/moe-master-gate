@@ -18,6 +18,11 @@ RULE: they talk 70%, you talk 30%. Ask, then stay quiet.
 - Q2 cost: "Roughly what does that cost you each month, in lost clients or empty hours?" Get a ringgit number.
 - Context: "Who looks after your clients between sessions: food, recovery, the days they're not with you?"
 
+2b · IF THEY ASK "WHAT DO YOU OFFER?" (one breath, then stop. Write it before the call)
+"[Their world in their words] covers [what they have]. I'd add [the missing layer]: [what you do], [how long], [for how many], then we decide."
+Never list everything you can do. Vague = they define your role for you (Riad crucible, 18 Nov 2026).
+If they say "follow me / help out for a while": time-box it and name the output. "Happy to. Two days, and at the end you get [a written plan]."
+
 3 · LABEL (say back what you heard, in one line)
 "Sounds like [everything runs through you / clients drift between sessions]."
 
