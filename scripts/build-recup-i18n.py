@@ -30,8 +30,8 @@ def build_guide():
         table = {} if code == 'en' else json.load(open(os.path.join(ROOT, f'sales/i18n/{code}.json')))
         page = src.replace('<html lang="en">', f'<html lang="{HTML_LANG[code]}">', 1)
         page = page.replace('</style>', f'  {LANG_CSS}\n</style>', 1)
-        page = page.replace('<p class="eyebrow">RECUP.STN · by The M.O.E. Group</p>',
-                            '<p class="eyebrow">RECUP.STN · by The M.O.E. Group</p>\n    ' + switcher('/recup/guide', code), 1)
+        page = page.replace('<p class="eyebrow">RECUP.STN · by the Health Bar, DC Mall</p>',
+                            '<p class="eyebrow">RECUP.STN · by the Health Bar, DC Mall</p>\n    ' + switcher('/recup/guide', code), 1)
         page = lib.translate(page, table)
         open(os.path.join(ROOT, f'public/recup/guide{suffix(code)}.html'), 'w').write(page)
 

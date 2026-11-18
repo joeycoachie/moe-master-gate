@@ -59,7 +59,7 @@ html = f'''<!doctype html>
 <main class="deck">
 {chr(10).join(slides)}
 </main>
-<p class="end">RECUP.STN · by The M.O.E. Group · WhatsApp +60 10-231 9893</p>
+<p class="end">RECUP.STN · by the Health Bar, DC Mall · WhatsApp +60 10-231 9893</p>
 <script>
   // Scale each 1920×1080 slide to the width of the screen.
   function fit() {{ document.querySelectorAll('.frame').forEach(f => {{ f.firstElementChild.style.transform = 'scale(' + (f.clientWidth / 1920) + ')'; }}); }}
