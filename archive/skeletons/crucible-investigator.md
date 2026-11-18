@@ -1,12 +1,14 @@
 ---
 key: crucible-investigator
 id: T-032
-title: Crucible Investigator → Crucible Debrief (after any call, visit or session)
+title: Crucible Debrief (T-032): raw notes after a call, visit or session → the debrief
 use_when: After any important call, visit or session (it went well or badly). Paste your raw notes, get a Crucible Debrief, bring it to the Sunday Cognitive Close.
-status: proposed
+status: ready
 source: T-032 (Iron Alchemy + Graham Refinery), the founder's Crucible Extraction Prompts (D-007 Phase 1), T-032 War Room check. Output feeds D-007 Phase 2 (Forge) and the Sunday Cognitive Close (P-010)
 replaces: the separate Iron Alchemy and Graham Refinery prompts
 ---
+WHERE THIS SITS: D-007 Crucible as Curriculum, Phase 1 (Extraction) and Phase 2 (Forge). The debrief goes to the Sunday Cognitive Close (P-010). If the fix is a product, continue in P-027 (Crucible-to-Asset Pipeline). If it's content, continue in D-007 Phase 3 (Disseminate).
+
 Act as a first-principles investigator for The M.O.E. Group. Use the Brain Pack as the source of
 truth. Your job is to find what actually happened, not to make me feel better.
 
