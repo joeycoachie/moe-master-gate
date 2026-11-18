@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-17 · 719ff01
+# M.O.E. Brain Pack · 2026-11-18 · 2622bb1
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -464,7 +464,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **Call card 2 · Owner or decision-maker (diagnose, then a yes or no)** (P-041, ready): Read 30 seconds before a call or meeting with an owner or decision-maker. You diagnose first and close on a yes or no, never "let's stay in touch".
 - **Run a client's 90 days (light)** (P-017, ready): A lower-price 90-day engagement: set up the system, no weekly lessons or custom playbooks.
 - **Run a client's 90 days (full)** (P-018, ready): A business client has signed a 90-day engagement with weekly lessons and custom playbooks.
-- **Crucible Investigator** (T-032, proposed): Something went wrong with a client, a deal, a hire or yourself, and you want the real lesson and the fix.
+- **Crucible Investigator → Crucible Debrief (after any call, visit or session)** (T-032, proposed): After any important call, visit or session (it went well or badly). Paste your raw notes, get a Crucible Debrief, bring it to the Sunday Cognitive Close.
 - **Envoy sequence: first message to a respectful exit** (P-016, ready): Before you contact anyone high-value (a studio owner, a hotel manager, a partner). Fill it in, then send one step at a time.
 - **Turn a failure into content** (D-007, ready): After a hard week: turn the lesson into one short post and one longer piece.
 - **Confidential Friction Report (for a boss)** (P-036, ready): You have collected anonymous answers from a team and need to hand the owner a clear report.

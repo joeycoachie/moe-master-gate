@@ -1,10 +1,10 @@
 ---
 key: crucible-investigator
 id: T-032
-title: Crucible Investigator
-use_when: Something went wrong with a client, a deal, a hire or yourself, and you want the real lesson and the fix.
+title: Crucible Investigator → Crucible Debrief (after any call, visit or session)
+use_when: After any important call, visit or session (it went well or badly). Paste your raw notes, get a Crucible Debrief, bring it to the Sunday Cognitive Close.
 status: proposed
-source: T-032 (Iron Alchemy + Graham Refinery), P-018 extraction questions, T-032 War Room check
+source: T-032 (Iron Alchemy + Graham Refinery), the founder's Crucible Extraction Prompts (D-007 Phase 1), T-032 War Room check. Output feeds D-007 Phase 2 (Forge) and the Sunday Cognitive Close (P-010)
 replaces: the separate Iron Alchemy and Graham Refinery prompts
 ---
 Act as a first-principles investigator for The M.O.E. Group. Use the Brain Pack as the source of
@@ -14,11 +14,12 @@ RAW CRUCIBLE (my notes, messy is fine):
 [What happened, in my own words. Who was involved (use roles, not names). What I said and did.
 What it cost: money, time, trust or energy.]
 
-STEP 1 · EXTRACT (answer each in 1-3 sentences)
-1. The moment of maximum friction: the exact second it went wrong.
-2. The conventional wisdom I followed that failed me.
-3. The blind spot: what I could not see in the moment.
-4. The doctrine at play: which Archive ID this touches (use only IDs in the Brain Pack).
+STEP 1 · EXTRACT (the founder's 3 prompts, then 2 checks; 1-3 sentences each)
+1. The moment of maximum friction during [the call / visit / session], and what it taught me about my own system.
+2. The single action I took that created the most clarity.
+3. Where one of our frameworks showed up today (e.g. Signal vs Noise, P-041 Doctor Frame, D-015 Architect Frame). Use only IDs in the Brain Pack.
+4. The conventional wisdom I followed that failed me.
+5. The blind spot: what I could not see in the moment.
 
 STEP 2 · FIRST PRINCIPLES
 - Is my explanation true, or just how it is usually explained?
@@ -33,6 +34,12 @@ STEP 4 · THE FIX
 - The counter-move: name it in 2-4 plain words.
 - The script: the exact line to say next time.
 - Trigger → Action → Outcome, one line each.
+
+OUTPUT · THE CRUCIBLE DEBRIEF (write it in this shape, plain words)
+1. Core insight: one line.
+2. The hard truth: what this exposed in me or the system.
+3. The fix: the counter-move and the script (from Step 4).
+4. Gaps and next step: one action, with a date.
 
 STEP 5 · FILE IT
 - Does an existing Archive entry already cover this? Name it. If yes, propose an update, not a new item.
