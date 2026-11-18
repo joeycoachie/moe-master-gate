@@ -9,6 +9,11 @@ replaces: nothing
 ---
 RULE: they talk 70%, you talk 30%. Ask, then stay quiet.
 
+0 · BEFORE YOU DIAL: write your role and offer in ONE breath (Single-Point Anchor). If you can't, don't call yet.
+ROLE: "I'd be the [Pilates lead for your movement pillar]. Not staff, not a client: a partner who owns that piece."
+OFFER: "[90-day block · 3-5 clients · I design, run and track · then we decide]."
+(Crucible 18 Nov 2026: whoever names the role first owns the relationship. Leave it unnamed and the buyer names the cheapest role they already have.)
+
 1 · FRAME (first 20 seconds, D-015: you set the agenda)
 "Thanks for making time. Can I ask a few questions about how [business] runs, then share where I think I fit? If it's not a fit, we'll both know in 15 minutes."
 
