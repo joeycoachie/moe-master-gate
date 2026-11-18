@@ -29,13 +29,14 @@ export async function GET(request: Request) {
         .eq('protocol_id', protocol)
         .order('session_date');
       if (error) throw new Error(error.message);
-      const history: Record<string, Record<string, { apparatus: string; date: string }[]>> = {};
+      // done:false rows are kept too (with done=false), so the bar can show what is still to do.
+      const history: Record<string, Record<string, { apparatus: string; date: string; movement: string; done: boolean }[]>> = {};
       for (const s of data ?? []) {
         if (DATE.test(date) && s.session_date === date) continue; // today's session is the one being logged
         for (const e of s.arc_session_entries ?? []) {
           const byKey = (history[e.client_id] ??= {});
           for (const [k, v] of Object.entries((e.stations ?? {}) as Record<string, StationLog>)) {
-            if (v && v.done !== false && v.apparatus) (byKey[k] ??= []).push({ apparatus: v.apparatus, date: s.session_date });
+            if (v && v.apparatus) (byKey[k] ??= []).push({ apparatus: v.apparatus, date: s.session_date, movement: v.movement ?? '', done: v.done !== false });
           }
         }
       }

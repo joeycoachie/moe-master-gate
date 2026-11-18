@@ -107,3 +107,12 @@ const ev=body('evaluateAuditLoop'); ev&&ev.includes('auditVerdictBox')?ok('Phase
 }
 console.log(out.join('\n'));
 process.exitCode=out.some(l=>l.startsWith('FAIL'))?1:0;
+// Every station needs a floor option, so a studio without that apparatus (or a mat-only day) can still run it (founder, 18 Nov 2026).
+{
+  const FLOOR = ['mat', 'props_slider', 'props_band', 'props_freeweight'];
+  const gaps = [];
+  if (r && r.DB) for (const [ph, p] of Object.entries(r.DB)) for (const [st, o] of Object.entries(p.stations || {})) {
+    if (!Object.keys(o.options || {}).some((k) => FLOOR.includes(k))) gaps.push(`${ph}.${st}`);
+  }
+  console.log(gaps.length ? `WARN  no mat/props option at: ${gaps.join(', ')}` : 'ok    every station has a mat/props option');
+}

@@ -110,7 +110,9 @@
     }
     S.clients.forEach(function (c) {
       var on = S.selected.indexOf(c.id) !== -1;
-      var b = el('button', '', c.full_name);
+      // A selected client shows how many stations they left undone last time on this card.
+      var lt = on ? lastTime(c.id) : null;
+      var b = el('button', '', c.full_name + (lt && lt.missed.length ? ' · ' + lt.missed.length + ' not done last time' : ''));
       b.setAttribute('style', 'flex-shrink:0;font:600 11px JetBrains Mono,monospace;padding:8px 12px;cursor:pointer;border:1px solid ' + (on ? '#00e5ff' : '#333') + ';color:' + (on ? '#000' : '#ccc') + ';background:' + (on ? '#00e5ff' : '#050505'));
       b.onclick = function () {
         if (on) S.selected = S.selected.filter(function (x) { return x !== c.id; });
@@ -217,6 +219,29 @@
       body.appendChild(box);
     }
 
+    // Last time on this card, per client: what was done and what is still to do.
+    S.selected.forEach(function (cid) {
+      var lt = lastTime(cid);
+      var lbox = el('div', '');
+      lbox.setAttribute('style', 'margin-top:10px;border:1px solid #333;border-left:3px solid ' + (lt && lt.missed.length ? '#f59e0b' : '#33e6a0') + ';background:#0a0a0a;padding:10px');
+      var first = clientName(cid).split(' ')[0];
+      if (!lt) {
+        var ft = el('div', '', first + ': first time on this card.');
+        ft.setAttribute('style', 'font-size:12px;color:#ddd');
+        lbox.appendChild(ft);
+      } else {
+        var t = el('div', '', first + ' last did this card on ' + shortDate(lt.date) + ': ' + lt.done.length + ' of ' + (lt.done.length + lt.missed.length) + ' stations done.');
+        t.setAttribute('style', 'font-size:12px;color:#fff');
+        lbox.appendChild(t);
+        if (lt.missed.length) {
+          var m = el('div', '', 'Not done yet: ' + lt.missed.map(function (x) { return x.key.split('.')[1] + ' ' + x.movement; }).join(' · '));
+          m.setAttribute('style', 'font-size:11px;color:#f59e0b;margin-top:4px;line-height:1.5');
+          lbox.appendChild(m);
+        }
+      }
+      body.appendChild(lbox);
+    });
+
     // Repeat of this week: same job at every station, a different movement each time.
     var used = usedCounts();
     if (Object.keys(used).length) {
@@ -253,6 +278,13 @@
           box.appendChild(bl);
         }
         S.selected.forEach(function (cid) {
+          var lt = lastTime(cid);
+          var prev = lt && lt.byKey[key];
+          if (lt) {
+            var pl = el('div', '', clientName(cid).split(' ')[0] + ', ' + shortDate(lt.date) + ': ' + (prev ? (prev.done ? 'done · ' : 'NOT done · ') + (prev.movement || (LABELS[prev.apparatus] || prev.apparatus)) : 'not logged'));
+            pl.setAttribute('style', 'font-size:11px;margin:2px 0 0;color:' + (prev && prev.done ? '#33e6a0' : '#f59e0b'));
+            box.appendChild(pl);
+          }
           var e = entryFor(cid, key);
           var line = el('div', '');
           line.setAttribute('style', 'display:flex;gap:8px;align-items:center;margin-top:6px');
@@ -380,6 +412,28 @@
     };
   }
 
+  // ---------- What each client did last time on this card ----------
+  // { done: [...], missed: [...], date } for the client's most recent earlier session of this card.
+  function lastTime(cid) {
+    var byKey = S.history[cid] || {};
+    var latest = '';
+    Object.keys(byKey).forEach(function (k) { byKey[k].forEach(function (h) { if (h.date > latest) latest = h.date; }); });
+    if (!latest) return null;
+    var out = { date: latest, done: [], missed: [], byKey: {} };
+    Object.keys(byKey).forEach(function (k) {
+      byKey[k].forEach(function (h) {
+        if (h.date !== latest) return;
+        out.byKey[k] = h;
+        (h.done ? out.done : out.missed).push({ key: k, movement: h.movement || (LABELS[h.apparatus] || h.apparatus) });
+      });
+    });
+    return out;
+  }
+  function shortDate(iso) {
+    var d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
+
   // ---------- Repeat-week rotation ----------
   // { 'anchor.M2': { reformer: 2, cadillac: 1 } } for the selected clients' earlier sessions on this card.
   function usedCounts() {
@@ -388,6 +442,7 @@
       var byKey = S.history[cid] || {};
       Object.keys(byKey).forEach(function (k) {
         byKey[k].forEach(function (h) {
+          if (h.done === false) return;
           out[k] = out[k] || {};
           out[k][h.apparatus] = (out[k][h.apparatus] || 0) + 1;
         });
