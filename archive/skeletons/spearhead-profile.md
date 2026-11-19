@@ -7,7 +7,7 @@ status: ready
 source: T-016 Spearhead Profile Template; manual P-029 (Spearhead Intel Protocol, 4 Core Signals + FQX); workflow P-030 (Calibration → Extraction → Closure)
 replaces: nothing
 ---
-WHERE IT LIVES: as a note on the operator's Outreach Console card (one home). Claude fills it from your raw notes. The lesson from the meeting goes to the Crucible Debrief (T-032).
+WHERE IT LIVES: as a note on the operator's Outreach Console card (one home), starting with "SPEARHEAD PROFILE". All profiles show in the Spearhead library: terminal.theoperatorplaybook.com/ops/spearheads. Claude fills and updates it from your raw notes. The lesson from the meeting goes to the Crucible Debrief (T-032).
 
 OPERATOR: [name · role · business]
 ARCHETYPE: [Architect / Warlord / Diplomat / Analyst / Tourist]
