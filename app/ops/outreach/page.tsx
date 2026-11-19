@@ -170,6 +170,7 @@ export default function OutreachConsolePage() {
           <nav className="flex gap-2 text-xs">
             <button onClick={sendReport} className="border border-[#a855f7] px-3 py-2 text-[#a855f7] hover:text-white">SEND REPORT NOW</button>
             <a href="/recup/deck" target="_blank" rel="noreferrer" className="border border-[#ffb454]/60 px-3 py-2 text-[#ffb454] hover:text-white">DECK</a>
+            <Link href="/ops/spearheads" className="border border-[#a855f7]/60 px-3 py-2 text-[#a855f7] hover:text-white">SPEARHEADS</Link>
             <Link href="/terminal" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">TERMINAL</Link>
           </nav>
         </header>
