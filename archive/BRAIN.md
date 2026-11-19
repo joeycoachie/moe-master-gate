@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-19 · 47b5067
+# M.O.E. Brain Pack · 2026-11-19 · 4a712df
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -471,6 +471,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **Project index page (Master Ledger)** (T-008, ready): Starting any new project or client: one page that points to everything.
 - **Crucible-to-Asset Pipeline (P-027): 3 phases from a 1-to-1 service to a product** (P-027, ready): A service eats your time (Founder's time is saturated) and you want a small product (a tripwire) that sells it for you. Start from a Crucible Debrief (T-032).
 - **Short post: comfort, cause, one fix** (P-002-B, ready): Writing a Reel script or short text post about a problem your audience keeps hitting.
+- **Spearhead Profile (T-016): the one-page HUD per operator, before and after every meeting** (T-016, ready): 15 seconds before a meeting (read it), 60 seconds after (fill it in). It also shows whether you asked the right questions (FQX Used/Missed).
 - **One-page plan after a studio call** (T-029, proposed): You have just listened to a studio owner (the Listen step) and need to send the Plan.
 - **Trial Reel caption** (SYS-P050, ready): Posting a Trial Reel to test a new content format.
 - **War Room (stress-test an idea)** (T-032, ready): Before you commit money, time or your name to an idea, pitch or partnership.
