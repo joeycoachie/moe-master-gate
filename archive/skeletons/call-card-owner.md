@@ -33,7 +33,7 @@ If they say "follow me / help out for a while": time-box it and name the output.
 
 4 · CLOSE (Q3 proof, then a yes or no on a paid pilot)
 "If I ran your [Pilates block] for 90 days, what would you need to see before you put a fixed budget into it?"
-Compliments are not data. "That's amazing, let's stay in touch" is a fail. If they offer you a discount, turn the talk back to their numbers.
+Close with "What would you need to see to bring this to [the decision-maker]?" (not "what was most memorable?": crucible 20 Nov). Compliments are not data. "That's amazing, let's stay in touch" is a fail. If they offer you a discount, turn the talk back to their numbers.
 
 DON'T: give two offers, talk prices before they name the cost, mention the setup fee, or close with "let's keep in touch".
 

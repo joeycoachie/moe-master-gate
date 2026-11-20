@@ -50,3 +50,33 @@ Staging for the month-end synthesis (Praxis), last Sunday of the month. Each ent
 - **Hard truth:** talking more doesn't build your frame. Asking does.
 - **Fix:** Call card 1 (front desk), the pivot line. Goal: a name and a time.
 - **Result after the fix:** reached the manager on 18 Nov, who replied with four event dates.
+
+---
+
+## C-2026-11-C · Friday visit run (MOVE · Movement Dynamics · TRIBE) · 20 Nov
+
+**Crucible:** three studio visits in one day. One real sit-down (MOVE, the branch manager); two contact-gathering stops.
+
+**Moment of maximum friction (MOVE):** leading with the system, then realising mid-conversation it wasn't the path. They already have an in-house website and a trainer app, after leaving a third-party build over price. The founder then pivoted to the recovery station, i.e. a second offer in one meeting, and kept switching words ("nutrition cafe", "metabolic recovery station").
+
+**What it taught us about our own system:**
+- The HVO rule already says "fuel first, system second". The system was the weaker alternative here (BATNA = your best fallback if this deal doesn't happen; ZOPA = the range where both sides can agree). Check before you pitch: do they already have a website or app? If yes, lead with fuel.
+- One name, one sentence: "RECUP.STN, a recovery station at the Health Bar in DC Mall." Not "nutrition cafe", not "metabolic". Fewer words, the same words every time.
+- The daily-station model ("pick your busiest class") doesn't fit private 1-on-1 studios with uneven traffic. For them the way in is **events** (Vimal's own advice: exposure, then trust).
+
+**What worked:** daring to ask and daring to follow up. Direct and raw got a yes to a Health Bar visit. Asking "which part could I have explained more clearly?" got a real answer ("the nutrition part made it clearer").
+
+**Blind spot:** no proof to show. No photos, no success story, no numbers on paper. A values-first gatekeeper (who turns down big brands that don't fit) needs to see who we are before any offer.
+
+**Weak close:** "What was most memorable?" got "just you showing up". Replace it with a close that moves things forward: **"What would you need to see to bring this to your marketing director?"**
+
+**Contact-gathering stops (Movement Dynamics, TRIBE):** get the name, get the number, get out. First principles: front-line staff don't want control, they want clarity. Both suggested WhatsApp + an Instagram DM together, so the founders see it.
+
+**The hard truth:** trust comes before the offer, and trust needs something they can see.
+
+**The fix (updates, no new IDs):**
+1. A proof pack (photos, one sourced number, one member story, values in 3 lines). It's on the calendar for Mon 23 Nov.
+2. Owner call card: replace "most memorable" with the decision-maker question.
+3. Studio triage before pitching: own website or app? → fuel only. Private 1-on-1 studio? → events, not the daily station.
+
+**Public lesson (no names):** "I pitched software to a studio that had just built its own. Ten minutes in, I knew. Now I ask before I pitch."

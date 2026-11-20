@@ -42,3 +42,17 @@ Status: **draft, 26 Oct 2026.** Nothing here is quoted to a venue until the foun
 - Suggested pilot: one weekday morning, minimum 25 cups, **RM700 to RM940**.
 - If their F&B team serves (food safety option 2): drop the station fee to RM200 (fewer of our staff), keep RM16 per cup.
 - The two success numbers to agree: members who check in, and spa sessions booked through the link.
+
+## Research, 20 Nov 2026 (Aura): venue-sponsored events (first case: SoFit USJ Taipan, 29 Nov)
+
+Status: **research-backed draft, founder to approve.** Sources are in Aura's brief (pasted into Claude Code, 20 Nov).
+
+**Klang Valley benchmarks (2025-26):** mobile drink bars at about RM680 for 50 cups (+RM80 transport) up to RM1,600 for 100; coffee per-head guide RM25-40 for a 2-4 hour staffed bar; Tealive cart RM350 per day; healthy refreshments RM19-22 per head. No public rate cards exist for recovery or wellness drink stations.
+
+**Proposed structure (Option 1, recommended):** RM350 station fee + RM13 per drink → 30 drinks RM740 · 50 RM1,000 · 80 RM1,390.
+**Option 3 (if they fear no-shows):** RM600 minimum (up to 30 drinks) + RM15 per extra check-in.
+**Don't:** give it away free. Free sampling only pays off for brands that can show their name, and we don't name ours.
+
+**Before quoting, ask the venue:** guest count · table inside the studio or outside (outside in Subang Jaya may need an MBSJ permit, RM250, about 5 working days) · who serves · what the summary should show · payment terms (50% deposit is normal).
+
+**Still blank (founder fills in):** ingredient cost per drink · staff cost (Health Bar staff or hired) · food handler + typhoid certificates for both staff (RM50 course + about RM70-90 jab) · insurance (public/product liability) · own table, cooler, sign? (A3 sign RM15-35; roll-up banner RM160-320, 3-5 working days)
