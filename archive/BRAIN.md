@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-20 · cb5687b
+# M.O.E. Brain Pack · 2026-11-20 · 4b8feba
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.

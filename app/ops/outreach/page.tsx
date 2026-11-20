@@ -255,6 +255,28 @@ export default function OutreachConsolePage() {
               )}
             </section>
 
+            {/* Pro tip: who we are + which frame to use, before any pitch (crucible 20 Nov 2026) */}
+            <details className="mb-6 border border-[#a855f7]/40 p-3 font-sans">
+              <summary className="cursor-pointer text-xs font-mono tracking-widest text-[#a855f7]">PRO TIP · BEFORE YOU PITCH: WHO WE ARE + WHICH FRAME</summary>
+              <p className="text-sm text-white mt-3">Say it the same way every time: <b>&ldquo;RECUP.STN, a recovery station at the Health Bar in DC Mall.&rdquo;</b></p>
+              <p className="text-xs text-[#888] mt-1">Not &ldquo;nutrition cafe&rdquo;, not &ldquo;metabolic station&rdquo;. One name, one sentence.</p>
+              <div className="mt-3 space-y-2 text-[13px]">
+                {[
+                  ['They already have their own app or website?', 'Fuel only. Don’t offer the system (MOVE, 20 Nov).'],
+                  ['Private or 1-on-1 studio, uneven traffic?', 'Offer an event (opening, community day), not a daily station.'],
+                  ['Busy group classes every week?', 'The after-class station on their busiest class.'],
+                  ['Values-first gatekeeper?', 'Trust before any offer: invite them to the Health Bar, show the proof pack.'],
+                  ['Owner with a method and a gap (e.g. no Pilates)?', 'The system road: one-breath offer, 2-day diagnostic, 90-day block.'],
+                ].map(([q, a]) => (
+                  <div key={q} className="grid sm:grid-cols-[1fr_1.3fr] gap-1 sm:gap-3 border-t border-[#222] pt-2">
+                    <span className="text-[#aaa]">{q}</span>
+                    <span className="text-[#ddd]">{a}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-[#666] mt-3">One offer per meeting. The full call cards are in the Archive (Call card 1 · Call card 2).</p>
+            </details>
+
             {/* Phases, auto-ticked (folded) */}
             <details className="mb-8">
               <summary className="cursor-pointer text-sm tracking-widest mb-3" style={{ color: ROAD_INFO[road].colour }}>

@@ -9,7 +9,14 @@ replaces: nothing
 ---
 RULE: they talk 70%, you talk 30%. Ask, then stay quiet.
 
-0 · BEFORE YOU DIAL: write your role and offer in ONE breath (Single-Point Anchor). If you can't, don't call yet.
+0a · WHO WE ARE (same words every time): "RECUP.STN, a recovery station at the Health Bar in DC Mall."
+0b · PICK THE FRAME (one offer per meeting):
+- They already have their own app or website → fuel only, no system.
+- Private / 1-on-1 studio, uneven traffic → an event, not a daily station.
+- Busy group classes → the after-class station on their busiest class.
+- Values-first gatekeeper → trust first: the Health Bar visit + the proof pack.
+- Owner with a method and a gap → the system road (below).
+0c · BEFORE YOU DIAL: write your role and offer in ONE breath (Single-Point Anchor). If you can't, don't call yet.
 ROLE: "I'd be the [Pilates lead for your movement pillar]. Not staff, not a client: a partner who owns that piece."
 OFFER: "[90-day block · 3-5 clients · I design, run and track · then we decide]."
 (Crucible 18 Nov 2026: whoever names the role first owns the relationship. Leave it unnamed and the buyer names the cheapest role they already have.)

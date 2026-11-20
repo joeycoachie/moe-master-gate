@@ -56,3 +56,23 @@ Status: **research-backed draft, founder to approve.** Sources are in Aura's bri
 **Before quoting, ask the venue:** guest count · table inside the studio or outside (outside in Subang Jaya may need an MBSJ permit, RM250, about 5 working days) · who serves · what the summary should show · payment terms (50% deposit is normal).
 
 **Still blank (founder fills in):** ingredient cost per drink · staff cost (Health Bar staff or hired) · food handler + typhoid certificates for both staff (RM50 course + about RM70-90 jab) · insurance (public/product liability) · own table, cooler, sign? (A3 sign RM15-35; roll-up banner RM160-320, 3-5 working days)
+
+## Real cost per drink (from the RECUP.STN terminal recipe calculator, 20 Nov 2026)
+
+Source: the recipe calculator in the RECUP.STN terminal (tub prices from the distributor price list, 19 May 2026, at the supervisor 50% nett price; scoops per tub confirmed by Joey 4 Oct 2026).
+
+| Drink | Ingredients per cup | Printed cup | Cost per cup | Walk-up price | Margin |
+|---|---|---|---|---|---|
+| THE FLOW (jug of 10) | RM10.43 (recovery base RM3.81 · collagen RM4.59 · electrolyte RM2.03) | RM1.24 | **RM11.67** | RM18 | RM6.33 |
+| THE BUILD (batch of 3) | RM6.64 | RM1.24 | **RM7.88** | RM10 (calculator default) | RM2.12 |
+
+With a plain cup + lid (about RM0.20, Aura's research), THE FLOW costs about **RM10.63**.
+
+**What this means for venue pricing:** Aura's RM13 per drink leaves only about RM1.33 to RM2.37 per FLOW cup. Too thin. Staff and transport must come out of the station fee alone.
+
+**Recommended (draft, founder to approve):** RM350 station fee + **RM16 per drink**, minimum 25 drinks.
+- 30 drinks → RM830 · 50 → RM1,150 · 80 → RM1,630 (RM20-28 per guest, inside the KL range of RM25-35 per head for a staffed drink bar).
+- Profit check at 50 drinks: RM1,150 − 50 × RM11.67 (RM584) − staff and transport (about RM250) ≈ **RM316**.
+- At 30 drinks: RM830 − RM350 − RM250 ≈ RM230. At 80: RM1,630 − RM934 − RM250 ≈ RM446.
+- Optional lever for big events: an event version of THE FLOW without collagen costs about RM7.08 per cup (collagen is the most expensive ingredient). Only if the founder agrees it is still the same drink promise.
+
