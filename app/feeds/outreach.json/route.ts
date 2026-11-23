@@ -46,7 +46,7 @@ export async function GET(request: Request) {
 //   note:   { body }                                  → a note on the card's history
 //   touch:  { kind: 'followup'|'call'|'visit', body } → a rung of the no-reply ladder
 //   stage:  { stage, body? }                         → move the card (e.g. found → messaged)
-//   update: { next_step?, next_date?, owner_name?, contact?, friction?, area? }
+//   update: { rename?, next_step?, next_date?, owner_name?, contact?, friction?, area? }
 //   add:    { road: 'fuel'|'kinetic', owner_name?, contact?, area?, batch?, friction?, next_step?, next_date? }
 export async function POST(request: Request) {
   if (!isAgent(keyOf(request))) return new Response('Not found.', { status: 404 });
@@ -94,6 +94,7 @@ export async function POST(request: Request) {
     const patch: Record<string, string | null> = { updated_at: now };
     for (const k of ['next_step', 'owner_name', 'contact', 'friction', 'area'] as const) if (typeof b[k] === 'string') patch[k] = str(b[k]);
     if (typeof b.next_date === 'string') patch.next_date = str(b.next_date, 10) || null;
+    if (typeof b.rename === 'string' && str(b.rename, 200)) patch.studio = str(b.rename, 200);
     const { error } = await db.from('outreach_targets').update(patch).eq('id', t.id);
     if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   } else if (action === 'stage') {
