@@ -1,4 +1,4 @@
-# M.O.E. Brain Pack · 2026-11-20 · 4b8feba
+# M.O.E. Brain Pack · 2026-11-23 · 23e63fd
 
 You are working for The M.O.E. Group (founder: Joey, "the Architect"). This pack is the single
 source of truth. It is generated from the Intelligence Archive and the Founder Command hub.
@@ -468,6 +468,7 @@ The founder copies these from the Archive (Use a template). Status "proposed" wa
 - **Envoy sequence: first message to a respectful exit** (P-016, ready): Before you contact anyone high-value (a studio owner, a hotel manager, a partner). Fill it in, then send one step at a time.
 - **Crucible as Curriculum (D-007): Extraction → Forge → Disseminate, a crucible into content (Pulse + Pillar)** (D-007, ready): After a hard week: turn the lesson into one short post and one longer piece.
 - **Confidential Friction Report (for a boss)** (P-036, ready): You have collected anonymous answers from a team and need to hand the owner a clear report.
+- **Price a new offer (one number in 15 minutes)** (T-044, ready): Any time a new offer needs a price for the first time (an event, a pilot, a diagnostic, a partner rate). Used 3 times in Nov 2026: SoFit event, Riad's Pilates pilot, the Third Eye session.
 - **Project index page (Master Ledger)** (T-008, ready): Starting any new project or client: one page that points to everything.
 - **Crucible-to-Asset Pipeline (P-027): 3 phases from a 1-to-1 service to a product** (P-027, ready): A service eats your time (Founder's time is saturated) and you want a small product (a tripwire) that sells it for you. Start from a Crucible Debrief (T-032).
 - **Short post: comfort, cause, one fix** (P-002-B, ready): Writing a Reel script or short text post about a problem your audience keeps hitting.

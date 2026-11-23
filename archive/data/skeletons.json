@@ -80,6 +80,16 @@
     "body": "Act as a neutral advisor writing for the owner of [COMPANY / STUDIO].\n\nINPUT (anonymous team replies, pasted as is):\n[Paste replies here. Remove names before pasting.]\n\nTHE OWNER'S HUNCH (what they suspected before we asked):\n[e.g. \"classes start late\", \"instructors teach differently\"]\n\nRULES\n1. Anchor: start by saying whether the data confirms or challenges the owner's hunch.\n2. Privacy: say the replies are grouped so no one can be identified. Never quote anything traceable.\n3. Reframe: turn each complaint into a system failure, not a person failing.\n4. Numbers only if they come from the replies (count how many people said it). Never invent a percentage.\n\nOUTPUT\n1. Summary: the heat map in 3 lines (what is hot, warm, fine).\n2. Top 3 friction points: each with how many people raised it and what it costs the business.\n3. What to do next: 3 steps for the owner, smallest first."
   },
   {
+    "key": "price-new-offer",
+    "id": "T-044",
+    "title": "Price a new offer (one number in 15 minutes)",
+    "use_when": "Any time a new offer needs a price for the first time (an event, a pilot, a diagnostic, a partner rate). Used 3 times in Nov 2026: SoFit event, Riad's Pilates pilot, the Third Eye session.",
+    "status": "ready",
+    "source": "T-044 Universal B2B Retainer Shell (Capital-Forward rule) · P-048 · hub/RECUP_PRICING.md worked examples (Nov 2026)",
+    "replaces": "nothing",
+    "body": "THE OFFER IN ONE LINE: [who gets what, for how long, delivered by whom]\n\n1 · YOUR FLOOR (never go below)\n- Direct cost per unit: [ingredients / your hour / materials] = RM__\n- Fixed cost per run: [staff, transport, set-up, printing] = RM__\n- Floor = direct cost × units + fixed cost + the profit you need = RM__\n\n2 · THE OUTSIDE REFERENCE (what the buyer already pays elsewhere)\n- 2-3 real prices with a source: [competitor / their own price list / Aura research]\n- Where you sit and why: [below, level, above + one reason]\n\n3 · THEIR VALUE (in their words, from the call)\n- What it costs them now to NOT have this: RM__ / month (Mom Test Q2)\n- So the price is small next to: [that number]\n\n4 · THE SHAPE (pick one, Capital-Forward: money before work)\n[ ] Fixed fee   [ ] Fee + per unit   [ ] Minimum + per unit   [ ] Partner rate (they bill, you invoice)   [ ] Retainer\n- Who takes the risk if turnout or results are low? [them / us / shared]\n\n5 · ONE NUMBER\n- Price: RM__  ·  what's included: [ ]  ·  what's NOT included: [ ]\n- Payment terms: [e.g. 50% to confirm, rest on the day]\n- Founder approves with: decide: [offer] = RM__\n\nCHECK: no invented numbers or guarantees · no partner brand · the floor is covered at the LOWEST turnout."
+  },
+  {
     "key": "project-index",
     "id": "T-008",
     "title": "Project index page (Master Ledger)",
