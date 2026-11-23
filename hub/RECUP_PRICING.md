@@ -76,3 +76,12 @@ With a plain cup + lid (about RM0.20, Aura's research), THE FLOW costs about **R
 - At 30 drinks: RM830 − RM350 − RM250 ≈ RM230. At 80: RM1,630 − RM934 − RM250 ≈ RM446.
 - Optional lever for big events: an event version of THE FLOW without collagen costs about RM7.08 per cup (collagen is the most expensive ingredient). Only if the founder agrees it is still the same drink promise.
 
+
+## Proof numbers (Health Bar member log, founder's sheet, Jan–Jul 2026)
+
+Source: the Health Bar Member_Log sheet + the digital check-in cockpit (Apps Script). The founder says it may not be fully accurate, and logging stopped after July.
+- **94 customers in total** (founder count).
+- **About 45 members logged** in the check-in system (Jan–Jul 2026), busiest in March–April.
+- **About 500 servings logged** on 10-serving packages (breakfast, smoothie, 20-day programme).
+- **About 12 members from one bank in the same building**, plus staff from other offices nearby. That's corporate proof (don't name the bank publicly without its OK).
+Safe public line: "94 customers served at the Health Bar, about 500 servings logged in our check-in system (Jan–Jul 2026)."
