@@ -200,6 +200,18 @@ export const CLIENT_ARCS: Record<string, ClientArc> = {
     totalWeeks: 4,
     focus: ['hips', 'knees'],
   },
+  'KIN-P021': {
+    name: 'The Lighter Body Programme',
+    promise: 'Gentle, supported strength that makes moving and standing feel easier, built at a pace that suits you.',
+    weeks: {
+      1: 'Easy breathing and finding your posture',
+      2: 'A spine that moves freely',
+      3: 'Both sides working evenly',
+      4: 'Rising to standing with confidence',
+    },
+    totalWeeks: 4,
+    focus: ['core', 'hips', 'knees'],
+  },
 };
 
 export function clientArcFor(protocolOrArcId: string): ClientArc | undefined {
