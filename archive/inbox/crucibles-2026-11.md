@@ -80,3 +80,9 @@ Staging for the month-end synthesis (Praxis), last Sunday of the month. Each ent
 3. Studio triage before pitching: own website or app? → fuel only. Private 1-on-1 studio? → events, not the daily station.
 
 **Public lesson (no names):** "I pitched software to a studio that had just built its own. Ten minutes in, I knew. Now I ask before I pitch."
+
+## C-2026-11-D · Event partner: "very AI generated" (25 Nov)
+**What happened:** the event pack showed the venue, not the drinks, in a polished template. The partner's team called it "very AI generated" and asked for the real drinks, ingredients, packaging and why each one suits after exercise, so they can recommend it with confidence.
+**Signal:** not a no. A buyer who plans to recommend needs proof they can repeat. Polish without product photos reads as fake.
+**Fix:** real drink photos, packaging panels and a tasting for whoever signs off, before any designed document (D-007, T-032).
+**Rule for next time:** show the real product first. The designed pack comes second.
