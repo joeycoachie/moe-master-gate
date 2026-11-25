@@ -154,3 +154,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-20 · M.O.E. Terminal · Outreach Console: 'Pro tip · before you pitch' (who we are + which frame), owner call card step 0 triage; RECUP pricing: real cost per drink (THE FLOW RM11.67) → draft venue price RM350 + RM16/drink, min 25
 - 2026-11-25 · Intelligence Archive · Cognitive Close Wk 3 (Praxis) filed: Riad brief in archive/inbox, Call card 2 gets the 50/50 contract step (Block ch. 5); no new IDs
 - 2026-11-25 · RECUP.STN · SoFit event pack: all labels verified (CR7, RS Pro, peanut butter); only the peanut butter halal check is left
+- 2026-11-25 · M.O.E. Terminal · Armory: KIN-P021 W3 (Even Both Sides) + W4 (Up to Standing, arc exit) live, both pass the card check incl. floor option at every station; portal now names the arc 'The Lighter Body Programme' (4 weeks) for clients on it · 8ef5473, 7b1d37b
