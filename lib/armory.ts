@@ -136,6 +136,26 @@ export const ARMORY_PROTOCOLS: ArmoryProtocol[] = [
     source: 'KA-Alex (KIN-T072), reissued 12 Nov 2026 on V2.3 (barrel straddle removed for this archetype, Chair/High Box for seated work). Terminal edits: Anchor M3 had reformer twice, so Long Box Hamstring Curls hid Parallel Footwork; Footwork kept, curl returned to Alex for a Cadillac version; switch labels written in full',
     addedOn: '2026-11-11',
   },
+  {
+    id: 'KIN-P021_W3',
+    arc: 'KIN-P021 — Gravity Offload On-Ramp',
+    week: 3,
+    title: 'Even Both Sides',
+    focus: 'Directional rib breath, high-hip lengthening and foot grounding → single-leg footwork, side-hip and one-arm rows → seated rotation, anti-rotation core and raised hamstring curls, staged reset',
+    doctrine: 'SYS-D022 V2.3',
+    source: 'KA-Alex (KIN-T072), 25 Nov 2026. Passed card check (6 overrides on every option, floor option at every station, no duplicate options, gates blank). Terminal edit: Phase 5 "Fresh Set options" (undefined) changed to "raised Cadillac or Reformer options"',
+    addedOn: '2026-11-25',
+  },
+  {
+    id: 'KIN-P021_W4',
+    arc: 'KIN-P021 — Gravity Offload On-Ramp',
+    week: 4,
+    title: 'Up to Standing (arc exit)',
+    focus: 'Seated rib stack, foot tripod and scapular glides → staged sit-to-stand, supported hinge and standing pulls → floor-based pedal press, pelvic levelling and standing anti-rotation; hand-over gate to KIN-P016 or KIN-P019',
+    doctrine: 'SYS-D022 V2.3',
+    source: 'KA-Alex (KIN-T072), 25 Nov 2026. Passed card check. Terminal edit: Unwind M1 "Box-Breath" renamed "Slow-Exhale" (the cue is 4s in, 6s out, not box breathing)',
+    addedOn: '2026-11-25',
+  },
 ];
 
 // What a client sees in their portal: outcome language, never the clinical label.

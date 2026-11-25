@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movement OS | KIN-P021 W4 (Up to Standing)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #050505; 
+            color: #ffffff; 
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono, .clock-display { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 0; }
+        ::-webkit-scrollbar-thumb:hover { background: #555555; }
+        
+        .phase-content { display: none; }
+        .phase-content.active { display: block; animation: fadeIn 0.25s ease-out; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* OVERRIDE MODULES (SYS-D022 V2.3 Standard) */
+        .override-module { display: none; }
+        body.ra-active .ra-module { display: block; animation: fadeIn 0.25s ease-in; }
+        body.knee-active .knee-module { display: block; animation: fadeIn 0.25s ease-in; }
+        body.lift-active .lift-module { display: block; animation: fadeIn 0.25s ease-in; }
+        body.nerve-active .nerve-module { display: block; animation: fadeIn 0.25s ease-in; }
+        body.clavicle-active .clavicle-module { display: block; animation: fadeIn 0.25s ease-in; }
+        body.arch-active .arch-module { display: block; animation: fadeIn 0.25s ease-in; }
+
+        .override-btn { transition: all 0.2s; }
+        .override-btn.active.ra-btn { background-color: #7f1d1d; border-color: #ef4444; color: #ffffff; }
+        .override-btn.active.knee-btn { background-color: #1e3a8a; border-color: #3b82f6; color: #ffffff; }
+        .override-btn.active.lift-btn { background-color: #78350f; border-color: #f59e0b; color: #ffffff; }
+        .override-btn.active.nerve-btn { background-color: #4c1d95; border-color: #8b5cf6; color: #ffffff; }
+        .override-btn.active.clavicle-btn { background-color: #701a75; border-color: #d946ef; color: #ffffff; }
+        .override-btn.active.arch-btn { background-color: #064e3b; border-color: #10b981; color: #ffffff; }
+
+        input[type="checkbox"] {
+            appearance: none; background-color: #050505; margin: 0; font: inherit; color: currentColor;
+            width: 1.25em; height: 1.25em; border: 1px solid #333333; display: grid; place-content: center;
+            border-radius: 0; flex-shrink: 0; cursor: pointer;
+        }
+        input[type="checkbox"]::before {
+            content: ""; width: 0.65em; height: 0.65em; transform: scale(0); transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #00e5ff; background-color: #00e5ff; transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+        input[type="checkbox"]:checked::before { transform: scale(1); }
+        input[type="checkbox"]:checked { border-color: #00e5ff; }
+
+        select, input[type="number"] {
+            background-color: #111111; border: 1px solid #333333; color: #ffffff;
+            font-family: 'JetBrains Mono', monospace; outline: none; transition: border-color 0.2s;
+        }
+        select:focus, input[type="number"]:focus { border-color: #00e5ff; }
+        select {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300e5ff' stroke-width='2' stroke-linecap='square'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat; background-position: right 0.65rem center; background-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <aside class="w-full md:w-80 border-b md:border-b-0 md:border-r border-[#333333] bg-[#050505] p-6 flex flex-col overflow-y-auto shrink-0 z-20">
+        <div class="mb-6 border-b border-[#222222] pb-5">
+            <div class="flex items-center justify-between mb-2">
+                <p class="text-[10px] font-mono tracking-widest text-[#00e5ff] font-bold uppercase">Protocol // SYS-D022 V2.3</p>
+                <span class="text-[10px] font-mono px-2 py-0.5 border border-[#10b981] bg-[#022c22] text-emerald-300">HAND-OVER</span>
+            </div>
+            <h1 class="text-2xl text-white">KIN-P021_W4</h1>
+            <p class="text-xs text-gray-400 mt-1">Gravity Offload: Up to Standing</p>
+        </div>
+
+        <div class="mb-6 border border-[#333333] bg-[#0a0a0a] p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-gray-500">Flow Clock</h3>
+                <span id="clockPhaseHint" class="text-[10px] font-mono text-[#00e5ff]">PHASE 1 TARGET: 0-15M</span>
+            </div>
+            <div id="timerDisplay" class="clock-display text-3xl text-white mb-4 text-center tracking-widest">00:00</div>
+            <div class="flex space-x-2">
+                <button id="startBtn" onclick="toggleTimer()" class="flex-1 border border-[#333333] bg-[#111111] hover:bg-[#222222] transition-colors py-2 text-xs font-mono font-semibold tracking-wider">START</button>
+                <button onclick="resetTimer()" class="flex-1 border border-[#333333] bg-[#050505] hover:bg-[#1a1a1a] transition-colors py-2 text-xs font-mono font-semibold tracking-wider text-gray-500">RESET</button>
+            </div>
+        </div>
+
+        <div class="mb-6 border border-[#333333] p-4 bg-[#0a0a0a] space-y-4">
+            <div class="flex justify-between items-center border-b border-[#222222] pb-2">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Class & Hardware Matrix</h3>
+                <button onclick="autoOptimizeEquipment()" class="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 border border-[#00e5ff] text-[#00e5ff] hover:bg-[#00e5ff] hover:text-black transition-colors">AUTO-FIT</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Class Pax</label>
+                    <select id="paxCount" onchange="updateLogistics()" class="w-full text-xs px-2 py-1.5 appearance-none">
+                        <option value="1" selected>1 Pax (Solo)</option>
+                        <option value="2">2 Pax (Duet)</option>
+                        <option value="3">3 Pax (Trio)</option>
+                        <option value="4">4 Pax (Quad)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[9px] font-mono uppercase text-gray-500 mb-1">Structure</label>
+                    <select id="flowFormat" onchange="updateLogistics()" class="w-full text-xs px-2 py-1.5 appearance-none">
+                        <option value="circuit" selected>Station Rotation</option>
+                        <option value="sync">Synchronized</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <span class="block text-[9px] font-mono uppercase text-gray-500 mb-2">Studio Apparatus Available</span>
+                <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">REF</span><input id="inv-reformer" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CAD</span><input id="inv-cadillac" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">CHR</span><input id="inv-chair" type="number" min="0" max="8" value="1" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5">
+                    </div>
+                    <div class="flex items-center justify-between border border-[#222222] bg-[#111111] px-2 py-1">
+                        <span class="text-gray-300 text-[10px]">BRL</span><input id="inv-barrel" type="number" min="0" max="8" value="0" onchange="updateLogistics()" class="w-10 bg-black border border-[#333333] text-center text-white text-xs py-0.5">
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="setGlobalPreset('apparatus')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">STUDIO PRESET</button>
+                <button onclick="setGlobalPreset('mat')" class="flex-1 border border-[#333333] bg-[#111111] hover:border-[#00e5ff] py-1.5 text-[10px] font-mono uppercase tracking-wider text-gray-300 transition-colors">MAT / PROPS</button>
+            </div>
+
+            <!-- V2.3 FULL TRIAGE PROTOCOL LIBRARY -->
+            <div class="pt-2 space-y-2 border-t border-[#222222]">
+                <h3 class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold mb-2">Triage Protocol Library</h3>
+                <div class="grid grid-cols-1 gap-2">
+                    <button id="raToggleBtn" onclick="toggleOverride('ra')" class="override-btn ra-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3">
+                        [ ] HIGH BLOOD PRESSURE
+                    </button>
+                    <button id="kneeToggleBtn" onclick="toggleOverride('knee')" class="override-btn knee-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3">
+                        [ ] KNEE LOCKS BACK
+                    </button>
+                    <button id="liftToggleBtn" onclick="toggleOverride('lift')" class="override-btn lift-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3">
+                        [ ] OFFLOAD / NO FLOOR
+                    </button>
+                    <button id="nerveToggleBtn" onclick="toggleOverride('nerve')" class="override-btn nerve-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3">
+                        [ ] NERVE / KNEE SHEAR
+                    </button>
+                    <button id="clavicleToggleBtn" onclick="toggleOverride('clavicle')" class="override-btn clavicle-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3">
+                        [ ] ACUTE CLAVICLE / PEC FLUSH
+                    </button>
+                    <button id="archToggleBtn" onclick="toggleOverride('arch')" class="override-btn arch-btn w-full border border-[#333333] bg-[#111111] py-2 text-[10px] font-mono font-bold tracking-wider text-gray-400 text-left px-3">
+                        [ ] PRONATION / ARCH TENSION
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <nav class="flex-1 space-y-2.5" id="nav-menu">
+            <button onclick="switchPhase('primer')" id="nav-primer" class="nav-btn w-full text-left p-3.5 border border-[#00e5ff] bg-[#111111] transition-colors">
+                <span class="text-[10px] font-mono text-[#00e5ff] block mb-0.5">0:00 - 15:00 // PHASE 1</span>
+                <span class="font-semibold text-sm tracking-wide block">1. Primer (Seated Stack)</span>
+            </button>
+            <button onclick="switchPhase('anchor')" id="nav-anchor" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">15:00 - 35:00 // PHASE 2</span>
+                <span class="font-semibold text-sm tracking-wide block">2. Anchor (Sit-to-Stand)</span>
+            </button>
+            <button onclick="switchPhase('crucible')" id="nav-crucible" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">35:00 - 55:00 // PHASE 3</span>
+                <span class="font-semibold text-sm tracking-wide block">3. Crucible (Standing Control)</span>
+            </button>
+            <button onclick="switchPhase('unwind')" id="nav-unwind" class="nav-btn w-full text-left p-3.5 border border-[#333333] hover:border-gray-500 transition-colors">
+                <span class="text-[10px] font-mono text-gray-500 block mb-0.5">55:00 - 65:00 // PHASE 4</span>
+                <span class="font-semibold text-sm tracking-wide block">4. Unwind (Upright Check)</span>
+            </button>
+            <button onclick="switchPhase('audit')" id="nav-audit" class="nav-btn w-full text-left p-3.5 border border-[#10b981] bg-[#022c22] hover:border-[#00e5ff] transition-colors">
+                <span class="text-[10px] font-mono text-[#10b981] font-bold block mb-0.5">EXIT GATE // PHASE 5</span>
+                <span class="font-semibold text-sm tracking-wide block">5. Hand-Over Audit & Score</span>
+            </button>
+        </nav>
+    </aside>
+
+    <main class="flex-1 bg-[#050505] p-6 md:p-12 overflow-y-auto" id="content-area">
+        
+        <div class="mb-8 border border-[#333333] bg-[#0a0a0a] p-6 border-l-4 border-l-[#10b981]">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#222222]">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#10b981] font-bold block mb-1">Commander's Intent // The Lighter Body Programme (KIN-P021 W4 — Arc Exit)</span>
+                    <h2 class="text-xl md:text-2xl text-white">Gravity Offload On-Ramp: W4 Up to Standing & Hand-Over Gate</h2>
+                </div>
+            </div>
+            <p class="text-xs text-gray-300 mt-4 leading-relaxed">
+                <strong class="text-white font-mono uppercase">The Hand-Over Mandate:</strong> Week 4 transfers three weeks of supported strength into gravity without yo-yoing between floor and standing. We sequence strictly <strong class="text-[#00e5ff]">Seated → Supported Standing → Upright Control</strong>. Clients practice staged High-Box Sit-to-Stand, supported standing pulls, and floor-based Chair pedal presses (never climbing on top of the Chair yet). <br><br>
+                <strong class="text-[#10b981] uppercase">Apparatus Rationale:</strong> Ladder Barrel apex straddling remains excluded for fall safety. Every station uses dignified seated or supported standing heights, plus a guaranteed floor/prop alternative for mat-only environments. Clearing all three Phase 5 exit gates hands the client over to a standing arc (such as KIN-P016 or KIN-P019).
+            </p>
+        </div>
+
+        <div id="logisticsBanner" class="mb-8 border border-[#333333] bg-[#111111] p-5"></div>
+        <div id="dynamic-phase-view" class="phase-content active"></div>
+
+        <div id="audit-phase-view" class="phase-content">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-[#10b981] block mb-1">Phase 5 // Arc Exit & Hand-Over Telemetry</span>
+                    <h2 class="text-4xl text-white">Standing Arc Hand-Over Gate</h2>
+                </div>
+                <button onclick="copyAuditReport()" id="copyAuditBtn" class="border border-[#00e5ff] bg-[#0a192f] hover:bg-[#00e5ff] hover:text-black text-[#00e5ff] transition-colors px-5 py-2.5 text-xs font-mono font-bold uppercase tracking-wider">
+                    COPY TELEMETRY REPORT
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">1. Exit Gate Verification</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 01: Breath Without Holding</span>
+                                <select id="gate1-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 pr-8 appearance-none">
+                                    <option value="">-- Select Gate Result --</option>
+                                    <option value="pass">PASSED (Exhaled smoothly on every sit-to-stand and pull)</option>
+                                    <option value="fail">FAIL: Held breath / Valsalva when rising into standing</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 02: Zero Dizziness on Transitions</span>
+                                <select id="gate2-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 pr-8 appearance-none">
+                                    <option value="">-- Select Gate Result --</option>
+                                    <option value="pass">PASSED (Steady blood pressure from seated to standing)</option>
+                                    <option value="fail">FAIL: Lightheadedness during sit-to-stand or standing blocks</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-2">
+                                <span class="text-xs font-mono text-[#00e5ff] font-bold uppercase">Gate 03: Hand-Over Readiness (Standing Control)</span>
+                                <select id="gate3-status" onchange="evaluateAuditLoop()" class="bg-[#111111] border border-[#333333] text-xs font-mono text-white px-3 py-1.5 pr-8 appearance-none">
+                                    <option value="">-- Select Gate Result --</option>
+                                    <option value="pass">PASSED (Controlled sit-to-stand, soft knee, level hips)</option>
+                                    <option value="fail">FAIL: Plopped onto box, locked knee, or lost balance</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#111111] border border-[#333333] p-8 space-y-6">
+                    <h3 class="text-xl text-white border-b border-[#222222] pb-3">2. Somatic Experience & Confidence</h3>
+                    <div class="space-y-4">
+                        <div class="p-4 border border-[#222222] bg-[#0a0a0a]">
+                            <label class="block text-xs font-mono text-[#00e5ff] font-bold uppercase mb-2">"I Feel Lighter" Score (0-10)</label>
+                            <div class="flex items-center gap-4">
+                                <span class="text-xs text-gray-500">0 (Heavy)</span>
+                                <input type="number" id="som-lighter" min="0" max="10" value="" placeholder="--" oninput="evaluateAuditLoop()" class="w-20 px-3 py-1.5 text-center text-lg font-bold">
+                                <span class="text-xs text-gray-500">10 (Weightless)</span>
+                            </div>
+                        </div>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-emerald-500 transition-colors">
+                            <input type="checkbox" id="som-confidence" onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-emerald-400 uppercase block">Confidence Check: Feels Ready for Standing Work</span>
+                                <span class="text-[11px] text-gray-400">Client feels safe, steady, and stronger rising from seated to standing.</span>
+                            </div>
+                        </label>
+                        <label class="flex items-start gap-3 p-3 border border-[#222222] bg-[#0a0a0a] cursor-pointer hover:border-red-500 transition-colors">
+                            <input type="checkbox" id="som-dizziness" onchange="evaluateAuditLoop()">
+                            <div>
+                                <span class="text-xs font-mono font-bold text-red-400 uppercase block">BP Alert: Dizziness or Shortness of Breath</span>
+                                <span class="text-[11px] text-gray-400">Keep client in Gravity Offload for 1-2 more weeks before standing hand-over.</span>
+                            </div>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-mono uppercase text-gray-500 mb-2">Hand-Over Notes (Next Arc Recommendation)</label>
+                        <textarea id="auditNotes" oninput="evaluateAuditLoop()" rows="2" placeholder="Log recommended next arc (e.g., KIN-P019 or KIN-P016) and remaining overrides..." class="w-full bg-[#050505] border border-[#333333] p-3 text-xs text-white font-mono outline-none focus:border-[#00e5ff]"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="auditVerdictBox" class="border border-[#00e5ff] bg-[#05101a] p-8 border-l-4 border-l-[#00e5ff]">
+                <p class="text-sm text-gray-300 font-mono">Select exit gate results and log the client's score to determine standing arc hand-over...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const EQUIP_LABELS = { 
+            reformer: 'Reformer', 
+            cadillac: 'Cadillac', 
+            chair: 'Wunda Chair', 
+            barrel: 'Ladder Barrel', 
+            mat: 'Mat (Floor)',
+            props_trx: 'TRX Suspension',
+            props_band: 'Resistance Band',
+            props_slider: 'Sliders',
+            props_freeweight: 'Free Weights'
+        };
+
+        const PROTOCOL_DB = {
+            primer: {
+                title: '1. Primer (Seated Stack & Foot Wake-Up)',
+                subtitle: 'Upright Breathing, Tripod Grounding & Scapular Alignment (15 Mins)',
+                clockHint: 'PHASE 1 TARGET: 0-15M',
+                wolfCue: 'Week 4 starts seated so we avoid unnecessary lying-to-standing transitions. We stack the ribs over the pelvis, ground the foot that rolls out so it can bear full bodyweight safely, and drop the high-side shoulder before rising.',
+                shepherdCue: '"Plant both feet like roots into the floor. Stack your ribs softly over your hips and let your shoulders melt down."',
+                safetyGate: 'Holding the breath during upright posture stacking, or curling the toes tightly to grip the floor.',
+                stations: {
+                    M1: {
+                        role: 'Upright 360° Rib Breathing & Posture Stack',
+                        options: {
+                            chair: {
+                                name: 'STOTT Breathing // Seated Upright Rib Stack',
+                                setup: 'Wunda Chair // Feet flat on floor',
+                                reps: '6 Slow Breaths',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall on the Wunda Chair with feet planted flat and hands resting on their side ribs, breathing wide while growing tall through the crown of the head.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on Chair, feet hip-width, knees at 90°, hands on lateral ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Expand the ribs 360° on the inhale; soften the front ribs and elevated shoulder down on the exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s nasal inhale; 6s pursed-lip exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Direct extra breath into the restricted rib side.`,
+                                ra: 'Seated posture regulates blood pressure smoothly; audible exhales mandatory.',
+                                knee: 'Safe.',
+                                lift: 'Dignified seated height.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep elbows relaxed down by sides.',
+                                arch: 'Feel weight evenly across heel, big toe, and little toe.'
+                            },
+                            cadillac: {
+                                name: 'STOTT Breathing // Cadillac Edge Upright Stack',
+                                setup: 'Seated on edge of Cadillac Bed',
+                                reps: '6 Slow Breaths',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on the edge of the Cadillac bed with feet flat on the floor, stacking their head over their ribs and breathing wide into their hands.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on bed edge, feet flat, hands resting on side ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Gently nod the chin to align forward head and breathe wide into the ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale; 6s pursed-lip exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Feel equal weight on both sit-bones.`,
+                                ra: 'Continuous pursed-lip exhales.',
+                                knee: 'Safe.',
+                                lift: 'Elevated bed edge.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            },
+                            mat: {
+                                name: 'STOTT Breathing // Seated Box or Mat Upright Stack',
+                                setup: 'Mat (Floor) or High Box',
+                                reps: '6 Slow Breaths',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall on a mat cushion or high box with hands on their lower ribs, taking slow 360-degree breaths.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated upright, spine stacked.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Expand the side and back ribs on inhale; soften shoulders on exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale; 6s pursed-lip exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Lengthen the back of the neck subtly.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Use High Box or Chair when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Foot Tripod Grounding & Ankle Prep',
+                        options: {
+                            chair: {
+                                name: 'STOTT Ankle Prep // Seated Heel Raises & Big-Toe Anchor',
+                                setup: 'Wunda Chair // Feet flat on floor',
+                                reps: '10 Controlled Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on the Wunda Chair and slowly lifts both heels off the floor while keeping the big toe mounds firmly pressed down so the ankles do not roll outward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall on Chair, feet flat and hip-width.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press the big toe mound of the rolling foot down, float heels 1-2 inches off floor, and lower slowly to wake up the calves and arches.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale lift heels; inhale lower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Alternate one heel at a time.`,
+                                ra: 'Safe seated circulation primer.',
+                                knee: 'Zero lockout.',
+                                lift: 'Seated on Chair.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Keep toes long and relaxed; avoid cramping.'
+                            },
+                            reformer: {
+                                name: 'STOTT Footwork Prep // Seated Footbar Ankle Glide',
+                                setup: 'Reformer // Locked Carriage // Seated on Short Box',
+                                reps: '10 Reps / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on the Reformer box with feet resting flat on the floor/platform, gently rocking knees forward and back to loosen the tighter calf.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall on box, feet flat.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Glide the knee 2 inches forward over the mid-foot keeping the heel heavy, then return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Steady breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold 3 seconds on the tighter calf.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Seated height.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Keep big toe mound grounded.'
+                            },
+                            mat: {
+                                name: 'Functional Foot Prep // Seated Tripod Doming & Heel Lift',
+                                setup: 'Mat (Floor) or Chair // Feet flat',
+                                reps: '10 Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall pressing the big toe, little toe, and heel evenly into the floor, then gently lifting and lowering the heels.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall with feet flat on floor.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Anchor the inner edge of the rolling foot, gently lift heels 1 inch, and lower slowly.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale lift; inhale lower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold the tripod anchor for 5 seconds.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Perform seated on Chair or High Box when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Avoid curling toes.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Seated Scapular Glides & Cervical Nod',
+                        options: {
+                            cadillac: {
+                                name: 'STOTT Scapular Isolation // Seated Roll-Down Bar Glides',
+                                setup: 'Cadillac // 2 Light Top Springs // Seated on Box',
+                                reps: '8 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall facing the Cadillac tower holding the Roll-Down bar with straight arms, sliding their shoulder blades gently forward and back without shrugging.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on High Box facing tower, hands shoulder-width on Roll-Down bar.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Let the springs draw arms forward 2 inches (protract), then glide shoulder blades smoothly back and down (focusing on dropping the high side) with a subtle chin nod.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale forward; exhale glide back and down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold blades down for 2 seconds.`,
+                                ra: 'Seated upright; smooth pursed-lip exhale.',
+                                knee: 'Safe.',
+                                lift: 'Seated on High Box.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep spring very light; use open palms if needed.',
+                                arch: 'Safe.'
+                            },
+                            chair: {
+                                name: 'STOTT Scapular Isolation // Seated Chair Shoulder Drops',
+                                setup: 'Wunda Chair // Unweighted',
+                                reps: '8 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall on the Wunda Chair with arms hanging freely by their sides, gently lifting the shoulders half an inch and melting them fully down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall on Chair, arms relaxed at sides.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Shrug gently 1 inch, then exhale and melt the high-side shoulder blade down into the back pocket while lengthening the neck.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale lift; exhale melt down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Add a subtle chin nod at the bottom.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Seated on Chair.',
+                                nerve: 'Safe.',
+                                clavicle: 'Gentle unweighted movement calms pec minor tension.',
+                                arch: 'Safe.'
+                            },
+                            props_band: {
+                                name: 'STOTT Scapular Isolation // Seated Light Band Pull-Apart',
+                                setup: 'Seated on Box or Mat // Very Light Band',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall holding a very light band at chest height with straight arms, widening the hands gently to wake up the mid-back.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall, palms up holding a light band at lower chest height.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Widen arms 4-6 inches by sliding shoulder blades together and down without flaring ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale widen; inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Keep neck long with a gentle chin nod.`,
+                                ra: 'Continuous pursed-lip exhales.',
+                                knee: 'Safe.',
+                                lift: 'Sit on Chair or High Box when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep band below shoulder height; use minimal tension.',
+                                arch: 'Safe.'
+                            }
+                        }
+                    }
+                }
+            },
+            anchor: {
+                title: '2. Anchor (Sit-to-Stand & Supported Hinge)',
+                subtitle: 'Staged Sit-to-Stand, Soft-Knee Wall Hinge & Upright Pulls (20 Mins)',
+                clockHint: 'PHASE 2 TARGET: 15-35M',
+                wolfCue: 'Sit-to-stand is the single most valuable real-world movement for keeping up with family and feeling lighter. We use a High Box or Chair so the shin stays vertical, cue a long exhale on the rise to protect blood pressure, and stop just short of knee lockout at the top.',
+                shepherdCue: '"Lean your chest slightly forward over your shoelaces, exhale through pursed lips, and push the floor away through flat heels."',
+                safetyGate: 'Breath holding on the rise, plopping heavily back onto the box, or snapping the locking knee straight at the top.',
+                stations: {
+                    M1: {
+                        role: 'Staged High-Box Sit-to-Stand (Vertical Shin)',
+                        options: {
+                            chair: {
+                                name: 'Functional Transfer // Supported Chair Sit-to-Stand',
+                                setup: 'Wunda Chair (or High Box) // Feet hip-width',
+                                reps: '8 Slow Reps (3s Lower)',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on the front edge of a tall Chair or High Box, leans their torso slightly forward, and stands smoothly up through flat heels before lowering back down with a 3-second count.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on Chair/High Box (use extra pad if needed for height), feet flat and hip-width, shins vertical.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hinge chest slightly forward, drive through flat heels to stand tall (stopping with soft unlocked knees), pause 2 seconds, then sit back slowly over 3 seconds.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Long audible pursed-lip exhale as you stand up; inhale as you sit back.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Rest fingertips lightly on a dowel or chair handles for confidence.`,
+                                ra: 'MANDATORY audible exhale on the rise; pause 3-5 seconds standing if any lightheadedness occurs.',
+                                knee: 'CRITICAL: Do NOT snap the locking knee backward at the top of the stand; finish with a 5° soft knee.',
+                                lift: 'Raised seat height—zero floor work.',
+                                nerve: 'Vertical shins and controlled depth keep sciatic nerve calm.',
+                                clavicle: 'Cross hands lightly on thighs or hold dowel with relaxed shoulders.',
+                                arch: 'Anchor the big toe mound on the foot that rolls out as you push up.'
+                            },
+                            props_trx: {
+                                name: 'Suspension Training // TRX-Assisted Box Sit-to-Stand',
+                                setup: 'High Box + TRX Handles',
+                                reps: '8 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on a High Box holding the TRX handles in front of them, using gentle arm assistance to rise smoothly to standing and lower back down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on High Box facing TRX anchor, feet flat, light grip on handles.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press through flat heels while using the TRX straps for balance to stand tall with soft knees, then sit back slowly.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale standing up; inhale sitting down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Gradually reduce how much you pull with the arms.`,
+                                ra: 'Exhale audibly on the rise; pause between reps.',
+                                knee: 'Finish with a soft micro-bend in the locking knee.',
+                                lift: 'Raised box + TRX support.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep elbows softly bent and shoulders dropped away from ears.',
+                                arch: 'Keep feet flat and even.'
+                            },
+                            reformer: {
+                                name: 'Functional Transfer // Reformer Box Sit-to-Stand',
+                                setup: 'Reformer Long Box on Floor or High Carriage Edge (Locked)',
+                                reps: '8 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on the locked Reformer carriage edge (or stacked boxes) with feet flat on the floor, rising smoothly to standing and controlling the sit-down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on locked carriage edge, feet flat and hip-width.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drive evenly through both heels to stand tall without locking knees, then lower back to seated over 3 seconds.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale up; inhale down.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Tap the seat lightly and rise again once confident.`,
+                                ra: 'Slow tempo; zero breath holding.',
+                                knee: 'Soft knee finish mandatory.',
+                                lift: 'Raised height.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Keep inner foot grounded.'
+                            },
+                            mat: {
+                                name: 'Functional Transfer // Chair-Height Target Squat (No Floor)',
+                                setup: 'Sturdy Studio Chair or Stacked Blocks',
+                                reps: '8 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands in front of a sturdy chair, sends their hips back to sit gently onto the seat, and stands back up through flat heels.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Feet hip-width in front of chair, shins vertical.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hinge hips back to sit smoothly onto the chair, pause 1 second, then exhale and stand up with soft knees.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale sit; exhale stand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold a wall or doorframe lightly for balance.`,
+                                ra: 'Exhale through pursed lips on every rise.',
+                                knee: 'Stop 5° short of lockout at the top.',
+                                lift: 'Stays upright/seated—safe even when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Ground evenly through tripod foot.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Supported Standing Hip Hinge (Glute Loading)',
+                        options: {
+                            props_trx: {
+                                name: 'Suspension Training // TRX Supported Soft-Knee Hinge',
+                                setup: 'TRX // Facing anchor, arms straight',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands facing the TRX anchor holding both handles, softening their knees to 20 degrees and sending their hips gently backward while keeping their chest lifted.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width holding TRX handles lightly, knees bent 20°.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Send hips back 6-8 inches (head stays well above heart), then squeeze glutes to return upright.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale hinge back; exhale stand tall.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Keep spine long and neutral throughout.`,
+                                ra: 'Keep hinge shallow (25-30°) so head always remains well above heart; exhale on return.',
+                                knee: 'Maintain 20° soft knee on the hinge and 5° soft knee at the top.',
+                                lift: 'Standing with TRX support.',
+                                nerve: '20° soft knee prevents any sciatic nerve pull.',
+                                clavicle: 'Light grip only; do not hang heavily from shoulders.',
+                                arch: 'Keep weight centered across mid-foot and heel.'
+                            },
+                            cadillac: {
+                                name: 'STOTT Hip Hinge // Standing Tower-Supported Hinge',
+                                setup: 'Cadillac // Hands resting lightly on vertical poles',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands facing the Cadillac frame with hands resting lightly on the upright poles, bending the knees slightly and hinging the hips back a few inches.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width facing tower, hands resting on poles, knees soft at 20°.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Push hips back 6 inches with a flat back, then squeeze glutes to stand tall.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale back; exhale stand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Focus on firing both glutes equally.`,
+                                ra: 'Shallow range keeps head well above heart.',
+                                knee: 'Never snap knees straight at the top.',
+                                lift: 'Standing upright.',
+                                nerve: 'Soft knees keep sciatic tract slack.',
+                                clavicle: 'Hands rest lightly at waist/rib height.',
+                                arch: 'Keep big toe mound grounded.'
+                            },
+                            mat: {
+                                name: 'Functional Hinge // Wall-Tap Soft-Knee Hinge',
+                                setup: 'Standing 10 inches in front of Wall',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands with their back 10 inches from a wall, softening their knees and pushing their hips straight back until their glutes lightly tap the wall.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing 10 inches from wall, feet hip-width, knees bent 20°.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hinge hips back to tap the wall lightly (head stays high), then exhale and drive hips forward to stand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale tap; exhale stand.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold a chair back lightly if extra balance is needed.`,
+                                ra: 'Shallow hinge; continuous pursed-lip exhales.',
+                                knee: 'Soft 20° knee throughout.',
+                                lift: 'Standing upright—safe even when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Zero straight-leg hamstring pull.',
+                                clavicle: 'Hands resting lightly on thighs.',
+                                arch: 'Ground evenly through both feet.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Standing Upright Posture Pull (Core + Mid-Back)',
+                        options: {
+                            cadillac: {
+                                name: 'STOTT Standing Arm Springs // Chest Expansion & Row',
+                                setup: 'Cadillac // 2 Light Arm Springs // Standing facing tower',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands tall facing the Cadillac tower holding two light arm springs, pulling the handles straight down past their hips to open their chest and stand taller.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing tall facing tower, feet hip-width, knees softly unlocked, light arm springs in hands.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Depress the high-side shoulder blade and press both straight arms down past the hips, opening the collarbones without leaning backward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale pull down; inhale control forward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold 2 seconds at the bottom while turning head gently right and left.`,
+                                ra: 'Audible pursed-lip exhale on every pull.',
+                                knee: 'Maintain 5-10° soft knee on the locking leg throughout standing.',
+                                lift: 'Standing upright.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep spring light; stop hands right at hip line.',
+                                arch: 'Anchor the rolling foot evenly.'
+                            },
+                            props_trx: {
+                                name: 'Suspension Training // TRX Upright Bilateral Row',
+                                setup: 'TRX // Nearly vertical standing angle',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands almost upright facing the TRX anchor holding both handles, drawing their elbows smoothly back beside their ribs to stand tall.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing tall facing anchor, feet hip-width, knees unlocked, gentle angle.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drop shoulders away from ears and row elbows back beside ribs without flaring the lower ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale row; inhale release.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Pause 2 seconds at the top of the row.`,
+                                ra: 'Keep body angle upright so blood pressure stays calm.',
+                                knee: 'Unlock the locking knee.',
+                                lift: 'Standing upright.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep elbows low beside ribs.',
+                                arch: 'Safe.'
+                            },
+                            props_band: {
+                                name: 'STOTT Chest Expansion // Standing Banded Pull',
+                                setup: 'Floor // Light Band anchored at chest height',
+                                reps: '10 Slow Reps',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands tall facing an anchored resistance band, pulling both hands smoothly down toward their hips to open their chest.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width facing anchor, knees soft, band held in both hands.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Slide shoulder blades down and pull straight arms back to the hips without arching the lower back.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale pull; inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hold 2 seconds at the hips.`,
+                                ra: 'Pursed-lip exhales; light band tension.',
+                                knee: 'Keep knees softly unlocked.',
+                                lift: 'Standing upright—safe when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Stop hands at hip line.',
+                                arch: 'Ground both feet evenly.'
+                            }
+                        }
+                    }
+                }
+            },
+            crucible: {
+                title: '3. Crucible (Supported Standing Integration)',
+                subtitle: 'Floor-Based Step Prep, Level Pelvis Control & Standing Anti-Rotation (20 Mins)',
+                clockHint: 'PHASE 3 TARGET: 35-55M',
+                wolfCue: 'This is the practical readiness test for graduating into a standing arc. M1 builds single-leg power from the safety of the floor (pressing the Chair pedal down—never climbing onto the Chair). M2 tests lateral pelvic stability in standing. M3 tests upright core control against rotational pull.',
+                shepherdCue: '"Stand tall like a lighthouse. Let your legs and deep core hold you steady while your breath stays smooth and quiet."',
+                safetyGate: 'Climbing onto an elevated Chair seat prematurely, locking the standing knee backward, or holding the breath during anti-rotation.',
+                stations: {
+                    M1: {
+                        role: 'Floor-Based Single-Leg Power (Step-Up Prep)',
+                        options: {
+                            chair: {
+                                name: 'STOTT Standing Leg Pump // Floor-Based Pedal Press',
+                                setup: 'Wunda Chair // 1 Heavy Spring // Standing on Floor',
+                                reps: '8 Reps / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands safely on the studio floor facing the Wunda Chair holding the handles, placing one foot on the pedal and pressing it smoothly down toward the floor.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing on floor facing Chair, hands on handles, standing knee softly unlocked, working foot on pedal.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press the pedal smoothly down using the glute and leg, then control the return up without letting the hips sway.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale press down; inhale control up.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Lighten hand grip on the handles as stability improves.`,
+                                ra: 'Client stays safely on the floor; exhale audibly on every press.',
+                                knee: 'CRITICAL: Keep the standing locking knee softly unlocked at 10°—never snapped back.',
+                                lift: 'Standing on floor with full handle support.',
+                                nerve: 'Keep working knee below 75° flexion on the return.',
+                                clavicle: 'Light fingertip support on handles—do not lean heavy weight onto shoulders.',
+                                arch: 'Anchor the big toe mound on both the standing and pressing foot.'
+                            },
+                            reformer: {
+                                name: 'STOTT Scooter Prep // Supported Standing Carriage Press',
+                                setup: 'Reformer // 1 Red Spring // Standing beside carriage',
+                                reps: '8 Reps / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands on the floor facing the Reformer footbar with hands resting on the bar, one foot planted on the floor and the other foot pressing the carriage back a few inches.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing on floor, hands on high footbar, standing knee bent 15-20°, back foot against shoulder block.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press the carriage back 6-8 inches using the glute while keeping the standing leg completely still, then control home.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale press back; inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Keep spine long and head above heart.`,
+                                ra: 'Upright torso; pursed-lip exhale on push.',
+                                knee: 'Standing knee stays softly bent at 15-20°; never lock back leg straight.',
+                                lift: 'Standing on floor with footbar support.',
+                                nerve: 'Short 6-inch excursion keeps sciatic nerve slack.',
+                                clavicle: 'Hands rest lightly on bar without shrugging.',
+                                arch: 'Keep standing foot flat and grounded.'
+                            },
+                            mat: {
+                                name: 'Functional Gait Prep // Wall-Supported Marching Hold',
+                                setup: 'Standing beside Wall or Chair Back',
+                                reps: '8 Slow Marches / Side (2s Hold)',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands tall with one hand resting lightly on a wall, slowly lifting one foot 3 inches off the floor and holding steady for 2 seconds before switching.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing tall beside wall, feet hip-width, soft knees.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Shift weight smoothly onto one foot, lift the other foot 3 inches off floor while keeping hips level, hold 2 seconds, and lower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale lift; inhale lower.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Use fingertips only on the wall.`,
+                                ra: 'Calm tempo; zero breath holding.',
+                                knee: 'Keep standing locking knee softly unlocked.',
+                                lift: 'Standing upright—safe when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Ground the inner edge of the rolling foot during single-leg stance.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Standing Pelvic Leveling (Holding the High Side Even)',
+                        options: {
+                            chair: {
+                                name: 'Functional Coronal Control // Supported Low-Block Pelvic List',
+                                setup: '1 Flat Yoga Block (2-inch height) beside Chair Handles',
+                                reps: '8 Slow Reps / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands with one foot on a low flat block holding the Chair handles for balance, lowering the free hip 1 inch and lifting it back level using the standing side-hip.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing foot on low 2-inch block/pad, hands on Chair handles, standing knee softly unlocked at 10°.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Let the free hip drop 1 inch toward the floor, then fire the standing glute medius to bring the hips back dead level.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Inhale drop; exhale level.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Perform 2 extra reps standing on the side opposite the high hip.`,
+                                ra: 'Full hand support; smooth exhales.',
+                                knee: 'Standing knee stays unlocked at 10°—do not bend or lock.',
+                                lift: 'Standing with full handle support.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep shoulders dropped away from ears.',
+                                arch: 'Press big toe mound evenly into the block.'
+                            },
+                            props_trx: {
+                                name: 'Suspension Training // TRX-Supported Single-Leg Balance',
+                                setup: 'TRX // Standing facing anchor',
+                                reps: '4 x 10s Holds / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands tall holding the TRX handles lightly, shifting weight onto one leg and tapping the opposite toe lightly to the floor while keeping the waistband horizontal.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing facing TRX, light grip on handles, knees unlocked.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Shift 80% of weight onto the standing leg (opposite toe lightly touching floor for safety) and hold hips dead level for 10 seconds.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Steady, unhurried breathing.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Hover the free toe 1 inch off floor.`,
+                                ra: 'Continuous breathing throughout the 10s hold.',
+                                knee: 'Keep standing locking knee softly bent.',
+                                lift: 'Standing with TRX support.',
+                                nerve: 'Safe.',
+                                clavicle: 'Light grip only.',
+                                arch: 'Ground evenly through tripod foot.'
+                            },
+                            mat: {
+                                name: 'Functional Coronal Control // Wall-Supported Staggered Balance',
+                                setup: 'Standing beside Wall',
+                                reps: '4 x 10s Holds / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands beside a wall in a short heel-to-toe staggered stance, holding their hips level and knees soft for 10 seconds.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing beside wall (hand resting lightly), one foot stepped half a length forward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Hold hips perfectly level and steady for 10 seconds without letting the high side hike.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Calm, steady breath.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Switch front foot and repeat.`,
+                                ra: 'Safe.',
+                                knee: 'Both knees softly unlocked.',
+                                lift: 'Standing upright—safe when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Keep both feet flat and grounded.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Standing Anti-Rotation Core (Resisting Rib Twist)',
+                        options: {
+                            cadillac: {
+                                name: 'STOTT Standing Core // Cadillac Pallof Press',
+                                setup: 'Cadillac // 1 Light Arm Spring // Standing sideways',
+                                reps: '8 Reps / Side (3s Hold)',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands sideways to the Cadillac tower holding a light arm spring with both hands at the center of their chest, pressing the hands straight forward and holding steady against the sideways pull.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width sideways to tower, knees softly bent at 10°, both hands holding spring at sternum.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press hands straight forward 8-10 inches, hold 3 seconds resisting any ribcage twist, then draw back to chest.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Long 3s pursed-lip exhale on press and hold; inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Perform 2 extra reps resisting the client's habitual rib rotation direction.`,
+                                ra: 'Mandatory pursed-lip exhale during the 3s hold; keep spring light.',
+                                knee: 'Keep both knees softly unlocked at 10°.',
+                                lift: 'Standing upright.',
+                                nerve: 'Safe.',
+                                clavicle: 'Shorten the press to 4-6 inches if anterior chest feels strained.',
+                                arch: 'Keep feet planted evenly.'
+                            },
+                            reformer: {
+                                name: 'STOTT Standing Core // Reformer Strap Anti-Rotation Press',
+                                setup: 'Reformer // 1 Blue Spring // Standing sideways on floor',
+                                reps: '8 Reps / Side (3s Hold)',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands on the floor sideways to the Reformer holding one light strap at their chest, pressing straight forward without letting the carriage pull them sideways.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing on floor sideways to Reformer, knees soft, both hands holding one strap at sternum.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press hands forward 8 inches and hold steady for 3 seconds.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Exhale press and hold; inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Keep hips and shoulders square to the front.`,
+                                ra: 'Exhale audibly throughout.',
+                                knee: 'Soft knees mandatory.',
+                                lift: 'Standing on floor.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep press short and light.',
+                                arch: 'Safe.'
+                            },
+                            props_band: {
+                                name: 'Functional Core // Standing Banded Pallof Press',
+                                setup: 'Floor // Light Band anchored at chest height',
+                                reps: '8 Reps / Side (3s Hold)',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands sideways to a light anchored band holding it at their chest, pressing both hands straight forward while keeping their torso completely still.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width sideways to anchor, knees unlocked, hands at sternum.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Press hands forward 8 inches, hold 3 seconds against the pull, and return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 3s pursed-lip exhale on press; inhale return.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Focus on steady feet and relaxed shoulders.`,
+                                ra: 'Light band; continuous exhales.',
+                                knee: 'Keep locking knee soft.',
+                                lift: 'Standing upright—safe when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Keep press range short.',
+                                arch: 'Ground evenly through tripod foot.'
+                            }
+                        }
+                    }
+                }
+            },
+            unwind: {
+                title: '4. Unwind (Seated Recovery & Hand-Over Check)',
+                subtitle: 'Heart-Rate Down-Regulation, High-Side Release & Upright Posture Check (10 Mins)',
+                clockHint: 'PHASE 4 TARGET: 55-65M',
+                wolfCue: 'After standing load, we sit down calmly to down-regulate heart rate and blood pressure, release the elevated shoulder and ribs, and finish with a final upright standing check to log the client’s "I feel lighter" score.',
+                shepherdCue: '"Sit back, let your breath slow down, and feel how much easier it was to stand tall today."',
+                safetyGate: 'Ending abruptly while heart rate is elevated, or standing with the locking knee snapped straight during the final posture check.',
+                stations: {
+                    M1: {
+                        role: 'Seated Heart-Rate & Blood Pressure Recovery',
+                        options: {
+                            chair: {
+                                name: 'STOTT Recovery // Seated Chair Slow-Exhale Cool Down',
+                                setup: 'Seated on Wunda Chair',
+                                reps: '60s',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits comfortably on the Wunda Chair with hands resting on their thighs, taking slow, unhurried breaths to let their heart rate settle.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated upright on Chair, feet flat, shoulders relaxed.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Slow the breathing cadence down to 4s inhale, 6s exhale until breathing feels effortless.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s nasal inhale; 6s slow exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Check in verbally on energy and head clarity.`,
+                                ra: 'Essential post-standing BP down-regulation.',
+                                knee: 'Safe.',
+                                lift: 'Seated on Chair.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            },
+                            cadillac: {
+                                name: 'STOTT Recovery // Cadillac Edge Seated Cool Down',
+                                setup: 'Seated on Cadillac Bed Edge',
+                                reps: '60s',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits calmly on the edge of the Cadillac bed with feet flat on the floor, taking slow breaths to recover.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated on bed edge, feet flat.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Slow, rhythmic breathing to lower heart rate.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale, 6s exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> None.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Seated on bed edge.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            },
+                            mat: {
+                                name: 'STOTT Recovery // Seated Box or Chair Cool Down',
+                                setup: 'Studio Chair or High Box',
+                                reps: '60s',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits calmly on a studio chair with feet flat on the floor, breathing slowly to settle their heart rate.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated upright, hands on thighs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Slow down the breath for 60 seconds.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale, 6s exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Confirm zero dizziness.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Seated—safe when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            }
+                        }
+                    },
+                    M2: {
+                        role: 'Seated Chest Open & High-Side Neck Release',
+                        options: {
+                            cadillac: {
+                                name: 'STOTT Lateral Release // Seated Ear-Away & Chest Open',
+                                setup: 'Seated on Cadillac Bed Edge',
+                                reps: '5 Breaths / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall on the bed edge with palms turned gently forward to open the chest, tilting their ear away from the high-side shoulder.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall, arms resting lightly by sides with palms open forward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drop the ear gently AWAY from the high-side shoulder and breathe wide into the open ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale into open side; 6s slow exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Switch sides gently.`,
+                                ra: 'Calm seated release.',
+                                knee: 'Safe.',
+                                lift: 'Seated on bed edge.',
+                                nerve: 'Keep stretch gentle.',
+                                clavicle: 'Turning palms open gently stretches tight anterior chest without shoulder strain.',
+                                arch: 'Safe.'
+                            },
+                            chair: {
+                                name: 'STOTT Lateral Release // Chair Seated Chest & Neck Release',
+                                setup: 'Seated on Wunda Chair',
+                                reps: '5 Breaths / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits on the Wunda Chair with palms turned open and ear tilted gently away from the higher shoulder.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall on Chair.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Drop ear AWAY from the high shoulder and breathe into the open side.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale, 6s exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Repeat on opposite side.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Seated on Chair.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            },
+                            mat: {
+                                name: 'STOTT Lateral Release // Seated Box Ear-Away Release',
+                                setup: 'Studio Chair or High Box',
+                                reps: '5 Breaths / Side',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client sits tall on a chair or box, tilting their ear away from the high shoulder while opening their palms forward.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Seated tall, palms open.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Tilt ear AWAY from the elevated shoulder and breathe wide.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> 4s inhale, 6s exhale.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Switch sides.`,
+                                ra: 'Safe.',
+                                knee: 'Safe.',
+                                lift: 'Seated—safe when OFFLOAD / NO FLOOR is active.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            }
+                        }
+                    },
+                    M3: {
+                        role: 'Final Upright Hand-Over Posture Check',
+                        options: {
+                            mat: {
+                                name: 'STOTT Alignment // Unassisted Standing Check (Wall Nearby)',
+                                setup: 'Standing tall on Floor (Wall within reach)',
+                                reps: '30s',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client rises smoothly from seated to standing and stands tall without holding onto anything (with a wall within reach), feeling both feet grounded and knees soft.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width on floor, wall within arm's reach.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Feel 50/50 weight across both feet, unlock the locking knee by 5°, drop the high shoulder, and ask the client for their "I feel lighter" score (0-10).<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Calm, natural breath.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Take 5 slow, tall steps across the studio to feel the new gait.`,
+                                ra: 'Rise smoothly with a pursed-lip exhale; confirm zero dizziness.',
+                                knee: 'CRITICAL: Verify locking knee stays softly unlocked in free standing.',
+                                lift: 'Standing upright.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Verify rolling foot stays evenly grounded.'
+                            },
+                            chair: {
+                                name: 'STOTT Alignment // Chair-Side Standing Check',
+                                setup: 'Standing beside Wunda Chair',
+                                reps: '30s',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands tall beside the Wunda Chair with hands hovering just above the handles, testing calm upright posture.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing tall beside Chair.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Stand evenly on both feet with soft knees and tall ribs.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Natural breath.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Log the "I feel lighter" score.`,
+                                ra: 'Chair handles within instant reach.',
+                                knee: 'Soft knees.',
+                                lift: 'Standing upright.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            },
+                            props_trx: {
+                                name: 'Suspension Training // TRX-Side Upright Check',
+                                setup: 'Standing near TRX Handles',
+                                reps: '30s',
+                                exec: `<span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Picture it:</span> Client stands tall with hands resting lightly near the TRX handles, releasing their grip for 15 seconds to feel self-supported upright posture.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Setup:</span> Standing hip-width by TRX.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Action:</span> Release handles lightly, stack ribs over hips, and unlock knees.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Breath:</span> Natural breath.<br><span class="text-[#00e5ff] font-bold text-[10px] uppercase tracking-widest block mt-1">Layer:</span> Ask for the "I feel lighter" score.`,
+                                ra: 'Safe.',
+                                knee: 'Soft knees.',
+                                lift: 'Standing upright.',
+                                nerve: 'Safe.',
+                                clavicle: 'Safe.',
+                                arch: 'Safe.'
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        const stationSelections = {
+            primer:   { M1: 'chair', M2: 'chair', M3: 'cadillac' },
+            anchor:   { M1: 'chair', M2: 'props_trx', M3: 'cadillac' },
+            crucible: { M1: 'chair', M2: 'props_trx', M3: 'cadillac' },
+            unwind:   { M1: 'chair', M2: 'cadillac', M3: 'mat' }
+        };
+
+        let currentPhase = 'primer';
+
+        function getInventory() {
+            return {
+                reformer: parseInt(document.getElementById('inv-reformer').value || 0, 10),
+                cadillac: parseInt(document.getElementById('inv-cadillac').value || 0, 10),
+                chair: parseInt(document.getElementById('inv-chair').value || 0, 10),
+                barrel: parseInt(document.getElementById('inv-barrel').value || 0, 10)
+            };
+        }
+
+        function setSelectStationEquip(phaseId, stKey, val) {
+            stationSelections[phaseId][stKey] = val;
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function setGlobalPreset(mode) {
+            const floorKeys = ['mat', 'props_band', 'props_slider', 'props_freeweight'];
+            Object.keys(stationSelections).forEach(phaseKey => {
+                ['M1', 'M2', 'M3'].forEach(stKey => {
+                    const availOpts = Object.keys(PROTOCOL_DB[phaseKey].stations[stKey].options);
+                    if (mode === 'mat') {
+                        const floorOpt = availOpts.find(o => floorKeys.includes(o));
+                        stationSelections[phaseKey][stKey] = floorOpt || availOpts[0];
+                    } else {
+                        const studioOpt = availOpts.find(o => !floorKeys.includes(o));
+                        stationSelections[phaseKey][stKey] = studioOpt || availOpts[0];
+                    }
+                });
+            });
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function autoOptimizeEquipment() {
+            const inv = getInventory();
+            const format = document.getElementById('flowFormat').value;
+            if (currentPhase === 'audit') return;
+
+            const limited = ['reformer', 'cadillac', 'chair', 'barrel'];
+            const usedCounts = { reformer: 0, cadillac: 0, chair: 0, barrel: 0 };
+
+            ['M1', 'M2', 'M3'].forEach(stKey => {
+                const opts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options);
+                let chosen = stationSelections[currentPhase][stKey];
+
+                if (format === 'circuit') {
+                    if (limited.includes(chosen) && (inv[chosen] - usedCounts[chosen] < 1)) {
+                        chosen = opts.find(o => !limited.includes(o) || (inv[o] - usedCounts[o]) >= 1) || opts[0];
+                    }
+                    if (limited.includes(chosen)) usedCounts[chosen]++;
+                } else {
+                    if (limited.includes(chosen) && inv[chosen] === 0) {
+                        chosen = opts.find(o => !limited.includes(o) || inv[o] > 0) || opts[0];
+                    }
+                }
+                stationSelections[currentPhase][stKey] = chosen;
+            });
+
+            renderCurrentPhase();
+            updateLogistics();
+        }
+
+        function updateLogistics() {
+            const pax = parseInt(document.getElementById('paxCount').value, 10);
+            const format = document.getElementById('flowFormat').value;
+            const inv = getInventory();
+            const banner = document.getElementById('logisticsBanner');
+            const limited = ['reformer', 'cadillac', 'chair', 'barrel'];
+
+            if (currentPhase === 'audit') { banner.style.display = 'none'; return; }
+            banner.style.display = 'block';
+
+            const phaseSel = stationSelections[currentPhase];
+            const eqM1 = phaseSel.M1;
+            const eqM2 = phaseSel.M2;
+            const eqM3 = phaseSel.M3;
+
+            if (format === 'circuit') {
+                const demand = { reformer: 0, cadillac: 0, chair: 0, barrel: 0 };
+                [eqM1, eqM2, eqM3].slice(0, Math.min(pax, 3)).forEach(eq => {
+                    if (limited.includes(eq)) demand[eq]++;
+                });
+
+                const conflicts = [];
+                Object.keys(demand).forEach(eq => {
+                    if (demand[eq] > inv[eq]) conflicts.push(`${EQUIP_LABELS[eq]} (Need ${demand[eq]}, Have ${inv[eq]})`);
+                });
+
+                const hasConflict = conflicts.length > 0;
+                const statusColor = hasConflict ? 'border-amber-500 bg-[#181005]' : 'border-[#333333] bg-[#111111]';
+                const badgeHtml = hasConflict
+                    ? `<span class="px-2 py-0.5 text-[10px] font-mono bg-amber-500/20 border border-amber-500 text-amber-400 uppercase font-bold">BOTTLENECK: ${conflicts.join(', ')} — CLICK AUTO-FIT</span>`
+                    : `<span class="px-2 py-0.5 text-[10px] font-mono bg-emerald-950 border border-emerald-500 text-emerald-400 uppercase font-bold">ZERO HARDWARE CONFLICT // READY</span>`;
+
+                let rotationHtml = '';
+                if (pax === 1) {
+                    rotationHtml = `<p class="text-xs font-mono text-gray-300 mt-3">SOLO FLOW: Client executes <span class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</span> → <span class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</span> → <span class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</span>.</p>`;
+                } else if (pax === 2) {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">Pax A (On-Ramp):</span> Starts at <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → M2 → M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-400">Pax B (Standard):</span> Starts at <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → M3 → M1</div>
+                        </div>`;
+                } else {
+                    rotationHtml = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs font-mono">
+                            <div class="p-2.5 bg-[#0a0f1c] border border-[#3b82f6]"><span class="text-blue-400 font-bold">Pax A (On-Ramp):</span> R1 <strong class="text-[#00e5ff]">M1 (${EQUIP_LABELS[eqM1]})</strong> → R2 M2 → R3 M3</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-400">Pax B (Standard):</span> R1 <strong class="text-[#00e5ff]">M2 (${EQUIP_LABELS[eqM2]})</strong> → R2 M3 → R3 M1</div>
+                            <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><span class="text-gray-400">Pax C (Standard):</span> R1 <strong class="text-[#00e5ff]">M3 (${EQUIP_LABELS[eqM3]})</strong> → R2 M1 → R3 M2</div>
+                        </div>`;
+                }
+
+                banner.className = `mb-8 border p-5 ${statusColor}`;
+                banner.innerHTML = `<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2"><span class="text-[10px] font-mono uppercase tracking-widest text-gray-400">Station Rotation // ${pax} Pax</span>${badgeHtml}</div>${rotationHtml}`;
+            } else {
+                const buildSplitText = (stKey, primaryEq) => {
+                    if (!limited.includes(primaryEq)) return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    const availPrimary = inv[primaryEq];
+                    if (availPrimary >= pax) return `<span class="text-emerald-400">All ${pax} Pax on ${EQUIP_LABELS[primaryEq]}</span>`;
+                    const altOpts = Object.keys(PROTOCOL_DB[currentPhase].stations[stKey].options).filter(o => o !== primaryEq && (!limited.includes(o) || inv[o] > 0));
+                    const fallbackEq = altOpts[0] || 'mat';
+                    const onPrimary = Math.max(0, availPrimary);
+                    const onFallback = pax - onPrimary;
+                    return `<span class="text-amber-300">${onPrimary} Pax on ${EQUIP_LABELS[primaryEq]} + ${onFallback} Pax on ${EQUIP_LABELS[fallbackEq]}</span>`;
+                };
+
+                banner.className = 'mb-8 border border-[#333333] bg-[#111111] p-5';
+                banner.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mb-3">
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-[#00e5ff] font-bold">Synchronized Flow Mode // Split Allocation (${pax} Pax)</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M1:</strong> ${buildSplitText('M1', eqM1)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M2:</strong> ${buildSplitText('M2', eqM2)}</div>
+                        <div class="p-2.5 bg-[#0a0a0a] border border-[#222222]"><strong class="text-white block mb-1">Block M3:</strong> ${buildSplitText('M3', eqM3)}</div>
+                    </div>
+                `;
+            }
+        }
+
+        const OVERRIDE_LABELS = {
+            ra: 'HIGH BLOOD PRESSURE',
+            knee: 'KNEE LOCKS BACK',
+            lift: 'OFFLOAD / NO FLOOR',
+            nerve: 'NERVE / KNEE SHEAR',
+            clavicle: 'ACUTE CLAVICLE / PEC FLUSH',
+            arch: 'PRONATION / ARCH TENSION'
+        };
+        const activeOverrides = { ra: false, knee: false, lift: false, nerve: false, clavicle: false, arch: false };
+
+        function toggleOverride(type) {
+            const btn = document.getElementById(`${type}ToggleBtn`);
+            if (!btn) return;
+            activeOverrides[type] = !activeOverrides[type];
+            if (activeOverrides[type]) {
+                document.body.classList.add(`${type}-active`);
+                btn.classList.add('active');
+                btn.innerText = `[X] ${OVERRIDE_LABELS[type]} ACTIVE`;
+            } else {
+                document.body.classList.remove(`${type}-active`);
+                btn.classList.remove('active');
+                btn.innerText = `[ ] ${OVERRIDE_LABELS[type]}`;
+            }
+        }
+        function toggleRA() { toggleOverride('ra'); }
+
+        function renderCurrentPhase() {
+            if (currentPhase === 'audit') {
+                document.getElementById('dynamic-phase-view').classList.remove('active');
+                document.getElementById('audit-phase-view').classList.add('active');
+                evaluateAuditLoop();
+                return;
+            }
+
+            document.getElementById('audit-phase-view').classList.remove('active');
+            const view = document.getElementById('dynamic-phase-view');
+            view.classList.add('active');
+
+            const data = PROTOCOL_DB[currentPhase];
+            document.getElementById('clockPhaseHint').innerText = data.clockHint;
+
+            const cards = ['M1', 'M2', 'M3'].map(stKey => {
+                const stObj = data.stations[stKey];
+                const selectedEquip = stationSelections[currentPhase][stKey] || Object.keys(stObj.options)[0];
+                const activeMove = stObj.options[selectedEquip];
+
+                const dropdown = Object.keys(stObj.options).map(eqKey => `<option value="${eqKey}" ${eqKey === selectedEquip ? 'selected' : ''}>${EQUIP_LABELS[eqKey] || eqKey} — ${stObj.options[eqKey].name}</option>`).join('');
+
+                return `
+                    <div class="border border-[#333333] bg-[#0a0a0a] p-6 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between pb-4 mb-4 border-b border-[#222222]">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 bg-[#111111] border border-[#00e5ff] text-[#00e5ff] font-mono text-xs font-bold">${stKey}</span>
+                                    <span class="text-xs font-mono uppercase tracking-wider text-gray-300 font-semibold">${stObj.role}</span>
+                                </div>
+                                <span class="text-xs font-mono text-white bg-[#111111] border border-[#333333] px-3 py-1">${activeMove.reps}</span>
+                            </div>
+                            <div class="mb-4">
+                                <select onchange="setSelectStationEquip('${currentPhase}', '${stKey}', this.value)" class="w-full bg-[#111111] border border-[#333333] hover:border-[#00e5ff] text-xs font-mono text-[#00e5ff] px-3 py-2 pr-8 appearance-none outline-none cursor-pointer">
+                                    ${dropdown}
+                                </select>
+                            </div>
+                            <div class="flex items-start gap-4 mb-4">
+                                <input type="checkbox" class="mt-1 shrink-0">
+                                <div>
+                                    <h4 class="text-lg text-white font-serif mb-1">${activeMove.name}</h4>
+                                    <p class="text-[11px] font-mono text-gray-400 uppercase tracking-wider mb-2">${activeMove.setup}</p>
+                                    <p class="text-sm text-gray-300 leading-relaxed">${activeMove.exec}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2 mt-4">
+                            <div class="override-module ra-module border border-[#7f1d1d] bg-[#2a0a0a] p-3 border-l-4 border-l-[#ef4444]">
+                                <span class="text-[9px] font-mono text-[#ef4444] font-bold uppercase tracking-widest block mb-1">HIGH BLOOD PRESSURE</span>
+                                <p class="text-xs text-gray-200">${activeMove.ra}</p>
+                            </div>
+                            <div class="override-module knee-module border border-[#1e3a8a] bg-[#0a0f1c] p-3 border-l-4 border-l-[#3b82f6]">
+                                <span class="text-[9px] font-mono text-[#3b82f6] font-bold uppercase tracking-widest block mb-1">KNEE LOCKS BACK</span>
+                                <p class="text-xs text-gray-200">${activeMove.knee}</p>
+                            </div>
+                            <div class="override-module lift-module border border-[#78350f] bg-[#381a03] p-3 border-l-4 border-l-[#f59e0b]">
+                                <span class="text-[9px] font-mono text-[#f59e0b] font-bold uppercase tracking-widest block mb-1">OFFLOAD / NO FLOOR</span>
+                                <p class="text-xs text-gray-200">${activeMove.lift}</p>
+                            </div>
+                            <div class="override-module nerve-module border border-[#4c1d95] bg-[#2e1065] p-3 border-l-4 border-l-[#8b5cf6]">
+                                <span class="text-[9px] font-mono text-[#8b5cf6] font-bold uppercase tracking-widest block mb-1">NERVE / KNEE SHEAR</span>
+                                <p class="text-xs text-gray-200">${activeMove.nerve}</p>
+                            </div>
+                            <div class="override-module clavicle-module border border-[#701a75] bg-[#4a0f4d] p-3 border-l-4 border-l-[#d946ef]">
+                                <span class="text-[9px] font-mono text-[#d946ef] font-bold uppercase tracking-widest block mb-1">ACUTE CLAVICLE / PEC FLUSH</span>
+                                <p class="text-xs text-gray-200">${activeMove.clavicle}</p>
+                            </div>
+                            <div class="override-module arch-module border border-[#064e3b] bg-[#022c22] p-3 border-l-4 border-l-[#10b981]">
+                                <span class="text-[9px] font-mono text-[#10b981] font-bold uppercase tracking-widest block mb-1">PRONATION / ARCH TENSION</span>
+                                <p class="text-xs text-gray-200">${activeMove.arch}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            view.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-[#222222] pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl text-white mb-2">${data.title}</h2>
+                        <p class="text-gray-400 uppercase tracking-widest text-xs font-mono">${data.subtitle}</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 gap-6 mb-8">${cards}</div>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="bg-[#111111] border border-[#333333] p-6"><h3 class="text-[10px] font-mono uppercase text-[#00e5ff] font-bold mb-2">The Wolf Cue</h3><p class="text-sm text-gray-200 leading-relaxed">${data.wolfCue}</p></div>
+                    <div class="bg-[#111111] border border-[#333333] p-6"><h3 class="text-[10px] font-mono uppercase text-gray-400 font-bold mb-2">The Shepherd Cue</h3><p class="text-sm text-gray-300 font-serif italic leading-relaxed">${data.shepherdCue}</p></div>
+                    <div class="border border-red-900/60 bg-[#110505] p-6 border-l-4 border-l-red-500"><h3 class="text-red-500 font-mono font-bold uppercase text-[10px] mb-2">Safety Gate</h3><p class="text-sm text-red-200 leading-relaxed">${data.safetyGate}</p></div>
+                </div>
+            `;
+            updateLogistics();
+        }
+
+        function evaluateAuditLoop() {
+            const g1 = document.getElementById('gate1-status').value;
+            const g2 = document.getElementById('gate2-status').value;
+            const g3 = document.getElementById('gate3-status').value;
+            const score = document.getElementById('som-lighter').value;
+            const confidence = document.getElementById('som-confidence').checked;
+            const dizziness = document.getElementById('som-dizziness').checked;
+
+            const box = document.getElementById('auditVerdictBox');
+            if (!g1 && !g2 && !g3 && score === '') {
+                box.innerHTML = `<p class="text-sm text-gray-300 font-mono">Select exit gate results and log the client's score to determine standing arc hand-over...</p>`;
+                return;
+            }
+
+            const deductions = [];
+            let badge = 'ARC COMPLETE // HAND OVER TO STANDING ARC';
+            let color = 'text-[#10b981] border-[#10b981]';
+
+            if (g1 === 'fail') {
+                badge = 'HOLD AT W4 // BREATH CONTROL';
+                color = 'text-amber-400 border-amber-400';
+                deductions.push('• [BP ALERT]: Breath holding occurred during sit-to-stand or standing pulls. Repeat W4 focusing on pursed-lip exhales before graduating.');
+            }
+            if (g2 === 'fail' || dizziness) {
+                badge = 'HOLD AT W4 // TRANSITION SAFETY';
+                color = 'text-red-400 border-red-500';
+                deductions.push('• [ORTHOSTATIC ALERT]: Dizziness or shortness of breath reported. Stay in Gravity Offload (W3/W4 mix) until transitions are 100% clear.');
+            }
+            if (g3 === 'fail') {
+                if (badge.startsWith('ARC COMPLETE')) {
+                    badge = 'REPEAT W4 // BUILD STANDING CONTROL';
+                    color = 'text-amber-400 border-amber-400';
+                }
+                deductions.push('• [STANDING CONTROL]: Sit-to-stand descent or knee control broke down. Repeat W4 using TRX-assisted options until client rises and lowers cleanly.');
+            }
+            if (score !== '') {
+                const num = parseInt(score, 10);
+                if (num >= 7) deductions.push(`• [LIGHTER SCORE: ${num}/10]: Client feels lighter and capable in gravity.`);
+                else deductions.push(`• [LIGHTER SCORE: ${num}/10]: Client still feels heavy under bodyweight; consider 1-2 extra weeks of W4 before moving to a full standing arc.`);
+            }
+            if (confidence) {
+                deductions.push('• [CONFIDENCE LOGGED]: Client reports feeling ready for standing progression.');
+            }
+            if (g1 === 'pass' && g2 === 'pass' && g3 === 'pass' && !dizziness) {
+                deductions.push('• [KIN-P021 GRADUATION]: All exit gates passed. Hand client over to a standing arc (e.g., KIN-P019 Strong Hips, Calm Knees or KIN-P016 The Shoulder Frame Programme) while carrying active safety overrides forward in the Client Log.');
+            }
+
+            box.innerHTML = `
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 mb-4 border-b border-[#1e3a5f] pb-4">
+                    <div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest text-gray-400 block">Automated Exit Routing</span>
+                        <h3 class="text-2xl text-white">Standing Arc Hand-Over Decision</h3>
+                    </div>
+                    <span class="px-3 py-1 border font-mono text-xs font-bold uppercase ${color}">${badge}</span>
+                </div>
+                <div class="space-y-2 text-sm text-gray-200 font-mono leading-relaxed">${deductions.map(d => `<p>${d}</p>`).join('')}</div>
+            `;
+        }
+
+        function copyAuditReport() {
+            const temp = document.createElement('textarea');
+            temp.value = "Movement OS | KIN-P021 W4 Exit Audit Logged.\n" + document.getElementById('auditVerdictBox').innerText + "\nNotes: " + document.getElementById('auditNotes').value;
+            document.body.appendChild(temp);
+            temp.select(); document.execCommand('copy');
+            document.body.removeChild(temp);
+            const btn = document.getElementById('copyAuditBtn');
+            btn.innerText = 'COPIED TO CLIPBOARD';
+            setTimeout(() => btn.innerText = 'COPY TELEMETRY REPORT', 2000);
+        }
+
+        function switchPhase(phaseId) {
+            currentPhase = phaseId;
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('border-[#00e5ff]', 'bg-[#111111]'));
+            document.getElementById('nav-' + phaseId).classList.add('border-[#00e5ff]', 'bg-[#111111]');
+            renderCurrentPhase();
+        }
+
+        let timerInterval; let seconds = 0; let isRunning = false;
+        function toggleTimer() {
+            const btn = document.getElementById('startBtn');
+            if (isRunning) { clearInterval(timerInterval); btn.innerText = 'RESUME'; }
+            else { timerInterval = setInterval(() => { seconds++; document.getElementById('timerDisplay').innerText = Math.floor(seconds/60).toString().padStart(2,'0') + ':' + (seconds%60).toString().padStart(2,'0'); }, 1000); btn.innerText = 'PAUSE'; }
+            isRunning = !isRunning;
+        }
+        function resetTimer() { clearInterval(timerInterval); seconds = 0; isRunning = false; document.getElementById('timerDisplay').innerText = '00:00'; document.getElementById('startBtn').innerText = 'START'; }
+
+        window.onload = () => {
+            renderCurrentPhase();
+            updateLogistics();
+        };
+    </script>
+</body>
+</html>
