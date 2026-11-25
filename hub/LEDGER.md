@@ -152,3 +152,5 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-19 · M.O.E. Terminal · Spearhead library at /ops/spearheads (T-016): every operator profile in one searchable page, read from notes on the Outreach cards; Riad + 3 imported (Lion & Lion, Bowen Centre, Flow State) · df355cf
 - 2026-11-20 · M.O.E. Terminal · Friday visit run logged (MOVE: Vimal visits Health Bar Wed 25 Nov; Movement Dynamics + TRIBE contacts); Vimal Spearhead profile; Aura venue-pricing research filed in RECUP PRICING (draft RM350 + RM13/drink); crucible C-2026-11-C
 - 2026-11-20 · M.O.E. Terminal · Outreach Console: 'Pro tip · before you pitch' (who we are + which frame), owner call card step 0 triage; RECUP pricing: real cost per drink (THE FLOW RM11.67) → draft venue price RM350 + RM16/drink, min 25
+- 2026-11-25 · Intelligence Archive · Cognitive Close Wk 3 (Praxis) filed: Riad brief in archive/inbox, Call card 2 gets the 50/50 contract step (Block ch. 5); no new IDs
+- 2026-11-25 · RECUP.STN · SoFit event pack: all labels verified (CR7, RS Pro, peanut butter); only the peanut butter halal check is left

@@ -38,6 +38,10 @@ If they say "follow me / help out for a while": time-box it and name the output.
 3 · LABEL (say back what you heard, in one line)
 "Sounds like [everything runs through you / clients drift between sessions]."
 
+3b · THE 50/50 CONTRACT (Block, Flawless Consulting ch. 5: good selling is good contracting)
+"I'm happy to help with [their problem]. In return I need two things: [access to their numbers] and [a clear yes or no on the pilot]. Fair?"
+Never do uncontracted free work (no "pair of hands"). Never take a customer discount (no "customer seat").
+
 4 · CLOSE (Q3 proof, then a yes or no on a paid pilot)
 "If I ran your [Pilates block] for 90 days, what would you need to see before you put a fixed budget into it?"
 Close with "What would you need to see to bring this to [the decision-maker]?" (not "what was most memorable?": crucible 20 Nov). Compliments are not data. "That's amazing, let's stay in touch" is a fail. If they offer you a discount, turn the talk back to their numbers.
