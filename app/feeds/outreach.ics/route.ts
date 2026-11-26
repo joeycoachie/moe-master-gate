@@ -28,7 +28,7 @@ export async function GET(request: Request) {
 
   const { data, error } = await getSupabaseAdmin()
     .from('outreach_targets')
-    .select('id, studio, stage, next_step, next_date, updated_at')
+    .select('id, studio, stage, next_step, next_date, updated_at, owner_name, contact')
     .not('next_date', 'is', null);
   if (error) return new Response('Feed unavailable.', { status: 503 });
 
