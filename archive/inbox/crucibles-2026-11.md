@@ -86,3 +86,14 @@ Staging for the month-end synthesis (Praxis), last Sunday of the month. Each ent
 **Signal:** not a no. A buyer who plans to recommend needs proof they can repeat. Polish without product photos reads as fake.
 **Fix:** real drink photos, packaging panels and a tasting for whoever signs off, before any designed document (D-007, T-032).
 **Rule for next time:** show the real product first. The designed pack comes second.
+
+## C-2026-11-E · Studio branch manager visit (25 Nov)
+**What happened:** the branch manager (not the decision-maker) visited the Health Bar. The staff hosted first, then the founder joined. Small talk, the HVO demo (not the full questionnaire), a photo he posted with a tag. One planned question was forgotten because the founder opened the reminder chip, which had no questions in it.
+**Outward intel:** the founders (20+ years, already overseas) have money to expand but are short of coaches and PTs. The boss judges on character. They prefer online collabs over offline events. A past food partner ended (reason UNVERIFIED).
+**Signal:** their bottleneck is coaches, not recovery drinks.
+**Fix:** run-sheets must be in the event you actually open (the reminder chip now points to the timed event). A quiet thinker gets slower questions and longer pauses.
+
+## C-2026-11-F · Hotel spa manager call (26 Nov)
+**What happened:** the call card's probe tools weren't used, but she volunteered everything: spa revenue is the goal, gym members are 40s to 60s and self-guided, hotel guests don't commit, and members come from the offices and residences nearby. She offered an HR introduction to a large group next door, a newsletter mention, and F&B approval.
+**Signal:** a gatekeeper becomes a connector when the offer serves her revenue (spa bookings), not ours.
+**Fix:** a "that's right" recap email the same day locks in what was offered.

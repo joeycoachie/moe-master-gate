@@ -16,6 +16,13 @@ RAW CRUCIBLE (my notes, messy is fine):
 [What happened, in my own words. Who was involved (use roles, not names). What I said and did.
 What it cost: money, time, trust or energy.]
 
+OUTWARD INTEL (their world, not mine; added 26 Nov 2026 because the founder found Step 1 "asks a lot inward, not outward"):
+- Who decides, and what do they judge on?
+- What do they need most this season (money, people, time, members)?
+- What did they try before, and how did it end? (Mark anything unverified as UNVERIFIED.)
+- What did they offer or ask for, in their words?
+- The one question I meant to ask and didn't.
+
 STEP 1 · EXTRACT (the founder's 3 prompts, then 2 checks; 1-3 sentences each)
 1. The moment of maximum friction during [the call / visit / session], and what it taught me about my own system.
 2. The single action I took that created the most clarity.
