@@ -56,7 +56,9 @@ export async function GET(request: Request) {
       `DTSTART;VALUE=DATE:${day}`,
       `DTEND;VALUE=DATE:${next.toISOString().slice(0, 10).replace(/-/g, '')}`,
       fold(`SUMMARY:${esc(`${t.studio}: ${first}`)}`),
-      fold(`DESCRIPTION:${esc(`${step}\n\nStage: ${t.stage}\nOpen the card: https://terminal.theoperatorplaybook.com/ops/outreach`)}`),
+      // This all-day chip is only the card's reminder. The questions and script live in the timed
+      // event on the founder's main calendar (founder, 26 Nov: opened this chip before a visit and found no questions).
+      fold(`DESCRIPTION:${esc(`${step}\n\n📋 QUESTIONS AND SCRIPT: open the timed event at the same time on your main calendar. This all-day chip is only a reminder.\n\nWho: ${t.owner_name || '—'}\nContact: ${t.contact || '—'}\nStage: ${t.stage}\nOpen the card: https://terminal.theoperatorplaybook.com/ops/outreach`)}`),
       'TRANSP:TRANSPARENT',
       'END:VEVENT',
     );
