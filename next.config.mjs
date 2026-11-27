@@ -9,6 +9,10 @@ const nextConfig = {
     '/ops/archive/[[...path]]': ['./archive/*.html', './archive/data/**/*.json', './archive/BRAIN.md', './archive/docs/*.md', './archive/files/**/*'],
   },
   // RECUP.STN pages on our own domain (studio.theoperatorplaybook.com/recup/…), clean URLs.
+  // /station alone would break the pages' relative links (assets/…), so send it to the hub page by name.
+  async redirects() {
+    return [{ source: '/station', destination: '/station/index.html', permanent: false }];
+  },
   async rewrites() {
     // ?lang=zh|ms|fr serves that language (built by scripts/build-recup-i18n.py); anything else is English.
     const langs = ['zh', 'ms', 'fr'];
@@ -25,6 +29,9 @@ const nextConfig = {
         { source: '/recup/deck', destination: '/recup/deck.html' },
         // Hotel fitness and spa version (sales/recup-deck-hotel): two roads, sponsored or members pay.
         { source: '/recup/deck-hotel', destination: '/recup/deck-hotel.html' },
+        // RECUP.STN God Terminal and check-ins on our own domain (founder, 27 Nov: no github.io in any link).
+        // The files still deploy from the recup-station repo; this serves them at /station/… unchanged.
+        { source: '/station/:path*', destination: 'https://joeycoachie.github.io/recup-station-/:path*' },
       ],
     };
   },

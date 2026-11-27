@@ -86,7 +86,7 @@ export default function OpsArchitectPage() {
       setCode('');
       // Sent here from the Armory (or another Architect-only page) — go back there.
       const next = new URLSearchParams(window.location.search).get('next');
-      if (next && ['/ops/armory', '/ops/archive', '/ops/command', '/ops/clients'].some((base) => next === base || next.startsWith(`${base}/`))) {
+      if (next && ['/ops/armory', '/ops/archive', '/ops/command', '/ops/clients', '/ops/outreach', '/ops/partners', '/ops/spearheads'].some((base) => next === base || next.startsWith(`${base}/`))) {
         window.location.href = next;
         return;
       }
@@ -142,7 +142,10 @@ export default function OpsArchitectPage() {
                 <div className="text-[10px] text-[#a855f7] tracking-[4px] uppercase">ARCHITECT — SYNC.OP</div>
                 <h1 className="text-3xl font-bold mt-1">Training Command</h1>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 flex-wrap">
+                <Link href="/terminal" className="border border-[#4CAF50]/70 px-4 py-2 text-xs text-[#4CAF50] hover:text-white transition-colors">
+                  ← MAIN MENU
+                </Link>
                 <Link
                   href="/ops/armory"
                   title="Biomechanical Arcs — every SYS-D022 battle card"

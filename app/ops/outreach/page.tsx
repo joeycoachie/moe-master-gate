@@ -167,11 +167,11 @@ export default function OutreachConsolePage() {
             <h1 className="text-2xl font-bold mt-1">Outreach Console</h1>
             <p className="text-xs text-[#888] font-sans mt-1">Two roads, one method. Fuel opens the door, Kinetic signs the studio. The only number fully in your hands: messages sent.</p>
           </div>
-          <nav className="flex gap-2 text-xs">
+          <nav className="flex gap-2 text-xs flex-wrap">
             <button onClick={sendReport} className="border border-[#a855f7] px-3 py-2 text-[#a855f7] hover:text-white">SEND REPORT NOW</button>
             <a href="/recup/deck" target="_blank" rel="noreferrer" className="border border-[#ffb454]/60 px-3 py-2 text-[#ffb454] hover:text-white">DECK</a>
             <Link href="/ops/spearheads" className="border border-[#a855f7]/60 px-3 py-2 text-[#a855f7] hover:text-white">SPEARHEADS</Link>
-            <Link href="/terminal" className="border border-[#333] px-3 py-2 text-[#888] hover:text-white">TERMINAL</Link>
+            <Link href="/terminal" className="border border-[#4CAF50]/70 px-3 py-2 text-[#4CAF50] hover:text-white">← MAIN MENU</Link>
           </nav>
         </header>
 
