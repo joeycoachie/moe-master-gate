@@ -8,6 +8,12 @@ source: P-041 Doctor Frame (Universal Sales OS) + D-015 Architect Frame + D-009 
 replaces: nothing
 ---
 RULE: they talk 70%, you talk 30%. Ask, then stay quiet.
+THE FIXED ORDER (every contracting meeting, added 27 Nov 2026 after the Peak second call missed cost, label and future pace):
+Acknowledge → problem check ("Is that fair?") → cost ("What does it cost you a month?") → label → future pace ("Picture 90 days from now…") → role + two doors → doubts ("What would stop you saying yes?") → close with a date + "What would guarantee failure?" → agree how success is measured at day 30 and day 90.
+IF THEIR LAST EVENT WORKED (Sofitel, 26 Nov): don't ask what burned them. Ask "What made [it] work for you?" and "What would you want more of next time?"
+IF THEY REPEAT THE SAME POINT: they don't feel heard. Label it ("Sounds like… is that right?") until you get "that's right". Don't explain.
+IF THEY ASK FOR SOMETHING YOU DON'T HAVE (e.g. "do you have a physio?"): "What made you ask?" before you answer.
+AFTER: one written proposal within 3 working days, no links (Peak and SoFit both asked, 27 Nov).
 
 0a · WHO WE ARE (same words every time): "RECUP.STN, a recovery station at the Health Bar in DC Mall."
 0b · PICK THE FRAME (one offer per meeting):
