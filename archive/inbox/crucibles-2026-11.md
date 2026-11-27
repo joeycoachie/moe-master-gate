@@ -97,3 +97,9 @@ Staging for the month-end synthesis (Praxis), last Sunday of the month. Each ent
 **What happened:** the call card's probe tools weren't used, but she volunteered everything: spa revenue is the goal, gym members are 40s to 60s and self-guided, hotel guests don't commit, and members come from the offices and residences nearby. She offered an HR introduction to a large group next door, a newsletter mention, and F&B approval.
 **Signal:** a gatekeeper becomes a connector when the offer serves her revenue (spa bookings), not ours.
 **Fix:** a "that's right" recap email the same day locks in what was offered.
+
+## C-2026-11-G · Performance studio, second call (27 Nov)
+**What happened:** the founder left after a few minutes; the call continued with the investor who funded the Pilates wing equipment (Pilates profit split 50/50 with the founder). The studio has no Pilates running yet and no plan. A new strength and Pilates instructor is arriving. Our problem statement got a clear "yes, fair". The prospect's energy shifted when the role was named concretely ("build your Pilates wing ... bring new clients in"). No price was asked. The founder asked for written terms to decide on together.
+**Missed vs the first call:** no cost question ("what does the empty wing cost you a month?"), no label, no future pace, and no success measure agreed. So nothing on the call defines a win in numbers.
+**Signal:** two decision-makers who keep things simple need one short written proposal with clean numbers. A second client (event venue) asked for the same thing on the same day: "polish your proposal instead of so many links."
+**Fix:** after every contracting meeting, send one written proposal within 3 working days: the problem in their words, two options, the success measures at day 30 and 90, what each side gives, and the price (Block's 50/50 contract; Watkins' 90-day plan in 30-day blocks).
