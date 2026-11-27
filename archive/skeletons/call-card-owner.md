@@ -28,6 +28,7 @@ OFFER: "[90-day block · 3-5 clients · I design, run and track · then we decid
 - Q1 past action: "When did you last lose a client or a coach? What did you try to fix it, what did it cost you in time, and where did it fail?"
   (Nothing tried, nothing spent = a complaint, not a pain. Don't build for it.)
 - Q2 cost: "Roughly what does that cost you each month, in lost clients or empty hours?" Get a ringgit number.
+- Q-GROWTH (★ golden, for any business that is expanding): "What's stopping you from hiring coaches fast enough to expand?" Then stop talking and count to three. (MOVE crucible, 26 Nov 2026: they had the money, not the coaches.)
 - Context: "Who looks after your clients between sessions: food, recovery, the days they're not with you?"
 
 2b · IF THEY ASK "WHAT DO YOU OFFER?" (one breath, then stop. Write it before the call)

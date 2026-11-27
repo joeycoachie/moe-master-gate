@@ -122,3 +122,8 @@ Newest at the top within each section.
 ## 2026-11-17 · Health Bar is the place, RECUP.STN is what we run there
 - Founder approved. The Health Bar's owner has agreed to us using the name, and there's no partner signage at the door. Use "the Health Bar" with anyone nearby or who has visited (e.g. Stephanie, Ascentium, same building). For studios across town: "RECUP.STN, based at the Health Bar in [building]". Never name the partner brand. Partly replaces the 5 Oct naming (HealthBar → RECUP.STN HQ).
 - Outreach rhythm: calls Mon–Wed; anyone who hasn't picked up gets visited on Friday (one trip).
+
+## 2026-11-27 · Every interaction gets its own notes timeline
+- Founder: "decide: action: have a notes meeting timeline for each interaction", built on our protocols and the Solo Levelling idea (each interaction is a level you clear and build on).
+- Meaning: every call, visit or message thread with a prospect keeps one timeline: PREP (the call card used) → NOTES (raw, in their words) → DEBRIEF (T-032) → NEXT (one action, one date). It lives on the Outreach card, so it's not a new tool.
+- Health Bar mode (healthbar.html) is approved and live as option A; the 60-second demo stays for presentations (founder, 25 Nov).

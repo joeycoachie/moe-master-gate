@@ -156,3 +156,4 @@ Add a line after every push or deploy, any DNS or domain change, any database mi
 - 2026-11-25 · RECUP.STN · SoFit event pack: all labels verified (CR7, RS Pro, peanut butter); only the peanut butter halal check is left
 - 2026-11-25 · M.O.E. Terminal · Armory: KIN-P021 W3 (Even Both Sides) + W4 (Up to Standing, arc exit) live, both pass the card check incl. floor option at every station; portal now names the arc 'The Lighter Body Programme' (4 weeks) for clients on it · 8ef5473, 7b1d37b
 - 2026-11-25 · Movement OS Armory · KIN-P021 W3 (Even Both Sides) and W4 (Up to Standing, arc exit) added; KIN-P021 now complete at 4 weeks · 8ef5473
+- 2026-11-27 · RECUP.STN · Health Bar mode live: healthbar.html, the Metabolic Profile check-in (bottleneck, 90-day goal, safety, package, studio question) saving to the God Terminal; HEALTH BAR filter on the terminal; SQL section 9 to run · 611c6b7
